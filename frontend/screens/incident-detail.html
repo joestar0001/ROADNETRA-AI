@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Incident RN-2026-004821 · RoadNetra AI</title>
+  <meta name="description" content="Evidence, temporal confirmation, response timer and journal for incident RN-2026-004821 on NH-48.">
+  <link rel="icon" href="../assets/img/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/js/tw-config.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <style>
+    /* page-specific: temporal-filter frame strip + lifecycle stepper */
+    .fr-bar { position: relative; height: 56px; border-radius: 8px; background: rgba(148,163,184,.08); overflow: hidden; }
+    .fr-bar > .fill { position: absolute; left: 22%; right: 22%; bottom: 0; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, #22d3ee, rgba(59,130,246,.55)); }
+    .fr-bar > .thr { position: absolute; left: 0; right: 0; border-top: 1.5px dashed rgba(252, 211, 77, .9); z-index: 1; }
+    .fr.is-streak { border-color: rgba(239, 68, 68, .5); background: rgba(239, 68, 68, .07); }
+    .fr.is-streak .fill { background: linear-gradient(180deg, #fca5a5, rgba(239,68,68,.55)); }
+    .step-dot { width: 34px; height: 34px; border-radius: 999px; display: grid; place-items: center; flex: none; border: 1.5px solid var(--line-strong); background: var(--canvas); color: var(--dim); position: relative; z-index: 1; }
+    .step.is-done .step-dot { background: rgba(16,185,129,.16); border-color: rgba(16,185,129,.55); color: #6ee7b7; }
+    .step.is-current .step-dot { background: rgba(59,130,246,.22); border-color: #3b82f6; color: #fff; box-shadow: 0 0 0 5px rgba(59,130,246,.15); }
+    .step-line { background: var(--line-strong); }
+    .step.is-done .step-line { background: rgba(16,185,129,.55); }
+  </style>
+</head>
+<body data-page="incident-detail" data-title="Incident RN-2026-004821" data-crumb="Operations · Incidents" class="min-h-screen">
+<main class="rn-app-main min-h-screen overflow-x-clip">
+  <div class="px-4 sm:px-6 py-6 space-y-6 max-w-[1680px] mx-auto">
+
+    <!-- Header -->
+    <section class="rn-card p-5 sm:p-6 flex flex-col xl:flex-row xl:items-center gap-5" aria-label="Incident summary">
+      <div class="min-w-0 flex-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="rn-badge rn-p1"><span class="rn-dot rn-dot-pulse"></span>P1 Critical</span>
+          <span id="status-badge" class="rn-badge rn-brand">Dispatched</span>
+          <span class="rn-badge rn-p4">Model B · conf 0.90</span>
+          <span class="rn-mono text-[12px] text-dim">RN-2026-004821</span>
+        </div>
+        <h2 class="mt-3 font-display font-extrabold text-[24px] sm:text-[28px] tracking-tight leading-tight">Multi-vehicle collision</h2>
+        <div class="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13.5px] text-muted">
+          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">location_on</span>NH-48 KM 142.6 · Manesar Bypass, northbound</span>
+          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">videocam</span>CAM-084</span>
+          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">schedule</span>Detected <span class="rn-mono text-ink">08:42:11</span> IST</span>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2" id="hdr-actions">
+        <button class="rn-btn rn-btn-danger" id="act-escalate"><span class="material-symbols-rounded">emergency_home</span>Escalate</button>
+        <button class="rn-btn" id="act-reassign"><span class="material-symbols-rounded">swap_horiz</span>Reassign</button>
+        <button class="rn-btn" id="act-resolve"><span class="material-symbols-rounded">check_circle</span>Mark resolved</button>
+        <button class="rn-btn rn-btn-ghost" id="act-pdf"><span class="material-symbols-rounded">download</span>Work order (PDF)</button>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <!-- Left column -->
+      <div class="xl:col-span-8 space-y-6 min-w-0">
+
+        <!-- Evidence -->
+        <article class="rn-card overflow-hidden" aria-labelledby="ev-h">
+          <div class="flex flex-wrap items-center gap-3 px-5 py-4 border-b border-line">
+            <span class="material-symbols-rounded text-danger-soft">car_crash</span>
+            <h2 id="ev-h" class="font-display font-bold text-[16px]">Evidence</h2>
+            <span class="text-[12.5px] text-dim">Frame that fired the alert</span>
+            <div class="flex-1"></div>
+            <a href="cameras.html#CAM-084" class="rn-btn rn-btn-sm"><span class="material-symbols-rounded text-[18px]">videocam</span>Live camera</a>
+          </div>
+          <div class="p-5 grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-5">
+            <div class="rn-feed aspect-square sm:aspect-[4/3] lg:aspect-auto lg:min-h-[360px]">
+              <img src="../assets/img/model-junction-crash.jpg" alt="CCTV frame of an overturned white car beside a second damaged car at night, with the Model B box labelled severe accident 0.90" style="object-position:center 62%">
+              <div class="rn-feed-hud left-3 top-3"><span class="rn-dot rn-dot-pulse text-danger"></span>CAM-084 · REC</div>
+              <div class="rn-feed-hud right-3 top-3">08:42:11.000 IST</div>
+              <div class="rn-feed-hud left-3 bottom-3">Model B · YOLOv8s</div>
+              <div class="rn-feed-hud right-3 bottom-3 !text-danger-soft">severe_accident 0.90</div>
+            </div>
+            <div class="min-w-0 flex flex-col">
+              <span class="rn-label">Detection</span>
+              <dl class="mt-2 grid grid-cols-2 gap-2.5">
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Class</dt><dd class="mt-1 text-[13px] font-medium">Severe accident</dd></div>
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confidence</dt><dd class="rn-mono mt-1 text-[14px] text-cyan">0.90</dd></div>
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Threshold</dt><dd class="rn-mono mt-1 text-[14px]">≥ 0.47</dd></div>
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confirmed</dt><dd class="rn-mono mt-1 text-[14px]">3 frames</dd></div>
+              </dl>
+              <div class="mt-4 rounded-xl border border-line bg-canvas/40 p-4 text-[12.5px] text-muted leading-relaxed">
+                <div class="flex items-center gap-2 text-ink font-semibold text-[13px]"><span class="material-symbols-rounded text-[18px] text-cyan">verified</span>How sure is the model?</div>
+                <p class="mt-1.5">On 273 held-out test images Model B caught <span class="text-ink font-semibold">83.6%</span> of crashes with <span class="text-ink font-semibold">99.5%</span> precision (1 false alarm) and mAP50 <span class="text-ink font-semibold">0.83</span>. It runs every frame at 2.5 ms on a GPU.</p>
+              </div>
+              <div class="mt-auto pt-4 text-[11.5px] text-dim">The image is a real Model B output on a test image. Camera, time and location are demo data.</div>
+            </div>
+          </div>
+
+          <!-- Frame strip -->
+          <div class="px-5 pb-5">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <h3 class="font-semibold text-[14px]">Temporal filter</h3>
+              <span class="text-[12.5px] text-muted">7 consecutive frames · 33 ms apart at 30 FPS</span>
+              <span class="ml-auto flex items-center gap-1.5 text-[11.5px] text-dim"><span class="inline-block w-5 border-t-[1.5px] border-dashed border-warn-soft"></span>0.47 threshold</span>
+            </div>
+            <div class="mt-3 overflow-x-auto -mx-1 px-1 pb-1">
+              <ol id="frames" class="grid grid-cols-7 gap-2 min-w-[560px]"></ol>
+            </div>
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div class="rounded-xl border border-danger/30 bg-danger/[0.06] p-4">
+                <div class="flex items-center gap-2 text-[13px] font-semibold"><span class="material-symbols-rounded text-[18px] text-danger-soft icon-fill">notifications_active</span>Alert fired on frame 3</div>
+                <p class="mt-1 text-[12.5px] text-muted">Frames 1–3 all scored ≥ 0.47, so the alert went out at <span class="rn-mono text-ink">08:42:11.000</span>, 67 ms after the first hit. Frames 4–7 kept confirming.</p>
+              </div>
+              <div class="rounded-xl border border-line bg-canvas/40 p-4">
+                <div class="flex items-center gap-2 text-[13px] font-semibold"><span class="material-symbols-rounded text-[18px] text-warn-soft">filter_alt</span>Why wait for 3 frames?</div>
+                <p class="mt-1 text-[12.5px] text-muted">A shadow, headlight glare or a stalled truck can look like a crash for one frame. Requiring 3 in a row drops those one-frame spikes and adds under 0.1 s of delay.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Lifecycle -->
+        <article class="rn-card p-5" aria-labelledby="lc-h">
+          <div class="flex flex-wrap items-center gap-3">
+            <h2 id="lc-h" class="font-display font-bold text-[16px]">Lifecycle</h2>
+            <span id="lc-sub" class="text-[12.5px] text-dim"></span>
+          </div>
+          <ol id="steps" class="mt-5 grid grid-cols-1 md:grid-cols-6 gap-0 md:gap-2"></ol>
+        </article>
+
+        <!-- Journal -->
+        <article class="rn-card overflow-hidden" aria-labelledby="jr-h">
+          <div class="flex items-center gap-3 px-5 py-4 border-b border-line">
+            <span class="material-symbols-rounded text-brand-soft">history_edu</span>
+            <h2 id="jr-h" class="font-display font-bold text-[16px]">Incident journal</h2>
+            <span id="jr-count" class="ml-auto text-[12.5px] text-dim"></span>
+          </div>
+          <form id="jr-form" class="px-5 pt-4 flex flex-col sm:flex-row gap-2">
+            <label for="jr-input" class="sr-only">Add a note to the journal</label>
+            <input id="jr-input" class="rn-input flex-1 min-w-0" placeholder="Add a note, e.g. “Lane 2 cleared, traffic moving”" autocomplete="off" maxlength="280">
+            <button type="submit" class="rn-btn rn-btn-primary"><span class="material-symbols-rounded">add_comment</span>Add note</button>
+          </form>
+          <ol id="journal" class="p-5 space-y-0" aria-live="polite"></ol>
+        </article>
+      </div>
+
+      <!-- Right column -->
+      <aside class="xl:col-span-4 space-y-6 min-w-0">
+
+        <!-- Response -->
+        <article class="rn-card p-5 shadow-glow-red" aria-labelledby="rs-h">
+          <div class="flex items-center justify-between">
+            <h2 id="rs-h" class="font-display font-bold text-[16px]">Response</h2>
+            <span class="rn-badge rn-p1" id="rs-live"><span class="rn-dot rn-dot-pulse"></span>Clock running</span>
+          </div>
+          <div class="mt-4 grid grid-cols-2 gap-3">
+            <div class="rounded-xl border border-line bg-canvas/50 p-3.5 min-w-0">
+              <div class="rn-label">Elapsed</div>
+              <div class="mt-1 rn-mono font-semibold text-[26px] leading-none tracking-tight" id="elapsed" aria-live="off">00:00</div>
+              <div class="mt-1.5 text-[11.5px] text-dim">since detection</div>
+            </div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3.5 min-w-0">
+              <div class="rn-label">Golden hour</div>
+              <div class="mt-1 rn-mono font-semibold text-[26px] leading-none tracking-tight text-ok-soft" id="golden">60:00</div>
+              <div class="mt-2 rn-bar"><span id="golden-bar" style="width:100%"></span></div>
+            </div>
+          </div>
+          <ul class="mt-4 space-y-2 text-[13px]">
+            <li class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px] text-ok-soft">bolt</span><span class="text-muted">Alert latency</span><span class="ml-auto rn-mono">1.4 s</span><span class="rn-badge rn-ok">&lt; 2 s target</span></li>
+            <li class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px] text-brand-soft">call_split</span><span class="text-muted">Routed to</span><span class="ml-auto text-right">112 CAD · Highway Police</span></li>
+          </ul>
+          <div class="mt-4 rounded-xl border border-brand/35 bg-brand/[0.07] p-4">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-xl grid place-items-center bg-danger/15 text-danger-soft shrink-0"><span class="material-symbols-rounded icon-fill">ambulance</span></span>
+              <div class="min-w-0 flex-1">
+                <div class="font-semibold text-[14px]">AMB-108</div>
+                <div class="text-[12px] text-muted" id="unit-state">ALS ambulance · en route, 1.9 km</div>
+              </div>
+              <div class="text-right">
+                <div class="rn-label">ETA</div>
+                <div class="rn-mono font-semibold text-[18px]" id="eta">2:40</div>
+              </div>
+            </div>
+            <div class="mt-3 rn-bar"><span id="eta-bar" style="width:0%"></span></div>
+          </div>
+          <div class="mt-4 grid grid-cols-3 gap-2">
+            <button class="rn-btn rn-btn-sm !h-auto py-2 flex-col !gap-1" data-call="AMB-108 crew"><span class="material-symbols-rounded">call</span>Crew</button>
+            <button class="rn-btn rn-btn-sm !h-auto py-2 flex-col !gap-1" data-call="Highway Police"><span class="material-symbols-rounded">local_police</span>Police</button>
+            <button class="rn-btn rn-btn-sm !h-auto py-2 flex-col !gap-1" data-call="nearest trauma centre"><span class="material-symbols-rounded">local_hospital</span>Hospital</button>
+          </div>
+        </article>
+
+        <!-- Location -->
+        <article class="rn-card overflow-hidden" aria-labelledby="loc-h">
+          <div class="flex items-center gap-3 px-5 py-4 border-b border-line">
+            <span class="material-symbols-rounded text-cyan">map</span>
+            <h2 id="loc-h" class="font-display font-bold text-[16px]">Location</h2>
+            <button class="ml-auto rn-btn rn-btn-sm rn-btn-ghost" id="copy-gps"><span class="material-symbols-rounded text-[18px]">content_copy</span>Copy GPS</button>
+          </div>
+          <div id="inc-map" class="h-[240px]" aria-label="Map of the incident location"></div>
+          <dl class="p-5 grid grid-cols-2 gap-2.5">
+            <div class="rounded-xl border border-line bg-canvas/50 p-3 col-span-2"><dt class="rn-label">GPS</dt><dd class="rn-mono mt-1 text-[13.5px]">28.3589° N, 76.9387° E</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Road · KM</dt><dd class="mt-1 text-[13px] font-medium">NH-48 · 142.6</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Direction</dt><dd class="mt-1 text-[13px] font-medium">Northbound</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Camera</dt><dd class="mt-1 text-[13px] font-medium"><a href="cameras.html#CAM-084" class="text-brand-soft hover:underline">CAM-084</a> · 30 FPS</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Place</dt><dd class="mt-1 text-[13px] font-medium">Manesar Bypass</dd></div>
+          </dl>
+        </article>
+      </aside>
+    </section>
+
+    <p class="text-center text-[12px] text-dim pb-2">Incident, units, timings and per-frame confidences on this screen are demo data. The evidence frame is a real Model B detection; model figures are real test-set results.</p>
+  </div>
+</main>
+
+<script src="../assets/js/demo-data.js"></script>
+<script src="../assets/js/shell.js"></script>
+<script>
+(function () {
+  const { INCIDENTS, CAMERAS, MODEL } = window.RN_DATA;
+  const inc = INCIDENTS.find(i => i.id === "RN-2026-004821");
+  const cam = CAMERAS.find(c => c.id === inc.cam);
+  const nowIST = () => new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour12: false });
+  const esc = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  // ---------- frame strip (temporal filter) ----------
+  const thr = MODEL.bestConf, need = MODEL.temporalFrames;
+  const confs = [0.84, 0.88, 0.90, 0.91, 0.89, 0.90, 0.92];
+  const stamps = ["10.934", "10.967", "11.000", "11.034", "11.067", "11.100", "11.134"]; // seconds after 08:42
+  document.getElementById("frames").innerHTML = confs.map((c, k) => {
+    const streak = k < need, fired = k === need - 1;
+    const ts = stamps[k];
+    return `
+    <li class="fr ${streak ? "is-streak" : ""} rounded-xl border border-line bg-canvas/40 p-2.5 min-w-0">
+      <div class="flex items-center justify-between text-[11px]">
+        <span class="text-dim font-semibold">F${k + 1}</span>
+        ${fired ? '<span class="material-symbols-rounded icon-fill text-[16px] text-danger-soft" title="Alert fired">notifications_active</span>' : `<span class="material-symbols-rounded text-[15px] ${streak ? "text-danger-soft" : "text-ok-soft"}">check</span>`}
+      </div>
+      <div class="fr-bar mt-2" role="img" aria-label="Frame ${k + 1} confidence ${c.toFixed(2)}${fired ? ", alert fired" : ""}">
+        <div class="thr" style="bottom:${thr * 100}%"></div>
+        <div class="fill" style="height:${c * 100}%"></div>
+      </div>
+      <div class="mt-2 rn-mono text-[13px] font-semibold ${streak ? "text-danger-soft" : "text-cyan"}">${c.toFixed(2)}</div>
+      <div class="rn-mono text-[10.5px] text-dim">:${ts}</div>
+    </li>`;
+  }).join("");
+
+  // ---------- lifecycle ----------
+  const STEPS = [
+    { k: "Detected", icon: "visibility", t: "08:42:10.934", who: "Model B · CAM-084" },
+    { k: "Confirmed", icon: "verified", t: "08:42:11.000", who: "3 frames ≥ 0.47" },
+    { k: "Routed", icon: "call_split", t: "08:42:12", who: "112 CAD · 1.4 s" },
+    { k: "Unit assigned", icon: "ambulance", t: "08:42:58", who: "AMB-108" },
+    { k: "On scene", icon: "location_on", t: "ETA 2:40", who: "AMB-108" },
+    { k: "Cleared", icon: "task_alt", t: "Pending", who: "Highway Police" },
+  ];
+  let current = 3; // index of the active step
+  function renderSteps() {
+    document.getElementById("lc-sub").textContent = current >= STEPS.length ? "All stages complete" : `Stage ${current + 1} of ${STEPS.length} · ${STEPS[current].k}`;
+    document.getElementById("steps").innerHTML = STEPS.map((s, k) => {
+      const st = k < current ? "is-done" : k === current ? "is-current" : "";
+      const last = k === STEPS.length - 1;
+      return `
+      <li class="step ${st} relative flex md:flex-col gap-3 md:gap-2 pb-5 md:pb-0 min-w-0" ${k === current ? 'aria-current="step"' : ""}>
+        ${last ? "" : `<span class="step-line absolute left-[16px] top-[34px] bottom-0 w-[2px] md:left-[34px] md:right-[-8px] md:top-[16px] md:bottom-auto md:w-auto md:h-[2px]" aria-hidden="true"></span>`}
+        <span class="step-dot"><span class="material-symbols-rounded text-[18px] ${k < current ? "icon-fill" : ""}">${k < current ? "check" : s.icon}</span></span>
+        <div class="min-w-0 pt-1 md:pt-0">
+          <div class="text-[13.5px] font-semibold ${k > current ? "text-muted" : ""}">${s.k}</div>
+          <div class="rn-mono text-[11.5px] ${k === current ? "text-brand-soft" : "text-dim"}">${s.t}</div>
+          <div class="text-[11.5px] text-dim truncate">${s.who}</div>
+        </div>
+      </li>`;
+    }).join("");
+  }
+  renderSteps();
+
+  // ---------- journal ----------
+  const journal = [
+    { t: "08:42:58", who: "Control Room · Desk 04", icon: "person", tone: "text-brand-soft", text: "Accepted alert. Assigned AMB-108 (ALS) from Manesar; ETA 2 min 40 s." },
+    { t: "08:42:20", who: "Highway Police", icon: "local_police", tone: "text-muted", text: "Patrol PCR-07 acknowledged via 112 CAD; diverting traffic from lane 2 northbound." },
+    { t: "08:42:12", who: "RoadNetra dispatcher", icon: "call_split", tone: "text-cyan", text: "Auto-routed to 112 CAD with frame, GPS and camera ID. Alert latency 1.4 s." },
+    { t: "08:42:11", who: "Model B · CAM-084", icon: "car_crash", tone: "text-danger-soft", text: "Severe accident confirmed over 3 consecutive frames (0.84 → 0.88 → 0.90). P1 assigned." },
+  ];
+  function renderJournal() {
+    document.getElementById("jr-count").textContent = `${journal.length} entries`;
+    document.getElementById("journal").innerHTML = journal.map((e, k) => `
+      <li class="relative flex gap-3 ${k === journal.length - 1 ? "" : "pb-5"}">
+        ${k === journal.length - 1 ? "" : '<span class="absolute left-[15px] top-8 bottom-0 w-px bg-line" aria-hidden="true"></span>'}
+        <span class="w-8 h-8 rounded-full grid place-items-center border border-line bg-canvas shrink-0 ${e.tone}"><span class="material-symbols-rounded text-[17px]">${e.icon}</span></span>
+        <div class="min-w-0 flex-1 pt-0.5">
+          <div class="flex flex-wrap items-baseline gap-x-2"><span class="text-[13px] font-semibold">${e.who}</span><span class="rn-mono text-[11.5px] text-dim">${e.t}</span>${e.mine ? '<span class="rn-badge rn-brand !h-[18px] !text-[10px]">You</span>' : ""}</div>
+          <p class="mt-0.5 text-[13px] text-muted break-words">${e.text}</p>
+        </div>
+      </li>`).join("");
+  }
+  function addEntry(text, who = "Control Room · Desk 04", icon = "edit_note", tone = "text-brand-soft", mine = true) {
+    journal.unshift({ t: nowIST(), who, icon, tone, text: esc(text), mine });
+    renderJournal();
+  }
+  renderJournal();
+  document.getElementById("jr-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const inp = document.getElementById("jr-input"), v = inp.value.trim();
+    if (!v) { inp.focus(); return; }
+    addEntry(v); inp.value = "";
+    RN.toast("Note added", "Saved to the incident journal", "ok", 2500);
+  });
+
+  // ---------- timers ----------
+  // Demo clock: the page opens 4 min 12 s after detection; ETA counts down from 2:40.
+  const start = Date.now() - (4 * 60 + 12) * 1000, etaEnd = Date.now() + 160 * 1000;
+  let resolved = false, arrived = false;
+  const mmss = s => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  function tick() {
+    if (resolved) return;
+    const el = Math.floor((Date.now() - start) / 1000);
+    document.getElementById("elapsed").textContent = mmss(el);
+    const left = Math.max(0, 3600 - el);
+    document.getElementById("golden").textContent = mmss(left);
+    document.getElementById("golden-bar").style.width = (left / 36) + "%";
+    const eta = Math.max(0, Math.ceil((etaEnd - Date.now()) / 1000));
+    document.getElementById("eta").textContent = `${Math.floor(eta / 60)}:${String(eta % 60).padStart(2, "0")}`;
+    document.getElementById("eta-bar").style.width = (100 - eta / 1.6) + "%";
+    if (eta === 0 && !arrived) {
+      arrived = true; current = Math.max(current, 5); STEPS[4].t = nowIST(); renderSteps();
+      document.getElementById("unit-state").textContent = "On scene · triage in progress";
+      addEntry("AMB-108 reached the scene.", "AMB-108 crew", "ambulance", "text-danger-soft", false);
+      RN.toast("AMB-108 on scene", "RN-2026-004821 · NH-48 KM 142.6", "ok");
+    }
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ---------- actions ----------
+  document.getElementById("act-escalate").addEventListener("click", () => {
+    RN.toast("Escalated to duty officer", "RN-2026-004821 · second ambulance and tow requested via 112 CAD", "danger");
+    addEntry("Escalated: requested second ambulance and heavy tow.", "Control Room · Desk 04", "emergency_home", "text-danger-soft");
+  });
+  document.getElementById("act-reassign").addEventListener("click", () =>
+    RN.toast("Reassign", "Choose another unit from the dispatch queue (not wired in this prototype)", "info"));
+  document.getElementById("act-pdf").addEventListener("click", () =>
+    RN.toast("Work order ready", "RN-2026-004821.pdf with frame, GPS and timeline (demo, no file generated)", "ok"));
+  document.getElementById("act-resolve").addEventListener("click", e => {
+    if (resolved) return;
+    resolved = true; current = STEPS.length;
+    STEPS[4].t = STEPS[4].t.startsWith("ETA") ? nowIST() : STEPS[4].t; STEPS[5].t = nowIST();
+    renderSteps();
+    const b = document.getElementById("status-badge"); b.className = "rn-badge rn-ok"; b.textContent = "Resolved";
+    const live = document.getElementById("rs-live"); live.className = "rn-badge rn-ok"; live.innerHTML = '<span class="rn-dot"></span>Clock stopped';
+    document.getElementById("unit-state").textContent = "Released · back to base";
+    e.currentTarget.disabled = true; e.currentTarget.style.opacity = ".55"; e.currentTarget.innerHTML = '<span class="material-symbols-rounded">check_circle</span>Resolved';
+    addEntry("Marked resolved. Lanes reopened.", "Control Room · Desk 04", "task_alt", "text-ok-soft");
+    RN.toast("Incident resolved", `RN-2026-004821 closed at ${nowIST()} IST · elapsed ${document.getElementById("elapsed").textContent}`, "ok");
+  });
+  document.querySelectorAll("[data-call]").forEach(b => b.addEventListener("click", () =>
+    RN.toast(`Calling ${b.dataset.call}`, "Bridged through the 112 CAD console (demo)", "info", 3000)));
+  document.getElementById("copy-gps").addEventListener("click", () => {
+    const txt = `${inc.lat}, ${inc.lng}`;
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(
+      () => RN.toast("GPS copied", txt, "ok", 2500), () => RN.toast("GPS", txt, "info", 4000));
+  });
+
+  // ---------- map ----------
+  const map = L.map("inc-map", { zoomControl: true, scrollWheelZoom: false }).setView([inc.lat, inc.lng], 14);
+  RN.darkTiles(map);
+  const route = CAMERAS.filter(c => c.road === "NH-48").sort((a, b) => a.km - b.km).map(c => [c.lat, c.lng]);
+  L.polyline(route, { color: "#3B82F6", weight: 5, opacity: .5 }).addTo(map);
+  L.circle([inc.lat, inc.lng], { radius: 400, color: "#EF4444", weight: 1, fillColor: "#EF4444", fillOpacity: .08 }).addTo(map);
+  L.marker([cam.lat + 0.0012, cam.lng - 0.0016], { icon: L.divIcon({ className: "", html: '<div class="rn-pin cam"></div>', iconSize: [12, 12] }) })
+    .addTo(map).bindPopup(`<b>${cam.id}</b> · ${cam.name}`);
+  L.marker([inc.lat, inc.lng], { icon: L.divIcon({ className: "", html: '<div class="rn-pin p1"></div>', iconSize: [18, 18] }), zIndexOffset: 1000 })
+    .addTo(map).bindPopup(`<b>${inc.title}</b><br><span style="color:#94A3B8">${inc.road} KM ${inc.km}</span>`);
+})();
+</script>
+</body>
+</html>

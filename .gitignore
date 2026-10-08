@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# RoadNetra datasets and weights (rebuild with training/build_accident_dataset.py)
+data/accident_dataset/
+data/raw_kaggle/
+runs/

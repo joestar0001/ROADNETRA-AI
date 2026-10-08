@@ -1,0 +1,55 @@
+[
+ {
+  "file": "assets/img/model-night-rollover.jpg",
+  "source": "amedeo_pos_00670",
+  "detections": [
+   0.91
+  ],
+  "size": [
+   1280,
+   1280
+  ]
+ },
+ {
+  "file": "assets/img/model-junction-crash.jpg",
+  "source": "amedeo_pos_00746",
+  "detections": [
+   0.9
+  ],
+  "size": [
+   1280,
+   1280
+  ]
+ },
+ {
+  "file": "assets/img/model-day-rollover.jpg",
+  "source": "amedeo_pos_00288",
+  "detections": [
+   0.89
+  ],
+  "size": [
+   1280,
+   1280
+  ]
+ },
+ {
+  "file": "assets/img/model-night-incident.jpg",
+  "source": "amedeo_pos_00874",
+  "detections": [
+   0.88
+  ],
+  "size": [
+   1280,
+   1280
+  ]
+ },
+ {
+  "file": "assets/img/model-traffic-clear.jpg",
+  "source": "sg_neg_01688",
+  "detections": [],
+  "size": [
+   1280,
+   960
+  ]
+ }
+]
