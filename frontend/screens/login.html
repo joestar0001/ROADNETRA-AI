@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-container":"#00311f","outline-variant":"#434655","primary-fixed":"#dbe1ff","secondary-fixed":"#85f8c4","surface-container-high":"#262a33","error":"#ffb4ab","surface-tint":"#b4c5ff","on-tertiary-fixed":"#410002","primary-fixed-dim":"#b4c5ff","surface-bright":"#353942","outline":"#8d90a0","surface-container-lowest":"#0a0e16","surface-variant":"#31353e","on-primary":"#002a78","on-secondary":"#003825","surface-dim":"#0f131c","on-primary-fixed-variant":"#003ea8","on-surface":"#dfe2ee","on-error-container":"#ffdad6","secondary-fixed-dim":"#68dba9","on-secondary-fixed":"#002114","tertiary-container":"#d52022","on-secondary-fixed-variant":"#005137","inverse-on-surface":"#2c3039","on-surface-variant":"#c3c6d7","on-primary-fixed":"#00174b","on-error":"#690005","tertiary":"#ffb4ab","background":"#0f131c","primary-container":"#2563eb","on-tertiary-container":"#ffecea","secondary-container":"#25a475","surface":"#0f131c","on-background":"#dfe2ee","surface-container":"#1c2028","inverse-surface":"#dfe2ee","on-tertiary-fixed-variant":"#93000b","tertiary-fixed-dim":"#ffb4ab","surface-container-low":"#181c24","primary":"#b4c5ff","on-tertiary":"#690005","secondary":"#68dba9","tertiary-fixed":"#ffdad6","on-primary-container":"#eeefff","error-container":"#93000a","inverse-primary":"#0053db","surface-container-highest":"#31353e"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{gutter:"1rem","gutter-compact":"0.5rem","space-md":"0.75rem","space-xs":"0.25rem",margin:"1.5rem","space-2xl":"2rem","space-sm":"0.5rem","margin-mobile":"1rem","space-lg":"1rem","space-3xl":"3rem","space-xl":"1.5rem"},fontFamily:{"headline-md":["Plus Jakarta Sans"],"body-sm":["Inter"],"display-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"data-mono":["Inter"],"body-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"label-sm":["Inter"],"display-lg-mobile":["Plus Jakarta Sans"],"body-lg":["Inter"]},fontSize:{"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"data-mono":["13px",{lineHeight:"18px",letterSpacing:"-0.01em",fontWeight:"500"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-lg":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"label-md":["13px",{lineHeight:"18px",fontWeight:"500"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-on-primary"><header class="w-full bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)] z-50"><div class="w-full px-gutter flex items-center justify-between h-16"><div class="flex items-center gap-space-md"><div class="flex items-center justify-center w-8 h-8 rounded bg-primary-container text-on-primary-container shadow-inner"><span class="material-symbols-outlined text-[20px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface uppercase">RoadNetra-AI</span><span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm uppercase bg-surface-container-high text-primary tracking-wider">NIC-CERTIFIED</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">Ministry of Road Transport & Highways | NHAI Portal</span></div></div><div class="flex items-center gap-space-lg"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-data-mono text-data-mono text-secondary">SECURE LINK TLS 1.3</span></div><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">verified_user</span><span class="font-label-sm text-label-sm uppercase tracking-wider">Gov-Access L4</span></div></div></div></header><main class="flex-1 flex flex-col justify-center items-center w-full px-gutter py-space-2xl bg-surface-dim"><div class="flex flex-col w-full">
+<div class="w-full max-w-7xl mx-auto flex flex-col gap-space-xl">
+<!-- Top Telemetry & Security Classification Ribbon -->
+<div class="w-full bg-surface-container-lowest p-space-md rounded-xl shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-tertiary-container/20 px-space-sm py-1 rounded">
+<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="font-data-mono text-data-mono text-tertiary uppercase">Restricted Access // Level-3 Clearance Required</span>
+</div>
+<span class="hidden sm:inline text-outline-variant">•</span>
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded text-on-surface-variant font-data-mono text-data-mono">
+<span class="material-symbols-outlined text-[15px] text-secondary">lock</span>
+<span>AES-256 TLS 1.3 HARDENED</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-md font-data-mono text-data-mono text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[15px] text-primary">dns</span>
+<span class="text-on-surface">in-delhi-zone04.edge.roadnetra.gov.in</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-high px-space-xs py-0.5 rounded text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>8ms</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-high px-space-xs py-0.5 rounded text-primary">
+<span class="material-symbols-outlined text-[14px]">sensors</span>
+<span>142 AI Nodes Armed</span>
+</div>
+</div>
+</div>
+<!-- Main Portal Grid: Split Architecture -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Left Column: Situational Intel, Surveillance Feed Preview & Operational Directives (5 Cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg">
+<!-- Surveillance Node Snapshot Card -->
+<div class="relative bg-surface-container rounded-xl overflow-hidden shadow-xl flex flex-col">
+<div class="relative w-full h-56 bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover opacity-60" data-alt="Dark high-contrast night highway surveillance control feed, high angle view of Indian National Expressway NH-48 with glowing LED headlights, digital blue and green computer vision bounding boxes tracking heavy transport vehicles, high resolution night-vision telephoto lens aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoyuyDrc62l0eBn7upzleNT_Mymn3r-Ja7LgDUFosUiLEoAVMhDNckbrLvlFoQGIRaOdcDbZx_C9XTgyTz9dS-5Epe2veweLDL86BsqcW1nJ4TpYNUtNfNox8kZfvp7qIKiRc-GPggU0G9IJMlxOZsr4B-Lct99Ea_WevHDN8yacW1IO6FozThgUiTWt_auW8PFQAHs00lqDv_Fn9ynNHwZgLPYyVxKQbujDzCbxE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-surface-container-lowest/60"></div>
+<!-- Live Feed Overlay HUD -->
+<div class="absolute top-space-md left-space-md right-space-md flex items-center justify-between pointer-events-none">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest/90 px-space-sm py-1 rounded backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span class="font-data-mono text-data-mono text-on-surface">CAM-NH48-KM38.2</span>
+</div>
+<div class="bg-surface-container-lowest/90 px-space-sm py-1 rounded backdrop-blur-md font-data-mono text-data-mono text-primary">
+                FPS 59.9 // HD-AI
+              </div>
+</div>
+<div class="absolute bottom-space-md left-space-md right-space-md flex items-end justify-between pointer-events-none">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Active Corridor</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">NH-48 Corridor • Sector 04</span>
+</div>
+<div class="flex items-center gap-space-xs bg-secondary-container/80 text-on-secondary-container px-space-sm py-0.5 rounded font-label-sm text-label-sm">
+                ANPR ACTIVE
+              </div>
+</div>
+</div>
+<!-- Real-Time Corridor Telemetry Sparkline Grid -->
+<div class="p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span>National Corridor Flux (Last 60m)</span>
+<span class="text-secondary font-data-mono">99.98% System Uptime</span>
+</div>
+<!-- Mini Inline SVG Chart -->
+<div class="w-full bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Throughput</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">14,820 <span class="font-label-sm text-label-sm text-on-surface-variant font-normal">vph</span></span>
+</div>
+<div class="flex-1 h-10 flex items-center justify-end">
+<svg class="w-full h-9 text-primary overflow-visible" fill="none" viewbox="0 0 240 40">
+<path d="M0,32 Q30,12 60,25 T120,8 T180,22 T240,4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0,32 Q30,12 60,25 T120,8 T180,22 T240,4 L240,40 L0,40 Z" fill="currentColor" fill-opacity="0.12"></path>
+<circle class="fill-primary animate-pulse" cx="240" cy="4" r="3.5"></circle>
+</svg>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-data-mono text-data-mono text-on-surface-variant">Congestion</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-bold">Low <span class="font-label-sm text-label-sm text-on-surface-variant font-normal">18%</span></span>
+</div>
+</div>
+<!-- Security Directives Callout -->
+<div class="bg-surface-container-lowest p-space-md rounded-lg flex gap-space-md items-start">
+<span class="material-symbols-outlined text-[24px] text-primary shrink-0">admin_panel_settings</span>
+<div class="flex flex-col gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Directive #NHAI-2026-CYBER-09</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                  Session keys are single-operator bound. Automated logout triggers after 180 seconds of telemetry inactivity. Cross-zone override requires Dual-Key Command Auth.
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Geo-Node Status List -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant uppercase px-space-xs">
+<span>Critical Node Handshakes</span>
+<span>Sync Latency</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container p-space-sm rounded">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md text-on-surface">NE-1 Vadodara Central CAD</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">12ms // SYNC</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container p-space-sm rounded">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md text-on-surface">Delhi-Meerut Expy Optical Grid</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">6ms // SYNC</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container p-space-sm rounded">
+<div class="flex items-center gap-space-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-body-md text-body-md text-on-surface">NH-24 Ghaziabad Intercept Unit</span>
+</div>
+<span class="font-data-mono text-data-mono text-on-surface-variant">14ms // SYNC</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Interactive Multi-Step Authentication Card (7 Cols) -->
+<div class="lg:col-span-7 flex flex-col">
+<div class="bg-surface-container rounded-xl shadow-xl p-space-lg lg:p-space-xl flex flex-col gap-space-xl">
+<!-- Header Inside Card -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-primary font-label-sm text-label-sm uppercase tracking-widest">
+<span class="material-symbols-outlined text-[16px]">token</span>
+<span>Command Control Gateway // Portal V4.8</span>
+</div>
+<span class="px-space-sm py-0.5 bg-primary-container/20 text-primary-fixed font-data-mono text-data-mono rounded">
+                SESSION ID: #984-CAD-DL
+              </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
+              Officer Identity & Multi-Factor Gateway
+            </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Authenticate via verified Parivahan NIC credentials and active cryptotoken. Access is recorded into the National Audit Ledger.
+            </p>
+</div>
+<!-- Step 1: Tactical Role Designation -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm uppercase text-on-surface tracking-wider font-semibold">
+                Step 1: Operational Role Clearance Level
+              </label>
+<span class="text-on-surface-variant font-data-mono text-data-mono">1 of 3</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm" id="roleSelectorGroup">
+<!-- Role 1 (Selected State) -->
+<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-high transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="command_controller" onclick="selectRole(this)">
+<div class="flex items-start justify-between">
+<div class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">desktop_windows</span>
+</div>
+<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-tertiary-container text-on-tertiary-container uppercase tracking-wider font-bold">L3 Clear</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Command Room Controller</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">HQ / Sector Control • Full CAD Override</span>
+</div>
+<div class="flex items-center justify-between font-data-mono text-data-mono text-primary pt-space-xs">
+<span>DISPATCH & PTZ CONTROL</span>
+<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
+</div>
+</div>
+<!-- Role 2 -->
+<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-low transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="field_intercept" onclick="selectRole(this)">
+<div class="flex items-start justify-between">
+<div class="w-8 h-8 rounded bg-surface-variant text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">local_police</span>
+</div>
+<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-surface-container-highest text-on-surface-variant uppercase tracking-wider">L2 Clear</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Field Intercept Officer</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Highway Police • Patrol Unit CAD & Triage</span>
+</div>
+<div class="flex items-center justify-between font-data-mono text-data-mono text-on-surface-variant pt-space-xs">
+<span>INTERCEPT TELEMETRY</span>
+<span class="material-symbols-outlined text-[16px] text-outline opacity-40">radio_button_unchecked</span>
+</div>
+</div>
+<!-- Role 3 -->
+<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-low transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="concessionaire" onclick="selectRole(this)">
+<div class="flex items-start justify-between">
+<div class="w-8 h-8 rounded bg-surface-variant text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">construction</span>
+</div>
+<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-surface-container-highest text-on-surface-variant uppercase tracking-wider">L1 Clear</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Civil Maintenance / Concessionaire</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">PWD Rapid Repair • Incident Logging</span>
+</div>
+<div class="flex items-center justify-between font-data-mono text-data-mono text-on-surface-variant pt-space-xs">
+<span>MAINTENANCE CAD LOGS</span>
+<span class="material-symbols-outlined text-[16px] text-outline opacity-40">radio_button_unchecked</span>
+</div>
+</div>
+<!-- Role 4 -->
+<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-low transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="auditor" onclick="selectRole(this)">
+<div class="flex items-start justify-between">
+<div class="w-8 h-8 rounded bg-surface-variant text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">fact_check</span>
+</div>
+<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-surface-container-highest text-on-surface-variant uppercase tracking-wider">L2 Read</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Structural Safety Auditor</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">MoRTH Independent Inspection • Read-Only</span>
+</div>
+<div class="flex items-center justify-between font-data-mono text-data-mono text-on-surface-variant pt-space-xs">
+<span>HISTORICAL ANOMALIES</span>
+<span class="material-symbols-outlined text-[16px] text-outline opacity-40">radio_button_unchecked</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Officer Credentials & Jurisdiction Form -->
+<div class="flex flex-col gap-space-md bg-surface-container-lowest p-space-lg rounded-lg">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface tracking-wider font-semibold">
+                Step 2: Officer Identification & Sector
+              </span>
+<span class="text-on-surface-variant font-data-mono text-data-mono">2 of 3</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- ID Field -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="officerId">
+                  Parivahan / NHAI Officer ID
+                </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">badge</span>
+<input class="w-full bg-surface-container-high text-on-surface font-data-mono text-data-mono pl-9 pr-8 py-2 rounded focus:outline-none focus:bg-surface-bright" id="officerId" type="text" value="NHAI-CR-2024-8841"/>
+<span class="material-symbols-outlined absolute right-space-sm text-secondary text-[18px]">verified</span>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="passcode">
+                  Cryptographic Master Passphrase
+                </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">key</span>
+<input class="w-full bg-surface-container-high text-on-surface font-data-mono text-data-mono pl-9 pr-8 py-2 rounded focus:outline-none focus:bg-surface-bright" id="passcode" type="password" value="••••••••••••••••"/>
+<button class="absolute right-space-sm text-on-surface-variant hover:text-on-surface" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-[18px]" id="passToggleIcon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Corridor Dropdown -->
+<div class="flex flex-col gap-space-xs md:col-span-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="jurisdictionSelect">
+                  Assigned Territorial Highway Jurisdiction
+                </label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">alt_route</span>
+<select class="w-full bg-surface-container-high text-on-surface font-data-mono text-data-mono pl-9 pr-8 py-2 rounded appearance-none focus:outline-none focus:bg-surface-bright" id="jurisdictionSelect">
+<option selected="">Sector 4: NH-48 Delhi-Jaipur Corridor + NE-1 Expressway</option>
+<option>Sector 1: Eastern Peripheral Expressway (EPE) Circular Ring</option>
+<option>Sector 2: Delhi-Mumbai Expressway Package 1-4</option>
+<option>Sector 7: Golden Quadrilateral (North-South Corridor Hub)</option>
+</select>
+<span class="material-symbols-outlined absolute right-space-sm text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Mandatory Two-Factor Authentication (2FA) Module -->
+<div class="flex flex-col gap-space-md bg-surface-container-lowest p-space-lg rounded-lg">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase text-on-surface tracking-wider font-semibold">
+                Step 3: Two-Factor Cryptographic Challenge
+              </span>
+<span class="text-on-surface-variant font-data-mono text-data-mono">3 of 3</span>
+</div>
+<!-- 2FA Selector Tabs -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs bg-surface-container-high p-1 rounded-lg">
+<button class="two-fa-tab active-tab bg-primary text-on-primary py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs shadow" onclick="switch2FAMethod(this, 'totp')" type="button">
+<span class="material-symbols-outlined text-[16px]">phonelink_lock</span>
+<span>NIC TOTP</span>
+</button>
+<button class="two-fa-tab bg-transparent text-on-surface-variant hover:text-on-surface py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs" onclick="switch2FAMethod(this, 'aadhaar')" type="button">
+<span class="material-symbols-outlined text-[16px]">fingerprint</span>
+<span>Aadhaar e-Sign OTP</span>
+</button>
+<button class="two-fa-tab bg-transparent text-on-surface-variant hover:text-on-surface py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs" onclick="switch2FAMethod(this, 'fido')" type="button">
+<span class="material-symbols-outlined text-[16px]">usb</span>
+<span>Hardware FIDO2</span>
+</button>
+</div>
+<!-- TOTP PIN Input Box View (Default) -->
+<div class="flex flex-col gap-space-md" id="totpSection">
+<div class="flex flex-col gap-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+                  Enter the 6-digit dynamic token generated on your Gov-NIC Authenticator Mobile App:
+                </span>
+<!-- 6-digit Boxes -->
+<div class="flex items-center justify-between max-w-sm gap-space-xs mt-space-xs">
+<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="7"/>
+<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="4"/>
+<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="1"/>
+<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="9"/>
+<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="6"/>
+<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="2"/>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-xs font-data-mono text-data-mono text-secondary">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>Code valid for <span class="font-bold" id="authTimer">01:42</span></span>
+</div>
+<button class="font-label-md text-label-md text-primary hover:underline flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">forward_to_inbox</span>
+<span>Resend Secure Code via SMS</span>
+</button>
+</div>
+</div>
+<!-- FIDO Hardware Key Prompt (Optional Sub-state) -->
+<div class="hidden flex items-center justify-between bg-surface-container-high p-space-md rounded-lg" id="fidoSection">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-[20px]">usb</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Touch Hardware FIDO2 Token</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Insert Security Key into USB slot or tap against NFC reader</span>
+</div>
+</div>
+<span class="px-space-sm py-1 bg-surface-container text-secondary font-data-mono text-data-mono rounded">LISTENING</span>
+</div>
+</div>
+<!-- Primary CTA Button & Emergency Bypass Option -->
+<div class="flex flex-col gap-space-md">
+<button class="w-full bg-primary-container hover:bg-inverse-primary text-on-primary font-headline-sm text-headline-sm py-3 px-space-lg rounded-xl shadow-lg transition-all flex items-center justify-center gap-space-md group" onclick="triggerAuthSequence(this)" type="button">
+<span class="material-symbols-outlined text-[22px] group-hover:rotate-12 transition-transform">lock_open</span>
+<span class="tracking-wide">Verify Credentials & Enter Command Network</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<div class="flex flex-wrap items-center justify-between gap-space-sm text-on-surface-variant font-label-sm text-label-sm px-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container">crisis_alert</span>
+<a class="hover:text-on-surface transition-colors font-medium text-tertiary" href="#">
+                  Emergency Dispatch Direct Bypass (Supervisor Keycard Required)
+                </a>
+</div>
+<span class="font-data-mono text-data-mono opacity-60">HANDSHAKE SHA-256 #89c7</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Statutory Compliance, Legal Audit and Tech Support Banner -->
+<div class="w-full bg-surface-container-low rounded-xl p-space-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg shadow-sm">
+<div class="flex items-start gap-space-md max-w-4xl">
+<div class="w-9 h-9 rounded bg-tertiary-container/20 text-tertiary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+            Statutory Legal Compliance & Active Session Audit
+          </span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Authorized government personnel only under Information Technology Act 2000 (Section 43 & 66) and National Highway Safety Surveillance Regulations 2026. Unauthorized access attempts, port probing, and session impersonation are actively logged with GPS-triangulated IP telemetry and instantly forwarded to the Indian Cyber Crime Coordination Centre (I4C).
+          </p>
+</div>
+</div>
+<div class="flex flex-col items-start md:items-end gap-space-xs shrink-0 bg-surface-container p-space-md rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">National CAD Helpdesk</span>
+<div class="flex items-center gap-space-xs text-primary font-headline-sm text-headline-sm font-bold">
+<span class="material-symbols-outlined text-[18px]">support_agent</span>
+<span>1800-11-9922</span>
+</div>
+<span class="font-data-mono text-data-mono text-secondary">24x7 Priority Line Active</span>
+</div>
+</div>
+</div>
+<!-- Interactive Logic for Role Selection, OTP Focus, and 2FA tabs -->
+<script>
+    function selectRole(element) {
+      const cards = document.querySelectorAll('.role-card');
+      cards.forEach(card => {
+        card.classList.remove('bg-surface-container-high');
+        card.classList.add('bg-surface-container-low');
+        const iconSpan = card.querySelector('.material-symbols-outlined:last-child');
+        if (iconSpan) {
+          iconSpan.textContent = 'radio_button_unchecked';
+          iconSpan.className = 'material-symbols-outlined text-[16px] text-outline opacity-40';
+        }
+      });
+      element.classList.remove('bg-surface-container-low');
+      element.classList.add('bg-surface-container-high');
+      const activeIcon = element.querySelector('.material-symbols-outlined:last-child');
+      if (activeIcon) {
+        activeIcon.textContent = 'check_circle';
+        activeIcon.className = 'material-symbols-outlined text-[16px] text-primary';
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const passInput = document.getElementById('passcode');
+      const toggleIcon = document.getElementById('passToggleIcon');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        passInput.value = 'CAD-Admin-7729-Highway#Secure';
+        toggleIcon.textContent = 'visibility_off';
+      } else {
+        passInput.type = 'password';
+        passInput.value = '••••••••••••••••';
+        toggleIcon.textContent = 'visibility';
+      }
+    }
+
+    function switch2FAMethod(button, method) {
+      const tabs = document.querySelectorAll('.two-fa-tab');
+      tabs.forEach(tab => {
+        tab.className = 'two-fa-tab bg-transparent text-on-surface-variant hover:text-on-surface py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs';
+      });
+      button.className = 'two-fa-tab active-tab bg-primary text-on-primary py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs shadow';
+
+      const totpSection = document.getElementById('totpSection');
+      const fidoSection = document.getElementById('fidoSection');
+
+      if (method === 'fido') {
+        totpSection.classList.add('hidden');
+        fidoSection.classList.remove('hidden');
+      } else {
+        totpSection.classList.remove('hidden');
+        fidoSection.classList.add('hidden');
+      }
+    }
+
+    function triggerAuthSequence(btn) {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Verifying NIC PKI Certificates...</span>`;
+      btn.classList.add('opacity-80');
+      
+      setTimeout(() => {
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px] text-secondary">check_circle</span><span>Authenticated // Launching Portal...</span>`;
+        btn.classList.remove('opacity-80');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+        }, 1800);
+      }, 1200);
+    }
+
+    // Auto advance OTP boxes
+    const otpInputs = document.querySelectorAll('.otp-digit');
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('keyup', (e) => {
+        if (e.key >= '0' && e.key <= '9') {
+          if (index < otpInputs.length - 1) {
+            otpInputs[index + 1].focus();
+          }
+        } else if (e.key === 'Backspace') {
+          if (index > 0) {
+            otpInputs[index - 1].focus();
+          }
+        }
+      });
+    });
+
+    // Countdown Timer Simulation
+    let timeLeft = 102;
+    const timerElem = document.getElementById('authTimer');
+    setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
+        const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+        const secs = String(timeLeft % 60).padStart(2, '0');
+        if (timerElem) {
+          timerElem.textContent = `${mins}:${secs}`;
+        }
+      } else {
+        timeLeft = 120;
+      }
+    }, 1000);
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest/90 backdrop-blur-md"><div class="w-full px-gutter py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-md text-on-surface-variant font-label-sm text-label-sm"><span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-tertiary-container">gavel</span>Authorized Personnel Only</span><span>•</span><span>IPC Section 66F IT Act Applicable</span><span>•</span><span class="font-data-mono text-data-mono">NODE-DEL-09.NHAI.GOV.IN</span></div><div class="flex items-center gap-space-lg font-label-sm text-label-sm text-on-surface-variant"><a class="hover:text-on-surface transition-colors" data-path="security-protocols" href="#">Security Protocols</a><a class="hover:text-on-surface transition-colors" data-path="helpdesk" href="#">NIC Helpdesk</a><span class="text-outline">© 2025 NHAI / MoRTH Govt. of India</span></div></div></footer><script>
+(function () {
+  const routes = {
+    dashboard: 'command-center.html',
+    incidents: 'incident-detail.html',
+    'incident-detail-rn-2026-004821-nh-48-corridor': 'incident-detail.html',
+    cameras: 'cameras.html',
+    analytics: 'analytics.html',
+    settings: 'settings.html',
+    'roadnetra-ai-live-incident-command-center': 'command-center.html',
+    'roadnetra-ai-edge-camera-monitoring-cctv-grid': 'cameras.html',
+    'roadnetra-ai-corridor-analytics-intelligence-hub': 'analytics.html',
+    live-map: 'command-center.html',
+    reports: 'analytics.html'
+  };
+  document.querySelectorAll('a[data-path]').forEach((link) => {
+    const route = routes[link.dataset.path];
+    if (route) link.href = route;
+  });
+})();
+</script></body></html>
