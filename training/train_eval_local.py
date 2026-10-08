@@ -7,6 +7,7 @@ then copies best.pt to models/accident_best.pt. All charts are saved as PNGs in 
 Usage:
     python training/train_eval_local.py --data data/accident_dataset/data.yaml --model yolov8n.pt --epochs 40
     python training/train_eval_local.py ... --resume      # continue an interrupted run
+    python training/train_eval_local.py ... --eval-only   # re-run all metrics on an existing best.pt
 """
 import argparse
 import ctypes
@@ -190,6 +191,7 @@ def main():
     ap.add_argument("--project", default=str(ROOT / "runs"))
     ap.add_argument("--name", default="accident_yolov8n_local")
     ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--eval-only", action="store_true", help="skip training; evaluate the existing best.pt")
     ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
 
@@ -198,7 +200,9 @@ def main():
     data_dir = data_yaml.parent
     run_dir = Path(a.project) / a.name
 
-    if a.resume:
+    if a.eval_only:
+        log(f"Evaluation only: {run_dir / 'weights' / 'best.pt'}")
+    elif a.resume:
         log(f"Resuming {run_dir / 'weights' / 'last.pt'}")
         YOLO(str(run_dir / "weights" / "last.pt")).train(resume=True)
     else:
