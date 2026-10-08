@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="RoadNetra AI">
+  <defs>
+    <linearGradient id="rn-g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="rn-road" x1="32" y1="30" x2="32" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity="0"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity=".55"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#0B1224"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" stroke="url(#rn-g)" stroke-opacity=".45"/>
+  <!-- road vanishing into the eye -->
+  <path d="M27 58 L31 34 H33 L37 58 Z" fill="url(#rn-road)"/>
+  <path d="M32 40 V44 M32 48 V53" stroke="#E0F2FE" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>
+  <!-- eye -->
+  <path d="M8 30 C16 18 48 18 56 30 C48 42 16 42 8 30 Z" stroke="url(#rn-g)" stroke-width="3.2" stroke-linejoin="round"/>
+  <circle cx="32" cy="30" r="8" fill="url(#rn-g)"/>
+  <circle cx="32" cy="30" r="3.2" fill="#0B1224"/>
+  <circle cx="35" cy="27" r="1.6" fill="#E0F2FE"/>
+</svg>

@@ -1,897 +1,335 @@
 <!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Camera Grid · RoadNetra AI</title>
+  <meta name="description" content="Live CCTV camera grid for the NH-48 corridor with stream health and per-camera detections.">
+  <link rel="icon" href="../assets/img/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/js/tw-config.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <style>
+    /* page-specific: camera tiles */
+    .cam-tile { transition: border-color .2s, transform .2s, box-shadow .2s; }
+    .cam-tile:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+    .cam-tile.has-p1 { border-color: rgba(239, 68, 68, 0.55); box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4), 0 12px 40px -14px rgba(239, 68, 68, 0.55); }
+    .cam-tile.has-p2 { border-color: rgba(245, 158, 11, 0.45); box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.3); }
+    .cam-tile.has-p3 { border-color: rgba(14, 165, 233, 0.4); box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.25); }
+    .rn-feed.is-offline img { filter: grayscale(1) brightness(.35) blur(1.5px); }
+    .rn-feed .model-frame { object-position: center 68%; }
+    .no-signal { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; text-align: center;
+      background: repeating-linear-gradient(135deg, rgba(148,163,184,.05) 0 10px, transparent 10px 20px); }
+  </style>
+</head>
+<body data-page="cameras" data-title="Camera Grid" data-crumb="Operations · 12 corridor cameras" class="min-h-screen">
+<main class="rn-app-main min-h-screen overflow-x-clip">
+  <div class="px-4 sm:px-6 py-6 space-y-6 max-w-[1680px] mx-auto">
 
-<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary":"#ffb4ab","secondary-fixed-dim":"#68dba9","secondary":"#68dba9","error":"#ffb4ab","on-secondary-container":"#00311f","surface-container-lowest":"#0a0e16","on-background":"#dfe2ee","on-primary-fixed":"#00174b","surface-container":"#1c2028","surface-dim":"#0f131c","on-surface":"#dfe2ee","on-tertiary-fixed-variant":"#93000b","tertiary-fixed-dim":"#ffb4ab","outline":"#8d90a0","on-tertiary-fixed":"#410002","surface-container-low":"#181c24","on-tertiary":"#690005","inverse-on-surface":"#2c3039","surface-bright":"#353942","error-container":"#93000a","on-tertiary-container":"#ffecea","primary-fixed-dim":"#b4c5ff","on-secondary-fixed-variant":"#005137","outline-variant":"#434655","on-error-container":"#ffdad6","primary":"#b4c5ff","surface-tint":"#b4c5ff","on-primary-fixed-variant":"#003ea8","inverse-surface":"#dfe2ee","background":"#0f131c","tertiary-container":"#d52022","on-primary-container":"#eeefff","primary-fixed":"#dbe1ff","secondary-container":"#25a475","inverse-primary":"#0053db","surface-container-highest":"#31353e","primary-container":"#2563eb","on-secondary":"#003825","on-surface-variant":"#c3c6d7","on-error":"#690005","on-secondary-fixed":"#002114","surface":"#0f131c","surface-container-high":"#262a33","secondary-fixed":"#85f8c4","surface-variant":"#31353e","tertiary-fixed":"#ffdad6","on-primary":"#002a78"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xs":"0.25rem","space-3xl":"3rem","gutter":"1rem","space-sm":"0.5rem","space-lg":"1rem","margin-mobile":"1rem","space-xl":"1.5rem","space-2xl":"2rem","space-md":"0.75rem","gutter-compact":"0.5rem","margin":"1.5rem"},fontFamily:{"body-md":["Inter"],"body-lg":["Inter"],"data-mono":["Inter"],"label-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"body-sm":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"]},fontSize:{"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"data-mono":["13px",{"lineHeight":"18px","letterSpacing":"-0.01em","fontWeight":"500"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"700"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-xl flex items-center justify-between bg-surface-container"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-on-primary-container text-[20px]">radar</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">RoadNetra-AI</span><span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase mt-0.5">Highway Command</span></div></div><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span></div><nav class="flex flex-col gap-space-xs px-space-md py-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm text-headline-sm rounded"><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="dashboard" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-body-md text-body-md">Dashboard</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="incidents" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">warning</span><span class="font-body-md text-body-md">Incidents</span></div><span class="px-space-xs py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-data-mono text-data-mono">14</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="live-map" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">map</span><span class="font-body-md text-body-md">Live Map</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="cameras" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">videocam</span><span class="font-body-md text-body-md">Cameras</span></div><span class="px-space-xs py-0.5 rounded bg-surface-container-high text-tertiary font-data-mono text-data-mono">2</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="analytics" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">query_stats</span><span class="font-body-md text-body-md">Analytics</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="reports" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md">Reports</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="settings" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Settings</span></div></a></nav></div><div class="p-space-md bg-surface-container-lowest mx-space-md mb-space-md rounded flex flex-col gap-space-sm"><div class="flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm text-on-surface">Edge Telemetry</span></div><span class="font-data-mono text-data-mono text-secondary-fixed-dim">ONLINE</span></div><div class="font-body-sm text-body-sm text-on-surface-variant">All 142 Nodes Syncing</div><div class="pt-space-xs flex items-center justify-between text-on-surface-variant hover:text-on-surface cursor-pointer"><span class="font-label-sm text-label-sm">Collapse Panel</span><span class="material-symbols-outlined text-[18px]">keyboard_double_arrow_left</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl z-40 flex items-center justify-between px-space-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-lg flex-1 max-w-2xl"><div class="relative flex-1"><span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span><input class="w-full h-9 pl-10 pr-space-md bg-surface-container text-on-surface placeholder:text-on-surface-variant rounded font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Search by Incident ID, Highway (e.g. INC-8492, NH-48)..." type="text"/></div><div class="flex items-center gap-space-xs bg-surface-container px-space-md h-9 rounded"><span class="material-symbols-outlined text-primary text-[18px]">alt_route</span><span class="font-label-md text-label-md text-on-surface whitespace-nowrap">Sector 4: NH-48 Delhi-Jaipur Corridor</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">expand_more</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-error-container text-on-error-container px-space-md h-8 rounded"><span class="material-symbols-outlined text-[16px] text-tertiary">videocam_off</span><span class="font-label-sm text-label-sm">2 Cameras Offline</span></div><div class="flex items-center gap-space-xs bg-surface-container px-space-md h-8 rounded text-on-surface"><span class="w-2 h-2 rounded-full bg-tertiary-container animate-ping"></span><span class="font-data-mono text-data-mono">REC • LIVE 60 FPS</span></div><button class="relative w-9 h-9 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary-container"></span></button><button class="w-9 h-9 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">contrast</span></button><div class="flex items-center gap-space-sm bg-surface-container px-space-md h-9 rounded"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface leading-tight">Rajesh Kumar</span><span class="font-label-sm text-label-sm text-on-surface-variant text-[10px] leading-tight">NHAI Command Room 04</span></div><span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_drop_down</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
-<!-- Sub-header Breadcrumb & Operational Mode Context -->
-<div class="px-space-xl py-space-sm bg-surface-container-lowest flex items-center justify-between">
-<div class="flex items-center gap-space-sm font-data-mono text-data-mono text-on-surface-variant">
-<span class="flex items-center gap-1 text-primary">
-<span class="material-symbols-outlined text-[16px]">videocam</span>
-<span>FLEET SURVEILLANCE</span>
-</span>
-<span>/</span>
-<span>NH-48 DELHI-JAIPUR CORRIDOR</span>
-<span>/</span>
-<span class="text-on-surface">LIVE FEED MATRIX</span>
-</div>
-<div class="flex items-center gap-space-md">
-<div class="flex items-center gap-space-xs px-space-sm py-0.5 rounded bg-surface-container text-on-surface-variant font-data-mono text-label-sm">
-<span class="material-symbols-outlined text-[14px] text-secondary">lock</span>
-<span>MoRTH LEVEL-3 SECURE TUNNEL (AES-256-GCM)</span>
-</div>
-<div class="flex items-center gap-space-xs font-data-mono text-label-sm text-on-surface-variant">
-<span>SYNC CLOCK:</span>
-<span class="text-on-surface font-semibold" id="utc-clock">08:43:29 UTC+05:30</span>
-</div>
-</div>
-</div>
-<!-- Main View Container -->
-<div class="p-space-xl flex flex-col gap-space-xl">
-<!-- 1. Top Camera Fleet Health Summary Bar -->
-<section class="flex flex-col gap-space-md">
-<!-- Fleet KPI Strip -->
-<div class="grid grid-cols-6 gap-space-md">
-<!-- Metric 1 -->
-<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between shadow-sm relative overflow-hidden">
-<div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-primary/5 pointer-events-none"></div>
-<div class="flex items-center justify-between text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Total Nodes</span>
-<span class="material-symbols-outlined text-[18px]">dns</span>
-</div>
-<div class="flex items-baseline gap-space-xs mt-space-sm">
-<span class="font-display-lg text-display-lg text-on-surface leading-none">150</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">Edge Units</span>
-</div>
-<div class="font-label-sm text-label-sm text-primary mt-space-xs flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-            100% Provisioned
-          </div>
-</div>
-<!-- Metric 2 -->
-<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between shadow-sm relative overflow-hidden">
-<div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-secondary/5 pointer-events-none"></div>
-<div class="flex items-center justify-between text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Online Active</span>
-<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-</div>
-<div class="flex items-baseline gap-space-xs mt-space-sm">
-<span class="font-display-lg text-display-lg text-secondary leading-none">144</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">/ 96.0%</span>
-</div>
-<div class="font-label-sm text-label-sm text-secondary mt-space-xs flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">sensors</span>
-            H.265 RTSP Healthy
-          </div>
-</div>
-<!-- Metric 3 -->
-<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between shadow-sm relative overflow-hidden">
-<div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full bg-tertiary-container/10 pointer-events-none"></div>
-<div class="flex items-center justify-between text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Offline State</span>
-<span class="material-symbols-outlined text-tertiary text-[18px]">wifi_off</span>
-</div>
-<div class="flex items-baseline gap-space-xs mt-space-sm">
-<span class="font-display-lg text-display-lg text-tertiary leading-none">4</span>
-<span class="font-data-mono text-label-sm text-tertiary font-semibold">CRITICAL</span>
-</div>
-<div class="font-label-sm text-label-sm text-tertiary mt-space-xs">
-            2 Techs En Route
-          </div>
-</div>
-<!-- Metric 4 -->
-<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between shadow-sm">
-<div class="flex items-center justify-between text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Degraded / Obscured</span>
-<span class="material-symbols-outlined text-primary text-[18px]">blur_on</span>
-</div>
-<div class="flex items-baseline gap-space-xs mt-space-sm">
-<span class="font-display-lg text-display-lg text-on-surface leading-none">2</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">Lens Fouled</span>
-</div>
-<div class="font-label-sm text-label-sm text-outline mt-space-xs">
-            CAM-033, CAM-091
-          </div>
-</div>
-<!-- Metric 5 -->
-<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between shadow-sm">
-<div class="flex items-center justify-between text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Avg AI Latency</span>
-<span class="material-symbols-outlined text-secondary text-[18px]">speed</span>
-</div>
-<div class="flex items-baseline gap-space-xs mt-space-sm">
-<span class="font-display-lg text-display-lg text-on-surface leading-none">13.8</span>
-<span class="font-data-mono text-label-sm text-secondary">ms</span>
-</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mt-space-xs">
-            TensorRT FP16 Active
-          </div>
-</div>
-<!-- Metric 6 -->
-<div class="bg-surface-container-low p-space-md rounded flex flex-col justify-between shadow-sm">
-<div class="flex items-center justify-between text-on-surface-variant">
-<span class="font-label-sm text-label-sm uppercase tracking-wider">Detections Today</span>
-<span class="material-symbols-outlined text-primary text-[18px]">auto_graph</span>
-</div>
-<div class="flex items-baseline gap-space-xs mt-space-sm">
-<span class="font-display-lg text-display-lg text-on-primary-container leading-none">3,412</span>
-</div>
-<div class="font-label-sm text-label-sm text-secondary mt-space-xs flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
-            +12.4% vs 24h avg
-          </div>
-</div>
-</div>
-<!-- Quick Diagnostic Alert Strip -->
-<div class="bg-surface-container-low px-space-md py-space-sm rounded flex items-center justify-between shadow-sm">
-<div class="flex items-center gap-space-md">
-<div class="w-8 h-8 rounded bg-tertiary-container/20 flex items-center justify-center text-tertiary shrink-0">
-<span class="material-symbols-outlined text-[18px]">warning</span>
-</div>
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-tertiary font-bold tracking-wider uppercase">Urgent Telemetry Alert</span>
-<p class="font-body-sm text-body-sm text-on-surface">
-              Nodes <span class="font-data-mono font-semibold text-tertiary">CAM-104</span> (KM 182.4, Dharuhera East) and <span class="font-data-mono font-semibold text-tertiary">CAM-071</span> (KM 44.1) heartbeat timeout (&gt;10m). Automated field work orders <span class="font-data-mono text-primary">#WO-9041</span> &amp; <span class="font-data-mono text-primary">#WO-9042</span> assigned to NHAI Rapid Response Team #02.
-            </p>
-</div>
-</div>
-<div class="flex items-center gap-space-sm shrink-0">
-<button class="h-8 px-space-md rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm transition-all flex items-center gap-space-xs" id="ping-btn">
-<span class="material-symbols-outlined text-[16px] text-primary">network_ping</span>
-<span>Run Network Health Ping</span>
-</button>
-<button class="h-8 px-space-sm rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant text-[16px] flex items-center">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-</div>
-<!-- Filter, View, and Density Controls Bar -->
-<div class="bg-surface-container-low p-space-md rounded flex flex-wrap items-center justify-between gap-space-md shadow-sm">
-<!-- Left: Corridor & Status Selectors -->
-<div class="flex flex-wrap items-center gap-space-md">
-<!-- Sector Selector Dropdown -->
-<div class="relative">
-<button class="h-9 px-space-md rounded bg-surface-container text-on-surface font-body-sm text-body-sm flex items-center gap-space-sm hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined text-[18px] text-primary">route</span>
-<span class="font-medium">Sector 4: Manesar Bypass (KM 110 - 155)</span>
-<span class="material-symbols-outlined text-[18px] text-on-surface-variant">expand_more</span>
-</button>
-</div>
-<!-- Status Filter Pills -->
-<div class="flex items-center bg-surface-container-lowest p-0.5 rounded">
-<button class="px-space-md py-1 rounded text-on-surface font-label-sm text-label-sm hover:text-on-surface transition-all">All (150)</button>
-<button class="px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-all flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-              Streaming (144)
-            </button>
-<button class="px-space-md py-1 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm shadow-sm flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-              Alert Active (18)
-            </button>
-<button class="px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-all flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
-              Offline (4)
-            </button>
-<button class="px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-all">Degraded (2)</button>
-</div>
-</div>
-<!-- Right: Resolution & Grid Config -->
-<div class="flex items-center gap-space-md">
-<!-- Stream Quality Switcher -->
-<div class="flex items-center gap-space-xs bg-surface-container px-space-md h-9 rounded text-on-surface font-data-mono text-label-sm">
-<span class="material-symbols-outlined text-secondary text-[16px]">high_res</span>
-<span>4K 60FPS</span>
-<span class="text-on-surface-variant">• WebRTC</span>
-</div>
-<!-- Grid Density Layout Switcher -->
-<div class="flex items-center bg-surface-container-lowest p-0.5 rounded">
-<button class="px-space-md py-1 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center gap-space-xs transition-all" id="grid-toggle-6">
-<span class="material-symbols-outlined text-[16px]">grid_view</span>
-<span>2×3 Grid (6 Feeds)</span>
-</button>
-<button class="px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm flex items-center gap-space-xs transition-all" id="grid-toggle-9">
-<span class="material-symbols-outlined text-[16px]">apps</span>
-<span>3×3 Grid (9 Feeds)</span>
-</button>
-</div>
-<!-- Auto-Cycle Toggle -->
-<button class="h-9 px-space-md rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-[16px]">autorenew</span>
-<span>Auto-Rotate (30s)</span>
-</button>
-</div>
-</div>
-</section>
-<!-- 2. Main Live Camera Grid (2x3 Layout with high visual richness) -->
-<section>
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-space-lg" id="camera-grid">
-<!-- FEED 1: CAM-084 [KM 142.6] - ACTIVE P1 CRITICAL COLLISION (CLICKABLE FOR DETAIL INSPECTOR) -->
-<div class="group relative bg-surface-container-low rounded overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all flex flex-col" onclick="openCameraDrawer('CAM-084')">
-<!-- Camera Feed Header Overlays -->
-<div class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden">
-<!-- Simulated Video Footage -->
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" data-alt="High angle highway surveillance camera footage at dusk showing a multi-lane expressway near Manesar with heavy traffic, a crushed silver sedan in the middle lane, orange safety cones, brake lights, and high dynamic range night lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFR04InGEl40_s2hGO-dTL17WuhLkqHit7uaAzrs8Jht4FRfpLxFkMCRjK0yFZK1Mp2Rao941zfmOWZ71RGnQ-iUTBMbOxXSfgbNDmn5cSwvUWDxofCaBGR1XcUe5zYgzAetBZAjw51we_ZFpMpUHR8NMERNX52FdTe-gFvmQGjQ49qbPVoDPFQkr5Uc5hKb3Kae8B8r46UaipqF0L8bMjKVzpNvVIuhPibS3DmDI"/>
-<!-- Video Overlay Gradient & HUD Scanlines -->
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/70 pointer-events-none"></div>
-<!-- Top Header Meta Strip -->
-<div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-<div class="flex items-center gap-1.5 bg-surface-container-lowest/85 backdrop-blur-md px-2 py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-tertiary-container animate-ping"></span>
-<span class="font-data-mono text-label-sm text-on-surface font-semibold">CAM-084</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">• KM 142.6 [Manesar PTZ]</span>
-</div>
-<div class="flex items-center gap-1">
-<span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-2 py-0.5 rounded font-bold animate-pulse">P1 CRITICAL</span>
-<span class="bg-surface-container-lowest/85 text-secondary font-data-mono text-label-sm px-1.5 py-0.5 rounded">60 FPS</span>
-</div>
-</div>
-<!-- Watermark -->
-<div class="absolute bottom-2 left-2 pointer-events-none">
-<span class="font-data-mono text-[9px] tracking-widest text-on-surface-variant/60 uppercase">MoRTH/NHAI FEED #084 • SECURE CHANNEL 04</span>
-</div>
-<!-- AI Bounding Box 1: P1 Collision -->
-<div class="absolute top-1/4 left-1/3 w-36 h-24 pointer-events-none">
-<div class="w-full h-full border-2 border-red-500 bg-red-500/10 rounded flex flex-col justify-between p-1">
-<div class="bg-red-600 text-white font-data-mono text-[10px] font-bold px-1 py-0.5 w-fit rounded leading-tight flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
-                  P1 COLLISION [99.4%]
-                </div>
-<div class="font-data-mono text-[9px] text-red-300 bg-black/60 px-1 py-0.2 rounded w-fit">2 VEHICLES • LANE 2</div>
-</div>
-</div>
-<!-- AI Bounding Box 2: Debris -->
-<div class="absolute top-2/3 right-1/4 w-24 h-12 pointer-events-none">
-<div class="w-full h-full border border-amber-400 bg-amber-400/10 rounded flex flex-col justify-between p-0.5">
-<div class="bg-amber-500 text-black font-data-mono text-[9px] font-bold px-1 rounded leading-tight w-fit">
-                  DEBRIS [96.1%]
-                </div>
-<div class="font-data-mono text-[8px] text-amber-200">SHREDDED TIRE</div>
-</div>
-</div>
-<!-- Real-time HUD Telemetry Badge -->
-<div class="absolute bottom-2 right-2 pointer-events-none">
-<div class="bg-surface-container-lowest/90 backdrop-blur-md px-2 py-1 rounded font-data-mono text-[10px] text-on-surface-variant flex items-center gap-2">
-<span>PTZ: 214° SW</span>
-<span>•</span>
-<span class="text-secondary">14.1ms</span>
-<span>•</span>
-<span class="text-primary font-bold">YOLOv10-X</span>
-</div>
-</div>
-<!-- Hover Expand Callout Indicator -->
-<div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-<div class="bg-surface-container-high px-space-md py-space-xs rounded shadow-xl flex items-center gap-space-xs text-on-surface font-label-md text-label-md">
-<span class="material-symbols-outlined text-[18px] text-primary">open_in_full</span>
-<span>Open Diagnostic Inspector</span>
-</div>
-</div>
-</div>
-<!-- Bottom Card Meta & Controls -->
-<div class="p-space-md bg-surface-container flex flex-col gap-space-xs">
-<div class="flex items-center justify-between font-body-sm text-body-sm">
-<div class="flex items-center gap-space-xs text-tertiary font-medium">
-<span class="material-symbols-outlined text-[16px]">crisis_alert</span>
-<span>Impact confirmed 12s ago (Lane 2 Blocked)</span>
-</div>
-<span class="font-data-mono text-label-sm text-on-surface-variant">CAD-8492</span>
-</div>
-<div class="flex items-center justify-between pt-space-xs border-t-0 border-surface-container-high">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Patrol Unit #14 dispatched (ETA 4m)</span>
-<div class="flex items-center gap-1" onclick="event.stopPropagation()">
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center" title="Capture Still">
-<span class="material-symbols-outlined text-[16px]">photo_camera</span>
-</button>
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center" title="PTZ Controls">
-<span class="material-symbols-outlined text-[16px]">control_camera</span>
-</button>
-<button class="w-7 h-7 rounded bg-tertiary-container text-on-tertiary-container hover:opacity-90 flex items-center justify-center" title="Escalate Alert">
-<span class="material-symbols-outlined text-[16px]">e911_emergency</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- FEED 2: CAM-089 [KM 151.2] - SLOW VEHICLE / HAZARD ON SHOULDER -->
-<div class="group relative bg-surface-container-low rounded overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all flex flex-col" onclick="openCameraDrawer('CAM-089')">
-<div class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" data-alt="Highway CCTV view on an eight-lane highway with overhead concrete sign gantries, clear afternoon sunlight, a large freight carrier truck parked on the left yellow emergency shoulder, and steady vehicle traffic flowing smoothly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjtB5__WVqE7WcPoECkT8cRxB9A7A9dpyO4BGm3pzX_w6mmXKOoKQrWHm3w0KZH_b9xntFi7tKARzqj8H4rSSOD1ObMaqppk4XnTEYCtSSqGtHl8viEUCafLFNpkQtHXlbnVWAqwSeFlFEbGmS4xXdSyVdT281LvnQiJY6VLFooZOyCMu35pNiNnNroJbuiDJn4vuSOutemvIlLLDRHlXKzSlXtasSDVHOUoZKs44"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/70 pointer-events-none"></div>
-<div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-<div class="flex items-center gap-1.5 bg-surface-container-lowest/85 backdrop-blur-md px-2 py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="font-data-mono text-label-sm text-on-surface font-semibold">CAM-089</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">• KM 151.2 [Panchgaon Entry]</span>
-</div>
-<div class="flex items-center gap-1">
-<span class="bg-surface-container-highest text-primary font-label-sm text-label-sm px-2 py-0.5 rounded font-semibold">P2 HAZARD</span>
-<span class="bg-surface-container-lowest/85 text-secondary font-data-mono text-label-sm px-1.5 py-0.5 rounded">60 FPS</span>
-</div>
-</div>
-<!-- Watermark -->
-<div class="absolute bottom-2 left-2 pointer-events-none">
-<span class="font-data-mono text-[9px] tracking-widest text-on-surface-variant/60 uppercase">MoRTH/NHAI FEED #089 • SECURE CHANNEL 07</span>
-</div>
-<!-- AI Bounding Box: Stationary Truck -->
-<div class="absolute top-1/3 left-10 w-44 h-28 pointer-events-none">
-<div class="w-full h-full border border-amber-400 bg-amber-400/10 rounded flex flex-col justify-between p-1">
-<div class="bg-amber-500 text-black font-data-mono text-[9px] font-bold px-1 py-0.5 rounded w-fit leading-tight">
-                  SLOW/STATIONARY VEHICLE [94.5%]
-                </div>
-<div class="font-data-mono text-[9px] text-amber-200 bg-black/60 px-1 py-0.2 rounded w-fit">SHOULDER OCCUPIED • 0 KM/H</div>
-</div>
-</div>
-<!-- Average Speed Overlay Indicator -->
-<div class="absolute bottom-2 right-2 pointer-events-none">
-<div class="bg-surface-container-lowest/90 backdrop-blur-md px-2 py-1 rounded font-data-mono text-[10px] flex items-center gap-2">
-<span class="text-secondary font-bold">AVG SPD: 82 KM/H</span>
-<span class="text-on-surface-variant">•</span>
-<span class="text-on-surface-variant">RADAR: ACTIVE</span>
-</div>
-</div>
-</div>
-<div class="p-space-md bg-surface-container flex flex-col gap-space-xs">
-<div class="flex items-center justify-between font-body-sm text-body-sm">
-<div class="flex items-center gap-space-xs text-primary font-medium">
-<span class="material-symbols-outlined text-[16px]">departure_board</span>
-<span>Shoulder dwell time: 08m 14s (Commercial Heavy)</span>
-</div>
-<span class="font-data-mono text-label-sm text-on-surface-variant">ANPR: HR-38-W-4190</span>
-</div>
-<div class="flex items-center justify-between pt-space-xs border-t-0 border-surface-container-high">
-<span class="font-label-sm text-label-sm text-on-surface-variant">VMS warning sign triggered ahead</span>
-<div class="flex items-center gap-1" onclick="event.stopPropagation()">
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">photo_camera</span>
-</button>
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">control_camera</span>
-</button>
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">flag</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- FEED 3: CAM-062 [KM 118.0] - SURFACE DEFECT / POTHOLE -->
-<div class="group relative bg-surface-container-low rounded overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all flex flex-col" onclick="openCameraDrawer('CAM-062')">
-<div class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" data-alt="Overhead highway traffic camera capturing asphalt road surface detail with marked lanes, fast-moving cars casting sharp shadows, with an area of damaged asphalt in the middle carriageway." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMNTzvekmDjntsXkb95FHvbJBdOLZYYNg74QoFe_Hu5TgbG0l9O0UafdvqznxBqxHajLEWxmzHjDHnomVnD2F8O52DFDrgau6sfGOxIiM2BdwQgOsugLBBlFAVVZ5nMPdAb-PwUgUt2kr_EB2s8QFndD9rfQ-Tzr8gP5Ojuabl6H0LZgn_GiK7ze9XecGsqoroQLkgXSl9fcVxLLzFmrgIFiRgYr6g-p9mzdoQ56k"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/70 pointer-events-none"></div>
-<div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-<div class="flex items-center gap-1.5 bg-surface-container-lowest/85 backdrop-blur-md px-2 py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="font-data-mono text-label-sm text-on-surface font-semibold">CAM-062</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">• KM 118.0 [Bilaspur Flyover]</span>
-</div>
-<div class="flex items-center gap-1">
-<span class="bg-surface-container-highest text-secondary-fixed-dim font-label-sm text-label-sm px-2 py-0.5 rounded">P3 MAINTENANCE</span>
-<span class="bg-surface-container-lowest/85 text-secondary font-data-mono text-label-sm px-1.5 py-0.5 rounded">60 FPS</span>
-</div>
-</div>
-<!-- Watermark -->
-<div class="absolute bottom-2 left-2 pointer-events-none">
-<span class="font-data-mono text-[9px] tracking-widest text-on-surface-variant/60 uppercase">MoRTH/NHAI FEED #062 • HIGH DEFINITION 4K</span>
-</div>
-<!-- AI Bounding Box: Surface Defect -->
-<div class="absolute bottom-1/3 left-1/2 -translate-x-1/2 w-28 h-20 pointer-events-none">
-<div class="w-full h-full border border-sky-400 bg-sky-400/10 rounded flex flex-col justify-between p-1">
-<div class="bg-sky-600 text-white font-data-mono text-[9px] font-bold px-1 rounded w-fit leading-tight">
-                  SURFACE DEFECT / POTHOLE [97.2%]
-                </div>
-<div class="font-data-mono text-[8px] text-sky-200">EST DEPTH: 8.2cm • LANE 1</div>
-</div>
-</div>
-<div class="absolute bottom-2 right-2 pointer-events-none">
-<div class="bg-surface-container-lowest/90 backdrop-blur-md px-2 py-1 rounded font-data-mono text-[10px] text-on-surface-variant flex items-center gap-1">
-<span>GPS: 28.2612° N, 76.8791° E</span>
-</div>
-</div>
-</div>
-<div class="p-space-md bg-surface-container flex flex-col gap-space-xs">
-<div class="flex items-center justify-between font-body-sm text-body-sm">
-<div class="flex items-center gap-space-xs text-on-surface font-medium">
-<span class="material-symbols-outlined text-[16px] text-primary">construction</span>
-<span>Asphalt degradation detected 4m ago</span>
-</div>
-<span class="font-data-mono text-label-sm text-on-surface-variant">SEV: MODERATE</span>
-</div>
-<div class="flex items-center justify-between pt-space-xs border-t-0 border-surface-container-high">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Scheduled for overnight patch repair</span>
-<div class="flex items-center gap-1" onclick="event.stopPropagation()">
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">photo_camera</span>
-</button>
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">bookmark_add</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- FEED 4: CAM-104 [KM 182.4] - OFFLINE STATE / SIGNAL LOSS -->
-<div class="group relative bg-surface-container-low rounded overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all flex flex-col" onclick="openCameraDrawer('CAM-104')">
-<div class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden flex items-center justify-center">
-<!-- Glitch / Static Canvas Simulation -->
-<div class="absolute inset-0 bg-[radial-gradient(#1c2028_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
-<div class="absolute inset-0 bg-gradient-to-b from-transparent via-tertiary-container/10 to-transparent animate-pulse pointer-events-none"></div>
-<div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-<div class="flex items-center gap-1.5 bg-surface-container-lowest/90 px-2 py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-tertiary"></span>
-<span class="font-data-mono text-label-sm text-on-surface font-semibold">CAM-104</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">• KM 182.4 [Dharuhera Toll]</span>
-</div>
-<span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-2 py-0.5 rounded font-bold">OFFLINE</span>
-</div>
-<!-- Signal Loss Graphic Message -->
-<div class="flex flex-col items-center text-center p-space-md z-10">
-<div class="w-12 h-12 rounded-full bg-error-container/40 flex items-center justify-center text-tertiary mb-space-sm">
-<span class="material-symbols-outlined text-[28px]">videocam_off</span>
-</div>
-<span class="font-headline-sm text-headline-sm text-tertiary font-bold tracking-tight">SIGNAL LOSS / HEARTBEAT TIMEOUT</span>
-<span class="font-data-mono text-body-sm text-on-surface-variant mt-1">LAST TELEMETRY: 12m 44s AGO</span>
-<div class="mt-space-sm flex items-center gap-space-xs font-data-mono text-[11px] text-tertiary-fixed-dim bg-surface-container-highest px-space-sm py-1 rounded">
-<span>ERR: RTSP_504_GATEWAY_TIMEOUT</span>
-<span>•</span>
-<span>RETRY (4/10)</span>
-</div>
-</div>
-<div class="absolute bottom-2 left-2 pointer-events-none">
-<span class="font-data-mono text-[9px] tracking-widest text-on-surface-variant/40 uppercase">EDGE NODE #104 DISCONNECTED</span>
-</div>
-</div>
-<div class="p-space-md bg-surface-container flex flex-col gap-space-xs">
-<div class="flex items-center justify-between font-body-sm text-body-sm">
-<div class="flex items-center gap-space-xs text-tertiary font-medium">
-<span class="material-symbols-outlined text-[16px]">electrical_services</span>
-<span>UPS power nominal, fiber optical switch down</span>
-</div>
-</div>
-<div class="flex items-center justify-between pt-space-xs border-t-0 border-surface-container-high">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Ticket #WO-9041 Dispatched</span>
-<button class="px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright text-primary font-label-sm text-label-sm flex items-center gap-1" onclick="event.stopPropagation(); alert('Pinging Edge Gateway 192.168.104.1... Timeout 4000ms');">
-<span class="material-symbols-outlined text-[14px]">refresh</span>
-<span>Re-ping Node</span>
-</button>
-</div>
-</div>
-</div>
-<!-- FEED 5: CAM-095 [KM 165.8] - CLEAR FLOW / NO ACTIVE ANOMALY -->
-<div class="group relative bg-surface-container-low rounded overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all flex flex-col" onclick="openCameraDrawer('CAM-095')">
-<div class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" data-alt="High quality aerial traffic camera perspective looking straight down an expressway median with emerald green landscaped verge, multiple passenger cars and trucks driving smoothly at consistent speeds on spotless asphalt." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5bhy81GAENOrzJ4TIsznLHPOrPALFpmcQUmHCUiY8n41aaCaT9QhVwT1iv8fKTwDCJbi0IKDHraFpX_lPBhsy4YLlGk5vvUL06IrXAdGwjwDVYB_EGO_-lO4ukDg1Hi-IiotusY37X95r3trywKou3Ilw3P8BT50rEYXjeCkt9VMMBIAyyH7ZeFAG3MGs9gSHMMEX90mW8PsW7MF9TiJZm-RvBWYH-IYUa4wLKGs"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/70 pointer-events-none"></div>
-<div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-<div class="flex items-center gap-1.5 bg-surface-container-lowest/85 backdrop-blur-md px-2 py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="font-data-mono text-label-sm text-on-surface font-semibold">CAM-095</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">• KM 165.8 [Rewari Interchange]</span>
-</div>
-<div class="flex items-center gap-1">
-<span class="bg-secondary/15 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded font-bold">NORMAL FLOW</span>
-<span class="bg-surface-container-lowest/85 text-secondary font-data-mono text-label-sm px-1.5 py-0.5 rounded">60 FPS</span>
-</div>
-</div>
-<!-- Watermark -->
-<div class="absolute bottom-2 left-2 pointer-events-none">
-<span class="font-data-mono text-[9px] tracking-widest text-on-surface-variant/60 uppercase">MoRTH/NHAI FEED #095 • SECURE CHANNEL 11</span>
-</div>
-<!-- AI HUD Status Pill -->
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-<div class="bg-surface-container-lowest/70 backdrop-blur-sm border-0 px-space-md py-space-xs rounded text-center">
-<span class="font-data-mono text-label-sm text-secondary flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">verified</span>
-                  NO ACTIVE ANOMALY
-                </span>
-<span class="font-data-mono text-[10px] text-on-surface-variant">Density: 42 veh/min • Level of Service: A</span>
-</div>
-</div>
-<div class="absolute bottom-2 right-2 pointer-events-none">
-<div class="bg-surface-container-lowest/90 backdrop-blur-md px-2 py-1 rounded font-data-mono text-[10px] text-on-surface-variant flex items-center gap-2">
-<span>WEATHER: CLEAR 28°C</span>
-<span>•</span>
-<span>VISIBILITY: 8.5 KM</span>
-</div>
-</div>
-</div>
-<div class="p-space-md bg-surface-container flex flex-col gap-space-xs">
-<div class="flex items-center justify-between font-body-sm text-body-sm">
-<div class="flex items-center gap-space-xs text-on-surface font-medium">
-<span class="material-symbols-outlined text-[16px] text-secondary">trending_up</span>
-<span>Traffic Speed Steady at 88 km/h</span>
-</div>
-<span class="font-data-mono text-label-sm text-on-surface-variant">100% HEALTHY</span>
-</div>
-<div class="flex items-center justify-between pt-space-xs border-t-0 border-surface-container-high">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Last scan cycle: 1.2s ago</span>
-<div class="flex items-center gap-1" onclick="event.stopPropagation()">
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">photo_camera</span>
-</button>
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">control_camera</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- FEED 6: CAM-112 [KM 198.3] - CRITICAL WRONG-WAY ENTRY DETECTED -->
-<div class="group relative bg-surface-container-low rounded overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all flex flex-col" onclick="openCameraDrawer('CAM-112')">
-<div class="relative w-full aspect-video bg-surface-container-lowest overflow-hidden">
-<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80" data-alt="Expressway slip road on-ramp at dusk with headlights illuminating highway guardrails, a red hatchback facing the wrong direction against oncoming vehicle headlights with visual warning signs." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUVkcjMA1oubLamKzuB1fc955Mps2WDalSql3Z73KEJQJDF502ho8f9AwbfQmQPD7GsSfjFxrU4u9j1BM0cKDAfXmhusEhhh5VXf1jn276_9qDPySi2JYAtjbpDQRaGJBaLRqaQor6UTy0cNFRDC9II1cqbO3R7_sSU4ayuEHv8xQx0fVBIO8Q4Hh4mgTZSrd9jUlPDbSqWaDqO2utdvAmVC_ZeMhCahmZAZLXMZw"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/70 pointer-events-none"></div>
-<div class="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-<div class="flex items-center gap-1.5 bg-surface-container-lowest/85 backdrop-blur-md px-2 py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-tertiary-container animate-ping"></span>
-<span class="font-data-mono text-label-sm text-on-surface font-semibold">CAM-112</span>
-<span class="font-data-mono text-label-sm text-on-surface-variant">• KM 198.3 [Bawal South Ramp]</span>
-</div>
-<div class="flex items-center gap-1">
-<span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-2 py-0.5 rounded font-bold animate-pulse">P1 WRONG-WAY</span>
-<span class="bg-surface-container-lowest/85 text-secondary font-data-mono text-label-sm px-1.5 py-0.5 rounded">60 FPS</span>
-</div>
-</div>
-<!-- Watermark -->
-<div class="absolute bottom-2 left-2 pointer-events-none">
-<span class="font-data-mono text-[9px] tracking-widest text-on-surface-variant/60 uppercase">MoRTH/NHAI FEED #112 • SECURE CHANNEL 14</span>
-</div>
-<!-- AI Bounding Box: Wrong Way -->
-<div class="absolute top-1/3 right-1/3 w-32 h-24 pointer-events-none">
-<div class="w-full h-full border-2 border-amber-500 bg-amber-500/10 rounded flex flex-col justify-between p-1">
-<div class="bg-amber-600 text-white font-data-mono text-[9px] font-bold px-1 rounded w-fit flex items-center gap-1">
-<span class="material-symbols-outlined text-[12px]">wrong_location</span>
-                  WRONG-WAY ENTRY [98.9%]
-                </div>
-<div class="font-data-mono text-[8px] text-amber-200 bg-black/70 px-1 rounded">SPEED: 34 KM/H REVERSE FLOW</div>
-</div>
-</div>
-<div class="absolute bottom-2 right-2 pointer-events-none">
-<div class="bg-surface-container-lowest/90 backdrop-blur-md px-2 py-1 rounded font-data-mono text-[10px] text-tertiary flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">warning</span>
-<span>AUDIO ALARM BROADCASTING</span>
-</div>
-</div>
-</div>
-<div class="p-space-md bg-surface-container flex flex-col gap-space-xs">
-<div class="flex items-center justify-between font-body-sm text-body-sm">
-<div class="flex items-center gap-space-xs text-tertiary font-medium">
-<span class="material-symbols-outlined text-[16px]">priority_high</span>
-<span>Wrong-way detected 22s ago on South Ramp</span>
-</div>
-<span class="font-data-mono text-label-sm text-on-surface-variant">AUTO-VMS ON</span>
-</div>
-<div class="flex items-center justify-between pt-space-xs border-t-0 border-surface-container-high">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Barrier ramp lights set to Flashing Red</span>
-<div class="flex items-center gap-1" onclick="event.stopPropagation()">
-<button class="w-7 h-7 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface-variant hover:text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">photo_camera</span>
-</button>
-<button class="w-7 h-7 rounded bg-tertiary-container text-on-tertiary-container hover:opacity-90 flex items-center justify-center">
-<span class="material-symbols-outlined text-[16px]">campaign</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- 3. Bottom Strip: Fleet Diagnostics & Live Edge Cluster Telemetry -->
-<section class="bg-surface-container-low p-space-md rounded flex items-center justify-between shadow-sm">
-<div class="flex items-center gap-space-xl">
-<div class="flex items-center gap-space-sm">
-<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Cluster Engine</span>
-<span class="font-data-mono text-body-sm text-on-surface font-semibold">Delhi-Jaipur Edge Cluster #4 (12x Jetson Orin Agx)</span>
-</div>
-</div>
-<div class="h-8 w-px bg-surface-container-high"></div>
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Total Ingest Bandwidth</span>
-<span class="font-data-mono text-body-sm text-on-surface">2.44 Gbps / 10.0 Gbps Fiber Uplink</span>
-</div>
-<div class="h-8 w-px bg-surface-container-high"></div>
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Model Architecture</span>
-<span class="font-data-mono text-body-sm text-primary">YOLOv10-X + ByteTrack + ByteReID (v4.2.1)</span>
-</div>
-</div>
-<div class="flex items-center gap-space-sm">
-<button class="h-8 px-space-md rounded bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm flex items-center gap-space-xs transition-colors">
-<span class="material-symbols-outlined text-[16px]">history</span>
-<span>Corridor Playback Archive</span>
-</button>
-<button class="h-8 px-space-md rounded bg-primary-container text-on-primary-container hover:opacity-90 font-label-sm text-label-sm flex items-center gap-space-xs transition-colors">
-<span class="material-symbols-outlined text-[16px]">file_download</span>
-<span>Export RTSP Logs</span>
-</button>
-</div>
-</section>
-</div>
-<!-- 4. Interactive Expanded View Modal / Flyout Inspector Drawer (CAM-084 Detail) -->
-<div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex justify-end transition-opacity duration-300" id="camera-inspector-modal">
-<div class="w-full max-w-4xl h-full bg-surface-container-low shadow-2xl flex flex-col justify-between overflow-y-auto">
-<!-- Drawer Header -->
-<div class="px-space-xl py-space-md bg-surface-container flex items-center justify-between sticky top-0 z-20 shadow-sm">
-<div class="flex items-center gap-space-md">
-<div class="w-10 h-10 rounded bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
-<span class="material-symbols-outlined text-[24px]">videocam</span>
-</div>
-<div class="flex flex-col">
-<div class="flex items-center gap-space-sm">
-<span class="font-headline-md text-headline-md text-on-surface font-bold">CAM-084: NH-48 KM 142.6</span>
-<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold animate-pulse">P1 COLLISION ACTIVE</span>
-</div>
-<span class="font-data-mono text-label-sm text-on-surface-variant">Manesar Bypass • Dome PTZ-360 • Sony STARVIS IMX585 • Node ID: EDG-DL-084</span>
-</div>
-</div>
-<div class="flex items-center gap-space-sm">
-<button class="w-9 h-9 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface flex items-center justify-center transition-colors" onclick="closeCameraDrawer()">
-<span class="material-symbols-outlined text-[20px]">close</span>
-</button>
-</div>
-</div>
-<!-- Drawer Content Body -->
-<div class="p-space-xl flex flex-col gap-space-xl flex-1">
-<!-- Large Expanded Stream Player -->
-<div class="relative w-full aspect-video bg-surface-container-lowest rounded overflow-hidden shadow-xl">
-<img class="w-full h-full object-cover" data-alt="High resolution detailed highway traffic crash footage, close view of damaged car on asphalt highway with flashing police light reflection, tire marks on road, and overhead electronic gantry sign." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnh35EgnaXwZ0cPeLyvvIyj1yc8CMIGd7jZP4KBuIOcD2mh2NfpNeAounjgH0CQZ4nzXN4bBAB34pR1ggd1VdfV_fr_Ufp9USiPj7iyaD7D2EDG0NqXqtl8kkZBH1N1lgmEspP-PHsf9xMvrGytlZsPkSeQC81rzmju8J224feHRzAfreIk1wJ-Ktt9Vf4749aP_8aoar6Lu1bUInBzSvo_npOOvAk1ZaX4SBru74"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/60 pointer-events-none"></div>
-<!-- Video Overlays -->
-<div class="absolute top-space-md left-space-md flex items-center gap-2">
-<span class="px-space-sm py-1 rounded bg-black/80 font-data-mono text-label-sm text-secondary flex items-center gap-1.5">
-<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-              REC • 3840×2160 @ 60.02 FPS
-            </span>
-<span class="px-space-sm py-1 rounded bg-black/80 font-data-mono text-label-sm text-on-surface-variant">BITRATE: 18.4 Mbps</span>
-</div>
-<!-- Active AI Inference Layer Box -->
-<div class="absolute top-1/4 left-1/3 w-64 h-40 border-2 border-red-500 bg-red-500/15 rounded p-2 flex flex-col justify-between pointer-events-none">
-<div class="flex items-center justify-between">
-<span class="bg-red-600 text-white font-data-mono text-label-sm font-bold px-1.5 py-0.5 rounded flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">car_crash</span>
-                P1 VEHICLE COLLISION [99.4%]
-              </span>
-<span class="font-data-mono text-[10px] text-white bg-black/60 px-1 rounded">TRK-ID: #8492</span>
-</div>
-<div class="bg-black/80 p-1.5 rounded font-data-mono text-[10px] text-on-surface flex flex-col gap-0.5">
-<div class="flex justify-between">
-<span class="text-on-surface-variant">Impact Severity:</span>
-<span class="text-tertiary font-bold">HIGH (G-Force 4.2 estimated)</span>
-</div>
-<div class="flex justify-between">
-<span class="text-on-surface-variant">Vehicles Involved:</span>
-<span class="text-on-surface">Sedan (DL-10-C-9821) + SUV</span>
-</div>
-<div class="flex justify-between">
-<span class="text-on-surface-variant">Lane Obstruction:</span>
-<span class="text-amber-400">Lanes 2 &amp; 3 completely blocked</span>
-</div>
-</div>
-</div>
-<!-- Video Player Floating HUD Controls -->
-<div class="absolute bottom-space-md left-space-md right-space-md flex items-center justify-between bg-surface-container-lowest/85 backdrop-blur-md p-space-sm rounded">
-<div class="flex items-center gap-space-sm">
-<button class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-[18px]">pause</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface-container hover:bg-surface-bright text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[18px]">replay_10</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface-container hover:bg-surface-bright text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined text-[18px]">forward_10</span>
-</button>
-<span class="font-data-mono text-label-sm text-on-surface ml-2">LIVE BUFFER: +0.02s</span>
-</div>
-<!-- Neural Overlays Switcher -->
-<div class="flex items-center gap-1 bg-surface-container p-0.5 rounded">
-<button class="px-space-sm py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm">YOLO Boxes</button>
-<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm">Optical Flow</button>
-<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm">Seg-Mask</button>
-<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm">Thermal</button>
-</div>
-</div>
-</div>
-<!-- Detection Event Audit Log Table -->
-<div class="flex flex-col gap-space-sm">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-primary text-[18px]">receipt_long</span>
-<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Neural Event Audit Log (Past 60 Minutes)</span>
-</div>
-<span class="font-data-mono text-label-sm text-on-surface-variant">4 Events Recorded</span>
-</div>
-<div class="bg-surface-container rounded overflow-hidden shadow-sm">
-<table class="w-full text-left font-body-sm text-body-sm">
-<thead class="bg-surface-container-high font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">
-<tr>
-<th class="py-2.5 px-space-md font-semibold">Timestamp</th>
-<th class="py-2.5 px-space-md font-semibold">Classification</th>
-<th class="py-2.5 px-space-md font-semibold">AI Conf</th>
-<th class="py-2.5 px-space-md font-semibold">System Action / CAD Dispatch</th>
-<th class="py-2.5 px-space-md font-semibold text-right">Details</th>
-</tr>
-</thead>
-<tbody class="divide-y-0">
-<tr class="bg-tertiary-container/10 hover:bg-tertiary-container/15 transition-colors">
-<td class="py-2.5 px-space-md font-data-mono text-tertiary font-bold">08:42:11</td>
-<td class="py-2.5 px-space-md">
-<span class="inline-flex items-center gap-1 font-semibold text-tertiary">
-<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-ping"></span>
-                      P1 Collision (2 Vehicles, Lane 2)
-                    </span>
-</td>
-<td class="py-2.5 px-space-md font-data-mono text-secondary font-semibold">99.4%</td>
-<td class="py-2.5 px-space-md text-on-surface">Auto-dispatched CAD-8492 to PCR-14 &amp; NHAI Ambulance #3</td>
-<td class="py-2.5 px-space-md text-right font-data-mono text-primary cursor-pointer hover:underline">Inspect</td>
-</tr>
-<tr class="hover:bg-surface-container-high/40 transition-colors">
-<td class="py-2.5 px-space-md font-data-mono text-on-surface-variant">08:39:04</td>
-<td class="py-2.5 px-space-md text-on-surface">Debris / Shredded Tire on Shoulder</td>
-<td class="py-2.5 px-space-md font-data-mono text-secondary">96.1%</td>
-<td class="py-2.5 px-space-md text-on-surface-variant">Route Maintenance Alert logged (#MT-410)</td>
-<td class="py-2.5 px-space-md text-right font-data-mono text-primary cursor-pointer hover:underline">Inspect</td>
-</tr>
-<tr class="hover:bg-surface-container-high/40 transition-colors">
-<td class="py-2.5 px-space-md font-data-mono text-on-surface-variant">08:15:22</td>
-<td class="py-2.5 px-space-md text-on-surface">Overspeeding Heavy Truck (104 km/h in 80 zone)</td>
-<td class="py-2.5 px-space-md font-data-mono text-secondary">98.2%</td>
-<td class="py-2.5 px-space-md text-on-surface-variant">ANPR logged HR-55-AJ-9021; Challan push sent</td>
-<td class="py-2.5 px-space-md text-right font-data-mono text-primary cursor-pointer hover:underline">Inspect</td>
-</tr>
-<tr class="hover:bg-surface-container-high/40 transition-colors">
-<td class="py-2.5 px-space-md font-data-mono text-on-surface-variant">07:54:10</td>
-<td class="py-2.5 px-space-md text-on-surface">Dense Fog Visibility Warning (&lt;150m)</td>
-<td class="py-2.5 px-space-md font-data-mono text-secondary">92.0%</td>
-<td class="py-2.5 px-space-md text-on-surface-variant">VMS Dynamic Speed Advisory updated to 60 km/h</td>
-<td class="py-2.5 px-space-md text-right font-data-mono text-primary cursor-pointer hover:underline">Inspect</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Edge Hardware Diagnostics Strip -->
-<div class="grid grid-cols-3 gap-space-md">
-<div class="bg-surface-container p-space-md rounded flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Optical Sensor &amp; Enclosure</span>
-<span class="font-data-mono text-body-md text-on-surface font-semibold">Sony STARVIS IMX585 1/1.2"</span>
-<div class="flex items-center justify-between text-label-sm font-data-mono text-on-surface-variant mt-1">
-<span>Focal: 4.8 - 120mm</span>
-<span class="text-secondary">Wiper: Nominal</span>
-</div>
-</div>
-<div class="bg-surface-container p-space-md rounded flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Edge AI Compute SoC</span>
-<span class="font-data-mono text-body-md text-on-surface font-semibold">NVIDIA Jetson AGX Orin 64GB</span>
-<div class="flex items-center justify-between text-label-sm font-data-mono text-on-surface-variant mt-1">
-<span class="text-secondary">Temp: 44.2°C (Optimal)</span>
-<span>Power: 38W</span>
-</div>
-</div>
-<div class="bg-surface-container p-space-md rounded flex flex-col gap-space-xs">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Uplink Telemetry</span>
-<span class="font-data-mono text-body-md text-on-surface font-semibold">Optical SFP+ (10G Ring)</span>
-<div class="flex items-center justify-between text-label-sm font-data-mono text-on-surface-variant mt-1">
-<span>Latency: 14.1ms</span>
-<span class="text-secondary">Loss: 0.01%</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Drawer Footer Actions -->
-<div class="px-space-xl py-space-md bg-surface-container flex items-center justify-between sticky bottom-0 z-20 shadow-lg">
-<div class="flex items-center gap-space-sm">
-<button class="h-9 px-space-md rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-space-xs transition-colors">
-<span class="material-symbols-outlined text-[18px]">tune</span>
-<span>PTZ Remote Controls</span>
-</button>
-<button class="h-9 px-space-md rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-space-xs transition-colors">
-<span class="material-symbols-outlined text-[18px]">volume_off</span>
-<span>Mute Corridor Audio</span>
-</button>
-<button class="h-9 px-space-md rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-space-xs transition-colors">
-<span class="material-symbols-outlined text-[18px]">videocam</span>
-<span>Export RTSP Clip</span>
-</button>
-</div>
-<div class="flex items-center gap-space-sm">
-<button class="h-9 px-space-md rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md transition-colors" onclick="closeCameraDrawer()">
-            Dismiss
-          </button>
-<button class="h-9 px-space-lg rounded bg-tertiary-container hover:opacity-90 text-on-tertiary-container font-headline-sm text-headline-sm flex items-center gap-space-xs shadow-md transition-all" onclick="alert('EMERGENCY DISPATCH CONFIRMED: NHAI Rescue Team Alpha &amp; Crane 04 routed to KM 142.6'); closeCameraDrawer();">
-<span class="material-symbols-outlined text-[18px]">e911_emergency</span>
-<span>Escalate CAD Dispatch</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Inline Script for Interactive Elements: Grid Toggling & Inspector Drawer -->
+    <!-- Summary strip -->
+    <section class="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4" aria-label="Camera summary">
+      <div class="rn-card p-4 sm:p-5 min-w-0">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label">Streams online</span><span class="material-symbols-rounded text-ok-soft">videocam</span></div>
+        <div class="mt-2 flex items-baseline gap-1.5"><span class="rn-kpi-value" id="s-online">–</span><span class="text-[15px] text-muted" id="s-total"></span></div>
+        <div class="mt-3 rn-bar"><span id="s-online-bar" style="width:0%"></span></div>
+      </div>
+      <div class="rn-card p-4 sm:p-5 min-w-0">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label">Offline</span><span class="material-symbols-rounded text-warn-soft">videocam_off</span></div>
+        <div class="mt-2 flex items-baseline gap-1.5"><span class="rn-kpi-value text-warn-soft" id="s-offline">–</span><span class="text-[12.5px] text-muted">no frames 6 min</span></div>
+        <div class="mt-3 text-[12px] text-dim truncate" id="s-offline-ids"></div>
+      </div>
+      <div class="rn-card p-4 sm:p-5 min-w-0 shadow-glow-red col-span-2 sm:col-span-1">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label !text-danger-soft">Active incidents</span><span class="rn-badge rn-p1"><span class="rn-dot rn-dot-pulse"></span>Live</span></div>
+        <div class="mt-2 flex items-baseline gap-1.5"><span class="rn-kpi-value text-danger-soft" id="s-inc">–</span><span class="text-[12.5px] text-muted" id="s-inc-p1"></span></div>
+        <div class="mt-3 text-[12px] text-dim truncate" id="s-inc-break"></div>
+      </div>
+      <div class="rn-card p-4 sm:p-5 min-w-0 col-span-2 sm:col-span-1">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label">Vision engine load</span><span class="material-symbols-rounded text-cyan">memory</span></div>
+        <div class="mt-2 space-y-1.5 text-[12.5px]">
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-danger shrink-0"></span><span class="text-muted truncate">Model B · accidents</span><span class="ml-auto rn-mono text-ink whitespace-nowrap"><span data-streams></span> × 30 FPS</span></div>
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-warn shrink-0"></span><span class="text-muted truncate">Model A · road damage</span><span class="ml-auto rn-mono text-ink whitespace-nowrap"><span data-streams></span> × 1 FPS</span></div>
+        </div>
+        <div class="mt-2 text-[11.5px] text-dim">2.5 ms / frame on GPU (measured)</div>
+      </div>
+    </section>
+
+    <!-- Toolbar -->
+    <section class="rn-card p-3 sm:p-4 flex flex-col lg:flex-row lg:items-center gap-3" aria-label="Camera filters">
+      <label class="relative block lg:w-[320px] min-w-0">
+        <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-dim text-[19px]">search</span>
+        <input id="cam-q" type="search" class="rn-input pl-10 text-[13.5px]" placeholder="Search ID, location or KM…" aria-label="Search cameras by ID, location or KM">
+      </label>
+      <div class="overflow-x-auto -mx-1 px-1">
+        <div class="rn-seg whitespace-nowrap [&>button]:whitespace-nowrap" role="tablist" aria-label="Camera status filter" id="cam-filter">
+          <button role="tab" aria-selected="true" data-f="all">All <span class="rn-mono text-dim ml-1" data-n="all"></span></button>
+          <button role="tab" aria-selected="false" data-f="online">Online <span class="rn-mono text-dim ml-1" data-n="online"></span></button>
+          <button role="tab" aria-selected="false" data-f="offline">Offline <span class="rn-mono text-dim ml-1" data-n="offline"></span></button>
+          <button role="tab" aria-selected="false" data-f="incident" class="whitespace-nowrap"><span class="sm:hidden">Incident</span><span class="hidden sm:inline">With incident</span> <span class="rn-mono text-dim ml-1" data-n="incident"></span></button>
+        </div>
+      </div>
+      <div class="lg:ml-auto flex items-center gap-3">
+        <span class="text-[12.5px] text-dim" id="cam-count" aria-live="polite"></span>
+        <div class="hidden xl:inline-flex rn-seg" role="group" aria-label="Grid density" id="cam-density">
+          <button aria-selected="false" aria-label="2 columns" data-cols="2"><span class="material-symbols-rounded text-[18px]">grid_view</span></button>
+          <button aria-selected="true" aria-label="3 columns" data-cols="3"><span class="material-symbols-rounded text-[18px]">view_module</span></button>
+          <button aria-selected="false" aria-label="4 columns" data-cols="4"><span class="material-symbols-rounded text-[18px]">apps</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section aria-label="Camera feeds">
+      <ul id="cam-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"></ul>
+      <div id="cam-empty" class="hidden rn-card p-10 text-center">
+        <span class="material-symbols-rounded text-[32px] text-dim">search_off</span>
+        <p class="mt-2 text-[14px] font-semibold">No cameras match</p>
+        <p class="text-[13px] text-muted">Try another ID, place or KM, or clear the filter.</p>
+      </div>
+    </section>
+
+    <p class="text-center text-[12px] text-dim pb-2">Camera feeds, stream health and incidents on this screen are demo data. Accident frames are real Model B detections on test images; model figures are real test-set results.</p>
+  </div>
+</main>
+
+<!-- Camera drawer (closed by default) -->
+<div id="cam-overlay" class="rn-overlay hidden"></div>
+<div id="cam-drawer" class="rn-drawer hidden" role="dialog" aria-modal="true" aria-labelledby="cd-title">
+  <div class="sticky top-0 z-[5] flex items-center gap-3 px-4 sm:px-6 h-16 border-b border-line bg-panel/95 backdrop-blur">
+    <span class="material-symbols-rounded text-cyan">videocam</span>
+    <div class="min-w-0 flex-1">
+      <h2 id="cd-title" class="font-display font-bold text-[16px] leading-tight truncate">Camera</h2>
+      <div id="cd-sub" class="text-[12px] text-dim truncate"></div>
+    </div>
+    <button id="cd-close" class="rn-icon-btn" aria-label="Close camera details"><span class="material-symbols-rounded">close</span></button>
+  </div>
+  <div class="p-4 sm:p-6 space-y-5" id="cd-body">
+    <div id="cd-frame"></div>
+    <div id="cd-incident"></div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <dl id="cd-meta" class="grid grid-cols-2 gap-2.5 content-start"></dl>
+      <div class="rounded-xl border border-line overflow-hidden min-h-[200px]"><div id="cd-map" class="h-[220px]" aria-label="Camera location map"></div></div>
+    </div>
+    <div>
+      <div class="flex items-center justify-between">
+        <h3 class="font-display font-bold text-[15px]">Recent detections</h3>
+        <span class="text-[12px] text-dim">last 2 h</span>
+      </div>
+      <ol id="cd-dets" class="mt-3 space-y-2"></ol>
+    </div>
+    <div class="flex flex-wrap gap-2 pt-1 pb-2" id="cd-actions"></div>
+  </div>
+</div>
+
+<script src="../assets/js/demo-data.js"></script>
+<script src="../assets/js/shell.js"></script>
 <script>
-    function openCameraDrawer(cameraId) {
-      const modal = document.getElementById('camera-inspector-modal');
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-      }
-    }
-
-    function closeCameraDrawer() {
-      const modal = document.getElementById('camera-inspector-modal');
-      if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-      }
-    }
-
-    // Grid layout toggle handling
-    const grid6Btn = document.getElementById('grid-toggle-6');
-    const grid9Btn = document.getElementById('grid-toggle-9');
-    const cameraGrid = document.getElementById('camera-grid');
-
-    if (grid6Btn && grid9Btn && cameraGrid) {
-      grid6Btn.addEventListener('click', () => {
-        cameraGrid.className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-space-lg';
-        grid6Btn.className = 'px-space-md py-1 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center gap-space-xs transition-all';
-        grid9Btn.className = 'px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm flex items-center gap-space-xs transition-all';
-      });
-
-      grid9Btn.addEventListener('click', () => {
-        cameraGrid.className = 'grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-space-md';
-        grid9Btn.className = 'px-space-md py-1 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm flex items-center gap-space-xs transition-all';
-        grid6Btn.className = 'px-space-md py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm flex items-center gap-space-xs transition-all';
-      });
-    }
-
-    // Ping diagnostic simulation button
-    const pingBtn = document.getElementById('ping-btn');
-    if (pingBtn) {
-      pingBtn.addEventListener('click', () => {
-        pingBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-secondary animate-spin">refresh</span><span>Pinging 150 Nodes...</span>';
-        setTimeout(() => {
-          pingBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span><span>144/150 Nodes Responded</span>';
-          setTimeout(() => {
-            pingBtn.innerHTML = '<span class="material-symbols-outlined text-[16px] text-primary">network_ping</span><span>Run Network Health Ping</span>';
-          }, 3500);
-        }, 1200);
-      });
-    }
-
-    // Live Clock Updater
-    function updateClock() {
-      const clockEl = document.getElementById('utc-clock');
-      if (clockEl) {
-        const now = new Date();
-        clockEl.innerText = now.toTimeString().split(' ')[0] + ' UTC+05:30';
-      }
-    }
-    setInterval(updateClock, 1000);
-
-    // Initial drawer close state if needed
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeCameraDrawer();
-      }
-    });
-  </script>
-</div></main></div><script>
 (function () {
-  const routes = {
-    dashboard: 'command-center.html',
-    incidents: 'incident-detail.html',
-    'incident-detail-rn-2026-004821-nh-48-corridor': 'incident-detail.html',
-    cameras: 'cameras.html',
-    analytics: 'analytics.html',
-    settings: 'settings.html',
-    'roadnetra-ai-live-incident-command-center': 'command-center.html',
-    'roadnetra-ai-edge-camera-monitoring-cctv-grid': 'cameras.html',
-    'roadnetra-ai-corridor-analytics-intelligence-hub': 'analytics.html',
-    live-map: 'command-center.html',
-    reports: 'analytics.html'
+  const { INCIDENTS, CAMERAS, SEVERITY, MODEL } = window.RN_DATA;
+  const incOf = c => c.incident ? INCIDENTS.find(i => i.id === c.incident) : null;
+  const typeIcon = { accident: "car_crash", pothole: "add_road", damage: "texture" };
+  const sevText = { P1: "text-danger-soft", P2: "text-warn-soft", P3: "text-info-soft" };
+  // Page-local frame choices: several shared camera images are screenshots of older UI mock-ups, so this page
+  // swaps them for clean road frames (and crops UI chrome off two of them). See report / demo-data.js camImgs.
+  const IMG = window.RN_DATA.IMG;
+  const FRAME = {
+    "CAM-064": { src: IMG + "model-traffic-clear.jpg", clear: true },
+    "CAM-071": { src: IMG + "field-officer-2.jpg", style: "transform:scale(1.4);transform-origin:50% 32%" },
+    "CAM-078": { src: IMG + "cameras-3.jpg", style: "transform:scale(1.08)" },
+    "CAM-088": { src: IMG + "cameras-4.jpg" },
+    "CAM-097": { src: IMG + "index-1.jpg" },
+    "CAM-118": { src: IMG + "cameras-2.jpg", style: "transform:scale(1.12);transform-origin:40% 50%" },
+    "CAM-130": { src: IMG + "incident-detail-3.jpg", style: "transform:scale(1.55);transform-origin:50% 50%" },
   };
-  document.querySelectorAll('a[data-path]').forEach((link) => {
-    const route = routes[link.dataset.path];
-    if (route) link.href = route;
+  const frameOf = c => {
+    const i = incOf(c);
+    if (i && i.type === "accident") return { src: i.img, model: true, style: "" };
+    const f = FRAME[c.id] || {};
+    return { src: f.src || c.img, model: false, clear: !!f.clear, style: f.style || "" };
+  };
+
+  // ---------- summary ----------
+  const online = CAMERAS.filter(c => c.status === "online");
+  const offline = CAMERAS.filter(c => c.status === "offline");
+  const withInc = CAMERAS.filter(c => c.incident);
+  document.getElementById("s-online").textContent = online.length;
+  document.getElementById("s-total").textContent = "/ " + CAMERAS.length;
+  document.getElementById("s-online-bar").style.width = Math.round(online.length / CAMERAS.length * 100) + "%";
+  document.getElementById("s-offline").textContent = offline.length;
+  document.getElementById("s-offline-ids").textContent = offline.map(c => c.id).join(" · ");
+  document.getElementById("s-inc").textContent = withInc.length;
+  const p1 = withInc.filter(c => incOf(c).sev === "P1").length;
+  document.getElementById("s-inc-p1").textContent = `${p1} P1 accidents`;
+  document.getElementById("s-inc-break").textContent = ["P2", "P3"].map(s => `${withInc.filter(c => incOf(c).sev === s).length} ${s}`).join(" · ") + " road-surface";
+  document.querySelectorAll("[data-streams]").forEach(e => e.textContent = online.length);
+
+  // ---------- grid ----------
+  const grid = document.getElementById("cam-grid");
+  let q = "", filter = "all", cols = 3;
+  const counts = { all: CAMERAS.length, online: online.length, offline: offline.length, incident: withInc.length };
+  Object.keys(counts).forEach(k => document.querySelector(`[data-n="${k}"]`).textContent = counts[k]);
+
+  function tile(c) {
+    const inc = incOf(c), f = frameOf(c), off = c.status === "offline";
+    const ring = inc ? "has-" + inc.sev.toLowerCase() : "";
+    return `
+    <li class="min-w-0">
+      <button data-cam="${c.id}" class="cam-tile ${ring} rn-card w-full text-left p-2.5 block" aria-label="Open ${c.id}, ${c.name}${off ? ", offline" : ""}${inc ? ", " + SEVERITY[inc.sev].label + " incident" : ""}">
+        <div class="rn-feed aspect-video ${off ? "is-offline" : ""}">
+          <img src="${f.src}" alt="${off ? "Last frame from" : "Live frame from"} ${c.id} at ${c.name}${f.model ? ", Model B detection box drawn" : ""}" class="${f.model ? "model-frame" : ""}" style="${f.style}" loading="lazy">
+          <div class="rn-feed-hud left-2 top-2">${off ? '<span class="rn-dot text-dim"></span>' : '<span class="rn-dot rn-dot-pulse text-ok"></span>'}${c.id} · ${off ? "OFFLINE" : "LIVE"}</div>
+          ${off ? "" : `<div class="rn-feed-hud right-2 top-2">${c.fps} FPS</div><div class="rn-feed-hud right-2 bottom-2">${c.res}</div>`}
+          ${inc ? `<div class="absolute left-2 bottom-2 z-[3]"><span class="rn-badge ${SEVERITY[inc.sev].cls} !bg-[rgba(2,6,14,.8)]">${inc.sev === "P1" ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${inc.sev} · ${inc.type === "accident" ? "Accident" : inc.type === "pothole" ? "Pothole" : "Damage"}</span></div>` : ""}
+          ${off ? `<div class="no-signal"><div><span class="material-symbols-rounded text-[30px] text-muted">signal_disconnected</span><div class="mt-1 text-[13px] font-semibold">No signal</div><div class="text-[11.5px] text-dim">Last frame 6 min ago</div></div></div>` : ""}
+        </div>
+        <div class="px-1.5 pt-3 pb-1 flex items-start gap-2">
+          <div class="min-w-0 flex-1">
+            <div class="font-semibold text-[14px] truncate">${c.name}</div>
+            <div class="text-[12.5px] text-muted truncate">${c.road} · KM ${c.km}</div>
+          </div>
+          ${off ? '<span class="rn-badge rn-p4">Offline</span>' : inc ? `<span class="rn-badge ${SEVERITY[inc.sev].cls}">${inc.sev}</span>` : '<span class="rn-badge rn-ok">Online</span>'}
+        </div>
+        ${inc ? `<div class="mx-1.5 mt-2 mb-1 flex items-center gap-2 text-[12px] rounded-lg border border-line bg-canvas/50 px-2.5 py-1.5"><span class="material-symbols-rounded text-[16px] ${sevText[inc.sev]}">${typeIcon[inc.type]}</span><span class="truncate">${inc.title}</span><span class="ml-auto rn-mono text-cyan whitespace-nowrap">${inc.conf.toFixed(2)}</span></div>` : ""}
+      </button>
+    </li>`;
+  }
+
+  function render() {
+    const s = q.trim().toLowerCase();
+    const list = CAMERAS.filter(c =>
+      (filter === "all" || (filter === "incident" ? !!c.incident : c.status === filter)) &&
+      (!s || [c.id, c.name, c.road, c.km, "km " + c.km, c.road + " km " + c.km].some(v => v.toLowerCase().includes(s))));
+    grid.className = `grid grid-cols-1 sm:grid-cols-2 gap-4 ${{ 2: "xl:grid-cols-2", 3: "xl:grid-cols-3", 4: "xl:grid-cols-4" }[cols]}`;
+    grid.innerHTML = list.map(tile).join("");
+    document.getElementById("cam-empty").classList.toggle("hidden", list.length > 0);
+    document.getElementById("cam-count").textContent = `Showing ${list.length} of ${CAMERAS.length}`;
+    grid.querySelectorAll("[data-cam]").forEach(b => b.addEventListener("click", () => openDrawer(b.dataset.cam, b)));
+  }
+  document.getElementById("cam-q").addEventListener("input", e => { q = e.target.value; render(); });
+  document.querySelectorAll("#cam-filter button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#cam-filter button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+    filter = b.dataset.f; render();
+  }));
+  document.querySelectorAll("#cam-density button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#cam-density button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+    cols = +b.dataset.cols; render();
+  }));
+
+  // ---------- drawer ----------
+  const overlay = document.getElementById("cam-overlay"), drawer = document.getElementById("cam-drawer");
+  const closeBtn = document.getElementById("cd-close");
+  let map, camMarker, incMarker, lastTrigger = null;
+
+  function detections(c) {
+    // Demo log per camera. The 1-frame spike rows show the temporal filter at work.
+    const inc = incOf(c), rows = [];
+    if (c.status === "offline") rows.push({ t: "08:40:12", icon: "signal_disconnected", tone: "text-warn-soft", title: "Stream lost · no frames received", sub: "Field team notified · coverage gap flagged", conf: null });
+    if (inc) rows.push({ t: inc.detected, icon: typeIcon[inc.type], tone: sevText[inc.sev], title: `${inc.title} · ${inc.sev}`, sub: `${inc.type === "accident" ? "Model B" : "Model A"} · confirmed over ${inc.frames} frames · ${inc.id}`, conf: inc.conf, link: inc.id === "RN-2026-004821" });
+    const n = parseInt(c.id.slice(4), 10);
+    if (c.status === "online" && n % 3 !== 1) rows.push({ t: `08:${String(10 + n % 40).padStart(2, "0")}:${String(n % 60).padStart(2, "0")}`, icon: "filter_alt", tone: "text-dim", title: "1-frame spike suppressed", sub: `Model B · conf 0.${50 + n % 9} on a single frame (glare) · not alerted`, conf: null });
+    rows.push({ t: "07:30:00", icon: "check_circle", tone: "text-ok-soft", title: "Model A road scan · no new damage", sub: "Sampled at 1 FPS · boxes cached for 30 frames", conf: null });
+    return rows;
+  }
+
+  function openDrawer(id, trigger) {
+    const c = CAMERAS.find(x => x.id === id), inc = incOf(c), f = frameOf(c), off = c.status === "offline";
+    lastTrigger = trigger || null;
+    document.getElementById("cd-title").textContent = `${c.id} · ${c.name}`;
+    document.getElementById("cd-sub").textContent = `${c.road} KM ${c.km} · ${off ? "Offline" : "Live · " + c.fps + " FPS"}`;
+    document.getElementById("cd-frame").innerHTML = `
+      <div class="rn-feed aspect-video ${off ? "is-offline" : ""}">
+        <img src="${f.src}" alt="${off ? "Last frame from" : "Live frame from"} ${c.id}${f.model ? ", Model B detection box drawn around the crash" : ""}" class="${f.model ? "model-frame" : ""}" style="${f.style}">
+        <div class="rn-feed-hud left-3 top-3">${off ? '<span class="rn-dot text-dim"></span>' : '<span class="rn-dot rn-dot-pulse text-danger"></span>REC · '}${c.id} · ${off ? "OFFLINE" : "LIVE"}</div>
+        ${off ? "" : `<div class="rn-feed-hud right-3 top-3">${c.res} · ${c.fps} FPS</div>`}
+        ${inc && !off ? `<div class="rn-feed-hud right-3 bottom-3">${inc.type === "accident" ? "Model B" : "Model A"} · conf ${inc.conf.toFixed(2)}</div>` : ""}
+        ${f.clear ? `<div class="rn-feed-hud right-3 bottom-3"><span class="rn-dot text-ok"></span>Model B · no detection (real output)</div>` : ""}
+        ${off ? `<div class="no-signal"><div><span class="material-symbols-rounded text-[40px] text-muted">signal_disconnected</span><div class="mt-1 text-[15px] font-semibold">No signal</div><div class="text-[12px] text-dim">Last frame received 6 min ago</div></div></div>` : ""}
+      </div>`;
+    document.getElementById("cd-incident").innerHTML = inc ? `
+      <div class="rounded-xl border ${inc.sev === "P1" ? "border-danger/35 bg-danger/[0.07]" : "border-line bg-canvas/50"} p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+        <span class="material-symbols-rounded icon-fill ${sevText[inc.sev]}">${typeIcon[inc.type]}</span>
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-2"><span class="rn-badge ${SEVERITY[inc.sev].cls}">${SEVERITY[inc.sev].label}</span><span class="rn-mono text-[12px] text-dim">${inc.id}</span></div>
+          <div class="mt-1 font-semibold text-[14px]">${inc.title} · <span class="text-muted font-normal">${inc.place}</span></div>
+          <div class="text-[12.5px] text-muted">${inc.status} · ${inc.authority} · ${inc.unit}${inc.eta !== "—" ? " · ETA " + inc.eta : ""}</div>
+        </div>
+      </div>` : "";
+    const meta = [
+      ["Status", off ? '<span class="rn-badge rn-p4">Offline</span>' : '<span class="rn-badge rn-ok"><span class="rn-dot"></span>Online</span>'],
+      ["Road · KM", `${c.road} · ${c.km}`],
+      ["Resolution", c.res], ["Frame rate", off ? "—" : c.fps + " FPS"],
+      ["GPS", `<span class="rn-mono text-[12.5px]">${c.lat.toFixed(4)}, ${c.lng.toFixed(4)}</span>`],
+      ["Models", off ? "Paused" : "B 30 FPS · A 1 FPS"],
+    ];
+    document.getElementById("cd-meta").innerHTML = meta.map(([k, v]) => `<div class="rounded-xl border border-line bg-canvas/50 p-3 min-w-0"><dt class="rn-label">${k}</dt><dd class="mt-1 text-[13px] font-medium truncate">${v}</dd></div>`).join("");
+    document.getElementById("cd-dets").innerHTML = detections(c).map(d => `
+      <li class="flex gap-3 rounded-xl border border-line bg-canvas/40 p-3">
+        <span class="material-symbols-rounded ${d.tone} mt-0.5">${d.icon}</span>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2"><span class="font-medium text-[13.5px] truncate">${d.title}</span>${d.conf ? `<span class="ml-auto rn-mono text-[12px] text-cyan">${d.conf.toFixed(2)}</span>` : ""}</div>
+          <div class="text-[12px] text-muted">${d.sub}</div>
+        </div>
+        <span class="rn-mono text-[11.5px] text-dim whitespace-nowrap">${d.t}</span>
+      </li>`).join("");
+    document.getElementById("cd-actions").innerHTML = `
+      ${inc ? `<a href="incident-detail.html" class="rn-btn ${inc.sev === "P1" ? "rn-btn-danger" : "rn-btn-primary"}"><span class="material-symbols-rounded">open_in_new</span>Open incident</a>` : ""}
+      <button class="rn-btn" data-act="snap" ${off ? "disabled aria-disabled=\"true\" style=\"opacity:.5;cursor:not-allowed\"" : ""}><span class="material-symbols-rounded">photo_camera</span>Snapshot</button>
+      ${off ? `<button class="rn-btn" data-act="ping"><span class="material-symbols-rounded">build</span>Notify field team</button>` : ""}
+      <button class="rn-btn rn-btn-ghost" data-act="close">Close</button>`;
+    const snap = document.querySelector('#cd-actions [data-act="snap"]');
+    if (!off) snap.addEventListener("click", () => RN.toast("Snapshot saved", `${c.id} · ${new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour12: false })} IST · added to evidence locker`, "ok"));
+    const ping = document.querySelector('#cd-actions [data-act="ping"]');
+    if (ping) ping.addEventListener("click", () => RN.toast("Field team notified", `${c.id} · ${c.road} KM ${c.km} · check power and uplink`, "warn"));
+    document.querySelector('#cd-actions [data-act="close"]').addEventListener("click", closeDrawer);
+
+    overlay.classList.remove("hidden"); drawer.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    drawer.scrollTop = 0;
+    closeBtn.focus();
+
+    // map
+    if (!map) {
+      map = L.map("cd-map", { zoomControl: true, attributionControl: true, scrollWheelZoom: false });
+      RN.darkTiles(map);
+    }
+    map.setView([c.lat, c.lng], 14);
+    if (camMarker) map.removeLayer(camMarker);
+    if (incMarker) { map.removeLayer(incMarker); incMarker = null; }
+    camMarker = L.marker([c.lat, c.lng], { icon: L.divIcon({ className: "", html: `<div class="rn-pin cam" style="${off ? "background:#64748B;box-shadow:none" : ""}"></div>`, iconSize: [12, 12] }) })
+      .addTo(map).bindPopup(`<b>${c.id}</b> · ${c.name}`);
+    if (inc) incMarker = L.marker([inc.lat, inc.lng], { icon: L.divIcon({ className: "", html: `<div class="rn-pin ${inc.sev.toLowerCase()}"></div>`, iconSize: [18, 18] }), zIndexOffset: 1000 })
+      .addTo(map).bindPopup(`<b>${inc.title}</b><br><span style="color:#94A3B8">${inc.road} KM ${inc.km}</span>`);
+    setTimeout(() => map.invalidateSize(), 60);
+  }
+
+  function closeDrawer() {
+    if (drawer.classList.contains("hidden")) return;
+    overlay.classList.add("hidden"); drawer.classList.add("hidden");
+    document.body.style.overflow = "";
+    if (lastTrigger && document.body.contains(lastTrigger)) lastTrigger.focus();
+  }
+  closeBtn.addEventListener("click", closeDrawer);
+  overlay.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", e => {
+    if (drawer.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeDrawer();
+    if (e.key === "Tab") { // keep focus inside the dialog
+      const f = [...drawer.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')].filter(el => el.offsetParent !== null);
+      if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
   });
+
+  render();
+  // deep link: cameras.html#CAM-084 opens that camera
+  const hash = decodeURIComponent(location.hash.slice(1));
+  if (CAMERAS.some(c => c.id === hash)) openDrawer(hash);
 })();
-</script></body></html>
+</script>
+</body>
+</html>

@@ -1,956 +1,578 @@
 <!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics · RoadNetra AI</title>
+  <meta name="description" content="Corridor incident trends, authority response and real Model B test-set performance for RoadNetra AI.">
+  <link rel="icon" href="../assets/img/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/js/tw-config.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <style>
+    .an-legend-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+    .an-cm-cell { border-radius: 12px; padding: 14px; border: 1px solid; min-width: 0; }
+    .an-stack { display: flex; height: 12px; border-radius: 999px; overflow: hidden; background: rgba(148,163,184,.14); }
+    .an-stack > span { display: block; height: 100%; }
+    .an-stack > span + span { box-shadow: -2px 0 0 0 #0f172a; }
+    .an-lat-track { position: relative; height: 10px; border-radius: 999px; background: rgba(148,163,184,.14); }
+    .an-lat-track > span { position: absolute; left: 0; top: 0; bottom: 0; border-radius: inherit; }
+    .an-target { position: absolute; top: -6px; bottom: -6px; width: 2px; background: #F59E0B; border-radius: 2px; }
+  </style>
+</head>
+<body data-page="analytics" data-title="Analytics" data-crumb="Intelligence · Last 30 days" class="min-h-screen">
+<main class="rn-app-main min-h-screen overflow-x-clip">
+  <div class="px-4 sm:px-6 py-6 space-y-6 max-w-[1680px] mx-auto">
 
-<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary":"#ffb4ab","secondary-fixed-dim":"#68dba9","secondary":"#68dba9","error":"#ffb4ab","on-secondary-container":"#00311f","surface-container-lowest":"#0a0e16","on-background":"#dfe2ee","on-primary-fixed":"#00174b","surface-container":"#1c2028","surface-dim":"#0f131c","on-surface":"#dfe2ee","on-tertiary-fixed-variant":"#93000b","tertiary-fixed-dim":"#ffb4ab","outline":"#8d90a0","on-tertiary-fixed":"#410002","surface-container-low":"#181c24","on-tertiary":"#690005","inverse-on-surface":"#2c3039","surface-bright":"#353942","error-container":"#93000a","on-tertiary-container":"#ffecea","primary-fixed-dim":"#b4c5ff","on-secondary-fixed-variant":"#005137","outline-variant":"#434655","on-error-container":"#ffdad6","primary":"#b4c5ff","surface-tint":"#b4c5ff","on-primary-fixed-variant":"#003ea8","inverse-surface":"#dfe2ee","background":"#0f131c","tertiary-container":"#d52022","on-primary-container":"#eeefff","primary-fixed":"#dbe1ff","secondary-container":"#25a475","inverse-primary":"#0053db","surface-container-highest":"#31353e","primary-container":"#2563eb","on-secondary":"#003825","on-surface-variant":"#c3c6d7","on-error":"#690005","on-secondary-fixed":"#002114","surface":"#0f131c","surface-container-high":"#262a33","secondary-fixed":"#85f8c4","surface-variant":"#31353e","tertiary-fixed":"#ffdad6","on-primary":"#002a78"},borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},spacing:{"space-xs":"0.25rem","space-3xl":"3rem","gutter":"1rem","space-sm":"0.5rem","space-lg":"1rem","margin-mobile":"1rem","space-xl":"1.5rem","space-2xl":"2rem","space-md":"0.75rem","gutter-compact":"0.5rem","margin":"1.5rem"},fontFamily:{"body-md":["Inter"],"body-lg":["Inter"],"data-mono":["Inter"],"label-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"body-sm":["Inter"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"]},fontSize:{"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"data-mono":["13px",{"lineHeight":"18px","letterSpacing":"-0.01em","fontWeight":"500"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","letterSpacing":"-0.015em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"18px","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-lg-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"700"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-xl flex items-center justify-between bg-surface-container"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-on-primary-container text-[20px]">radar</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">RoadNetra-AI</span><span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider uppercase mt-0.5">Highway Command</span></div></div><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span></div><nav class="flex flex-col gap-space-xs px-space-md py-space-lg" data-active-classes="bg-primary-container text-on-primary-container font-headline-sm text-headline-sm rounded"><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="dashboard" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="font-body-md text-body-md">Dashboard</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="incidents" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">warning</span><span class="font-body-md text-body-md">Incidents</span></div><span class="px-space-xs py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-data-mono text-data-mono">14</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="live-map" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">map</span><span class="font-body-md text-body-md">Live Map</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="cameras" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">videocam</span><span class="font-body-md text-body-md">Cameras</span></div><span class="px-space-xs py-0.5 rounded bg-surface-container-high text-tertiary font-data-mono text-data-mono">2</span></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="analytics" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">query_stats</span><span class="font-body-md text-body-md">Analytics</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="reports" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">description</span><span class="font-body-md text-body-md">Reports</span></div></a><a class="flex items-center justify-between px-space-md py-space-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="settings" href="#"><div class="flex items-center gap-space-md"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-body-md text-body-md">Settings</span></div></a></nav></div><div class="p-space-md bg-surface-container-lowest mx-space-md mb-space-md rounded flex flex-col gap-space-sm"><div class="flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm text-on-surface">Edge Telemetry</span></div><span class="font-data-mono text-data-mono text-secondary-fixed-dim">ONLINE</span></div><div class="font-body-sm text-body-sm text-on-surface-variant">All 142 Nodes Syncing</div><div class="pt-space-xs flex items-center justify-between text-on-surface-variant hover:text-on-surface cursor-pointer"><span class="font-label-sm text-label-sm">Collapse Panel</span><span class="material-symbols-outlined text-[18px]">keyboard_double_arrow_left</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl z-40 flex items-center justify-between px-space-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-lg flex-1 max-w-2xl"><div class="relative flex-1"><span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span><input class="w-full h-9 pl-10 pr-space-md bg-surface-container text-on-surface placeholder:text-on-surface-variant rounded font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Search by Incident ID, Highway (e.g. INC-8492, NH-48)..." type="text"/></div><div class="flex items-center gap-space-xs bg-surface-container px-space-md h-9 rounded"><span class="material-symbols-outlined text-primary text-[18px]">alt_route</span><span class="font-label-md text-label-md text-on-surface whitespace-nowrap">Sector 4: NH-48 Delhi-Jaipur Corridor</span><span class="material-symbols-outlined text-on-surface-variant text-[16px]">expand_more</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-error-container text-on-error-container px-space-md h-8 rounded"><span class="material-symbols-outlined text-[16px] text-tertiary">videocam_off</span><span class="font-label-sm text-label-sm">2 Cameras Offline</span></div><div class="flex items-center gap-space-xs bg-surface-container px-space-md h-8 rounded text-on-surface"><span class="w-2 h-2 rounded-full bg-tertiary-container animate-ping"></span><span class="font-data-mono text-data-mono">REC • LIVE 60 FPS</span></div><button class="relative w-9 h-9 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary-container"></span></button><button class="w-9 h-9 rounded bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[20px]">contrast</span></button><div class="flex items-center gap-space-sm bg-surface-container px-space-md h-9 rounded"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col text-left"><span class="font-label-sm text-label-sm text-on-surface leading-tight">Rajesh Kumar</span><span class="font-label-sm text-label-sm text-on-surface-variant text-[10px] leading-tight">NHAI Command Room 04</span></div><span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_drop_down</span></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
-<!-- Interactive & Real-time Command State Management -->
+    <!-- Header -->
+    <section class="flex flex-col md:flex-row md:items-end gap-4">
+      <div class="min-w-0 flex-1">
+        <div class="rn-eyebrow">Corridor intelligence</div>
+        <h2 class="mt-1 font-display font-bold text-[22px] sm:text-[24px] tracking-tight">Incidents, response and model quality</h2>
+        <p class="mt-1 text-[13.5px] text-muted max-w-[720px]">Trends across NH-48, Dwarka Expressway, Sohna Road and the Southern Peripheral Road, plus how the accident model performed on held-out test images.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="rn-seg" role="tablist" aria-label="Date range" id="an-range">
+          <button role="tab" aria-selected="false" data-range="7d">7 days</button>
+          <button role="tab" aria-selected="true" data-range="30d">30 days</button>
+          <button role="tab" aria-selected="false" data-range="q">Quarter</button>
+        </div>
+        <button class="rn-btn" id="an-export"><span class="material-symbols-rounded text-[18px]">download</span>Export CSV</button>
+      </div>
+    </section>
+
+    <!-- KPIs -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" aria-label="Key figures">
+      <div class="rn-card p-5 min-w-0">
+        <div class="flex items-start justify-between"><span class="rn-label">Incidents detected</span><span class="material-symbols-rounded text-brand-soft">radar</span></div>
+        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value" id="k-total">–</span><span class="text-[12.5px]" id="k-total-d"></span></div>
+        <div class="mt-3 text-[12.5px] text-muted" id="k-total-sub"></div>
+      </div>
+      <div class="rn-card p-5 min-w-0">
+        <div class="flex items-start justify-between"><span class="rn-label !text-danger-soft">P1 accidents</span><span class="material-symbols-rounded text-danger-soft">car_crash</span></div>
+        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value text-danger-soft" id="k-p1">–</span><span class="text-[12.5px]" id="k-p1-d"></span></div>
+        <div class="mt-3 text-[12.5px] text-muted" id="k-p1-sub"></div>
+      </div>
+      <div class="rn-card p-5 min-w-0">
+        <div class="flex items-start justify-between"><span class="rn-label">Median alert latency</span><span class="material-symbols-rounded text-ok-soft">bolt</span></div>
+        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value"><span id="k-lat">–</span><span class="text-[18px] text-muted"> s</span></span><span class="text-[12.5px] rn-trend-up">SLA &lt; 2 s</span></div>
+        <div class="mt-3 rn-bar"><span id="k-lat-bar" style="width:80%"></span></div>
+      </div>
+      <div class="rn-card p-5 min-w-0">
+        <div class="flex items-start justify-between"><span class="rn-label">Potholes logged / repaired</span><span class="material-symbols-rounded text-warn-soft">add_road</span></div>
+        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value"><span id="k-ph">–</span><span class="text-[18px] text-muted"> / <span id="k-rep">–</span></span></span></div>
+        <div class="mt-3 flex items-center gap-3"><div class="rn-bar flex-1"><span id="k-rep-bar" style="width:0%"></span></div><span class="rn-mono text-[12px] text-muted" id="k-rep-pct"></span></div>
+      </div>
+    </section>
+
+    <!-- Trend + mix -->
+    <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <div class="xl:col-span-8 min-w-0 rn-card p-5 flex flex-col">
+        <div class="flex flex-wrap items-start gap-3">
+          <div class="min-w-0">
+            <h3 class="font-display font-bold text-[16px]">Incidents over time</h3>
+            <p class="text-[12.5px] text-dim" id="trend-sub">Daily, by type</p>
+          </div>
+          <div class="flex-1"></div>
+          <div class="flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-muted">
+            <span class="flex items-center gap-1.5"><span class="an-legend-dot bg-danger"></span>Accidents</span>
+            <span class="flex items-center gap-1.5"><span class="an-legend-dot bg-warn"></span>Potholes</span>
+            <span class="flex items-center gap-1.5"><span class="an-legend-dot bg-cyan"></span>Road damage</span>
+          </div>
+        </div>
+        <div class="relative flex-1 min-h-[260px] sm:min-h-[300px] mt-4"><canvas id="c-trend" aria-label="Stacked bar chart of incidents over time by type" role="img"></canvas></div>
+      </div>
+
+      <div class="xl:col-span-4 min-w-0 rn-card p-5 flex flex-col">
+        <h3 class="font-display font-bold text-[16px]">Incident mix</h3>
+        <p class="text-[12.5px] text-dim">Share of all detections in range</p>
+        <div class="flex-1 flex flex-col sm:flex-row xl:flex-col items-center gap-5 mt-4">
+          <div class="relative w-[200px] h-[200px] shrink-0">
+            <canvas id="c-mix" aria-label="Doughnut chart of incident mix" role="img"></canvas>
+            <div class="absolute inset-0 grid place-items-center pointer-events-none">
+              <div class="text-center">
+                <div class="rn-kpi-value" id="mix-total">–</div>
+                <div class="text-[11.5px] text-dim mt-0.5">incidents</div>
+              </div>
+            </div>
+          </div>
+          <ul class="w-full space-y-2.5" id="mix-legend"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hour + SLA -->
+    <section class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div class="min-w-0 rn-card p-5">
+        <div class="flex flex-wrap items-start gap-3">
+          <div class="min-w-0">
+            <h3 class="font-display font-bold text-[16px]">Time of day</h3>
+            <p class="text-[12.5px] text-dim">Detections by hour (IST). Peaks follow commute traffic.</p>
+          </div>
+          <div class="flex-1"></div>
+          <div class="flex gap-x-4 text-[12px] text-muted">
+            <span class="flex items-center gap-1.5"><span class="an-legend-dot bg-danger"></span>Accidents</span>
+            <span class="flex items-center gap-1.5"><span class="an-legend-dot bg-brand"></span>Road defects</span>
+          </div>
+        </div>
+        <div class="relative h-[240px] mt-4"><canvas id="c-hour" aria-label="Histogram of incidents by hour of day" role="img"></canvas></div>
+      </div>
+
+      <div class="min-w-0 rn-card p-5">
+        <div class="flex flex-wrap items-start gap-3">
+          <div class="min-w-0">
+            <h3 class="font-display font-bold text-[16px]">Authority response vs SLA</h3>
+            <p class="text-[12.5px] text-dim">Share of routed incidents acknowledged within the target window</p>
+          </div>
+        </div>
+        <div class="relative h-[200px] mt-4"><canvas id="c-sla" aria-label="Horizontal bar chart of response within SLA by authority" role="img"></canvas></div>
+        <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2" id="sla-tiles"></div>
+      </div>
+    </section>
+
+    <!-- Corridors + blackspots -->
+    <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <div class="xl:col-span-7 min-w-0 rn-card overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-4 border-b border-line">
+          <div>
+            <h3 class="font-display font-bold text-[16px]">Corridor ranking</h3>
+            <p class="text-[12.5px] text-dim">Health score blends incident rate, open defects and repair speed</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="rn-table min-w-[560px]">
+            <thead><tr><th>Corridor</th><th class="text-right whitespace-nowrap">Incidents</th><th class="text-right">Accidents</th><th class="text-right">Potholes</th><th class="whitespace-nowrap" title="Health score">Health</th></tr></thead>
+            <tbody id="an-corridors"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="xl:col-span-5 min-w-0 rn-card overflow-hidden flex flex-col">
+        <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-4 border-b border-line">
+          <div>
+            <h3 class="font-display font-bold text-[16px]">Blackspots</h3>
+            <p class="text-[12.5px] text-dim">Circle size = detections near each camera</p>
+          </div>
+          <span class="rn-badge rn-p1" id="bs-top"></span>
+        </div>
+        <div id="an-map" class="h-[340px] xl:flex-1 xl:min-h-[300px]"></div>
+      </div>
+    </section>
+
+    <!-- Model B performance -->
+    <section class="rn-card p-5 sm:p-6 border-brand/30" aria-labelledby="mb-title" style="border-color:rgba(59,130,246,.3)">
+      <div class="flex flex-col lg:flex-row lg:items-start gap-4">
+        <div class="flex items-start gap-3 min-w-0 flex-1">
+          <div class="w-11 h-11 rounded-xl grid place-items-center bg-danger/15 border border-danger/30 shrink-0"><span class="material-symbols-rounded icon-fill text-danger-soft">car_crash</span></div>
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 id="mb-title" class="font-display font-bold text-[19px] tracking-tight">Model B performance</h2>
+              <span class="rn-badge rn-ok"><span class="material-symbols-rounded text-[14px]">verified</span>Real test-set results</span>
+            </div>
+            <p class="mt-1 text-[13px] text-muted" id="mb-sub"></p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 text-[12px]">
+          <span class="rn-badge rn-p4 rn-mono" id="mb-arch"></span>
+          <span class="rn-badge rn-p4 rn-mono" id="mb-epochs"></span>
+        </div>
+      </div>
+
+      <div class="mt-5 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3" id="mb-tiles"></div>
+
+      <div class="mt-6 grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <!-- Confusion matrix -->
+        <div class="xl:col-span-5 min-w-0 rounded-2xl border border-line bg-canvas/40 p-5">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-display font-bold text-[15px]">Confusion matrix</h3>
+            <span class="text-[12px] text-dim" id="cm-n"></span>
+          </div>
+          <div class="mt-4 grid grid-cols-[72px_minmax(0,1fr)_minmax(0,1fr)] sm:grid-cols-[96px_minmax(0,1fr)_minmax(0,1fr)] gap-2" id="cm-grid"></div>
+          <div class="mt-4 grid grid-cols-2 gap-2 text-[12.5px]" id="cm-foot"></div>
+        </div>
+
+        <!-- Threshold curve -->
+        <div class="xl:col-span-7 min-w-0 rounded-2xl border border-line bg-canvas/40 p-5">
+          <div class="flex flex-wrap items-center gap-2">
+            <h3 class="font-display font-bold text-[15px]">Precision &amp; recall vs confidence</h3>
+            <span class="rn-badge rn-p2">Illustrative curve</span>
+          </div>
+          <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-muted">
+            <span class="flex items-center gap-1.5"><span class="w-4 h-[3px] rounded bg-brand"></span>Precision</span>
+            <span class="flex items-center gap-1.5"><span class="w-4 h-[3px] rounded bg-cyan"></span>Recall</span>
+            <span class="flex items-center gap-1.5"><span class="w-4 h-[3px] rounded bg-ok"></span>F1</span>
+            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-white/80"></span>Measured on test</span>
+            <span class="flex items-center gap-1.5"><span class="w-[2px] h-3 bg-ok"></span>Best F1 0.47</span>
+            <span class="flex items-center gap-1.5"><span class="w-[2px] h-3 bg-warn"></span>Pipeline 0.55</span>
+          </div>
+          <div class="relative h-[230px] mt-3"><canvas id="c-pr" aria-label="Illustrative precision and recall curves against confidence threshold" role="img"></canvas></div>
+          <p class="mt-3 text-[12.5px] text-muted leading-relaxed" id="pr-note"></p>
+        </div>
+
+        <!-- Dataset -->
+        <div class="xl:col-span-6 min-w-0 rounded-2xl border border-line bg-canvas/40 p-5">
+          <h3 class="font-display font-bold text-[15px]">Training data</h3>
+          <p class="mt-1 text-[12.5px] text-muted" id="ds-sub"></p>
+          <div class="mt-4 space-y-4" id="ds-bars"></div>
+        </div>
+
+        <!-- Latency -->
+        <div class="xl:col-span-6 min-w-0 rounded-2xl border border-line bg-canvas/40 p-5">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-display font-bold text-[15px]">Inference latency per frame</h3>
+            <span class="flex items-center gap-1.5 text-[12px] text-muted"><span class="w-[2px] h-3 bg-warn"></span>75 ms budget</span>
+          </div>
+          <div class="mt-4 space-y-5" id="lat-rows"></div>
+          <p class="mt-4 text-[12.5px] text-muted leading-relaxed">Model inference only (no decode or network). On a GPU edge box one model easily keeps up with a 30 FPS feed; a laptop CPU runs at about 5 FPS, so CPU-only sites should sample frames.</p>
+        </div>
+      </div>
+
+      <!-- Known limits -->
+      <div class="mt-6 rounded-2xl border border-warn/30 bg-warn/[0.06] p-5">
+        <div class="flex items-center gap-2"><span class="material-symbols-rounded text-warn-soft">info</span><h3 class="font-display font-bold text-[15px]">Known limits</h3></div>
+        <ul class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2.5 text-[13px] text-muted" id="limits"></ul>
+      </div>
+    </section>
+
+    <p class="text-center text-[12px] text-dim pb-2">Incident counts, trends, corridors and response times on this screen are demo data. Model B figures are real results on the held-out test set.</p>
+  </div>
+</main>
+
+<script src="../assets/js/demo-data.js"></script>
+<script src="../assets/js/shell.js"></script>
 <script>
-    function switchMapLayer(mode) {
-      const satellite = document.getElementById('map-layer-satellite');
-      const thermal = document.getElementById('map-layer-thermal');
-      const carto = document.getElementById('map-layer-carto');
-      const btns = document.querySelectorAll('.map-layer-btn');
-      
-      btns.forEach(b => {
-        b.classList.remove('bg-primary-container', 'text-on-primary-container');
-        b.classList.add('bg-surface-container-high', 'text-on-surface-variant');
-      });
-
-      if (mode === 'carto') {
-        document.getElementById('btn-carto').classList.add('bg-primary-container', 'text-on-primary-container');
-        carto.style.opacity = '1';
-        thermal.style.opacity = '0';
-        satellite.style.opacity = '0';
-      } else if (mode === 'thermal') {
-        document.getElementById('btn-thermal').classList.add('bg-primary-container', 'text-on-primary-container');
-        carto.style.opacity = '0';
-        thermal.style.opacity = '1';
-        satellite.style.opacity = '0';
-      } else {
-        document.getElementById('btn-satellite').classList.add('bg-primary-container', 'text-on-primary-container');
-        carto.style.opacity = '0';
-        thermal.style.opacity = '0';
-        satellite.style.opacity = '1';
-      }
-    }
-
-    function toggleZoom(delta) {
-      const zoomText = document.getElementById('map-zoom-level');
-      let current = parseInt(zoomText.getAttribute('data-zoom') || '12');
-      current = Math.min(Math.max(current + delta, 9), 16);
-      zoomText.setAttribute('data-zoom', current);
-      zoomText.innerText = `Z-${current}`;
-    }
-
-    function openWorkOrderModal(markerId, contractor, defect) {
-      const toast = document.getElementById('toast-notification');
-      const toastTitle = document.getElementById('toast-title');
-      const toastDesc = document.getElementById('toast-desc');
-      toastTitle.innerText = `Dispatching Work Order: ${markerId}`;
-      toastDesc.innerText = `Priority repair request assigned to ${contractor} for ${defect}. Audit log queued.`;
-      toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
-      setTimeout(() => {
-        toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
-      }, 5000);
-    }
-  </script>
-<!-- SVG Patterns for Accessibility & Texture Mapping -->
-<svg aria-hidden="true" class="hidden" focusable="false">
-<defs>
-<!-- Red diagonal hatch for vehicle collisions -->
-<pattern height="8" id="pattern-p1-hazard" patterntransform="rotate(45 0 0)" patternunits="userSpaceOnUse" width="8">
-<line stroke="#EF4444" stroke-width="2.5" x1="0" x2="0" y1="0" y2="8"></line>
-</pattern>
-<!-- Blue crosshatch for potholes & structural defects -->
-<pattern height="8" id="pattern-defect-blue" patternunits="userSpaceOnUse" width="8">
-<path d="M 0 0 L 8 8 M 8 0 L 0 8" stroke="#3B82F6" stroke-width="1.2"></path>
-</pattern>
-<!-- Cyan stippled pattern for wrong-way / intrusions -->
-<pattern height="6" id="pattern-cyan-dots" patternunits="userSpaceOnUse" width="6">
-<circle cx="2" cy="2" fill="#38BDF8" r="1.2"></circle>
-</pattern>
-<!-- Amber striped for over SLA warning -->
-<pattern height="10" id="pattern-amber-warning" patterntransform="rotate(25)" patternunits="userSpaceOnUse" width="10">
-<line stroke="#F59E0B" stroke-width="3" x1="0" x2="0" y1="0" y2="10"></line>
-</pattern>
-</defs>
-</svg>
-<div class="p-space-xl flex flex-col gap-space-xl">
-<!-- 1. Header & Live Export Bar -->
-<header class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
-<div class="flex flex-col">
-<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm tracking-wide uppercase">
-<span>Surveillance Telemetry</span>
-<span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span>Corridor Analytics Hub</span>
-<span class="material-symbols-outlined text-[14px]">chevron_right</span>
-<span class="text-primary font-headline-sm text-headline-sm text-[11px] leading-tight tracking-normal">Northern Corridor Sector 4</span>
-</div>
-<div class="flex items-center gap-space-md mt-1">
-<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Highway Corridor Analytics &amp; Structural Intelligence</h1>
-<span class="px-space-sm py-0.5 rounded-full bg-secondary/15 text-secondary font-data-mono text-data-mono flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-            LIVE AUDIT 2026.Q4
-          </span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Continuous vision telemetry across 142 AI edge nodes • Aggregated MoRTH / NHAI civil safety benchmarks</p>
-</div>
-<!-- Action Cluster -->
-<div class="flex items-center gap-space-sm flex-wrap">
-<div class="flex items-center gap-1.5 px-space-md py-1.5 rounded bg-surface-container text-on-surface-variant font-data-mono text-data-mono">
-<span class="material-symbols-outlined text-secondary text-[16px]">sync</span>
-<span>Refreshed 2m ago</span>
-<span class="text-on-surface-variant/40">•</span>
-<span class="text-secondary font-data-mono">99.8% capture</span>
-</div>
-<button class="h-9 px-space-md rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-space-xs transition-colors" onclick="window.print()">
-<span class="material-symbols-outlined text-tertiary-container text-[18px]">picture_as_pdf</span>
-<span>Export Audit (PDF)</span>
-<span class="px-1.5 py-0.2 rounded bg-surface-container font-data-mono text-[10px] text-on-surface-variant">ISO-17025</span>
-</button>
-<button class="h-9 px-space-md rounded bg-primary-container hover:bg-primary-container/90 text-on-primary-container font-headline-sm text-headline-sm text-[13px] flex items-center gap-space-xs shadow-md transition-colors" onclick="openWorkOrderModal('CORRIDOR-SCHEDULE-BATCH', 'Operations Central', 'Quarterly Summary Export')">
-<span class="material-symbols-outlined text-[18px]">outgoing_mail</span>
-<span>Schedule Dispatch Digest</span>
-</button>
-</div>
-</header>
-<!-- 2. Multi-Parameter Query & Filter Ribbon with Live Telemetry Chips -->
-<section class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-md shadow-sm">
-<div class="flex flex-wrap items-center justify-between gap-space-md">
-<!-- Date Selector Pills -->
-<div class="flex items-center bg-surface-container-lowest p-1 rounded-lg gap-1">
-<button class="px-space-md py-1 rounded text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface transition-colors">Last 7 Days</button>
-<button class="px-space-md py-1 rounded bg-primary text-on-primary font-headline-sm text-headline-sm text-[12px] shadow-sm">Last 30 Days</button>
-<button class="px-space-md py-1 rounded text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface transition-colors">Quarter-to-Date</button>
-<button class="px-space-md py-1 rounded text-on-surface-variant font-data-mono text-data-mono hover:text-on-surface flex items-center gap-1 transition-colors">
-<span class="material-symbols-outlined text-[14px]">calendar_today</span>
-            01 Oct - 31 Oct 2026
-          </button>
-</div>
-<!-- Corridors & Authority Multi-Select Filters -->
-<div class="flex items-center gap-space-sm flex-wrap">
-<!-- Region Dropdown -->
-<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md h-9 rounded text-on-surface font-body-sm text-body-sm cursor-pointer hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined text-primary text-[18px]">location_on</span>
-<span class="font-headline-sm text-headline-sm text-[13px]">Sector 4 (NCR Delhi-Jaipur-Agra)</span>
-<span class="material-symbols-outlined text-on-surface-variant text-[16px]">keyboard_arrow_down</span>
-</div>
-<!-- Highway Selector -->
-<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md h-9 rounded text-on-surface font-body-sm text-body-sm cursor-pointer hover:bg-surface-container-high transition-colors">
-<span class="material-symbols-outlined text-secondary-fixed-dim text-[18px]">alt_route</span>
-<span>All 4 Trunks (NH-48, NE-1, NH-44, SH-10)</span>
-<span class="material-symbols-outlined text-on-surface-variant text-[16px]">keyboard_arrow_down</span>
-</div>
-<!-- Authority Pills -->
-<div class="flex items-center gap-1.5 pl-space-xs">
-<span class="px-2.5 py-1 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> NHAI National
-            </span>
-<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface cursor-pointer">
-              PWD State
-            </span>
-<span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface cursor-pointer">
-              108/112 EMS
-            </span>
-</div>
-</div>
-</div>
-<!-- Real-time KPI Micro Ribbon -->
-<div class="grid grid-cols-2 md:grid-cols-4 gap-space-md pt-space-xs">
-<div class="bg-surface-container-low rounded-lg p-space-md flex items-center justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Corridor Incidents</span>
-<span class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mt-0.5">1,482</span>
-<span class="font-data-mono text-[11px] text-tertiary flex items-center gap-0.5 mt-0.5">
-<span class="material-symbols-outlined text-[13px]">trending_up</span> +3.8% vs last month
-            </span>
-</div>
-<div class="w-10 h-10 rounded bg-tertiary-container/20 flex items-center justify-center text-tertiary">
-<span class="material-symbols-outlined text-[22px]">car_crash</span>
-</div>
-</div>
-<div class="bg-surface-container-low rounded-lg p-space-md flex items-center justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Avg Incident Clearance SLA</span>
-<span class="font-headline-lg text-headline-lg text-secondary font-bold tracking-tight mt-0.5">18.4<span class="text-body-sm font-normal text-on-surface-variant ml-1">min</span></span>
-<span class="font-data-mono text-[11px] text-secondary flex items-center gap-0.5 mt-0.5">
-<span class="material-symbols-outlined text-[13px]">check_circle</span> 8.4m faster than target
-            </span>
-</div>
-<div class="w-10 h-10 rounded bg-secondary-container/20 flex items-center justify-center text-secondary">
-<span class="material-symbols-outlined text-[22px]">timer</span>
-</div>
-</div>
-<div class="bg-surface-container-low rounded-lg p-space-md flex items-center justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Blackspots Monitored</span>
-<span class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight mt-0.5">24</span>
-<span class="font-data-mono text-[11px] text-tertiary flex items-center gap-0.5 mt-0.5">
-<span class="material-symbols-outlined text-[13px]">warning</span> 4 Critical P1 clusters
-            </span>
-</div>
-<div class="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center text-tertiary">
-<span class="material-symbols-outlined text-[22px]">fmd_bad</span>
-</div>
-</div>
-<div class="bg-surface-container-low rounded-lg p-space-md flex items-center justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Weighted Road Health Avg</span>
-<div class="flex items-baseline gap-1 mt-0.5">
-<span class="font-headline-lg text-headline-lg text-primary font-bold tracking-tight">86.4</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">/ 100</span>
-</div>
-<span class="font-data-mono text-[11px] text-primary flex items-center gap-0.5 mt-0.5">
-<span class="material-symbols-outlined text-[13px]">verified</span> Category Grade B+
-            </span>
-</div>
-<div class="w-10 h-10 rounded bg-primary-container/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[22px]">health_and_safety</span>
-</div>
-</div>
-</div>
-</section>
-<!-- 3. Top Analytics Grid: Corridor Rankings & Blackspot Geospatial Heatmap -->
-<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-xl">
-<!-- Left Card: Road Health Score (RHS) Corridor Rankings (~45% / 5 cols) -->
-<section class="xl:col-span-5 bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-sm">
-<div>
-<div class="flex items-start justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-primary tracking-wider uppercase">MoRTH Civil Structural Index</span>
-<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight mt-0.5">Corridor Health Rankings (RHS)</h2>
-</div>
-<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface-variant font-data-mono text-[11px]">WEIGHTED INDEX</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Real-time fusion of surface roughness (IRI), pothole incidence, and emergency clearance latency.</p>
-<!-- Corridor List -->
-<div class="flex flex-col gap-space-md mt-space-lg">
-<!-- Item 1: NE-1 -->
-<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high/60 transition-all flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-sm">
-<span class="w-6 h-6 rounded bg-primary text-on-primary font-headline-sm text-headline-sm text-[12px] flex items-center justify-center">1</span>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface leading-snug">NE-1: Delhi-Meerut Expressway</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">82 km • 14 Lanes • High Throughput Corridor</span>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 rounded bg-secondary/15 text-secondary font-data-mono text-data-mono font-bold">94.6</span>
-<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm">GRADE A+</span>
-</div>
-</div>
-<div class="flex items-center gap-space-md mt-1">
-<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-secondary h-full rounded-full" style="width: 94.6%;"></div>
-</div>
-<span class="font-data-mono text-[11px] text-secondary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">arrow_drop_up</span> +0.8 pts
-                </span>
-</div>
-</div>
-<!-- Item 2: NH-48 -->
-<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high/60 transition-all flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-sm">
-<span class="w-6 h-6 rounded bg-surface-container-high text-on-surface font-headline-sm text-headline-sm text-[12px] flex items-center justify-center">2</span>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface leading-snug">NH-48: Delhi - Jaipur Expressway</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">142.6 km monitored • Active AI Edge telemetry</span>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 rounded bg-secondary/15 text-secondary font-data-mono text-data-mono font-bold">89.2</span>
-<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm">GRADE A-</span>
-</div>
-</div>
-<div class="flex items-center gap-space-md mt-1">
-<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-secondary h-full rounded-full" style="width: 89.2%;"></div>
-</div>
-<span class="font-data-mono text-[11px] text-secondary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">trending_up</span> +4.1 pts
-                </span>
-</div>
-</div>
-<!-- Item 3: NH-19 -->
-<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high/60 transition-all flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-sm">
-<span class="w-6 h-6 rounded bg-surface-container-high text-on-surface font-headline-sm text-headline-sm text-[12px] flex items-center justify-center">3</span>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface leading-snug">NH-19: Delhi - Agra Section</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">96 km • Freight Trunk • Moderate congestion</span>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 rounded bg-primary/20 text-primary font-data-mono text-data-mono font-bold">82.5</span>
-<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm">GRADE B+</span>
-</div>
-</div>
-<div class="flex items-center gap-space-md mt-1">
-<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-primary h-full rounded-full" style="width: 82.5%;"></div>
-</div>
-<span class="font-data-mono text-[11px] text-primary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">arrow_drop_up</span> +2.3 pts
-                </span>
-</div>
-</div>
-<!-- Item 4: NH-44 -->
-<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high/60 transition-all flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-sm">
-<span class="w-6 h-6 rounded bg-surface-container-high text-on-surface font-headline-sm text-headline-sm text-[12px] flex items-center justify-center">4</span>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface leading-snug">NH-44: Panipat - Ambala Section</span>
-<span class="font-body-sm text-body-sm text-tertiary text-[11px]">Pavement fatigue &amp; wheel rutting detected</span>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 rounded bg-tertiary-container/30 text-tertiary font-data-mono text-data-mono font-bold">78.4</span>
-<span class="px-1.5 py-0.5 rounded bg-surface-container text-tertiary font-label-sm text-label-sm">GRADE B-</span>
-</div>
-</div>
-<div class="flex items-center gap-space-md mt-1">
-<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-tertiary-container h-full rounded-full" style="width: 78.4%;"></div>
-</div>
-<span class="font-data-mono text-[11px] text-tertiary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">arrow_drop_down</span> -3.2 pts
-                </span>
-</div>
-</div>
-<!-- Item 5: SH-10 -->
-<div class="p-space-md rounded-lg bg-surface-container-low hover:bg-surface-container-high/60 transition-all flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-sm">
-<span class="w-6 h-6 rounded bg-tertiary-container text-on-tertiary-container font-headline-sm text-headline-sm text-[12px] flex items-center justify-center">5</span>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface leading-snug">SH-10: Gurugram - Pataudi State Road</span>
-<span class="font-body-sm text-body-sm text-tertiary text-[11px]">Severe edge break &amp; heavy vehicle wear</span>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-data-mono text-data-mono font-bold">64.1</span>
-<span class="px-1.5 py-0.5 rounded bg-surface-container text-tertiary font-label-sm text-label-sm">GRADE D</span>
-</div>
-</div>
-<div class="flex items-center gap-space-md mt-1">
-<div class="flex-1 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-tertiary-container h-full rounded-full" style="width: 64.1%;"></div>
-</div>
-<span class="font-data-mono text-[11px] text-tertiary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">priority_high</span> -6.5 pts
-                </span>
-</div>
-</div>
-</div>
-</div>
-<div class="pt-space-md flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
-<span>Formula: (0.4 × Surface) + (0.3 × Incident SLA) + (0.3 × Blackspot Coeff)</span>
-<button class="text-primary hover:underline flex items-center gap-0.5">Audit Methodology <span class="material-symbols-outlined text-[14px]">open_in_new</span></button>
-</div>
-</section>
-<!-- Right Card: Accident Blackspot Geospatial Heatmap (~55% / 7 cols) -->
-<section class="xl:col-span-7 bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-sm relative overflow-hidden">
-<!-- Header & Map View Toggles -->
-<div class="flex flex-wrap items-center justify-between gap-space-sm z-10">
-<div class="flex flex-col">
-<div class="flex items-center gap-space-xs">
-<span class="w-2.5 h-2.5 rounded-full bg-tertiary animate-ping"></span>
-<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Active Geospatial Vector</span>
-</div>
-<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight mt-0.5">Accident Blackspot Geospatial Heatmap</h2>
-</div>
-<!-- Controls: Mode Selector & Zoom -->
-<div class="flex items-center gap-space-xs bg-surface-container-lowest p-1 rounded-lg">
-<button class="map-layer-btn px-2.5 py-1 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm transition-all" id="btn-carto" onclick="switchMapLayer('carto')">Carto Dark</button>
-<button class="map-layer-btn px-2.5 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface transition-all" id="btn-thermal" onclick="switchMapLayer('thermal')">Thermal Density</button>
-<button class="map-layer-btn px-2.5 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface transition-all" id="btn-satellite" onclick="switchMapLayer('satellite')">Satellite Aerial</button>
-<div class="w-px h-4 bg-outline-variant/30 mx-1"></div>
-<button class="w-7 h-7 rounded bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-surface-bright" onclick="toggleZoom(1)"><span class="material-symbols-outlined text-[16px]">add</span></button>
-<button class="w-7 h-7 rounded bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-surface-bright" onclick="toggleZoom(-1)"><span class="material-symbols-outlined text-[16px]">remove</span></button>
-<span class="font-data-mono text-[11px] text-on-surface-variant px-1" data-zoom="12" id="map-zoom-level">Z-12</span>
-</div>
-</div>
-<!-- The Interactive Map Canvas Container -->
-<div class="relative w-full h-[400px] mt-space-md rounded-lg overflow-hidden bg-surface-container-lowest flex items-center justify-center">
-<!-- Layer 1: Carto Dark Highway Map Layer -->
-<div class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 opacity-100" data-location="NH-48 Delhi Jaipur Expressway Manesar" id="map-layer-carto" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6kYk2KWcAwebyDW4YM1YJBK2O8v4jmiZcmpPOIfFH-WWGChACRIJuiEBGUY1H9ztVltkC-KYIxedmRf5GO2khPWY65UrX2S7Sgf6vJCn7yAWhMgUT3rJd4o4LGNunPcmdv37yD04mjJPa5kjrRIDbGZcqI2NJVSSr9waBMl4MCOfXK2Cp9FNfLnHxbDGWnYZ4ILoFjQ80e9f1b3jJ03bGJbGKbN1K7OGSoghn5D4');">
-<!-- Semi-dark ambient wash for night command contrast -->
-<div class="absolute inset-0 bg-[#0B0F17]/75 backdrop-blur-[1px]"></div>
-</div>
-<!-- Layer 2: Thermal Layer -->
-<div class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 opacity-0 pointer-events-none" data-alt="High altitude false-color infrared thermal density map of Northern Expressway network showing red and yellow thermal heat signatures around Manesar and Gurgaon interchange, dark background with glowing arterial lines" id="map-layer-thermal" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD9Rt16q5pwy7knU7kd1Od-t2qkosj_W_GMcMMyBObWPGMtiGxFI2vi6IQp058Iol5NJd13wmOiFz1_ZveMT9rUNjFdmsfK9lHC6Y9BVOsBqUg9zleYjvQzhRr9gPyqQ5g56lyU5IFYqld7Da5ep7AzOmgBIUhaFkiXVUZSz7ipwMz1BuWh6e2LjhP9d114lGo_UzUdFM3s5vWMpn7XvqCtkn3IFdjX9-MBfP9Wybs');"></div>
-<!-- Layer 3: Satellite Imagery -->
-<div class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-500 opacity-0 pointer-events-none" data-alt="Detailed dark satellite orthophoto view of multi-lane expressway interchange in India with illuminated highway lighting, interchanges, flyovers, and service lanes at night" id="map-layer-satellite" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmRliAq9BkeHswiB5D3aXJl043flTtPh8fsVtSwbEnLhizlwpnw0rTLucdEvBye5IYj9bFA1aRjtqsl5qyzkugM4lm7kNxijFb44e6ow2pyTJjSVLUWugRZwVF77tRT5AsiujSgko8PAksgyD7aWdN3KSX0Hmy3F6r9kCaEIVR4AqJuAyXLWLkNVnVlAvDtWyuN8vYYzKm40MtL18Pn0tA7EAxEr7gWY-PaSYQgH0');"></div>
-<!-- SVG Highway Vectors & Heatmap Glyphs Overlaid -->
-<svg class="absolute inset-0 w-full h-full pointer-events-none" preserveaspectratio="none" viewbox="0 0 700 400">
-<!-- Highway Corridor Lines -->
-<path d="M 50 350 Q 220 280 340 210 T 650 60" fill="none" stroke="#2563EB" stroke-dasharray="8 4" stroke-opacity="0.6" stroke-width="4"></path>
-<path d="M 120 380 Q 280 290 420 220 T 680 120" fill="none" stroke="#38BDF8" stroke-opacity="0.4" stroke-width="2.5"></path>
-<!-- Radiating Heat Cluster Circles -->
-<!-- Cluster 1: KM 142.6 Manesar Bypass (Severe Blackspot) -->
-<circle cx="340" cy="210" fill="#EF4444" fill-opacity="0.22" r="48"></circle>
-<circle cx="340" cy="210" fill="#EF4444" fill-opacity="0.45" r="28"></circle>
-<circle cx="340" cy="210" fill="#EF4444" fill-opacity="0.9" r="10"></circle>
-<!-- Cluster 2: KM 88.2 Dharuhera -->
-<circle cx="210" cy="285" fill="#F59E0B" fill-opacity="0.2" r="32"></circle>
-<circle cx="210" cy="285" fill="#F59E0B" fill-opacity="0.5" r="16"></circle>
-<circle cx="210" cy="285" fill="#F59E0B" fill-opacity="0.9" r="6"></circle>
-<!-- Cluster 3: KM 34.8 Rajiv Chowk -->
-<circle cx="510" cy="130" fill="#EF4444" fill-opacity="0.2" r="36"></circle>
-<circle cx="510" cy="130" fill="#EF4444" fill-opacity="0.45" r="18"></circle>
-<circle cx="510" cy="130" fill="#EF4444" fill-opacity="0.9" r="8"></circle>
-<!-- Sensor Edge Nodes along highway -->
-<circle cx="160" cy="305" fill="#68dba9" r="3"></circle>
-<circle cx="270" cy="250" fill="#68dba9" r="3"></circle>
-<circle cx="430" cy="170" fill="#68dba9" r="3"></circle>
-<circle cx="590" cy="90" fill="#68dba9" r="3"></circle>
-</svg>
-<!-- Floating High-Density Callout Card for Peak Blackspot -->
-<div class="absolute left-1/2 top-1/2 -translate-x-12 -translate-y-36 z-20 w-80 bg-surface-container-low/95 backdrop-blur-md p-space-md rounded-lg shadow-xl text-left pointer-events-auto">
-<div class="flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm tracking-wide font-bold">P1 CRITICAL BLACKSPOT</span>
-<span class="font-data-mono text-[11px] text-tertiary">28.4°N, 76.9°E</span>
-</div>
-<div class="mt-2">
-<div class="font-headline-sm text-headline-sm text-on-surface">KM 142.6 • Manesar Bypass Flyover</div>
-<div class="font-data-mono text-data-mono text-tertiary font-bold mt-0.5">28 Collisions Recorded in 12 Mos</div>
-</div>
-<div class="grid grid-cols-2 gap-2 mt-space-sm pt-space-xs bg-surface-container p-2 rounded">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">PRIMARY CAUSE</span>
-<span class="font-body-sm text-body-sm text-on-surface text-[12px]">Sharp R=320m Curve + Lane Merger</span>
-</div>
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-on-surface-variant text-[10px]">AVG CLEARANCE</span>
-<span class="font-body-sm text-body-sm text-secondary text-[12px]">14.2 min (NHAI QRU)</span>
-</div>
-</div>
-<div class="flex items-center justify-between mt-space-sm">
-<button class="text-primary hover:text-primary-fixed font-label-sm text-label-sm flex items-center gap-1" onclick="openWorkOrderModal('KM 142.6 Manesar', 'NHAI Quick Response Gang 04', 'High-Friction Surfacing Overlay')">
-<span>Issue Civil Mitigation</span>
-<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-</button>
-<span class="font-data-mono text-[10px] text-on-surface-variant">Camera Node #084 Live</span>
-</div>
-</div>
-<!-- Bottom Legend Pill Inside Map -->
-<div class="absolute bottom-3 left-3 z-10 bg-surface-container-low/90 backdrop-blur-md px-3 py-1.5 rounded-lg flex items-center gap-space-md font-label-sm text-label-sm">
-<div class="flex items-center gap-1.5">
-<span class="w-3 h-3 rounded-full bg-tertiary-container"></span>
-<span class="text-on-surface">P1 High Cluster (&gt;20/yr)</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="w-3 h-3 rounded-full bg-secondary-container"></span>
-<span class="text-on-surface">P2 Moderate (10-19/yr)</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="w-3 h-3 rounded-full bg-secondary"></span>
-<span class="text-on-surface">142 Vision Nodes Active</span>
-</div>
-</div>
-<!-- Top-Right Metric Overlay -->
-<div class="absolute top-3 right-3 z-10 bg-surface-container-low/90 backdrop-blur-md px-3 py-1.5 rounded font-data-mono text-[11px] text-on-surface flex items-center gap-2">
-<span class="text-on-surface-variant">Corridor Latency:</span>
-<span class="text-secondary font-bold">14ms Edge Sync</span>
-</div>
-</div>
-<div class="flex items-center justify-between pt-space-md text-on-surface-variant font-label-sm text-label-sm">
-<span>Corridor coverage: 142.6 km continuous thermal radar &amp; AI optical triangulation.</span>
-<span class="font-data-mono text-data-mono">Map projection: WGS 84 / UTM zone 43N</span>
-</div>
-</section>
-</div>
-<!-- 4. Advanced Accessible Chart Analytics Section with Stippling, Hatches & Strokes -->
-<section class="grid grid-cols-1 lg:grid-cols-3 gap-space-xl">
-<!-- Chart 1: Daily Incidents Trend (30 Days) with Accessible Stroke Patterns -->
-<div class="bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-sm">
-<div>
-<div class="flex items-start justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Temporal Dynamics</span>
-<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-0.5">Incidents Over Time (Daily 30-Day Trend)</h3>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">show_chart</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Multi-pattern frequency tracks: collisions, debris, and structural triggers.</p>
-<!-- SVG Line Chart with Grid & Accessible Hatches -->
-<div class="relative w-full h-56 mt-space-md">
-<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 360 180">
-<!-- Grid lines -->
-<line stroke="#434655" stroke-dasharray="2 2" stroke-opacity="0.25" x1="20" x2="350" y1="20" y2="20"></line>
-<line stroke="#434655" stroke-dasharray="2 2" stroke-opacity="0.25" x1="20" x2="350" y1="65" y2="65"></line>
-<line stroke="#434655" stroke-dasharray="2 2" stroke-opacity="0.25" x1="20" x2="350" y1="110" y2="110"></line>
-<line stroke="#434655" stroke-opacity="0.4" x1="20" x2="350" y1="155" y2="155"></line>
-<!-- Axis Labels -->
-<text fill="#8D90A0" font-family="Inter" font-size="9" text-anchor="end" x="12" y="24">60</text>
-<text fill="#8D90A0" font-family="Inter" font-size="9" text-anchor="end" x="12" y="69">40</text>
-<text fill="#8D90A0" font-family="Inter" font-size="9" text-anchor="end" x="12" y="114">20</text>
-<text fill="#8D90A0" font-family="Inter" font-size="9" text-anchor="end" x="12" y="159">0</text>
-<!-- Area Fill for Total Incidents -->
-<lineargradient id="blueAreaGrad" x1="0" x2="0" y1="0" y2="1">
-<stop offset="0%" stop-color="#2563EB" stop-opacity="0.25"></stop>
-<stop offset="100%" stop-color="#2563EB" stop-opacity="0.0"></stop>
-</lineargradient>
-<path d="M 30 140 L 60 120 L 90 125 L 120 95 L 150 110 L 180 80 L 210 88 L 240 55 L 270 65 L 300 45 L 330 60 L 330 155 L 30 155 Z" fill="url(#blueAreaGrad)"></path>
-<!-- Line 1: Total Incidents (Solid Blue) -->
-<path d="M 30 140 L 60 120 L 90 125 L 120 95 L 150 110 L 180 80 L 210 88 L 240 55 L 270 65 L 300 45 L 330 60" fill="none" stroke="#2563EB" stroke-width="2.5"></path>
-<!-- Line 2: P2 Road Hazards (Dashed Amber) -->
-<path d="M 30 148 L 60 138 L 90 142 L 120 125 L 150 130 L 180 115 L 210 120 L 240 102 L 270 108 L 300 95 L 330 105" fill="none" stroke="#F59E0B" stroke-dasharray="4 3" stroke-width="2"></path>
-<!-- Line 3: P1 Critical Collisions (Red Dotted with Circles) -->
-<path d="M 30 152 L 60 150 L 90 151 L 120 146 L 150 148 L 180 142 L 210 145 L 240 138 L 270 140 L 300 134 L 330 137" fill="none" stroke="#EF4444" stroke-dasharray="2 2" stroke-width="2"></path>
-<circle cx="240" cy="138" fill="#EF4444" r="3.5"></circle>
-<circle cx="300" cy="134" fill="#EF4444" r="3.5"></circle>
-<!-- Active Tooltip Indicator Line at Oct 24 -->
-<line stroke="#FFFFFF" stroke-dasharray="2 2" stroke-opacity="0.4" stroke-width="1" x1="240" x2="240" y1="20" y2="155"></line>
-</svg>
-<!-- Rendered Tooltip Pin at Oct 24 Marker -->
-<div class="absolute top-2 left-[56%] bg-surface-container-lowest/95 backdrop-blur-md p-2 rounded shadow-lg pointer-events-none text-left">
-<div class="font-data-mono text-[10px] text-on-surface-variant font-bold">24 OCT 2026</div>
-<div class="font-headline-sm text-headline-sm text-primary text-[12px] leading-tight">52 Total Incidents</div>
-<div class="flex items-center gap-2 mt-1 font-data-mono text-[10px]">
-<span class="text-tertiary">4 P1</span>
-<span class="text-secondary-container">18 P2</span>
-<span class="text-on-surface-variant">30 P3/P4</span>
-</div>
-</div>
-</div>
-<!-- Bottom Time Axis Labels -->
-<div class="flex justify-between px-space-xs font-data-mono text-[10px] text-on-surface-variant mt-1">
-<span>01 Oct</span>
-<span>08 Oct</span>
-<span>15 Oct</span>
-<span class="text-on-surface font-bold">24 Oct</span>
-<span>31 Oct</span>
-</div>
-</div>
-<!-- Accessible Legend -->
-<div class="flex flex-wrap items-center gap-space-md pt-space-md text-on-surface-variant font-label-sm text-label-sm">
-<div class="flex items-center gap-1.5">
-<span class="w-4 h-0.5 bg-primary"></span>
-<span class="text-on-surface">Total Incident Vol.</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="w-4 h-0.5 border-t border-dashed border-[#F59E0B]"></span>
-<span class="text-on-surface">P2 Hazards</span>
-</div>
-<div class="flex items-center gap-1.5">
-<span class="w-4 h-0.5 border-t border-dotted border-tertiary-container"></span>
-<span class="text-on-surface">P1 Collisions</span>
-</div>
-</div>
-</div>
-<!-- Chart 2: Incident Distribution by Classification & Severity (Donut & Hatch Texture) -->
-<div class="bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-sm">
-<div>
-<div class="flex items-start justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Classification Mix</span>
-<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-0.5">Classification &amp; Texture Severity</h3>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">pie_chart</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Categorical incident footprint segmented by sensory signature.</p>
-<!-- Donut Graphic + Patterns for Accessibility -->
-<div class="flex items-center justify-center my-space-md">
-<div class="relative w-44 h-44 flex items-center justify-center">
-<svg class="w-full h-full -rotate-90" viewbox="0 0 100 100">
-<!-- Background track -->
-<circle cx="50" cy="50" fill="none" r="38" stroke="#181c24" stroke-width="16"></circle>
-<!-- 1. Potholes & Structural (38%) -> Blue Crosshatch -->
-<circle cx="50" cy="50" fill="none" r="38" stroke="url(#pattern-defect-blue)" stroke-dasharray="90.7 238.7" stroke-dashoffset="0" stroke-width="16"></circle>
-<circle cx="50" cy="50" fill="none" r="38" stroke="#2563EB" stroke-dasharray="90.7 238.7" stroke-dashoffset="0" stroke-width="2"></circle>
-<!-- 2. Vehicle Collisions (26%) -> Red Diagonal Hatch -->
-<circle cx="50" cy="50" fill="none" r="38" stroke="url(#pattern-p1-hazard)" stroke-dasharray="62.1 238.7" stroke-dashoffset="-90.7" stroke-width="16"></circle>
-<circle cx="50" cy="50" fill="none" r="38" stroke="#EF4444" stroke-dasharray="62.1 238.7" stroke-dashoffset="-90.7" stroke-width="2"></circle>
-<!-- 3. Stalled Heavy Vehicles (21%) -> Solid Amber -->
-<circle cx="50" cy="50" fill="none" r="38" stroke="#F59E0B" stroke-dasharray="50.1 238.7" stroke-dashoffset="-152.8" stroke-opacity="0.85" stroke-width="16"></circle>
-<!-- 4. Debris / Wrong-way (15%) -> Cyan Stipple -->
-<circle cx="50" cy="50" fill="none" r="38" stroke="url(#pattern-cyan-dots)" stroke-dasharray="35.8 238.7" stroke-dashoffset="-202.9" stroke-width="16"></circle>
-<circle cx="50" cy="50" fill="none" r="38" stroke="#38BDF8" stroke-dasharray="35.8 238.7" stroke-dashoffset="-202.9" stroke-width="2"></circle>
-</svg>
-<!-- Center Callout -->
-<div class="absolute flex flex-col items-center justify-center text-center">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase text-[10px]">TOTAL DETECTED</span>
-<span class="font-headline-lg text-headline-lg font-bold text-on-surface leading-none mt-0.5">1,482</span>
-<span class="font-data-mono text-[10px] text-secondary mt-0.5">99.1% AI CONF</span>
-</div>
-</div>
-</div>
-<!-- Breakdown Metrics List -->
-<div class="flex flex-col gap-2">
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm p-1.5 rounded bg-surface-container-low">
-<div class="flex items-center gap-2">
-<span class="w-3.5 h-3.5 rounded-sm" style="background: url(#pattern-defect-blue); background-color: #1E293B;"></span>
-<span>Potholes &amp; Pavement Cracks</span>
-</div>
-<span class="font-data-mono text-data-mono font-bold text-primary">38% (563)</span>
-</div>
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm p-1.5 rounded bg-surface-container-low">
-<div class="flex items-center gap-2">
-<span class="w-3.5 h-3.5 rounded-sm" style="background: url(#pattern-p1-hazard); background-color: #2D1515;"></span>
-<span>Vehicle Collisions (P1)</span>
-</div>
-<span class="font-data-mono text-data-mono font-bold text-tertiary">26% (385)</span>
-</div>
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm p-1.5 rounded bg-surface-container-low">
-<div class="flex items-center gap-2">
-<span class="w-3.5 h-3.5 rounded-sm bg-[#F59E0B]"></span>
-<span>Stalled Multi-Axle Trucks</span>
-</div>
-<span class="font-data-mono text-data-mono font-bold text-on-surface">21% (311)</span>
-</div>
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm p-1.5 rounded bg-surface-container-low">
-<div class="flex items-center gap-2">
-<span class="w-3.5 h-3.5 rounded-sm" style="background: url(#pattern-cyan-dots); background-color: #0A192F;"></span>
-<span>Debris / Animals / Wrong-Way</span>
-</div>
-<span class="font-data-mono text-data-mono font-bold text-secondary-fixed-dim">15% (223)</span>
-</div>
-</div>
-</div>
-<div class="pt-space-md text-on-surface-variant font-label-sm text-label-sm flex items-center justify-between">
-<span>Vision Classifier v4.2.1</span>
-<span class="font-data-mono text-[11px] text-secondary">Zero False-Negatives</span>
-</div>
-</div>
-<!-- Chart 3: Average Resolution & Clearance SLA by Authority -->
-<div class="bg-surface-container rounded-xl p-space-lg flex flex-col justify-between shadow-sm">
-<div>
-<div class="flex items-start justify-between">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Operational SLA</span>
-<h3 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-0.5">Resolution &amp; Clearance SLA</h3>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">speed</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Golden-hour response target (15.0m) benchmark across dispatch agencies.</p>
-<!-- Comparative Horizontal Bar Chart -->
-<div class="flex flex-col gap-space-md mt-space-lg relative">
-<!-- Reference Target Line across the group -->
-<div class="absolute left-[37.5%] top-0 bottom-0 w-0.5 bg-tertiary-container z-20 pointer-events-none flex flex-col items-center">
-<span class="bg-tertiary-container text-on-tertiary-container font-data-mono text-[9px] px-1 py-0.5 rounded whitespace-nowrap shadow-sm -mt-2">TARGET 15.0 MIN</span>
-</div>
-<!-- Bar 1: 108 Emergency Medical Patrol -->
-<div class="flex flex-col gap-1">
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
-<span class="font-label-md text-label-md">108 Emergency Medical Patrol</span>
-<span class="font-data-mono text-data-mono text-secondary font-bold">9.4 min <span class="font-normal text-on-surface-variant text-[11px]">(Compliant)</span></span>
-</div>
-<div class="w-full bg-surface-container-highest h-3 rounded-full overflow-hidden">
-<div class="bg-secondary h-full rounded-full" style="width: 23.5%;"></div>
-</div>
-</div>
-<!-- Bar 2: NHAI Quick Response Unit -->
-<div class="flex flex-col gap-1">
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
-<span class="font-label-md text-label-md">NHAI Quick Response Unit (QRU)</span>
-<span class="font-data-mono text-data-mono text-secondary font-bold">11.2 min <span class="font-normal text-on-surface-variant text-[11px]">(Compliant)</span></span>
-</div>
-<div class="w-full bg-surface-container-highest h-3 rounded-full overflow-hidden">
-<div class="bg-secondary h-full rounded-full" style="width: 28%;"></div>
-</div>
-</div>
-<!-- Bar 3: Municipal Traffic Police -->
-<div class="flex flex-col gap-1">
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
-<span class="font-label-md text-label-md">Municipal Traffic Police Interceptor</span>
-<span class="font-data-mono text-data-mono text-secondary font-bold">14.8 min <span class="font-normal text-on-surface-variant text-[11px]">(Within Limit)</span></span>
-</div>
-<div class="w-full bg-surface-container-highest h-3 rounded-full overflow-hidden">
-<div class="bg-secondary-container h-full rounded-full" style="width: 37%;"></div>
-</div>
-</div>
-<!-- Bar 4: PWD Civil Maintenance Gangs -->
-<div class="flex flex-col gap-1">
-<div class="flex items-center justify-between text-on-surface font-body-sm text-body-sm">
-<span class="font-label-md text-label-md text-tertiary">PWD Civil Maintenance Gangs</span>
-<span class="font-data-mono text-data-mono text-tertiary font-bold">38.6 min <span class="text-tertiary text-[11px] font-semibold">(SLA BREACH)</span></span>
-</div>
-<div class="w-full bg-surface-container-highest h-3 rounded-full overflow-hidden">
-<div class="h-full rounded-full" style="width: 96.5%; background: url(#pattern-amber-warning); background-color: #EF4444;"></div>
-</div>
-</div>
-</div>
-</div>
-<div class="pt-space-md text-on-surface-variant font-label-sm text-label-sm flex items-center justify-between">
-<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> 3 Agencies in Golden Standard</span>
-<button class="text-tertiary hover:underline">Escalate PWD Delay</button>
-</div>
-</div>
-</section>
-<!-- 5. Recurring Defects & Chronic Failure Registry Table -->
-<section class="bg-surface-container rounded-xl p-space-lg flex flex-col gap-space-md shadow-sm">
-<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
-<div class="flex flex-col">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-tertiary text-[18px]">build_circle</span>
-<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider font-semibold">Contractor Accountability &amp; Quality Audit</span>
-</div>
-<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight mt-0.5">Recurring Defects &amp; Chronic Failure Registry</h2>
-<p class="font-body-sm text-body-sm text-on-surface-variant">AI-flagged points along corridors where repairs have broken down repeatedly within a 90-day window.</p>
-</div>
-<!-- Table Micro Actions -->
-<div class="flex items-center gap-space-sm flex-wrap">
-<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md h-9 rounded text-on-surface font-body-sm text-body-sm">
-<span class="material-symbols-outlined text-on-surface-variant text-[16px]">filter_list</span>
-<span>Filter: Repeat Rate &gt; 50%</span>
-</div>
-<button class="h-9 px-space-md rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-space-xs transition-colors" onclick="openWorkOrderModal('ALL-FAILURES-BATCH', 'Regional Superintending Engineer', 'Pavement Core Extraction Audit')">
-<span class="material-symbols-outlined text-[16px]">download</span>
-<span>Export Contractor Penalty Sheet</span>
-</button>
-</div>
-</div>
-<!-- High-Density Data Table -->
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider h-10">
-<th class="px-space-md">Corridor &amp; Marker</th>
-<th class="px-space-md">Defect Classification</th>
-<th class="px-space-md">90d Recurrence</th>
-<th class="px-space-md">Last Maintenance &amp; Contractor</th>
-<th class="px-space-md">Repeat Failure Rate</th>
-<th class="px-space-md">AI Root-Cause Diagnostic</th>
-<th class="px-space-md text-right">Operational Actions</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-surface-container-high font-body-sm text-body-sm">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-high/40 transition-colors h-14">
-<td class="px-space-md font-data-mono text-data-mono">
-<div class="flex items-center gap-space-xs">
-<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
-<span class="font-bold text-on-surface">NH-48 KM 142.6</span>
-</div>
-<span class="text-on-surface-variant text-[11px]">Lane 2 (Eastbound Carriageway)</span>
-</td>
-<td class="px-space-md">
-<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-semibold">Pothole Deep Cluster (D=70mm)</span>
-</td>
-<td class="px-space-md font-data-mono text-data-mono font-bold text-tertiary">
-                5x in 90 days
-              </td>
-<td class="px-space-md">
-<div class="font-data-mono text-data-mono text-on-surface">14 Oct 2026 • 03:20</div>
-<div class="text-on-surface-variant text-[11px]">NHAI Concessionaire Gang-04</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-space-sm">
-<div class="w-16 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-tertiary-container h-full rounded-full" style="width: 82%;"></div>
-</div>
-<span class="font-data-mono text-data-mono font-bold text-tertiary">82%</span>
-</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-1.5 text-on-surface">
-<span class="material-symbols-outlined text-tertiary text-[16px]">water</span>
-<span>Sub-base drainage failure &amp; bitumen emulsification</span>
-</div>
-</td>
-<td class="px-space-md text-right">
-<div class="flex items-center justify-end gap-space-xs">
-<button class="h-8 px-space-sm rounded bg-primary-container text-on-primary-container font-headline-sm text-headline-sm text-[11px] hover:bg-primary-container/80 transition-colors flex items-center gap-1" onclick="openWorkOrderModal('NH-48 KM 142.6', 'NHAI Gang-04', 'Deep Milling &amp; Asphalt Overlay')">
-<span class="material-symbols-outlined text-[14px]">assignment_turned_in</span>
-<span>Issue Resurface Order</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface-container-high hover:bg-surface-bright flex items-center justify-center text-on-surface-variant hover:text-on-surface" title="View 4K Camera Defect Audit">
-<span class="material-symbols-outlined text-[16px]">videocam</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-high/40 transition-colors h-14">
-<td class="px-space-md font-data-mono text-data-mono">
-<div class="flex items-center gap-space-xs">
-<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
-<span class="font-bold text-on-surface">NE-1 KM 32.1</span>
-</div>
-<span class="text-on-surface-variant text-[11px]">Flyover Expansion Joint Span 4</span>
-</td>
-<td class="px-space-md">
-<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">Elastomeric Joint Raveling</span>
-</td>
-<td class="px-space-md font-data-mono text-data-mono font-bold text-on-surface">
-                3x in 90 days
-              </td>
-<td class="px-space-md">
-<div class="font-data-mono text-data-mono text-on-surface">28 Sep 2026 • 23:10</div>
-<div class="text-on-surface-variant text-[11px]">Infra-Build JV (Contractor #89)</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-space-sm">
-<div class="w-16 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-secondary-container h-full rounded-full" style="width: 48%;"></div>
-</div>
-<span class="font-data-mono text-data-mono text-secondary-fixed-dim">48%</span>
-</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-1.5 text-on-surface">
-<span class="material-symbols-outlined text-primary text-[16px]">line_weight</span>
-<span>Heavy axle impact stress &amp; anchor bracket looseness</span>
-</div>
-</td>
-<td class="px-space-md text-right">
-<div class="flex items-center justify-end gap-space-xs">
-<button class="h-8 px-space-sm rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md text-[11px] transition-colors flex items-center gap-1" onclick="openWorkOrderModal('NE-1 KM 32.1', 'Infra-Build JV', 'Modular Joint Replacement')">
-<span class="material-symbols-outlined text-[14px]">edit_note</span>
-<span>Re-inspect Joint</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface-container-high hover:bg-surface-bright flex items-center justify-center text-on-surface-variant hover:text-on-surface" title="View 4K Camera Defect Audit">
-<span class="material-symbols-outlined text-[16px]">videocam</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-high/40 transition-colors h-14">
-<td class="px-space-md font-data-mono text-data-mono">
-<div class="flex items-center gap-space-xs">
-<span class="w-2 h-2 rounded-full bg-tertiary-container"></span>
-<span class="font-bold text-on-surface">SH-10 KM 18.4</span>
-</div>
-<span class="text-on-surface-variant text-[11px]">Outer Shoulder / Low-lying Zone</span>
-</td>
-<td class="px-space-md">
-<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-sm text-label-sm font-semibold">Shoulder Subsidence &amp; Washout</span>
-</td>
-<td class="px-space-md font-data-mono text-data-mono font-bold text-tertiary">
-                6x in 90 days
-              </td>
-<td class="px-space-md">
-<div class="font-data-mono text-data-mono text-on-surface">02 Oct 2026 • 11:45</div>
-<div class="text-on-surface-variant text-[11px]">Haryana State PWD Division 2</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-space-sm">
-<div class="w-16 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-tertiary-container h-full rounded-full" style="width: 91%;"></div>
-</div>
-<span class="font-data-mono text-data-mono font-bold text-tertiary">91%</span>
-</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-1.5 text-on-surface">
-<span class="material-symbols-outlined text-tertiary text-[16px]">landslide</span>
-<span>Erosion caused by unregulated agricultural runoff cut</span>
-</div>
-</td>
-<td class="px-space-md text-right">
-<div class="flex items-center justify-end gap-space-xs">
-<button class="h-8 px-space-sm rounded bg-primary-container text-on-primary-container font-headline-sm text-headline-sm text-[11px] hover:bg-primary-container/80 transition-colors flex items-center gap-1" onclick="openWorkOrderModal('SH-10 KM 18.4', 'Haryana PWD Div 2', 'Retaining Concrete Rip-Rap')">
-<span class="material-symbols-outlined text-[14px]">assignment_turned_in</span>
-<span>Issue Resurface Order</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface-container-high hover:bg-surface-bright flex items-center justify-center text-on-surface-variant hover:text-on-surface" title="View 4K Camera Defect Audit">
-<span class="material-symbols-outlined text-[16px]">videocam</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-high/40 transition-colors h-14">
-<td class="px-space-md font-data-mono text-data-mono">
-<div class="flex items-center gap-space-xs">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="font-bold text-on-surface">NH-19 KM 54.0</span>
-</div>
-<span class="text-on-surface-variant text-[11px]">Palwal Toll Plaza Approach</span>
-</td>
-<td class="px-space-md">
-<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-semibold">Pavement Corrugation &amp; Shoving</span>
-</td>
-<td class="px-space-md font-data-mono text-data-mono font-bold text-on-surface">
-                2x in 90 days
-              </td>
-<td class="px-space-md">
-<div class="font-data-mono text-data-mono text-on-surface">19 Oct 2026 • 16:00</div>
-<div class="text-on-surface-variant text-[11px]">Tollway Concessionaire PMC</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-space-sm">
-<div class="w-16 bg-surface-container-highest h-2 rounded-full overflow-hidden">
-<div class="bg-primary h-full rounded-full" style="width: 32%;"></div>
-</div>
-<span class="font-data-mono text-data-mono text-primary font-bold">32%</span>
-</div>
-</td>
-<td class="px-space-md">
-<div class="flex items-center gap-1.5 text-on-surface">
-<span class="material-symbols-outlined text-secondary-fixed-dim text-[16px]">local_shipping</span>
-<span>Braking deceleration shear by overloaded heavy freight</span>
-</div>
-</td>
-<td class="px-space-md text-right">
-<div class="flex items-center justify-end gap-space-xs">
-<button class="h-8 px-space-sm rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md text-[11px] transition-colors flex items-center gap-1" onclick="openWorkOrderModal('NH-19 KM 54.0', 'Tollway PMC', 'Rigid Pavement White-Topping')">
-<span class="material-symbols-outlined text-[14px]">edit_note</span>
-<span>Re-inspect Joint</span>
-</button>
-<button class="w-8 h-8 rounded bg-surface-container-high hover:bg-surface-bright flex items-center justify-center text-on-surface-variant hover:text-on-surface" title="View 4K Camera Defect Audit">
-<span class="material-symbols-outlined text-[16px]">videocam</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Pagination & Audit Meta -->
-<div class="flex flex-wrap items-center justify-between pt-space-xs text-on-surface-variant font-label-sm text-label-sm">
-<div class="flex items-center gap-2 font-data-mono">
-<span>Showing 4 of 28 recurring defect markers</span>
-<span>•</span>
-<span class="text-tertiary">Penalty Deductions Triggered: ₹14.8 Lakhs</span>
-</div>
-<div class="flex items-center gap-1">
-<button class="px-2 py-1 rounded bg-surface-container-low text-on-surface-variant hover:text-on-surface disabled:opacity-40">Previous</button>
-<span class="px-2 py-1 rounded bg-primary text-on-primary font-bold">1</span>
-<button class="px-2 py-1 rounded bg-surface-container-low text-on-surface hover:bg-surface-container-high">2</button>
-<button class="px-2 py-1 rounded bg-surface-container-low text-on-surface hover:bg-surface-container-high">3</button>
-<button class="px-2 py-1 rounded bg-surface-container-low text-on-surface hover:bg-surface-container-high">Next</button>
-</div>
-</div>
-</section>
-</div>
-<!-- Real-time Alert Toast Container (Bottom Right 3px spine) -->
-<div class="fixed bottom-6 right-6 z-[900] max-w-md bg-surface-container-low p-space-md rounded shadow-2xl transition-all duration-300 translate-y-24 opacity-0 pointer-events-none flex flex-col gap-1 border-l-4 border-l-primary" id="toast-notification">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
-<span class="font-headline-sm text-headline-sm text-[13px] text-on-surface font-semibold" id="toast-title">Action Dispatched</span>
-</div>
-<button class="text-on-surface-variant hover:text-on-surface" onclick="document.getElementById('toast-notification').classList.add('translate-y-24', 'opacity-0', 'pointer-events-none')">
-<span class="material-symbols-outlined text-[16px]">close</span>
-</button>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant text-[12px]" id="toast-desc">Civil mitigation order logged into the NHAI Concessionaire portal.</p>
-</div>
-</div></main></div><script>
 (function () {
-  const routes = {
-    dashboard: 'command-center.html',
-    incidents: 'incident-detail.html',
-    'incident-detail-rn-2026-004821-nh-48-corridor': 'incident-detail.html',
-    cameras: 'cameras.html',
-    analytics: 'analytics.html',
-    settings: 'settings.html',
-    'roadnetra-ai-live-incident-command-center': 'command-center.html',
-    'roadnetra-ai-edge-camera-monitoring-cctv-grid': 'cameras.html',
-    'roadnetra-ai-corridor-analytics-intelligence-hub': 'analytics.html',
-    live-map: 'command-center.html',
-    reports: 'analytics.html'
-  };
-  document.querySelectorAll('a[data-path]').forEach((link) => {
-    const route = routes[link.dataset.path];
-    if (route) link.href = route;
+  const { MODEL, INCIDENTS, CAMERAS } = window.RN_DATA;
+  const C = { grid: "rgba(148,163,184,0.12)", text: "#94A3B8", brand: "#3B82F6", cyan: "#22D3EE", danger: "#EF4444", warn: "#F59E0B", ok: "#10B981", info: "#0EA5E9" };
+  const fmt = n => n.toLocaleString("en-IN");
+  const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
+
+  Chart.defaults.color = C.text;
+  Chart.defaults.font.family = "Inter, system-ui, sans-serif";
+  Chart.defaults.font.size = 11.5;
+  Chart.defaults.borderColor = C.grid;
+  Chart.defaults.plugins.legend.display = false;
+  Object.assign(Chart.defaults.plugins.tooltip, {
+    backgroundColor: "rgba(15,23,42,0.96)", borderColor: "rgba(148,163,184,0.26)", borderWidth: 1,
+    titleColor: "#E6EBF5", bodyColor: "#CBD5E1", padding: 10, cornerRadius: 8, boxPadding: 4, usePointStyle: true,
   });
+
+  // ---------- sample data (seeded so every load looks the same) ----------
+  function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  const TODAY = new Date(2026, 9, 8);
+  const RANGES = {
+    "7d":  { crumb: "Last 7 days",  n: 7,  step: 1, seed: 7,  lat: 1.6, prev: 0.08, sub: "Daily, by type" },
+    "30d": { crumb: "Last 30 days", n: 30, step: 1, seed: 30, lat: 1.7, prev: -0.06, sub: "Daily, by type" },
+    "q":   { crumb: "Last quarter", n: 13, step: 7, seed: 91, lat: 1.8, prev: -0.11, sub: "Weekly, by type" },
+  };
+  function build(key) {
+    const R = RANGES[key], r = rng(R.seed);
+    const labels = [], acc = [], ph = [], dmg = [];
+    for (let i = R.n - 1; i >= 0; i--) {
+      const d = new Date(TODAY); d.setDate(d.getDate() - i * R.step);
+      labels.push(R.step === 7 ? "Wk of " + d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
+        : R.n === 7 ? d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric" }) : d.toLocaleDateString("en-GB", { day: "numeric", month: "short" }));
+      const wk = d.getDay() === 0 || d.getDay() === 6 ? 1.25 : 1;   // more weekend crashes
+      const m = R.step;
+      acc.push(Math.round((0.6 + r() * 1.4) * wk * m));
+      ph.push(Math.round((1.6 + r() * 2.6) * m));
+      dmg.push(Math.round((0.4 + r() * 1.4) * m));
+    }
+    const sum = a => a.reduce((s, x) => s + x, 0);
+    const A = sum(acc), P = sum(ph), D = sum(dmg);
+    // hour-of-day: commute peaks, late-night crash bump
+    const shapeAcc = [3,2,2,2,1,1,2,4,6,7,5,4,4,4,5,5,6,7,8,8,6,5,5,4];
+    const shapeDef = [1,1,1,1,1,1,2,4,6,7,7,7,6,6,6,6,6,6,5,4,3,2,2,1];
+    const dist = (shape, total) => { const s = sum(shape); return shape.map((v, i) => Math.max(0, Math.round(v / s * total + (r() - .5) * total * 0.012))); };
+    const sla = [94 + r() * 4, 88 + r() * 6, 81 + r() * 8, 66 + r() * 10].map(v => Math.round(v));
+    return { R, labels, acc, ph, dmg, A, P, D, total: A + P + D, hourAcc: dist(shapeAcc, A), hourDef: dist(shapeDef, P + D), sla, rep: Math.round(P * (0.68 + r() * 0.12)) };
+  }
+
+  // ---------- charts ----------
+  const trend = new Chart(document.getElementById("c-trend"), {
+    type: "bar",
+    data: { labels: [], datasets: [
+      { label: "Accidents", data: [], backgroundColor: C.danger, borderRadius: 3, maxBarThickness: 34 },
+      { label: "Potholes", data: [], backgroundColor: C.warn, borderRadius: 3, maxBarThickness: 34 },
+      { label: "Road damage", data: [], backgroundColor: C.cyan, borderRadius: 3, maxBarThickness: 34 },
+    ]},
+    options: {
+      maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, autoSkipPadding: 14 } },
+        y: { stacked: true, beginAtZero: true, grid: { color: C.grid }, border: { display: false }, ticks: { precision: 0, maxTicksLimit: 6 } },
+      },
+    },
+  });
+
+  const mix = new Chart(document.getElementById("c-mix"), {
+    type: "doughnut",
+    data: { labels: ["Accidents", "Potholes", "Road damage"], datasets: [{ data: [1, 1, 1], backgroundColor: [C.danger, C.warn, C.cyan], borderColor: "#0f172a", borderWidth: 3, hoverOffset: 4 }] },
+    options: { maintainAspectRatio: false, cutout: "74%", animation: { animateRotate: true } },
+  });
+
+  const hour = new Chart(document.getElementById("c-hour"), {
+    type: "bar",
+    data: { labels: Array.from({ length: 24 }, (_, h) => String(h).padStart(2, "0")), datasets: [
+      { label: "Accidents", data: [], backgroundColor: C.danger, borderRadius: 2 },
+      { label: "Road defects", data: [], backgroundColor: C.brand, borderRadius: 2 },
+    ]},
+    options: {
+      maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
+      plugins: { tooltip: { callbacks: { title: it => `${it[0].label}:00 – ${it[0].label}:59` } } },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, autoSkipPadding: 8 } },
+        y: { stacked: true, beginAtZero: true, grid: { color: C.grid }, border: { display: false }, ticks: { precision: 0, maxTicksLimit: 5 } },
+      },
+    },
+  });
+
+  const SLA_META = [
+    { name: "112 · Highway Police", short: "Highway Police", target: "ack ≤ 2 min", median: ["1m 05s", "1m 12s", "1m 18s"] },
+    { name: "112 · Traffic Police", short: "Traffic Police", target: "ack ≤ 2 min", median: ["1m 32s", "1m 41s", "1m 47s"] },
+    { name: "NHAI Maintenance", short: "NHAI", target: "fix ≤ 24 h", median: ["16 h", "19 h", "21 h"] },
+    { name: "Municipal PWD", short: "Municipal PWD", target: "fix ≤ 24 / 72 h", median: ["31 h", "38 h", "44 h"] },
+  ];
+  const slaColor = v => v >= 90 ? C.ok : v >= 75 ? C.warn : C.danger;
+  const sla = new Chart(document.getElementById("c-sla"), {
+    type: "bar",
+    data: { labels: SLA_META.map(s => s.short), datasets: [{ data: [], backgroundColor: [], borderRadius: 4, barThickness: 18 }] },
+    options: {
+      indexAxis: "y", maintainAspectRatio: false,
+      plugins: { tooltip: { callbacks: { title: it => SLA_META[it[0].dataIndex].name, label: it => ` ${it.raw}% within SLA (${SLA_META[it.dataIndex].target})` } } },
+      scales: {
+        x: { min: 0, max: 100, grid: { color: C.grid }, border: { display: false }, ticks: { callback: v => v + "%", stepSize: 25 } },
+        y: { grid: { display: false }, border: { display: false }, ticks: { color: "#CBD5E1", font: { size: 12, weight: 500 } } },
+      },
+    },
+  });
+
+  // ---------- corridor + map ----------
+  const CORRIDORS = [
+    { name: "NH-48", seg: "Gurugram – Dharuhera · KM 110–175", share: 0.54, accShare: 0.62, health: [64, 61, 63] },
+    { name: "Dwarka Expwy", seg: "Sector 84 – Sector 99 · KM 8–22", share: 0.19, accShare: 0.2, health: [77, 74, 72] },
+    { name: "Sohna Road", seg: "Vatika Chowk – Badshahpur · KM 2–10", share: 0.17, accShare: 0.1, health: [66, 68, 70] },
+    { name: "SPR", seg: "Southern Peripheral Rd · KM 0–9", share: 0.10, accShare: 0.08, health: [83, 81, 80] },
+  ];
+  const map = L.map("an-map", { scrollWheelZoom: false, attributionControl: true }).setView([28.33, 76.92], 10);
+  RN.darkTiles(map);
+  const bsLayer = L.layerGroup().addTo(map);
+  const camW = { "CAM-084": 9, "CAM-091": 8, "CAM-112": 7, "CAM-071": 6, "CAM-064": 5, "CAM-130": 5, "CAM-078": 4, "CAM-097": 4, "CAM-088": 3, "CAM-118": 3, "CAM-123": 2, "CAM-104": 2 };
+  const camAcc = { "CAM-084": .6, "CAM-091": .55, "CAM-112": .5, "CAM-064": .35, "CAM-088": .3, "CAM-097": .3 };
+
+  function render(key) {
+    const d = build(key), R = d.R;
+    document.querySelectorAll("#an-range [data-range]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.range === key)));
+    const crumbEl = document.querySelector("header .text-dim.truncate");
+    if (crumbEl) crumbEl.textContent = "Intelligence · " + R.crumb;
+    document.getElementById("trend-sub").textContent = R.sub + " · " + R.crumb.toLowerCase();
+
+    // KPIs
+    const trendTxt = (v, goodWhenDown = true) => {
+      const up = v > 0; const good = goodWhenDown ? !up : up;
+      return `<span class="${good ? "rn-trend-up" : "rn-trend-down"}">${up ? "+" : ""}${Math.round(v * 100)}% vs prev.</span>`;
+    };
+    document.getElementById("k-total").textContent = fmt(d.total);
+    document.getElementById("k-total-d").innerHTML = trendTxt(R.prev);
+    document.getElementById("k-total-sub").textContent = `${d.A} accidents · ${d.P} potholes · ${d.D} road damage`;
+    document.getElementById("k-p1").textContent = fmt(d.A);
+    document.getElementById("k-p1-d").innerHTML = trendTxt(R.prev - 0.03);
+    document.getElementById("k-p1-sub").innerHTML = `All routed to 112 · <span class="text-ink font-semibold">${(d.A / d.total * 100).toFixed(0)}%</span> of detections`;
+    document.getElementById("k-lat").textContent = R.lat.toFixed(1);
+    document.getElementById("k-lat-bar").style.width = (R.lat / 2 * 100) + "%";
+    document.getElementById("k-ph").textContent = fmt(d.P);
+    document.getElementById("k-rep").textContent = fmt(d.rep);
+    document.getElementById("k-rep-bar").style.width = (d.rep / d.P * 100) + "%";
+    document.getElementById("k-rep-pct").textContent = Math.round(d.rep / d.P * 100) + "% fixed";
+
+    // charts
+    trend.data.labels = d.labels;
+    trend.data.datasets[0].data = d.acc; trend.data.datasets[1].data = d.ph; trend.data.datasets[2].data = d.dmg;
+    trend.update();
+    mix.data.datasets[0].data = [d.A, d.P, d.D]; mix.update();
+    document.getElementById("mix-total").textContent = fmt(d.total);
+    const mixRows = [["Accidents", d.A, "bg-danger", "P1 · Model B"], ["Potholes", d.P, "bg-warn", "P2 / P3 · Model A"], ["Road damage", d.D, "bg-cyan", "P3 · Model A"]];
+    document.getElementById("mix-legend").innerHTML = mixRows.map(([n, v, c, s]) => `
+      <li class="flex items-center gap-3 rounded-xl border border-line bg-canvas/40 px-3 py-2.5">
+        <span class="an-legend-dot ${c}"></span>
+        <div class="min-w-0 flex-1"><div class="text-[13px] font-medium">${n}</div><div class="text-[11.5px] text-dim">${s}</div></div>
+        <div class="text-right"><div class="rn-mono text-[13px] font-semibold">${fmt(v)}</div><div class="rn-mono text-[11px] text-dim">${(v / d.total * 100).toFixed(1)}%</div></div>
+      </li>`).join("");
+    hour.data.datasets[0].data = d.hourAcc; hour.data.datasets[1].data = d.hourDef; hour.update();
+    const ri = { "7d": 0, "30d": 1, q: 2 }[key];
+    sla.data.datasets[0].data = d.sla; sla.data.datasets[0].backgroundColor = d.sla.map(slaColor); sla.update();
+    document.getElementById("sla-tiles").innerHTML = SLA_META.map((s, i) => `
+      <div class="rounded-xl border border-line bg-canvas/40 px-3 py-2 min-w-0">
+        <div class="text-[11px] text-dim truncate">${s.short}</div>
+        <div class="rn-mono text-[13px] font-semibold mt-0.5">${s.median[ri]}</div>
+        <div class="text-[10.5px] text-dim truncate">median · ${s.target}</div>
+      </div>`).join("");
+
+    // corridors
+    document.getElementById("an-corridors").innerHTML = CORRIDORS.map((c, i) => {
+      const inc = Math.round(d.total * c.share), acc = Math.round(d.A * c.accShare), ph = Math.round(d.P * c.share * (i === 2 ? 1.25 : 1));
+      const h = c.health[ri], tone = h >= 80 ? "text-ok-soft" : h >= 70 ? "text-brand-soft" : "text-warn-soft";
+      return `<tr>
+        <td><div class="flex items-center gap-3"><span class="rn-mono text-[12px] text-dim w-4">${i + 1}</span><div class="min-w-0 max-w-[170px]"><div class="font-semibold">${c.name}</div><div class="text-[11.5px] text-dim truncate" title="${c.seg}">${c.seg}</div></div></div></td>
+        <td class="text-right rn-mono">${fmt(inc)}</td>
+        <td class="text-right rn-mono text-danger-soft">${fmt(acc)}</td>
+        <td class="text-right rn-mono text-warn-soft">${fmt(ph)}</td>
+        <td class="w-[130px]"><div class="flex items-center gap-2.5 min-w-[100px]"><div class="rn-bar flex-1"><span style="width:${h}%;${h < 70 ? "background:linear-gradient(90deg,#F59E0B,#FCD34D)" : ""}"></span></div><span class="rn-mono text-[13px] font-semibold ${tone} w-7 text-right">${h}</span></div></td>
+      </tr>`;
+    }).join("");
+
+    // blackspots
+    bsLayer.clearLayers();
+    const totalW = Object.values(camW).reduce((s, x) => s + x, 0);
+    let top = null;
+    CAMERAS.forEach(c => {
+      const n = Math.round(d.total * camW[c.id] / totalW), a = camAcc[c.id] || .15;
+      if (!top || n > top.n) top = { n, c };
+      L.circleMarker([c.lat, c.lng], { radius: 5 + Math.sqrt(n) * 2.1, color: a >= .5 ? C.danger : a >= .3 ? C.warn : C.info, weight: 1.5, fillOpacity: .28 })
+        .bindPopup(`<b>${c.name}</b><br><span style="color:#94A3B8">${c.road} KM ${c.km} · ${c.id}</span><br>${n} detections · ${Math.round(n * a)} accidents`)
+        .addTo(bsLayer);
+    });
+    document.getElementById("bs-top").textContent = "Top: " + top.c.name;
+    window.__anData = d;
+  }
+  document.querySelectorAll("#an-range [data-range]").forEach(b => b.addEventListener("click", () => render(b.dataset.range)));
+
+  document.getElementById("an-export").addEventListener("click", () => {
+    const d = window.__anData;
+    const rows = [["period", "accidents", "potholes", "road_damage"], ...d.labels.map((l, i) => [l, d.acc[i], d.ph[i], d.dmg[i]])];
+    const blob = new Blob([rows.map(r => r.join(",")).join("\n")], { type: "text/csv" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "roadnetra-incidents-demo.csv"; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    RN.toast("CSV exported", `${d.labels.length} rows · ${d.R.crumb.toLowerCase()} (demo data)`, "ok");
+  });
+
+  // ---------- Model B (real test-set results) ----------
+  const M = MODEL, T = M.test, DS = M.dataset;
+  const pos = T.TP + T.FN, neg = T.FP + T.TN;
+  document.getElementById("mb-sub").textContent = `Severe-accident detector evaluated on ${DS.test} held-out test images (${pos} accident / ${neg} no-accident) that were never used for training or tuning.`;
+  document.getElementById("mb-arch").textContent = `${M.arch} @ ${M.imgsz}px`;
+  document.getElementById("mb-epochs").textContent = `${M.epochs} epochs · best ${M.bestEpoch}`;
+  const tiles = [
+    ["Recall", pct(T.recall), "crash images caught", "text-cyan", T.recall],
+    ["Precision", pct(T.precision), "alerts that were real", "text-brand-soft", T.precision],
+    ["mAP50", T.mAP50.toFixed(3), "box quality @ IoU 0.5", "text-ink", T.mAP50],
+    ["mAP50-95", T.mAP5095.toFixed(3), "stricter box overlap", "text-ink", T.mAP5095],
+    ["F1 score", T.f1.toFixed(3), "precision–recall balance", "text-ok-soft", T.f1],
+    ["False alarms", pct(T.falseAlarm), `${T.FP} of ${neg} clear images`, "text-warn-soft", null],
+  ];
+  document.getElementById("mb-tiles").innerHTML = tiles.map(([l, v, s, c, bar]) => `
+    <div class="rounded-xl border border-line bg-canvas/50 p-4 min-w-0">
+      <div class="rn-label">${l}</div>
+      <div class="mt-2 rn-mono text-[22px] sm:text-[24px] font-semibold ${c} leading-none">${v}</div>
+      <div class="mt-2 text-[11.5px] text-dim truncate">${s}</div>
+      ${bar != null ? `<div class="mt-2.5 rn-bar !h-[4px]"><span style="width:${bar * 100}%"></span></div>` : `<div class="mt-2.5 rn-bar !h-[4px]"><span style="width:${T.falseAlarm * 100}%;background:#F59E0B"></span></div>`}
+    </div>`).join("");
+
+  // confusion matrix
+  document.getElementById("cm-n").textContent = `n = ${DS.test} images`;
+  const cell = (n, of, label, tone) => {
+    const a = (0.08 + 0.32 * n / of).toFixed(2);
+    const col = { ok: "16,185,129", danger: "239,68,68", warn: "245,158,11" }[tone];
+    const txt = { ok: "text-ok-soft", danger: "text-danger-soft", warn: "text-warn-soft" }[tone];
+    return `<div class="an-cm-cell" style="background:rgba(${col},${a});border-color:rgba(${col},.4)">
+      <div class="rn-mono text-[26px] sm:text-[30px] font-semibold leading-none ${txt}">${n}</div>
+      <div class="mt-1.5 text-[12px] font-medium text-ink">${label}</div>
+      <div class="rn-mono text-[11px] text-muted">${(n / of * 100).toFixed(1)}% of row</div>
+    </div>`;
+  };
+  const head = t => `<div class="text-[11px] font-semibold uppercase tracking-wider text-dim text-center self-end pb-1">${t}</div>`;
+  const rowH = (t, n) => `<div class="flex flex-col justify-center text-[11.5px] leading-tight"><span class="font-semibold text-muted">${t}</span><span class="rn-mono text-dim">${n} imgs</span></div>`;
+  document.getElementById("cm-grid").innerHTML = `
+    <div class="text-[10.5px] text-dim self-end pb-1 leading-tight">actual ↓<br>predicted →</div>${head("Accident")}${head("No accident")}
+    ${rowH("Accident", pos)}${cell(T.TP, pos, "True positive", "ok")}${cell(T.FN, pos, "Missed crash", "danger")}
+    ${rowH("No accident", neg)}${cell(T.FP, neg, "False alarm", "warn")}${cell(T.TN, neg, "True negative", "ok")}`;
+  document.getElementById("cm-foot").innerHTML = [["Specificity", pct(T.specificity)], ["Accuracy", pct(T.accuracy)]].map(([l, v]) => `
+    <div class="flex items-center justify-between rounded-lg border border-line px-3 py-2"><span class="text-muted">${l}</span><span class="rn-mono font-semibold">${v}</span></div>`).join("");
+
+  // illustrative PR curve (shape only; anchored so F1 peaks near 0.47 like validation)
+  const xs = Array.from({ length: 91 }, (_, i) => +(0.05 + i * 0.01).toFixed(2));
+  const P = c => 0.80 + 0.197 / (1 + Math.exp(-(c - 0.40) / 0.025));
+  const Rc = c => 0.56 + 0.33 / (1 + Math.exp((c - 0.58) / 0.05));
+  const F = c => 2 * P(c) * Rc(c) / (P(c) + Rc(c));
+  const vlines = {
+    id: "vlines",
+    afterDatasetsDraw(chart, _a, opts) {
+      const { ctx, chartArea: a, scales: { x } } = chart;
+      (opts.lines || []).forEach(l => {
+        const px = x.getPixelForValue(l.x);
+        ctx.save(); ctx.strokeStyle = l.color; ctx.lineWidth = 1.5; ctx.setLineDash(l.dash || []);
+        ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.stroke();
+        ctx.setLineDash([]); ctx.fillStyle = l.color; ctx.font = "600 11px Inter, sans-serif";
+        ctx.textAlign = l.align || "left"; ctx.fillText(l.label, px + (l.align === "right" ? -6 : 6), l.bottom ? a.bottom - 6 : a.top + 12);
+        ctx.restore();
+      });
+    },
+  };
+  new Chart(document.getElementById("c-pr"), {
+    type: "line",
+    data: { datasets: [
+      { label: "Precision", data: xs.map(x => ({ x, y: P(x) })), borderColor: C.brand, borderWidth: 2, pointRadius: 0, tension: .3 },
+      { label: "Recall", data: xs.map(x => ({ x, y: Rc(x) })), borderColor: C.cyan, borderWidth: 2, pointRadius: 0, tension: .3 },
+      { label: "F1", data: xs.map(x => ({ x, y: F(x) })), borderColor: C.ok, borderWidth: 1.5, borderDash: [4, 4], pointRadius: 0, tension: .3 },
+      { type: "scatter", label: "Measured precision (test)", data: [{ x: M.bestConf, y: T.precision }], backgroundColor: C.brand, borderColor: "#fff", borderWidth: 2, pointRadius: 5, pointHoverRadius: 6 },
+      { type: "scatter", label: "Measured recall (test)", data: [{ x: M.bestConf, y: T.recall }], backgroundColor: C.cyan, borderColor: "#fff", borderWidth: 2, pointRadius: 5, pointHoverRadius: 6 },
+    ]},
+    options: {
+      maintainAspectRatio: false, interaction: { mode: "x", intersect: false },
+      plugins: {
+        vlines: { lines: [{ x: M.bestConf, color: C.ok, label: "best F1 0.47", align: "right", bottom: true }, { x: M.pipelineConf, color: C.warn, label: "pipeline 0.55", dash: [4, 3], bottom: true }] },
+        tooltip: { callbacks: { title: it => "conf " + it[0].parsed.x.toFixed(2), label: it => ` ${it.dataset.label}: ${it.parsed.y.toFixed(3)}` } },
+      },
+      scales: {
+        x: { type: "linear", min: 0, max: 1, grid: { color: C.grid }, border: { display: false }, title: { display: true, text: "Confidence threshold", color: "#64748B" }, ticks: { stepSize: 0.1, callback: v => v.toFixed(1) } },
+        y: { min: 0.5, max: 1.0, grid: { color: C.grid }, border: { display: false }, ticks: { stepSize: 0.1, callback: v => v.toFixed(1) } },
+      },
+    },
+    plugins: [vlines],
+  });
+  document.getElementById("pr-note").innerHTML = `Raising the threshold trades recall for precision. On validation, F1 peaked at <span class="rn-mono text-ok-soft">${M.bestConf}</span> (test result at that point: precision ${pct(T.precision)}, recall ${pct(T.recall)}). The live pipeline defaults to <span class="rn-mono text-warn-soft">${M.pipelineConf}</span> for slightly fewer false alarms, and the ${M.temporalFrames}-frame rule recovers individual missed frames. Curve shape is illustrative; only the two dots are measured.`;
+
+  // dataset
+  document.getElementById("ds-sub").textContent = `${fmt(DS.total)} images from 4 public Kaggle accident datasets, de-duplicated and split leak-free so no image appears in more than one split.`;
+  const stack = (parts) => `<div class="an-stack">${parts.map(p => `<span style="width:${p.v / DS.total * 100}%;background:${p.c}" title="${p.l}: ${fmt(p.v)}"></span>`).join("")}</div>
+    <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12px]">${parts.map(p => `<span class="flex items-center gap-1.5 text-muted"><span class="an-legend-dot" style="background:${p.c}"></span>${p.l} <span class="rn-mono text-ink">${fmt(p.v)}</span><span class="rn-mono text-dim">${(p.v / DS.total * 100).toFixed(0)}%</span></span>`).join("")}</div>`;
+  document.getElementById("ds-bars").innerHTML = `
+    <div><div class="rn-label mb-2">Split</div>${stack([{ l: "Train", v: DS.train, c: C.brand }, { l: "Val", v: DS.val, c: C.cyan }, { l: "Test", v: DS.test, c: C.ok }])}</div>
+    <div><div class="rn-label mb-2">Class balance</div>${stack([{ l: "Accident", v: DS.accident, c: C.danger }, { l: "No accident", v: DS.negative, c: "#64748B" }])}</div>
+    <div class="grid grid-cols-3 gap-2 pt-1">
+      <div class="rounded-lg border border-line px-3 py-2"><div class="text-[11px] text-dim">Input size</div><div class="rn-mono text-[13px] font-semibold">${M.imgsz} px</div></div>
+      <div class="rounded-lg border border-line px-3 py-2"><div class="text-[11px] text-dim">Epochs</div><div class="rn-mono text-[13px] font-semibold">${M.epochs}</div></div>
+      <div class="rounded-lg border border-line px-3 py-2"><div class="text-[11px] text-dim">Best epoch</div><div class="rn-mono text-[13px] font-semibold">${M.bestEpoch}</div></div>
+    </div>`;
+
+  // latency
+  const MAX = 200, TARGET = 75;
+  const lat = [
+    { l: "GPU (T4)", v: M.latency.t4GpuMs, c: C.ok, note: "well inside budget" },
+    { l: "Laptop CPU", v: M.latency.laptopCpuMs, c: C.danger, note: "≈ 5 FPS · over budget" },
+  ];
+  document.getElementById("lat-rows").innerHTML = lat.map(r => `
+    <div>
+      <div class="flex items-baseline justify-between gap-2 text-[13px]"><span class="font-medium">${r.l}</span><span><span class="rn-mono font-semibold">${r.v} ms</span><span class="text-[11.5px] text-dim"> · ${r.note}</span></span></div>
+      <div class="an-lat-track mt-2"><span style="width:max(${Math.min(r.v / MAX, 1) * 100}%,4px);background:${r.c}"></span><span class="an-target" style="left:${TARGET / MAX * 100}%"></span></div>
+    </div>`).join("") + `<div class="flex justify-between rn-mono text-[10.5px] text-dim -mt-2"><span>0</span><span>50</span><span>100</span><span>150</span><span>200 ms</span></div>`;
+
+  // limits
+  const limits = [
+    ["visibility_off", `Misses about 1 in 6 crash images (${T.FN} of ${pos} on test). Single-frame recall is ${pct(T.recall)}.`],
+    ["filter_3", `RoadNetra only alerts after ${M.temporalFrames} consecutive positive frames, so one missed frame inside a sustained crash scene rarely blocks the alert, and one-off false positives are suppressed.`],
+    ["flight", "Weaker on top-down / drone-style viewpoints, which are rare in the training data. Pole-mounted CCTV angles match it best."],
+    ["data_usage", `False-alarm rate is measured on only ${neg} no-accident images, so it has wide uncertainty; more negative footage from Indian highways is the next data priority.`],
+  ];
+  document.getElementById("limits").innerHTML = limits.map(([i, t]) => `<li class="flex gap-2.5"><span class="material-symbols-rounded text-[18px] text-warn-soft shrink-0">${i}</span><span>${t}</span></li>`).join("");
+
+  render("30d");
 })();
-</script></body></html>
+</script>
+</body>
+</html>

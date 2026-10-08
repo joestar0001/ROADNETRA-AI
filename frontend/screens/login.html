@@ -1,510 +1,420 @@
 <!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in · RoadNetra AI</title>
+  <meta name="description" content="Sign in to RoadNetra AI: choose your role, enter your officer ID and verify with a one-time code.">
+  <link rel="icon" href="../assets/img/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/js/tw-config.js"></script>
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <style>
+    /* role cards (native radios for keyboard + screen-reader support) */
+    .role-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 14px; min-height: 112px; border-radius: 14px; cursor: pointer;
+      border: 1px solid var(--line); background: rgba(6, 10, 19, 0.45); transition: border-color .15s, background .15s, box-shadow .15s; }
+    .role-card:hover { border-color: var(--line-strong); background: rgba(22, 32, 58, 0.5); }
+    .role-card:has(input:checked) { border-color: rgba(59, 130, 246, 0.6); background: rgba(59, 130, 246, 0.1); box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.35) inset; }
+    .role-card:has(input:focus-visible) { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .role-card .role-ico { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: rgba(148, 163, 184, 0.1); color: var(--muted); transition: .15s; }
+    .role-card:has(input:checked) .role-ico { background: rgba(59, 130, 246, 0.22); color: #bfdbfe; }
+    .role-card .role-check { position: absolute; top: 12px; right: 12px; width: 18px; height: 18px; border-radius: 999px; border: 1.5px solid var(--line-strong); display: grid; place-items: center; }
+    .role-card:has(input:checked) .role-check { background: var(--brand); border-color: var(--brand); }
+    .role-card:has(input:checked) .role-check::after { content: ""; width: 6px; height: 6px; border-radius: 999px; background: #fff; }
 
-<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-container":"#00311f","outline-variant":"#434655","primary-fixed":"#dbe1ff","secondary-fixed":"#85f8c4","surface-container-high":"#262a33","error":"#ffb4ab","surface-tint":"#b4c5ff","on-tertiary-fixed":"#410002","primary-fixed-dim":"#b4c5ff","surface-bright":"#353942","outline":"#8d90a0","surface-container-lowest":"#0a0e16","surface-variant":"#31353e","on-primary":"#002a78","on-secondary":"#003825","surface-dim":"#0f131c","on-primary-fixed-variant":"#003ea8","on-surface":"#dfe2ee","on-error-container":"#ffdad6","secondary-fixed-dim":"#68dba9","on-secondary-fixed":"#002114","tertiary-container":"#d52022","on-secondary-fixed-variant":"#005137","inverse-on-surface":"#2c3039","on-surface-variant":"#c3c6d7","on-primary-fixed":"#00174b","on-error":"#690005","tertiary":"#ffb4ab","background":"#0f131c","primary-container":"#2563eb","on-tertiary-container":"#ffecea","secondary-container":"#25a475","surface":"#0f131c","on-background":"#dfe2ee","surface-container":"#1c2028","inverse-surface":"#dfe2ee","on-tertiary-fixed-variant":"#93000b","tertiary-fixed-dim":"#ffb4ab","surface-container-low":"#181c24","primary":"#b4c5ff","on-tertiary":"#690005","secondary":"#68dba9","tertiary-fixed":"#ffdad6","on-primary-container":"#eeefff","error-container":"#93000a","inverse-primary":"#0053db","surface-container-highest":"#31353e"},borderRadius:{DEFAULT:"0.125rem",lg:"0.25rem",xl:"0.5rem",full:"0.75rem"},spacing:{gutter:"1rem","gutter-compact":"0.5rem","space-md":"0.75rem","space-xs":"0.25rem",margin:"1.5rem","space-2xl":"2rem","space-sm":"0.5rem","margin-mobile":"1rem","space-lg":"1rem","space-3xl":"3rem","space-xl":"1.5rem"},fontFamily:{"headline-md":["Plus Jakarta Sans"],"body-sm":["Inter"],"display-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"data-mono":["Inter"],"body-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"label-md":["Inter"],"label-sm":["Inter"],"display-lg-mobile":["Plus Jakarta Sans"],"body-lg":["Inter"]},fontSize:{"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-sm":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"data-mono":["13px",{lineHeight:"18px",letterSpacing:"-0.01em",fontWeight:"500"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"headline-lg":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"label-md":["13px",{lineHeight:"18px",fontWeight:"500"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.04em",fontWeight:"600"}],"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-on-primary"><header class="w-full bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)] z-50"><div class="w-full px-gutter flex items-center justify-between h-16"><div class="flex items-center gap-space-md"><div class="flex items-center justify-center w-8 h-8 rounded bg-primary-container text-on-primary-container shadow-inner"><span class="material-symbols-outlined text-[20px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface uppercase">RoadNetra-AI</span><span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm uppercase bg-surface-container-high text-primary tracking-wider">NIC-CERTIFIED</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">Ministry of Road Transport & Highways | NHAI Portal</span></div></div><div class="flex items-center gap-space-lg"><div class="hidden sm:flex items-center gap-space-xs px-space-md py-1 rounded bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-data-mono text-data-mono text-secondary">SECURE LINK TLS 1.3</span></div><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">verified_user</span><span class="font-label-sm text-label-sm uppercase tracking-wider">Gov-Access L4</span></div></div></div></header><main class="flex-1 flex flex-col justify-center items-center w-full px-gutter py-space-2xl bg-surface-dim"><div class="flex flex-col w-full">
-<div class="w-full max-w-7xl mx-auto flex flex-col gap-space-xl">
-<!-- Top Telemetry & Security Classification Ribbon -->
-<div class="w-full bg-surface-container-lowest p-space-md rounded-xl shadow-xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
-<div class="flex flex-wrap items-center gap-space-sm">
-<div class="flex items-center gap-space-xs bg-tertiary-container/20 px-space-sm py-1 rounded">
-<span class="w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
-<span class="font-data-mono text-data-mono text-tertiary uppercase">Restricted Access // Level-3 Clearance Required</span>
-</div>
-<span class="hidden sm:inline text-outline-variant">•</span>
-<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded text-on-surface-variant font-data-mono text-data-mono">
-<span class="material-symbols-outlined text-[15px] text-secondary">lock</span>
-<span>AES-256 TLS 1.3 HARDENED</span>
-</div>
-</div>
-<div class="flex flex-wrap items-center gap-space-md font-data-mono text-data-mono text-on-surface-variant">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-[15px] text-primary">dns</span>
-<span class="text-on-surface">in-delhi-zone04.edge.roadnetra.gov.in</span>
-</div>
-<div class="flex items-center gap-space-xs bg-surface-container-high px-space-xs py-0.5 rounded text-secondary">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-<span>8ms</span>
-</div>
-<div class="flex items-center gap-space-xs bg-surface-container-high px-space-xs py-0.5 rounded text-primary">
-<span class="material-symbols-outlined text-[14px]">sensors</span>
-<span>142 AI Nodes Armed</span>
-</div>
-</div>
-</div>
-<!-- Main Portal Grid: Split Architecture -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
-<!-- Left Column: Situational Intel, Surveillance Feed Preview & Operational Directives (5 Cols) -->
-<div class="lg:col-span-5 flex flex-col gap-space-lg">
-<!-- Surveillance Node Snapshot Card -->
-<div class="relative bg-surface-container rounded-xl overflow-hidden shadow-xl flex flex-col">
-<div class="relative w-full h-56 bg-surface-container-lowest overflow-hidden">
-<img class="w-full h-full object-cover opacity-60" data-alt="Dark high-contrast night highway surveillance control feed, high angle view of Indian National Expressway NH-48 with glowing LED headlights, digital blue and green computer vision bounding boxes tracking heavy transport vehicles, high resolution night-vision telephoto lens aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoyuyDrc62l0eBn7upzleNT_Mymn3r-Ja7LgDUFosUiLEoAVMhDNckbrLvlFoQGIRaOdcDbZx_C9XTgyTz9dS-5Epe2veweLDL86BsqcW1nJ4TpYNUtNfNox8kZfvp7qIKiRc-GPggU0G9IJMlxOZsr4B-Lct99Ea_WevHDN8yacW1IO6FozThgUiTWt_auW8PFQAHs00lqDv_Fn9ynNHwZgLPYyVxKQbujDzCbxE"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-surface-container-lowest/60"></div>
-<!-- Live Feed Overlay HUD -->
-<div class="absolute top-space-md left-space-md right-space-md flex items-center justify-between pointer-events-none">
-<div class="flex items-center gap-space-xs bg-surface-container-lowest/90 px-space-sm py-1 rounded backdrop-blur-md">
-<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
-<span class="font-data-mono text-data-mono text-on-surface">CAM-NH48-KM38.2</span>
-</div>
-<div class="bg-surface-container-lowest/90 px-space-sm py-1 rounded backdrop-blur-md font-data-mono text-data-mono text-primary">
-                FPS 59.9 // HD-AI
+    /* stepper */
+    .step-pill { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--dim); }
+    .step-pill .num { width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center; font-size: 11.5px; border: 1px solid var(--line-strong); }
+    .step-pill[data-state="current"] { color: var(--ink); }
+    .step-pill[data-state="current"] .num { background: var(--brand); border-color: var(--brand); color: #fff; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2); }
+    .step-pill[data-state="done"] { color: var(--muted); }
+    .step-pill[data-state="done"] .num { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.5); color: #6ee7b7; }
+    .step-line { flex: 1; height: 1px; background: var(--line-strong); min-width: 12px; }
+
+    .rn-input.has-icon { padding-left: 40px; }
+    .rn-input.is-invalid { border-color: rgba(239, 68, 68, 0.7); }
+    .rn-input.is-invalid:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.22); }
+    .field-err { display: none; margin-top: 6px; font-size: 12.5px; color: #fca5a5; align-items: center; gap: 6px; }
+    .field-err.is-on { display: flex; }
+
+    .otp-box { width: 100%; aspect-ratio: 1 / 1.12; max-height: 58px; text-align: center; padding: 0; font-family: "JetBrains Mono", monospace; font-size: 22px; font-weight: 600; height: auto; }
+    .otp-box:not(:placeholder-shown) { border-color: rgba(59, 130, 246, 0.55); background: rgba(59, 130, 246, 0.08); }
+
+    .scan-line { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+    .scan-line::before { content: ""; position: absolute; left: 0; right: 0; height: 38%;
+      background: linear-gradient(180deg, transparent, rgba(34, 211, 238, 0.10) 85%, rgba(34, 211, 238, 0.55) 100%);
+      animation: scan 4.5s linear infinite; }
+    @keyframes scan { from { transform: translateY(-100%); } to { transform: translateY(265%); } }
+    .step-panel { animation: fade-up .3s ease both; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 0.9s linear infinite; }
+  </style>
+</head>
+<body class="min-h-screen bg-canvas">
+<div class="min-h-screen grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)]">
+
+  <!-- ===== Visual panel (desktop) ===== -->
+  <aside class="hidden lg:flex relative flex-col justify-between overflow-hidden border-r border-line bg-panel rn-grid-bg p-10 xl:p-14" aria-label="About RoadNetra AI">
+    <div class="pointer-events-none absolute -top-40 -left-24 w-[620px] h-[620px] rounded-full bg-brand/20 blur-[120px]"></div>
+    <div class="pointer-events-none absolute bottom-[-220px] right-[-120px] w-[520px] h-[520px] rounded-full bg-cyan/10 blur-[120px]"></div>
+
+    <a href="../index.html" class="relative flex items-center gap-3 w-fit">
+      <img src="../assets/img/logo-mark.svg" alt="" class="w-10 h-10">
+      <span class="font-display font-extrabold text-[19px] tracking-tight">RoadNetra <span class="text-brand-soft">AI</span></span>
+    </a>
+
+    <div class="relative max-w-[600px] w-full mx-auto py-10">
+      <div class="rn-eyebrow">Highway safety from existing CCTV</div>
+      <h1 class="mt-3 font-display font-extrabold text-[40px] xl:text-[46px] leading-[1.08] tracking-tight">Every camera,<br><span class="rn-gradient-text">a first responder.</span></h1>
+      <p class="mt-4 text-[15px] text-muted max-w-[480px]">RoadNetra watches highway CCTV for severe crashes and potholes, confirms them over consecutive frames, and routes each alert to the team that can act on it.</p>
+
+      <figure class="mt-8">
+        <div class="rn-feed aspect-[16/10] border border-line-strong shadow-[0_30px_80px_-30px_rgba(0,0,0,.9)]">
+          <img src="../assets/img/model-night-incident.jpg" alt="Night road scene: an overturned car boxed in red and labelled severe accident, confidence 0.88" class="object-[50%_58%]">
+          <div class="scan-line"></div>
+          <div class="rn-feed-hud left-3 top-3"><span class="rn-dot rn-dot-pulse text-danger"></span>Model B · severe accident</div>
+          <div class="rn-feed-hud right-3 top-3">YOLOv8s · 640 px</div>
+          <div class="rn-feed-hud left-3 bottom-3">conf 0.88 ≥ 0.47 · frame 3 / 3 <span class="text-ok-soft">✓ alert</span></div>
+        </div>
+        <figcaption class="mt-2.5 text-[12px] text-dim">Real output of the trained accident model on a held-out test image.</figcaption>
+      </figure>
+
+      <ul class="mt-6 flex flex-wrap gap-2.5" aria-label="Model test-set results">
+        <li class="rn-glass rounded-xl px-3.5 py-2.5 flex items-center gap-2.5"><span class="material-symbols-rounded text-danger-soft">car_crash</span><div><div class="rn-mono font-semibold text-[15px] leading-none">83.6%</div><div class="text-[11px] text-dim mt-1">crash recall</div></div></li>
+        <li class="rn-glass rounded-xl px-3.5 py-2.5 flex items-center gap-2.5"><span class="material-symbols-rounded text-ok-soft">verified</span><div><div class="rn-mono font-semibold text-[15px] leading-none">99.5%</div><div class="text-[11px] text-dim mt-1">alert precision</div></div></li>
+        <li class="rn-glass rounded-xl px-3.5 py-2.5 flex items-center gap-2.5"><span class="material-symbols-rounded text-cyan">filter_3</span><div><div class="rn-mono font-semibold text-[15px] leading-none">3 frames</div><div class="text-[11px] text-dim mt-1">temporal filter</div></div></li>
+      </ul>
+    </div>
+
+    <p class="relative text-[12px] text-dim">Model B · YOLOv8s · mAP50 0.83 on 273 held-out test images</p>
+  </aside>
+
+  <!-- ===== Sign-in column ===== -->
+  <main class="relative flex flex-col min-w-0">
+    <!-- Compact header (phone / tablet) -->
+    <header class="lg:hidden relative overflow-hidden border-b border-line">
+      <img src="../assets/img/model-night-incident.jpg" alt="" class="absolute inset-0 w-full h-full object-cover object-[50%_60%] opacity-30">
+      <div class="absolute inset-0 bg-gradient-to-b from-canvas/40 via-canvas/70 to-canvas"></div>
+      <div class="relative px-4 sm:px-6 pt-5 pb-6">
+        <a href="../index.html" class="flex items-center gap-2.5 w-fit">
+          <img src="../assets/img/logo-mark.svg" alt="" class="w-9 h-9">
+          <span class="font-display font-extrabold text-[17px] tracking-tight">RoadNetra <span class="text-brand-soft">AI</span></span>
+        </a>
+        <p class="mt-5 font-display font-extrabold text-[26px] leading-tight tracking-tight">Every camera, <span class="rn-gradient-text">a first responder.</span></p>
+        <div class="mt-3 flex flex-wrap gap-2 text-[11.5px]">
+          <span class="rn-badge rn-p1">83.6% recall</span>
+          <span class="rn-badge rn-ok">99.5% precision</span>
+          <span class="rn-badge rn-brand">3-frame filter</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="flex-1 flex items-start lg:items-center justify-center px-4 sm:px-6 py-7 lg:py-12">
+      <section class="w-full max-w-[460px]" aria-labelledby="signin-title">
+        <div class="hidden lg:flex items-center justify-between mb-6">
+          <span class="rn-badge rn-brand"><span class="material-symbols-rounded text-[14px]">science</span>Prototype</span>
+          <a href="../index.html" class="text-[13px] text-muted hover:text-ink flex items-center gap-1"><span class="material-symbols-rounded text-[18px]">arrow_back</span>Overview</a>
+        </div>
+
+        <h2 id="signin-title" class="font-display font-bold text-[26px] tracking-tight">Sign in</h2>
+        <p class="mt-1 text-[14px] text-muted">Access the RoadNetra operations console.</p>
+
+        <div class="mt-4 flex items-start gap-2.5 rounded-xl border border-cyan/25 bg-cyan/[0.06] px-3.5 py-2.5 text-[13px]">
+          <span class="material-symbols-rounded text-cyan text-[19px] mt-px">info</span>
+          <p><span class="font-semibold text-cyan-soft">Demo:</span> <span class="text-muted">any ID · any password (4+ characters) · any 6 digits. Nothing is sent to a server.</span></p>
+        </div>
+
+        <!-- stepper -->
+        <ol class="mt-6 flex items-center gap-2.5" aria-label="Sign-in progress">
+          <li class="step-pill" data-step-pill="1"><span class="num">1</span><span>Role</span></li>
+          <li class="step-line" aria-hidden="true"></li>
+          <li class="step-pill" data-step-pill="2"><span class="num">2</span><span>Credentials</span></li>
+          <li class="step-line" aria-hidden="true"></li>
+          <li class="step-pill" data-step-pill="3"><span class="num">3</span><span>Verify</span></li>
+        </ol>
+
+        <div class="rn-card mt-5 p-5 sm:p-6">
+          <!-- STEP 1 -->
+          <form id="step-1" class="step-panel" data-step="1" novalidate>
+            <fieldset>
+              <legend class="font-semibold text-[15px]">Choose your role</legend>
+              <p class="text-[13px] text-muted mt-0.5">Your role decides which workspace opens after sign-in.</p>
+              <div class="mt-4 grid grid-cols-2 gap-3">
+                <label class="role-card">
+                  <input type="radio" name="role" value="operator" class="sr-only" checked>
+                  <span class="role-check" aria-hidden="true"></span>
+                  <span class="role-ico"><span class="material-symbols-rounded">monitoring</span></span>
+                  <span><span class="block font-semibold text-[13.5px] leading-snug">Command Room Operator</span><span class="block text-[12px] text-dim mt-0.5">Live map &amp; dispatch</span></span>
+                </label>
+                <label class="role-card">
+                  <input type="radio" name="role" value="field" class="sr-only">
+                  <span class="role-check" aria-hidden="true"></span>
+                  <span class="role-ico"><span class="material-symbols-rounded">local_police</span></span>
+                  <span><span class="block font-semibold text-[13.5px] leading-snug">Field Officer</span><span class="block text-[12px] text-dim mt-0.5">Mobile alerts &amp; routes</span></span>
+                </label>
+                <label class="role-card">
+                  <input type="radio" name="role" value="engineer" class="sr-only">
+                  <span class="role-check" aria-hidden="true"></span>
+                  <span class="role-ico"><span class="material-symbols-rounded">engineering</span></span>
+                  <span><span class="block font-semibold text-[13.5px] leading-snug">Maintenance Engineer</span><span class="block text-[12px] text-dim mt-0.5">Pothole work orders</span></span>
+                </label>
+                <label class="role-card">
+                  <input type="radio" name="role" value="auditor" class="sr-only">
+                  <span class="role-check" aria-hidden="true"></span>
+                  <span class="role-ico"><span class="material-symbols-rounded">fact_check</span></span>
+                  <span><span class="block font-semibold text-[13.5px] leading-snug">Auditor</span><span class="block text-[12px] text-dim mt-0.5">Read-only reports</span></span>
+                </label>
               </div>
-</div>
-<div class="absolute bottom-space-md left-space-md right-space-md flex items-end justify-between pointer-events-none">
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Active Corridor</span>
-<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">NH-48 Corridor • Sector 04</span>
-</div>
-<div class="flex items-center gap-space-xs bg-secondary-container/80 text-on-secondary-container px-space-sm py-0.5 rounded font-label-sm text-label-sm">
-                ANPR ACTIVE
+            </fieldset>
+            <button type="submit" class="rn-btn rn-btn-primary rn-btn-lg w-full mt-5">Continue<span class="material-symbols-rounded">arrow_forward</span></button>
+          </form>
+
+          <!-- STEP 2 -->
+          <form id="step-2" class="step-panel hidden" data-step="2" novalidate>
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h3 class="font-semibold text-[15px]">Officer credentials</h3>
+                <p class="text-[13px] text-muted mt-0.5">Signing in as <span id="role-name" class="text-ink font-medium">Command Room Operator</span></p>
               </div>
-</div>
-</div>
-<!-- Real-Time Corridor Telemetry Sparkline Grid -->
-<div class="p-space-lg flex flex-col gap-space-md">
-<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
-<span>National Corridor Flux (Last 60m)</span>
-<span class="text-secondary font-data-mono">99.98% System Uptime</span>
-</div>
-<!-- Mini Inline SVG Chart -->
-<div class="w-full bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between gap-space-md">
-<div class="flex flex-col">
-<span class="font-data-mono text-data-mono text-on-surface-variant">Throughput</span>
-<span class="font-headline-sm text-headline-sm text-primary font-bold">14,820 <span class="font-label-sm text-label-sm text-on-surface-variant font-normal">vph</span></span>
-</div>
-<div class="flex-1 h-10 flex items-center justify-end">
-<svg class="w-full h-9 text-primary overflow-visible" fill="none" viewbox="0 0 240 40">
-<path d="M0,32 Q30,12 60,25 T120,8 T180,22 T240,4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
-<path d="M0,32 Q30,12 60,25 T120,8 T180,22 T240,4 L240,40 L0,40 Z" fill="currentColor" fill-opacity="0.12"></path>
-<circle class="fill-primary animate-pulse" cx="240" cy="4" r="3.5"></circle>
-</svg>
-</div>
-<div class="flex flex-col text-right">
-<span class="font-data-mono text-data-mono text-on-surface-variant">Congestion</span>
-<span class="font-headline-sm text-headline-sm text-secondary font-bold">Low <span class="font-label-sm text-label-sm text-on-surface-variant font-normal">18%</span></span>
-</div>
-</div>
-<!-- Security Directives Callout -->
-<div class="bg-surface-container-lowest p-space-md rounded-lg flex gap-space-md items-start">
-<span class="material-symbols-outlined text-[24px] text-primary shrink-0">admin_panel_settings</span>
-<div class="flex flex-col gap-space-xs">
-<span class="font-headline-sm text-headline-sm text-on-surface">Directive #NHAI-2026-CYBER-09</span>
-<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                  Session keys are single-operator bound. Automated logout triggers after 180 seconds of telemetry inactivity. Cross-zone override requires Dual-Key Command Auth.
-                </p>
-</div>
-</div>
-</div>
-</div>
-<!-- Geo-Node Status List -->
-<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm">
-<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant uppercase px-space-xs">
-<span>Critical Node Handshakes</span>
-<span>Sync Latency</span>
-</div>
-<div class="flex items-center justify-between bg-surface-container p-space-sm rounded">
-<div class="flex items-center gap-space-sm">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="font-body-md text-body-md text-on-surface">NE-1 Vadodara Central CAD</span>
-</div>
-<span class="font-data-mono text-data-mono text-on-surface-variant">12ms // SYNC</span>
-</div>
-<div class="flex items-center justify-between bg-surface-container p-space-sm rounded">
-<div class="flex items-center gap-space-sm">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="font-body-md text-body-md text-on-surface">Delhi-Meerut Expy Optical Grid</span>
-</div>
-<span class="font-data-mono text-data-mono text-on-surface-variant">6ms // SYNC</span>
-</div>
-<div class="flex items-center justify-between bg-surface-container p-space-sm rounded">
-<div class="flex items-center gap-space-sm">
-<span class="w-2 h-2 rounded-full bg-secondary"></span>
-<span class="font-body-md text-body-md text-on-surface">NH-24 Ghaziabad Intercept Unit</span>
-</div>
-<span class="font-data-mono text-data-mono text-on-surface-variant">14ms // SYNC</span>
-</div>
-</div>
-</div>
-<!-- Right Column: Interactive Multi-Step Authentication Card (7 Cols) -->
-<div class="lg:col-span-7 flex flex-col">
-<div class="bg-surface-container rounded-xl shadow-xl p-space-lg lg:p-space-xl flex flex-col gap-space-xl">
-<!-- Header Inside Card -->
-<div class="flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-xs text-primary font-label-sm text-label-sm uppercase tracking-widest">
-<span class="material-symbols-outlined text-[16px]">token</span>
-<span>Command Control Gateway // Portal V4.8</span>
-</div>
-<span class="px-space-sm py-0.5 bg-primary-container/20 text-primary-fixed font-data-mono text-data-mono rounded">
-                SESSION ID: #984-CAD-DL
-              </span>
-</div>
-<h1 class="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
-              Officer Identity & Multi-Factor Gateway
-            </h1>
-<p class="font-body-sm text-body-sm text-on-surface-variant">
-              Authenticate via verified Parivahan NIC credentials and active cryptotoken. Access is recorded into the National Audit Ledger.
-            </p>
-</div>
-<!-- Step 1: Tactical Role Designation -->
-<div class="flex flex-col gap-space-sm">
-<div class="flex items-center justify-between">
-<label class="font-label-sm text-label-sm uppercase text-on-surface tracking-wider font-semibold">
-                Step 1: Operational Role Clearance Level
-              </label>
-<span class="text-on-surface-variant font-data-mono text-data-mono">1 of 3</span>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm" id="roleSelectorGroup">
-<!-- Role 1 (Selected State) -->
-<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-high transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="command_controller" onclick="selectRole(this)">
-<div class="flex items-start justify-between">
-<div class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-[18px]">desktop_windows</span>
-</div>
-<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-tertiary-container text-on-tertiary-container uppercase tracking-wider font-bold">L3 Clear</span>
-</div>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Command Room Controller</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">HQ / Sector Control • Full CAD Override</span>
-</div>
-<div class="flex items-center justify-between font-data-mono text-data-mono text-primary pt-space-xs">
-<span>DISPATCH & PTZ CONTROL</span>
-<span class="material-symbols-outlined text-[16px] text-primary">check_circle</span>
-</div>
-</div>
-<!-- Role 2 -->
-<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-low transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="field_intercept" onclick="selectRole(this)">
-<div class="flex items-start justify-between">
-<div class="w-8 h-8 rounded bg-surface-variant text-on-surface-variant flex items-center justify-center">
-<span class="material-symbols-outlined text-[18px]">local_police</span>
-</div>
-<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-surface-container-highest text-on-surface-variant uppercase tracking-wider">L2 Clear</span>
-</div>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Field Intercept Officer</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">Highway Police • Patrol Unit CAD & Triage</span>
-</div>
-<div class="flex items-center justify-between font-data-mono text-data-mono text-on-surface-variant pt-space-xs">
-<span>INTERCEPT TELEMETRY</span>
-<span class="material-symbols-outlined text-[16px] text-outline opacity-40">radio_button_unchecked</span>
-</div>
-</div>
-<!-- Role 3 -->
-<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-low transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="concessionaire" onclick="selectRole(this)">
-<div class="flex items-start justify-between">
-<div class="w-8 h-8 rounded bg-surface-variant text-on-surface-variant flex items-center justify-center">
-<span class="material-symbols-outlined text-[18px]">construction</span>
-</div>
-<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-surface-container-highest text-on-surface-variant uppercase tracking-wider">L1 Clear</span>
-</div>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Civil Maintenance / Concessionaire</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">PWD Rapid Repair • Incident Logging</span>
-</div>
-<div class="flex items-center justify-between font-data-mono text-data-mono text-on-surface-variant pt-space-xs">
-<span>MAINTENANCE CAD LOGS</span>
-<span class="material-symbols-outlined text-[16px] text-outline opacity-40">radio_button_unchecked</span>
-</div>
-</div>
-<!-- Role 4 -->
-<div class="role-card cursor-pointer p-space-md rounded-lg bg-surface-container-low transition-all flex flex-col justify-between gap-space-md group hover:bg-surface-bright" data-role="auditor" onclick="selectRole(this)">
-<div class="flex items-start justify-between">
-<div class="w-8 h-8 rounded bg-surface-variant text-on-surface-variant flex items-center justify-center">
-<span class="material-symbols-outlined text-[18px]">fact_check</span>
-</div>
-<span class="px-space-xs py-0.5 rounded text-[10px] font-label-sm bg-surface-container-highest text-on-surface-variant uppercase tracking-wider">L2 Read</span>
-</div>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface font-bold">Structural Safety Auditor</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">MoRTH Independent Inspection • Read-Only</span>
-</div>
-<div class="flex items-center justify-between font-data-mono text-data-mono text-on-surface-variant pt-space-xs">
-<span>HISTORICAL ANOMALIES</span>
-<span class="material-symbols-outlined text-[16px] text-outline opacity-40">radio_button_unchecked</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Step 2: Officer Credentials & Jurisdiction Form -->
-<div class="flex flex-col gap-space-md bg-surface-container-lowest p-space-lg rounded-lg">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm uppercase text-on-surface tracking-wider font-semibold">
-                Step 2: Officer Identification & Sector
-              </span>
-<span class="text-on-surface-variant font-data-mono text-data-mono">2 of 3</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
-<!-- ID Field -->
-<div class="flex flex-col gap-space-xs">
-<label class="font-label-sm text-label-sm text-on-surface-variant" for="officerId">
-                  Parivahan / NHAI Officer ID
-                </label>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">badge</span>
-<input class="w-full bg-surface-container-high text-on-surface font-data-mono text-data-mono pl-9 pr-8 py-2 rounded focus:outline-none focus:bg-surface-bright" id="officerId" type="text" value="NHAI-CR-2024-8841"/>
-<span class="material-symbols-outlined absolute right-space-sm text-secondary text-[18px]">verified</span>
-</div>
-</div>
-<!-- Password Field -->
-<div class="flex flex-col gap-space-xs">
-<label class="font-label-sm text-label-sm text-on-surface-variant" for="passcode">
-                  Cryptographic Master Passphrase
-                </label>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">key</span>
-<input class="w-full bg-surface-container-high text-on-surface font-data-mono text-data-mono pl-9 pr-8 py-2 rounded focus:outline-none focus:bg-surface-bright" id="passcode" type="password" value="••••••••••••••••"/>
-<button class="absolute right-space-sm text-on-surface-variant hover:text-on-surface" onclick="togglePasswordVisibility()" type="button">
-<span class="material-symbols-outlined text-[18px]" id="passToggleIcon">visibility</span>
-</button>
-</div>
-</div>
-<!-- Corridor Dropdown -->
-<div class="flex flex-col gap-space-xs md:col-span-2">
-<label class="font-label-sm text-label-sm text-on-surface-variant" for="jurisdictionSelect">
-                  Assigned Territorial Highway Jurisdiction
-                </label>
-<div class="relative flex items-center">
-<span class="material-symbols-outlined absolute left-space-sm text-on-surface-variant text-[18px]">alt_route</span>
-<select class="w-full bg-surface-container-high text-on-surface font-data-mono text-data-mono pl-9 pr-8 py-2 rounded appearance-none focus:outline-none focus:bg-surface-bright" id="jurisdictionSelect">
-<option selected="">Sector 4: NH-48 Delhi-Jaipur Corridor + NE-1 Expressway</option>
-<option>Sector 1: Eastern Peripheral Expressway (EPE) Circular Ring</option>
-<option>Sector 2: Delhi-Mumbai Expressway Package 1-4</option>
-<option>Sector 7: Golden Quadrilateral (North-South Corridor Hub)</option>
-</select>
-<span class="material-symbols-outlined absolute right-space-sm text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Step 3: Mandatory Two-Factor Authentication (2FA) Module -->
-<div class="flex flex-col gap-space-md bg-surface-container-lowest p-space-lg rounded-lg">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm uppercase text-on-surface tracking-wider font-semibold">
-                Step 3: Two-Factor Cryptographic Challenge
-              </span>
-<span class="text-on-surface-variant font-data-mono text-data-mono">3 of 3</span>
-</div>
-<!-- 2FA Selector Tabs -->
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-xs bg-surface-container-high p-1 rounded-lg">
-<button class="two-fa-tab active-tab bg-primary text-on-primary py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs shadow" onclick="switch2FAMethod(this, 'totp')" type="button">
-<span class="material-symbols-outlined text-[16px]">phonelink_lock</span>
-<span>NIC TOTP</span>
-</button>
-<button class="two-fa-tab bg-transparent text-on-surface-variant hover:text-on-surface py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs" onclick="switch2FAMethod(this, 'aadhaar')" type="button">
-<span class="material-symbols-outlined text-[16px]">fingerprint</span>
-<span>Aadhaar e-Sign OTP</span>
-</button>
-<button class="two-fa-tab bg-transparent text-on-surface-variant hover:text-on-surface py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs" onclick="switch2FAMethod(this, 'fido')" type="button">
-<span class="material-symbols-outlined text-[16px]">usb</span>
-<span>Hardware FIDO2</span>
-</button>
-</div>
-<!-- TOTP PIN Input Box View (Default) -->
-<div class="flex flex-col gap-space-md" id="totpSection">
-<div class="flex flex-col gap-space-xs">
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-                  Enter the 6-digit dynamic token generated on your Gov-NIC Authenticator Mobile App:
-                </span>
-<!-- 6-digit Boxes -->
-<div class="flex items-center justify-between max-w-sm gap-space-xs mt-space-xs">
-<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="7"/>
-<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="4"/>
-<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="1"/>
-<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="9"/>
-<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="6"/>
-<input class="otp-digit w-12 h-14 bg-surface-container-high text-center font-headline-lg text-headline-lg text-primary rounded font-bold focus:outline-none focus:bg-surface-bright" maxlength="1" type="text" value="2"/>
-</div>
-</div>
-<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs">
-<div class="flex items-center gap-space-xs font-data-mono text-data-mono text-secondary">
-<span class="material-symbols-outlined text-[16px]">schedule</span>
-<span>Code valid for <span class="font-bold" id="authTimer">01:42</span></span>
-</div>
-<button class="font-label-md text-label-md text-primary hover:underline flex items-center gap-space-xs" type="button">
-<span class="material-symbols-outlined text-[16px]">forward_to_inbox</span>
-<span>Resend Secure Code via SMS</span>
-</button>
-</div>
-</div>
-<!-- FIDO Hardware Key Prompt (Optional Sub-state) -->
-<div class="hidden flex items-center justify-between bg-surface-container-high p-space-md rounded-lg" id="fidoSection">
-<div class="flex items-center gap-space-md">
-<div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center animate-pulse">
-<span class="material-symbols-outlined text-[20px]">usb</span>
-</div>
-<div class="flex flex-col">
-<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Touch Hardware FIDO2 Token</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">Insert Security Key into USB slot or tap against NFC reader</span>
-</div>
-</div>
-<span class="px-space-sm py-1 bg-surface-container text-secondary font-data-mono text-data-mono rounded">LISTENING</span>
-</div>
-</div>
-<!-- Primary CTA Button & Emergency Bypass Option -->
-<div class="flex flex-col gap-space-md">
-<button class="w-full bg-primary-container hover:bg-inverse-primary text-on-primary font-headline-sm text-headline-sm py-3 px-space-lg rounded-xl shadow-lg transition-all flex items-center justify-center gap-space-md group" onclick="triggerAuthSequence(this)" type="button">
-<span class="material-symbols-outlined text-[22px] group-hover:rotate-12 transition-transform">lock_open</span>
-<span class="tracking-wide">Verify Credentials & Enter Command Network</span>
-<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</button>
-<div class="flex flex-wrap items-center justify-between gap-space-sm text-on-surface-variant font-label-sm text-label-sm px-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-[16px] text-tertiary-container">crisis_alert</span>
-<a class="hover:text-on-surface transition-colors font-medium text-tertiary" href="#">
-                  Emergency Dispatch Direct Bypass (Supervisor Keycard Required)
-                </a>
-</div>
-<span class="font-data-mono text-data-mono opacity-60">HANDSHAKE SHA-256 #89c7</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Statutory Compliance, Legal Audit and Tech Support Banner -->
-<div class="w-full bg-surface-container-low rounded-xl p-space-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg shadow-sm">
-<div class="flex items-start gap-space-md max-w-4xl">
-<div class="w-9 h-9 rounded bg-tertiary-container/20 text-tertiary flex items-center justify-center shrink-0 mt-0.5">
-<span class="material-symbols-outlined text-[20px]">warning</span>
-</div>
-<div class="flex flex-col gap-space-xs">
-<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">
-            Statutory Legal Compliance & Active Session Audit
-          </span>
-<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-            Authorized government personnel only under Information Technology Act 2000 (Section 43 & 66) and National Highway Safety Surveillance Regulations 2026. Unauthorized access attempts, port probing, and session impersonation are actively logged with GPS-triangulated IP telemetry and instantly forwarded to the Indian Cyber Crime Coordination Centre (I4C).
-          </p>
-</div>
-</div>
-<div class="flex flex-col items-start md:items-end gap-space-xs shrink-0 bg-surface-container p-space-md rounded-lg">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">National CAD Helpdesk</span>
-<div class="flex items-center gap-space-xs text-primary font-headline-sm text-headline-sm font-bold">
-<span class="material-symbols-outlined text-[18px]">support_agent</span>
-<span>1800-11-9922</span>
-</div>
-<span class="font-data-mono text-data-mono text-secondary">24x7 Priority Line Active</span>
-</div>
-</div>
-</div>
-<!-- Interactive Logic for Role Selection, OTP Focus, and 2FA tabs -->
+              <button type="button" class="rn-btn rn-btn-sm rn-btn-ghost" data-back>Change</button>
+            </div>
+
+            <div class="mt-5">
+              <label for="officer-id" class="rn-label block mb-1.5">Officer ID</label>
+              <div class="relative">
+                <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-dim text-[19px]" aria-hidden="true">badge</span>
+                <input id="officer-id" name="officer-id" class="rn-input has-icon !h-11" autocomplete="username" placeholder="e.g. QRU-12-4412" aria-describedby="officer-id-err" spellcheck="false">
+              </div>
+              <p id="officer-id-err" class="field-err" role="alert"><span class="material-symbols-rounded text-[16px]">error</span><span></span></p>
+            </div>
+
+            <div class="mt-4">
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="password" class="rn-label">Password</label>
+                <button type="button" class="text-[12.5px] text-brand-soft hover:text-ink" id="forgot">Forgot password?</button>
+              </div>
+              <div class="relative">
+                <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-dim text-[19px]" aria-hidden="true">lock</span>
+                <input id="password" name="password" type="password" class="rn-input has-icon !h-11 !pr-12" autocomplete="current-password" placeholder="••••••••" aria-describedby="password-err">
+                <button type="button" id="pw-toggle" class="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 grid place-items-center rounded-lg text-muted hover:text-ink" aria-label="Show password" aria-pressed="false">
+                  <span class="material-symbols-rounded text-[20px]">visibility</span>
+                </button>
+              </div>
+              <p id="password-err" class="field-err" role="alert"><span class="material-symbols-rounded text-[16px]">error</span><span></span></p>
+            </div>
+
+            <label class="mt-4 flex items-center gap-2.5 text-[13px] text-muted cursor-pointer w-fit">
+              <input type="checkbox" class="w-4 h-4 accent-[#3b82f6]" checked> Keep me signed in on this device
+            </label>
+
+            <div class="mt-5 flex gap-2.5">
+              <button type="button" class="rn-btn rn-btn-lg" data-back aria-label="Back to role selection"><span class="material-symbols-rounded">arrow_back</span></button>
+              <button type="submit" class="rn-btn rn-btn-primary rn-btn-lg flex-1">Send verification code<span class="material-symbols-rounded">sms</span></button>
+            </div>
+          </form>
+
+          <!-- STEP 3 -->
+          <form id="step-3" class="step-panel hidden" data-step="3" novalidate>
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h3 class="font-semibold text-[15px]">Enter the 6-digit code</h3>
+                <p class="text-[13px] text-muted mt-0.5">Sent to the device registered to <span id="otp-id" class="rn-mono text-ink">—</span></p>
+              </div>
+              <button type="button" class="rn-btn rn-btn-sm rn-btn-ghost" data-back>Back</button>
+            </div>
+
+            <fieldset class="mt-5">
+              <legend class="sr-only">One-time code</legend>
+              <div id="otp" class="grid grid-cols-6 gap-2 sm:gap-2.5">
+                <input class="rn-input otp-box" inputmode="numeric" autocomplete="one-time-code" maxlength="1" placeholder=" " aria-label="Digit 1">
+                <input class="rn-input otp-box" inputmode="numeric" maxlength="1" placeholder=" " aria-label="Digit 2">
+                <input class="rn-input otp-box" inputmode="numeric" maxlength="1" placeholder=" " aria-label="Digit 3">
+                <input class="rn-input otp-box" inputmode="numeric" maxlength="1" placeholder=" " aria-label="Digit 4">
+                <input class="rn-input otp-box" inputmode="numeric" maxlength="1" placeholder=" " aria-label="Digit 5">
+                <input class="rn-input otp-box" inputmode="numeric" maxlength="1" placeholder=" " aria-label="Digit 6">
+              </div>
+            </fieldset>
+            <p id="otp-err" class="field-err" role="alert"><span class="material-symbols-rounded text-[16px]">error</span><span></span></p>
+
+            <div class="mt-3 flex items-center justify-between text-[13px]">
+              <span class="text-dim flex items-center gap-1.5"><span class="material-symbols-rounded text-[17px]">timer</span><span id="otp-timer-label">Code expires in <span id="otp-timer" class="rn-mono text-muted">0:30</span></span></span>
+              <button type="button" id="resend" class="font-semibold text-brand-soft disabled:text-dim disabled:cursor-not-allowed h-9 px-1" disabled>Resend code</button>
+            </div>
+
+            <button type="submit" id="verify-btn" class="rn-btn rn-btn-primary rn-btn-lg w-full mt-5"><span class="material-symbols-rounded">verified_user</span>Verify &amp; sign in</button>
+          </form>
+
+          <!-- SUCCESS -->
+          <div id="step-done" class="step-panel hidden text-center py-6" aria-live="polite">
+            <div class="mx-auto w-14 h-14 rounded-full grid place-items-center bg-ok/15 border border-ok/40"><span class="material-symbols-rounded icon-fill text-ok-soft text-[30px]">check</span></div>
+            <h3 class="mt-4 font-display font-bold text-[19px]">Verified</h3>
+            <p class="mt-1 text-[13.5px] text-muted">Opening <span id="dest-name" class="text-ink font-medium">Command Center</span>…</p>
+            <span class="material-symbols-rounded spin text-brand-soft mt-4 inline-block">progress_activity</span>
+          </div>
+        </div>
+
+        <p class="mt-5 text-[12.5px] text-dim flex items-start justify-center gap-1.5"><span class="material-symbols-rounded text-[16px] mt-px">shield_lock</span>In production, sessions would use the agency's own SSO and audit logging.</p>
+      </section>
+    </div>
+
+    <footer class="px-4 sm:px-6 py-5 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-2 text-[12.5px] text-dim">
+      <span>Prototype — IEEE Hackathon 2026 · Team ESPADA</span>
+      <a href="../index.html" class="text-muted hover:text-ink flex items-center gap-1"><span class="material-symbols-rounded text-[17px]">home</span>Back to project overview</a>
+    </footer>
+  </main>
+</div>
+
+<div class="rn-toast-wrap" id="toasts" aria-live="polite"></div>
+
 <script>
-    function selectRole(element) {
-      const cards = document.querySelectorAll('.role-card');
-      cards.forEach(card => {
-        card.classList.remove('bg-surface-container-high');
-        card.classList.add('bg-surface-container-low');
-        const iconSpan = card.querySelector('.material-symbols-outlined:last-child');
-        if (iconSpan) {
-          iconSpan.textContent = 'radio_button_unchecked';
-          iconSpan.className = 'material-symbols-outlined text-[16px] text-outline opacity-40';
-        }
-      });
-      element.classList.remove('bg-surface-container-low');
-      element.classList.add('bg-surface-container-high');
-      const activeIcon = element.querySelector('.material-symbols-outlined:last-child');
-      if (activeIcon) {
-        activeIcon.textContent = 'check_circle';
-        activeIcon.className = 'material-symbols-outlined text-[16px] text-primary';
-      }
-    }
-
-    function togglePasswordVisibility() {
-      const passInput = document.getElementById('passcode');
-      const toggleIcon = document.getElementById('passToggleIcon');
-      if (passInput.type === 'password') {
-        passInput.type = 'text';
-        passInput.value = 'CAD-Admin-7729-Highway#Secure';
-        toggleIcon.textContent = 'visibility_off';
-      } else {
-        passInput.type = 'password';
-        passInput.value = '••••••••••••••••';
-        toggleIcon.textContent = 'visibility';
-      }
-    }
-
-    function switch2FAMethod(button, method) {
-      const tabs = document.querySelectorAll('.two-fa-tab');
-      tabs.forEach(tab => {
-        tab.className = 'two-fa-tab bg-transparent text-on-surface-variant hover:text-on-surface py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs';
-      });
-      button.className = 'two-fa-tab active-tab bg-primary text-on-primary py-2 px-space-sm rounded font-label-md text-label-md flex items-center justify-center gap-space-xs shadow';
-
-      const totpSection = document.getElementById('totpSection');
-      const fidoSection = document.getElementById('fidoSection');
-
-      if (method === 'fido') {
-        totpSection.classList.add('hidden');
-        fidoSection.classList.remove('hidden');
-      } else {
-        totpSection.classList.remove('hidden');
-        fidoSection.classList.add('hidden');
-      }
-    }
-
-    function triggerAuthSequence(btn) {
-      const originalText = btn.innerHTML;
-      btn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Verifying NIC PKI Certificates...</span>`;
-      btn.classList.add('opacity-80');
-      
-      setTimeout(() => {
-        btn.innerHTML = `<span class="material-symbols-outlined text-[20px] text-secondary">check_circle</span><span>Authenticated // Launching Portal...</span>`;
-        btn.classList.remove('opacity-80');
-        setTimeout(() => {
-          btn.innerHTML = originalText;
-        }, 1800);
-      }, 1200);
-    }
-
-    // Auto advance OTP boxes
-    const otpInputs = document.querySelectorAll('.otp-digit');
-    otpInputs.forEach((input, index) => {
-      input.addEventListener('keyup', (e) => {
-        if (e.key >= '0' && e.key <= '9') {
-          if (index < otpInputs.length - 1) {
-            otpInputs[index + 1].focus();
-          }
-        } else if (e.key === 'Backspace') {
-          if (index > 0) {
-            otpInputs[index - 1].focus();
-          }
-        }
-      });
-    });
-
-    // Countdown Timer Simulation
-    let timeLeft = 102;
-    const timerElem = document.getElementById('authTimer');
-    setInterval(() => {
-      if (timeLeft > 0) {
-        timeLeft--;
-        const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-        const secs = String(timeLeft % 60).padStart(2, '0');
-        if (timerElem) {
-          timerElem.textContent = `${mins}:${secs}`;
-        }
-      } else {
-        timeLeft = 120;
-      }
-    }, 1000);
-  </script>
-</div></main><footer class="w-full bg-surface-container-lowest/90 backdrop-blur-md"><div class="w-full px-gutter py-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm"><div class="flex items-center gap-space-md text-on-surface-variant font-label-sm text-label-sm"><span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px] text-tertiary-container">gavel</span>Authorized Personnel Only</span><span>•</span><span>IPC Section 66F IT Act Applicable</span><span>•</span><span class="font-data-mono text-data-mono">NODE-DEL-09.NHAI.GOV.IN</span></div><div class="flex items-center gap-space-lg font-label-sm text-label-sm text-on-surface-variant"><a class="hover:text-on-surface transition-colors" data-path="security-protocols" href="#">Security Protocols</a><a class="hover:text-on-surface transition-colors" data-path="helpdesk" href="#">NIC Helpdesk</a><span class="text-outline">© 2025 NHAI / MoRTH Govt. of India</span></div></div></footer><script>
 (function () {
-  const routes = {
-    dashboard: 'command-center.html',
-    incidents: 'incident-detail.html',
-    'incident-detail-rn-2026-004821-nh-48-corridor': 'incident-detail.html',
-    cameras: 'cameras.html',
-    analytics: 'analytics.html',
-    settings: 'settings.html',
-    'roadnetra-ai-live-incident-command-center': 'command-center.html',
-    'roadnetra-ai-edge-camera-monitoring-cctv-grid': 'cameras.html',
-    'roadnetra-ai-corridor-analytics-intelligence-hub': 'analytics.html',
-    live-map: 'command-center.html',
-    reports: 'analytics.html'
+  const $ = s => document.querySelector(s);
+  const roles = {
+    operator: { name: "Command Room Operator", dest: "command-center.html", destName: "Command Center" },
+    field:    { name: "Field Officer",         dest: "field-officer.html",  destName: "Field Officer app" },
+    engineer: { name: "Maintenance Engineer",  dest: "command-center.html", destName: "Command Center" },
+    auditor:  { name: "Auditor",               dest: "command-center.html", destName: "Command Center" },
   };
-  document.querySelectorAll('a[data-path]').forEach((link) => {
-    const route = routes[link.dataset.path];
-    if (route) link.href = route;
+  let role = "operator";
+
+  // tiny local toast (shell.js is not loaded on this page)
+  function toast(title, body, tone) {
+    const el = document.createElement("div");
+    el.className = "rn-toast" + (tone ? " is-" + tone : "");
+    el.innerHTML = `<div class="min-w-0"><div class="font-semibold text-[13.5px]">${title}</div>${body ? `<div class="text-[12.5px] text-muted mt-0.5">${body}</div>` : ""}</div>`;
+    $("#toasts").appendChild(el);
+    setTimeout(() => { el.style.transition = "opacity .3s"; el.style.opacity = "0"; setTimeout(() => el.remove(), 320); }, 3800);
+  }
+
+  // ---------- steps ----------
+  function show(step) {
+    document.querySelectorAll("[data-step], #step-done").forEach(p => p.classList.add("hidden"));
+    (step === "done" ? $("#step-done") : $("#step-" + step)).classList.remove("hidden");
+    const n = step === "done" ? 4 : step;
+    document.querySelectorAll("[data-step-pill]").forEach(p => {
+      const i = +p.dataset.stepPill;
+      p.dataset.state = i < n ? "done" : i === n ? "current" : "todo";
+      p.querySelector(".num").innerHTML = i < n ? '<span class="material-symbols-rounded text-[15px]">check</span>' : i;
+      if (i === n) p.setAttribute("aria-current", "step"); else p.removeAttribute("aria-current");
+    });
+    if (step === 2) setTimeout(() => $("#officer-id").focus(), 30);
+    if (step === 3) { startTimer(); setTimeout(() => boxes[0].focus(), 30); }
+  }
+  document.querySelectorAll("[data-back]").forEach(b => b.addEventListener("click", () => {
+    const cur = +b.closest("[data-step]").dataset.step; show(cur - 1);
+  }));
+
+  function setErr(input, errEl, msg) {
+    errEl.querySelector("span:last-child").textContent = msg || "";
+    errEl.classList.toggle("is-on", !!msg);
+    if (input) { input.classList.toggle("is-invalid", !!msg); input.setAttribute("aria-invalid", msg ? "true" : "false"); }
+  }
+
+  // step 1
+  $("#step-1").addEventListener("submit", e => {
+    e.preventDefault();
+    role = document.querySelector('input[name="role"]:checked').value;
+    $("#role-name").textContent = roles[role].name;
+    show(2);
   });
+
+  // step 2
+  const idIn = $("#officer-id"), pwIn = $("#password");
+  function validateId() {
+    const v = idIn.value.trim();
+    const msg = !v ? "Enter your officer ID." : v.length < 3 ? "Officer ID is at least 3 characters." : !/^[A-Za-z0-9._-]+$/.test(v) ? "Use letters, numbers, dots or dashes only." : "";
+    setErr(idIn, $("#officer-id-err"), msg); return !msg;
+  }
+  function validatePw() {
+    const v = pwIn.value;
+    const msg = !v ? "Enter your password." : v.length < 4 ? "Password is at least 4 characters." : "";
+    setErr(pwIn, $("#password-err"), msg); return !msg;
+  }
+  idIn.addEventListener("blur", () => idIn.value && validateId());
+  pwIn.addEventListener("blur", () => pwIn.value && validatePw());
+  idIn.addEventListener("input", () => idIn.classList.contains("is-invalid") && validateId());
+  pwIn.addEventListener("input", () => pwIn.classList.contains("is-invalid") && validatePw());
+  $("#pw-toggle").addEventListener("click", e => {
+    const b = e.currentTarget, showing = pwIn.type === "text";
+    pwIn.type = showing ? "password" : "text";
+    b.setAttribute("aria-pressed", String(!showing));
+    b.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+    b.firstElementChild.textContent = showing ? "visibility" : "visibility_off";
+  });
+  $("#forgot").addEventListener("click", () => toast("Password reset", "In a real deployment this goes to the agency's account administrator.", "warn"));
+  $("#step-2").addEventListener("submit", e => {
+    e.preventDefault();
+    const ok = [validateId(), validatePw()];
+    if (!ok[0]) return idIn.focus();
+    if (!ok[1]) return pwIn.focus();
+    $("#otp-id").textContent = idIn.value.trim().toUpperCase();
+    boxes.forEach(b => b.value = ""); setErr(null, $("#otp-err"), "");
+    show(3);
+    toast("Code sent", "Demo mode: type any 6 digits.", "ok");
+  });
+
+  // step 3: OTP boxes
+  const boxes = [...document.querySelectorAll("#otp input")];
+  const code = () => boxes.map(b => b.value).join("");
+  function fill(from, digits) {
+    digits.split("").forEach((d, k) => { if (boxes[from + k]) boxes[from + k].value = d; });
+    const next = Math.min(from + digits.length, boxes.length - 1);
+    boxes[next].focus();
+    if (code().length === 6) $("#step-3").requestSubmit();
+  }
+  boxes.forEach((b, i) => {
+    b.addEventListener("input", () => {
+      const d = b.value.replace(/\D/g, "");
+      b.value = "";
+      boxes.forEach(x => x.classList.remove("is-invalid")); $("#otp-err").classList.remove("is-on");
+      if (d) fill(i, d.slice(0, 6 - i));
+    });
+    b.addEventListener("keydown", e => {
+      if (e.key === "Backspace" && !b.value && i > 0) { boxes[i - 1].value = ""; boxes[i - 1].focus(); e.preventDefault(); }
+      if (e.key === "ArrowLeft" && i > 0) boxes[i - 1].focus();
+      if (e.key === "ArrowRight" && i < 5) boxes[i + 1].focus();
+    });
+    b.addEventListener("focus", () => b.select());
+    b.addEventListener("paste", e => {
+      e.preventDefault();
+      const d = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "").slice(0, 6);
+      if (d) fill(d.length === 6 ? 0 : i, d);
+    });
+  });
+
+  let timer = null;
+  function startTimer() {
+    clearInterval(timer);
+    let left = 30; const t = $("#otp-timer"), r = $("#resend");
+    r.disabled = true; $("#otp-timer-label").innerHTML = 'Resend available in <span id="otp-timer" class="rn-mono text-muted">0:30</span>';
+    timer = setInterval(() => {
+      left--; const el = $("#otp-timer");
+      if (el) el.textContent = "0:" + String(left).padStart(2, "0");
+      if (left <= 0) { clearInterval(timer); r.disabled = false; $("#otp-timer-label").textContent = "Didn't get it?"; }
+    }, 1000);
+  }
+  $("#resend").addEventListener("click", () => { boxes.forEach(b => b.value = ""); boxes[0].focus(); startTimer(); toast("New code sent", "Demo mode: type any 6 digits.", "ok"); });
+
+  $("#step-3").addEventListener("submit", e => {
+    e.preventDefault();
+    if (code().length < 6) {
+      boxes.forEach(b => b.classList.toggle("is-invalid", !b.value));
+      setErr(null, $("#otp-err"), `Enter all 6 digits (${6 - code().length} missing).`);
+      (boxes.find(b => !b.value) || boxes[0]).focus();
+      return;
+    }
+    clearInterval(timer);
+    $("#dest-name").textContent = roles[role].destName;
+    show("done");
+    try { sessionStorage.setItem("rn-role", role); sessionStorage.setItem("rn-officer", $("#otp-id").textContent); } catch (_) {}
+    setTimeout(() => { location.href = roles[role].dest; }, 1100);
+  });
+
+  show(1);
 })();
-</script></body></html>
+</script>
+</body>
+</html>
