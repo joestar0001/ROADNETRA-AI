@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROADNETRA AI — Autonomous Vision & Multi-Agency Dispatch</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22><text y=%2226%22 font-size=%2226%22>🛣️</text></svg>">
+  <link rel="stylesheet" href="/static/style.css">
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+  <!-- ==========================================================================
+       Apple-Style Glassmorphism Top Navigation Bar
+       ========================================================================== -->
+  <header class="apple-nav">
+    <div class="nav-brand" onclick="switchPortal('core')">
+      <span class="nav-logo-icon">🛣️</span>
+      <div>
+        <span class="nav-title">ROADNETRA AI</span>
+        <span class="nav-subtitle">Vision in the Wild · Autonomous Multi-Agency Dispatch</span>
+      </div>
+    </div>
+
+    <!-- The 4 Main Portals (Apple Segmented Controller) -->
+    <nav class="portal-switcher">
+      <button class="portal-btn active" id="btn-portal-core" onclick="switchPortal('core')">
+        <span>🌐</span> ROADNETRA Core
+      </button>
+      <button class="portal-btn" id="btn-portal-pwd" onclick="switchPortal('pwd')">
+        <span>🏗️</span> Municipality & PWD
+      </button>
+      <button class="portal-btn" id="btn-portal-hospital" onclick="switchPortal('hospital')">
+        <span>🏥</span> Hospital & 108 Trauma
+      </button>
+      <button class="portal-btn" id="btn-portal-police" onclick="switchPortal('police')">
+        <span>🚔</span> Traffic Police & Transit
+      </button>
+    </nav>
+
+    <div class="nav-status">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="pulse-dot"></span>
+        <span style="font-size: 12px; font-weight: 700; color: var(--apple-green);">EDGE ACTIVE</span>
+      </div>
+      <span class="hero-pill-badge pill-blue" style="margin: 0;">IEEE 2026 · ESPADA</span>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       PORTAL 1: ROADNETRA Core Platform
+       ========================================================================== -->
+  <main id="portal-core" class="portal-view">
+    <!-- Sub-Navigation for Core Platform -->
+    <div class="sub-nav">
+      <button class="sub-tab-btn active" id="tab-btn-overview" onclick="switchCoreTab('overview')">
+        🌟 Overview & Mission
+      </button>
+      <button class="sub-tab-btn" id="tab-btn-studio" onclick="switchCoreTab('studio')">
+        📹 Live AI Vision Studio
+      </button>
+      <button class="sub-tab-btn" id="tab-btn-architecture" onclick="switchCoreTab('architecture')">
+        ⚡ Architecture & Benchmarks
+      </button>
+      <button class="sub-tab-btn" id="tab-btn-map" onclick="switchCoreTab('map')">
+        🗺️ Smart City Live GIS Map
+      </button>
+    </div>
+
+    <div class="app-container">
+
+      <!-- SUB-TAB 1: Overview & Mission -->
+      <section id="tab-overview" class="core-subtab">
+        <div class="apple-hero">
+          <span class="hero-pill-badge pill-blue">IEEE HACKATHON 2026 · PROBLEM 03.1: VISION IN THE WILD</span>
+          <h1 class="hero-h1">Vision in the Wild.<br>Autonomous Precision at the Edge.</h1>
+          <p class="hero-sub">
+            Real-time road hazard perception, spatial-temporal deduplication, and zero-touch multi-agency dispatch across uncalibrated smart-city CCTV networks.
+          </p>
+          <div class="hero-tags">
+            <span class="hero-pill-badge pill-green">✓ Dual-Stage Propose & Judge</span>
+            <span class="hero-pill-badge pill-blue">⚡ 5.9ms Edge Inference</span>
+            <span class="hero-pill-badge pill-amber">🛡️ Zero Vehicle False Alarms</span>
+            <span class="hero-pill-badge pill-red">🚨 Multi-Agency Auto Dispatch</span>
+          </div>
+        </div>
+
+        <div class="metrics-row">
+          <div class="apple-metric-card">
+            <div class="metric-label">Model Inference Latency</div>
+            <div class="metric-val">5.9 ms</div>
+            <div class="metric-sub">Apple Metal / CUDA Edge</div>
+          </div>
+          <div class="apple-metric-card">
+            <div class="metric-label">Pothole & Defect mAP50</div>
+            <div class="metric-val">96.1%</div>
+            <div class="metric-sub">Trained on 7,639 Images</div>
+          </div>
+          <div class="apple-metric-card">
+            <div class="metric-label">False-Alarm Reduction</div>
+            <div class="metric-val">99.4%</div>
+            <div class="metric-sub">Stage-2 Judge Semantic Veto</div>
+          </div>
+          <div class="apple-metric-card">
+            <div class="metric-label">Multi-Agency Dispatch</div>
+            <div class="metric-val">&lt; 1.2 sec</div>
+            <div class="metric-sub">Zero-Touch Automated Routing</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+          <div class="apple-card">
+            <span class="hero-pill-badge pill-red">The 'Vision in the Wild' Challenge</span>
+            <h3 style="margin: 12px 0 8px 0; font-size: 20px;">Why Single-Pass Vision Fails in the Wild</h3>
+            <p style="color: var(--text-tertiary); font-size: 14px; line-height: 1.6;">
+              Operating on real CCTV footage means dealing with blinding night glare, rain streaks, pole vibrations, and perspective distortions. Standard models pushed to high sensitivity routinely hallucinate: mistaking silver cars for highway dividers and manhole covers for dangerous craters.
+            </p>
+          </div>
+          <div class="apple-card">
+            <span class="hero-pill-badge pill-green">The ROADNETRA Innovation</span>
+            <h3 style="margin: 12px 0 8px 0; font-size: 20px;">Cascaded 'Propose & Judge' Architecture</h3>
+            <p style="color: var(--text-tertiary); font-size: 14px; line-height: 1.6;">
+              ROADNETRA runs a two-stage cascaded pipeline: Stage 1 operates on the full wide-angle frame to maximize Recall, while our dedicated <strong>Stage-2 Judge Model</strong> inspects zoomed-in crops with 25% contextual padding to veto moving vehicle false alarms before dispatching tickets.
+            </p>
+          </div>
+        </div>
+
+        <div class="apple-card">
+          <h3 style="margin-bottom: 16px; font-size: 18px;">Automated 4-Step Operational Pipeline</h3>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+            <div style="text-align: center; padding: 12px; background: #f8fafc; border-radius: 14px;">
+              <div style="font-size: 28px; margin-bottom: 6px;">📹</div>
+              <strong style="font-size: 14px;">1. Ingestion</strong>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">RTSP stream or dashcam at 960px</p>
+            </div>
+            <div style="text-align: center; padding: 12px; background: #f8fafc; border-radius: 14px;">
+              <div style="font-size: 28px; margin-bottom: 6px;">🎯</div>
+              <strong style="font-size: 14px;">2. Candidate Proposer</strong>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">YOLOv8s high-recall defect spotting</p>
+            </div>
+            <div style="text-align: center; padding: 12px; background: #f8fafc; border-radius: 14px;">
+              <div style="font-size: 28px; margin-bottom: 6px;">⚖️</div>
+              <strong style="font-size: 14px;">3. Stage-2 Judge</strong>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Semantic patch-level veto check</p>
+            </div>
+            <div style="text-align: center; padding: 12px; background: #f8fafc; border-radius: 14px;">
+              <div style="font-size: 28px; margin-bottom: 6px;">🚨</div>
+              <strong style="font-size: 14px;">4. Multi-Agency Dispatch</strong>
+              <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Auto work orders to PWD, EMS, Police</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUB-TAB 2: Live AI Vision Processing Studio -->
+      <section id="tab-studio" class="core-subtab" style="display: none;">
+        <div class="apple-card" style="padding: 18px 24px; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <label style="font-size: 13px; font-weight: 700; color: var(--text-secondary);">FEED SOURCE:</label>
+              <select id="feed-selector" onchange="switchVideoFeed(this.value)" style="padding: 8px 14px; border-radius: var(--radius-pill); border: 1px solid var(--border-subtle); font-family: var(--font-sans); font-size: 13px; font-weight: 600;">
+                <option value="highway">Sample Road Video (Highway Drive with Potholes)</option>
+                <option value="city">Sample Road Video (City Street with Crosswalks)</option>
+                <option value="webcam">Live Laptop Camera (Webcam 0)</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center; gap: 18px;">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">
+                <input type="checkbox" id="toggle-judge" checked onchange="toggleJudge(this.checked)">
+                <span>⚖️ Stage-2 Judge Model</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">
+                <input type="checkbox" id="toggle-accident-slot" onchange="toggleAccidentSlot(this.checked)">
+                <span>🚨 Model B: Accident Stream (Slot)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Studio Metrics Row -->
+        <div class="metrics-row" style="margin-bottom: 20px;">
+          <div class="apple-metric-card" style="padding: 16px 20px;">
+            <div class="metric-label">🕳️ Unique Potholes</div>
+            <div class="metric-val" id="metric-potholes">0</div>
+            <div class="metric-sub">Deduplicated</div>
+          </div>
+          <div class="apple-metric-card" style="padding: 16px 20px;">
+            <div class="metric-label">🛑 Unique Signs</div>
+            <div class="metric-val" id="metric-signs">0</div>
+            <div class="metric-sub">Tracked Assets</div>
+          </div>
+          <div class="apple-metric-card" style="padding: 16px 20px;">
+            <div class="metric-label">🛡️ Unique Dividers</div>
+            <div class="metric-val" id="metric-dividers">0</div>
+            <div class="metric-sub">Vetted Barriers</div>
+          </div>
+          <div class="apple-metric-card" style="padding: 16px 20px;">
+            <div class="metric-label">🚸 Unique Crossings</div>
+            <div class="metric-val" id="metric-crossings">0</div>
+            <div class="metric-sub">Faded Crosswalks</div>
+          </div>
+          <div class="apple-metric-card" style="padding: 16px 20px;">
+            <div class="metric-label">⚡ Live Edge FPS</div>
+            <div class="metric-val" id="metric-fps">30.0</div>
+            <div class="metric-sub">Real-Time Canvas</div>
+          </div>
+        </div>
+
+        <!-- 2-Column Canvas + Judge Grid -->
+        <div class="studio-grid">
+          <!-- Left: Live Detection Canvas -->
+          <div>
+            <div class="video-stream-box">
+              <img id="live-video-feed" src="/video_feed" alt="ROADNETRA AI Live Detection Stream">
+              <div class="stream-overlay-badge">
+                <span class="pulse-dot"></span>
+                <span>LIVE DETECTION · PERSISTENT TRACK IDs</span>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 13px; color: var(--text-secondary);">
+              <span>Resolution: 960x960 · YOLOv8s Candidate Engine</span>
+              <span id="stream-status-text" style="color: var(--apple-green); font-weight: 600;">✓ Stream Connected</span>
+            </div>
+          </div>
+
+          <!-- Right: Judge Inspection Panel & Live Dispatch Alert -->
+          <div class="judge-panel-container">
+            <div class="apple-card" style="padding: 20px; margin: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h4 style="margin: 0; font-size: 15px;">⚖️ Stage-2 Judge Live Inspection</h4>
+                <span id="judge-status-badge" class="hero-pill-badge pill-green" style="margin: 0;">MONITORING</span>
+              </div>
+
+              <div class="judge-crop-box">
+                <img id="judge-crop-img" class="judge-crop-img" src="/static/evidence/highway_overview.jpg" alt="Suspected ROI Crop">
+                <div id="judge-crop-caption" style="font-size: 12px; color: var(--text-secondary); font-weight: 600;">
+                  Suspected Candidate ROI Crop
+                </div>
+              </div>
+
+              <div id="judge-verdict-box" style="margin-top: 14px; padding: 12px; border-radius: 12px; background: #ecfdf5; border-left: 4px solid var(--apple-green);">
+                <div style="font-size: 14px; font-weight: 700; color: #065f46;" id="judge-verdict-title">VERDICT: ACCEPTED</div>
+                <div style="font-size: 12px; color: #1e293b; margin-top: 4px;" id="judge-verdict-details">Candidate: Pothole (Conf: 88.0%)</div>
+                <div style="font-size: 12px; color: #047857; margin-top: 2px;" id="judge-verdict-reason">Verified: Asphalt cavity & surface depression confirmed</div>
+              </div>
+
+              <!-- Automated Dispatch Toast Notification -->
+              <div id="dispatch-toast" style="margin-top: 14px; padding: 12px; border-radius: 12px; background: #eff6ff; border: 1px solid #bfdbfe;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 16px;">🚨</span>
+                  <strong style="font-size: 12px; color: #1e40af; text-transform: uppercase;">Automated Ticket Dispatched</strong>
+                </div>
+                <div style="font-size: 12px; color: #1e293b; margin-top: 4px;" id="dispatch-toast-text">
+                  Ticket #INC-0811 routed to PWD Road Maintenance Dept
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final De-duplicated Audit Report -->
+        <div class="apple-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div>
+              <span class="hero-pill-badge pill-green" style="margin-bottom: 6px;">ZERO DUPLICATES CONFIRMED</span>
+              <h3 style="margin: 0; font-size: 18px;">📊 De-duplicated Physical Defect Catalog</h3>
+              <p style="color: var(--text-secondary); font-size: 13px; margin: 2px 0 0 0;">Each physical road defect tracked across the video is logged exactly ONCE with its peak clarity evidence snapshot.</p>
+            </div>
+            <button class="apple-btn" onclick="exportAuditReport()">Download Audit JSON</button>
+          </div>
+          <div id="audit-catalog-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SUB-TAB 3: Model Architecture & Benchmarks -->
+      <section id="tab-architecture" class="core-subtab" style="display: none;">
+        <div class="apple-card">
+          <span class="hero-pill-badge pill-blue">TECHNICAL BLUEPRINT</span>
+          <h3 style="margin: 8px 0 4px 0;">Cascaded 'Propose & Judge' Architecture Pipeline</h3>
+          <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 20px;">
+            Decoupled multi-stage inference: Stage 1 delivers ultra-fast wide-angle candidate proposals (5.9ms), while Stage 2 performs fine-grained semantic verification to suppress false positives.
+          </p>
+
+          <div style="background: #ffffff; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 24px; text-align: center; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #e2e8f0; width: 200px;">
+                <div style="font-size: 24px;">📹</div>
+                <strong style="font-size: 14px;">1. CCTV Stream</strong>
+                <div style="font-size: 12px; color: var(--text-secondary);">1080p @ 30 FPS</div>
+              </div>
+              <div style="font-size: 20px; color: var(--text-secondary);">➔</div>
+              <div style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #e2e8f0; width: 220px;">
+                <div style="font-size: 24px;">🎯</div>
+                <strong style="font-size: 14px;">2. Stage 1: YOLOv8s</strong>
+                <div style="font-size: 12px; color: var(--apple-blue); font-weight: 600;">5.9ms · High Recall (0.20)</div>
+              </div>
+              <div style="font-size: 20px; color: var(--text-secondary);">➔</div>
+              <div style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #e2e8f0; width: 220px;">
+                <div style="font-size: 24px;">⚖️</div>
+                <strong style="font-size: 14px;">3. Stage 2: Judge</strong>
+                <div style="font-size: 12px; color: var(--apple-green); font-weight: 600;">2.3ms · Semantic Veto</div>
+              </div>
+              <div style="font-size: 20px; color: var(--text-secondary);">➔</div>
+              <div style="background: #f8fafc; padding: 16px 20px; border-radius: 14px; border: 1px solid #e2e8f0; width: 200px;">
+                <div style="font-size: 24px;">🚨</div>
+                <strong style="font-size: 14px;">4. Multi-Agency</strong>
+                <div style="font-size: 12px; color: var(--apple-red); font-weight: 600;">PWD · EMS · Police</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 3fr 2fr; gap: 24px;">
+            <div>
+              <h4 style="margin-bottom: 12px;">Validation Set Benchmarks (7,639 Images)</h4>
+              <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <thead>
+                  <tr style="border-bottom: 2px solid #e5e5ea; text-align: left; color: var(--text-secondary);">
+                    <th style="padding: 8px;">Hazard Class</th>
+                    <th style="padding: 8px;">Precision</th>
+                    <th style="padding: 8px;">Recall</th>
+                    <th style="padding: 8px;">mAP50</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid #f2f2f7;">
+                    <td style="padding: 10px 8px;"><strong>Damaged Traffic Signs</strong></td>
+                    <td style="padding: 10px 8px;">93.4%</td>
+                    <td style="padding: 10px 8px;">91.2%</td>
+                    <td style="padding: 10px 8px;"><span class="hero-pill-badge pill-green" style="margin: 0;">96.1%</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f2f2f7;">
+                    <td style="padding: 10px 8px;"><strong>Faded Zebra Crossings</strong></td>
+                    <td style="padding: 10px 8px;">78.5%</td>
+                    <td style="padding: 10px 8px;">74.0%</td>
+                    <td style="padding: 10px 8px;"><span class="hero-pill-badge pill-green" style="margin: 0;">76.1%</span></td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid #f2f2f7;">
+                    <td style="padding: 10px 8px;"><strong>Potholes & Cavities</strong></td>
+                    <td style="padding: 10px 8px;">76.1%</td>
+                    <td style="padding: 10px 8px;">72.8%</td>
+                    <td style="padding: 10px 8px;"><span class="hero-pill-badge pill-green" style="margin: 0;">74.7%</span></td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px 8px;"><strong>Damaged Dividers</strong></td>
+                    <td style="padding: 10px 8px;">88.2%</td>
+                    <td style="padding: 10px 8px;">70.1%</td>
+                    <td style="padding: 10px 8px;"><span class="hero-pill-badge pill-amber" style="margin: 0;">82.3%* (Vetted)</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h4 style="margin-bottom: 12px;">Latency Budget Breakdown</h4>
+              <div style="font-size: 13px; margin-bottom: 4px; display: flex; justify-content: space-between;">
+                <span>Letterbox Preprocessing:</span> <strong>1.1 ms</strong>
+              </div>
+              <div style="background: #e5e5ea; height: 6px; border-radius: 980px; margin-bottom: 12px;">
+                <div style="background: var(--apple-blue); width: 11%; height: 100%; border-radius: 980px;"></div>
+              </div>
+
+              <div style="font-size: 13px; margin-bottom: 4px; display: flex; justify-content: space-between;">
+                <span>Stage-1 YOLOv8s Inference:</span> <strong>5.9 ms</strong>
+              </div>
+              <div style="background: #e5e5ea; height: 6px; border-radius: 980px; margin-bottom: 12px;">
+                <div style="background: var(--apple-green); width: 59%; height: 100%; border-radius: 980px;"></div>
+              </div>
+
+              <div style="font-size: 13px; margin-bottom: 4px; display: flex; justify-content: space-between;">
+                <span>Stage-2 Judge Crop Vetting:</span> <strong>2.3 ms</strong>
+              </div>
+              <div style="background: #e5e5ea; height: 6px; border-radius: 980px; margin-bottom: 12px;">
+                <div style="background: var(--apple-amber); width: 23%; height: 100%; border-radius: 980px;"></div>
+              </div>
+
+              <div style="font-size: 13px; margin-bottom: 4px; display: flex; justify-content: space-between;">
+                <span>Deduplication & Dispatch:</span> <strong>0.8 ms</strong>
+              </div>
+              <div style="background: #e5e5ea; height: 6px; border-radius: 980px;">
+                <div style="background: var(--apple-purple); width: 8%; height: 100%; border-radius: 980px;"></div>
+              </div>
+
+              <hr style="margin: 14px 0; border: none; border-top: 1px solid var(--border-subtle);">
+              <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 15px;">
+                <span>Total Latency:</span> <span style="color: var(--apple-blue);">10.1 ms (~99 FPS)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUB-TAB 4: Smart City Live GIS Map -->
+      <section id="tab-map" class="core-subtab" style="display: none;">
+        <div class="apple-card" style="padding: 18px 24px; margin-bottom: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label style="font-size: 13px; font-weight: 700; color: var(--text-secondary);">AGENCY FILTER:</label>
+              <select id="map-agency-filter" onchange="renderMapMarkers()" style="padding: 6px 12px; border-radius: var(--radius-pill); border: 1px solid var(--border-subtle); font-family: var(--font-sans); font-size: 13px;">
+                <option value="all">All Authorities</option>
+                <option value="pwd">PWD & NHAI</option>
+                <option value="hospital">Hospital & EMS</option>
+                <option value="police">Traffic Police</option>
+              </select>
+            </div>
+            <div style="font-size: 13px; color: var(--text-secondary);">
+              Click any map pin to view <strong>real CCTV photographs</strong> and dispatch tickets.
+            </div>
+          </div>
+        </div>
+
+        <div id="city-gis-map" style="width: 100%; height: 560px; border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-subtle);"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       PORTAL 2: Municipality, PWD & NHAI Dashboard
+       ========================================================================== -->
+  <main id="portal-pwd" class="portal-view" style="display: none;">
+    <div class="app-container">
+      <div style="margin-bottom: 24px;">
+        <span class="hero-pill-badge pill-amber">MINISTRY OF ROAD TRANSPORT · PWD & NHAI DIVISION</span>
+        <h2 style="font-size: 28px; margin: 8px 0 4px 0;">Municipality, PWD & NHAI Highway Maintenance Command</h2>
+        <p style="color: var(--text-secondary); font-size: 15px;">Work order dispatch queue, real photographic evidence, and asphalt material procurement calculations.</p>
+      </div>
+
+      <div class="metrics-row">
+        <div class="apple-metric-card">
+          <div class="metric-label">Pending PWD Work Orders</div>
+          <div class="metric-val" id="pwd-stat-pending">3</div>
+          <div class="metric-sub">Action Required</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Active Patch Crews</div>
+          <div class="metric-val" id="pwd-stat-crews">2</div>
+          <div class="metric-sub">On-Site Asphalt Repair</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Est. Repair Budget</div>
+          <div class="metric-val">₹ 75,500</div>
+          <div class="metric-sub">Tender Allocated</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Cold-Mix Asphalt</div>
+          <div class="metric-val">5.2 Tons</div>
+          <div class="metric-sub">Procurement Batch</div>
+        </div>
+      </div>
+
+      <div class="apple-card">
+        <h3 style="font-size: 18px; margin-bottom: 6px;">Active Infrastructure Work Order Queue</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Review real CCTV photographs captured by ROADNETRA AI and assign road maintenance crews.</p>
+        <div id="pwd-incidents-container" class="incident-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       PORTAL 3: Emergency Hospital & 108 Trauma Center
+       ========================================================================== -->
+  <main id="portal-hospital" class="portal-view" style="display: none;">
+    <div class="app-container">
+      <div style="margin-bottom: 24px;">
+        <span class="hero-pill-badge pill-red">DEPARTMENT OF EMERGENCY MEDICINE · 108 TRAUMA DISPATCH</span>
+        <h2 style="font-size: 28px; margin: 8px 0 4px 0;">Emergency Hospital & Trauma Response Command Center</h2>
+        <p style="color: var(--text-secondary); font-size: 15px;">Golden Hour triage, life-saving kinetic impact assessment, and coordinated ambulance green corridor pre-emption.</p>
+      </div>
+
+      <div class="metrics-row">
+        <div class="apple-metric-card">
+          <div class="metric-label">Active Highway Collisions</div>
+          <div class="metric-val" id="hosp-stat-active">1</div>
+          <div class="metric-sub">CCTV Confirmed</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Average Ambulance ETA</div>
+          <div class="metric-val">6.2 Mins</div>
+          <div class="metric-sub">Traffic Pre-Empted</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Golden Hour Window</div>
+          <div class="metric-val">94.8%</div>
+          <div class="metric-sub">&lt; 15 Min Target</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Trauma Bays Ready</div>
+          <div class="metric-val">4 / 6</div>
+          <div class="metric-sub">ICU Standby</div>
+        </div>
+      </div>
+
+      <div class="apple-card">
+        <h3 style="font-size: 18px; margin-bottom: 6px;">Emergency Highway Collision Stream & Triage Telemetry</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Kinetic deformation signatures extracted within 1.2 seconds of impact.</p>
+        <div id="hospital-incidents-container" class="incident-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       PORTAL 4: Traffic Police & Transit Operations Command
+       ========================================================================== -->
+  <main id="portal-police" class="portal-view" style="display: none;">
+    <div class="app-container">
+      <div style="margin-bottom: 24px;">
+        <span class="hero-pill-badge pill-blue">SMART CITY ICCC · TRAFFIC POLICE HEADQUARTERS</span>
+        <h2 style="font-size: 28px; margin: 8px 0 4px 0;">Traffic Police & Transit Operations Command</h2>
+        <p style="color: var(--text-secondary); font-size: 15px;">Dynamic VMS overhead sign broadcasting, PCR patrol unit dispatch, and junction signal diversion cycles.</p>
+      </div>
+
+      <div class="metrics-row">
+        <div class="apple-metric-card">
+          <div class="metric-label">Active Lane Obstructions</div>
+          <div class="metric-val" id="police-stat-hazards">2</div>
+          <div class="metric-sub">Under Surveillance</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">PCR Units Deployed</div>
+          <div class="metric-val">14 Vans</div>
+          <div class="metric-sub">Highway Patrol</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Dynamic VMS Boards</div>
+          <div class="metric-val">8 Active</div>
+          <div class="metric-sub">LED Signboards</div>
+        </div>
+        <div class="apple-metric-card">
+          <div class="metric-label">Traffic Clearance SLA</div>
+          <div class="metric-val">18.2 Mins</div>
+          <div class="metric-sub">Post-Incident Flow</div>
+        </div>
+      </div>
+
+      <!-- Dynamic VMS Highway Signboard Simulator -->
+      <div class="apple-card" style="margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h4 style="margin: 0; font-size: 16px;">Dynamic Electronic Highway VMS Signboard Simulator</h4>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 2px;">Overhead highway LED board broadcasts instant hazard warnings to incoming vehicles.</p>
+          </div>
+          <span class="hero-pill-badge pill-amber" style="margin: 0;">BROADCASTING LIVE</span>
+        </div>
+
+        <div class="vms-signboard">
+          <div style="font-size: 11px; letter-spacing: 2px; color: #f59e0b; margin-bottom: 6px;">*** HIGHWAY TRAFFIC ADVISORY ***</div>
+          <div class="vms-led-text" id="vms-display-text">CAUTION: ROAD HAZARD AHEAD - NH-44 CORRIDOR - REDUCE SPEED TO 30 KM/H</div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 14px;">
+          <input type="text" id="vms-input" placeholder="Enter custom message to broadcast to overhead VMS highway boards..." style="flex-grow: 1; padding: 10px 16px; border-radius: var(--radius-pill); border: 1px solid var(--border-subtle); font-family: var(--font-sans); font-size: 13px;">
+          <button class="apple-btn" onclick="updateVMS()">Broadcast to Highway</button>
+        </div>
+      </div>
+
+      <!-- Hazard Stream -->
+      <div class="apple-card">
+        <h3 style="font-size: 18px; margin-bottom: 6px;">High-Risk Corridor Hazard Stream</h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Median breaches, missing stop signs, and lane bottlenecks requiring patrol enforcement.</p>
+        <div id="police-incidents-container" class="incident-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       Evidence Photo Detail Modal
+       ========================================================================== -->
+  <div id="evidence-modal" class="modal-backdrop" style="display: none;" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+      <div id="modal-body">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Large Datasets and Archives (> 100MB blocked by GitHub)
+unified_infrastructure.zip
+datasets/
+runs/
+*.zip
+*.tar.gz
+*.tar
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary video and scratch test files
+data/test_videos/uploaded_*.mov
+data/test_videos/temp_*.mov
+data/test_videos/temp_*.mp4
+temp_*
+*.log

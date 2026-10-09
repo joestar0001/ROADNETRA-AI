@@ -1,0 +1,483 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>RoadNetra AI · Hospital &amp; 108 Trauma Emergency Command</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f5f7;--card:#fff;--ink:#1d1d1f;--mut:#6e6e73;--g:#ff3b30;--grn:#30a14e;--gd:#000;--line:#d2d2d7;--soft:#f0f0f3;--red:#ff3b30;--org:#ff9f0a;--blue:#0071e3;--glass:rgba(255,255,255,.72)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--mut:#a1a1a6;--g:#ff453a;--grn:#30d158;--gd:#1c1c1e;--line:#38383a;--soft:#2c2c2e;--glass:rgba(28,28,30,.72)}}
+:root[data-theme=dark]{--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--mut:#a1a1a6;--g:#ff453a;--grn:#30d158;--gd:#1c1c1e;--line:#38383a;--soft:#2c2c2e;--glass:rgba(28,28,30,.72)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}[hidden]{display:none!important}p{margin:0 0 6px;color:var(--mut)}h1,h2,h3,h4{margin:0;letter-spacing:-.022em;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif}
+button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:var(--red);color:#fff;font-weight:500;font-size:14px;padding:8px 18px;border-radius:980px;cursor:pointer;transition:opacity .2s}.b:hover{opacity:.85}.b.g{background:transparent;color:var(--ink);border:1px solid var(--line)}.b.sm{padding:4px 12px;font-size:12px}.b.dk{background:var(--ink);color:var(--bg)}.b.grn{background:var(--grn);color:#fff}.b:focus-visible,a:focus-visible,.lk:focus-visible{outline:3px solid #ff3b3066;outline-offset:2px}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:3px 12px;border-radius:980px;background:var(--soft);color:var(--mut);font-weight:500;font-size:12px}
+.pill.red{background:#ff3b3022;color:var(--red)}.pill.green{background:#30a14e22;color:var(--grn)}.pill.orange{background:#ff9f0a22;color:var(--org)}.pill.blue{background:#0071e322;color:var(--blue)}
+.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.side{background:var(--glass);backdrop-filter:blur(20px);border-right:1px solid var(--line);padding:14px 12px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.side .lk{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:8px 12px;border-radius:10px;font-size:14px;cursor:pointer;color:var(--ink);font-weight:500}.side .lk.on{background:var(--red);color:#fff}.side .lk:hover:not(.on){background:var(--soft)}.side h5{margin:14px 12px 4px;font-size:11px;font-weight:600;color:var(--mut);letter-spacing:.05em}
+.prof{background:var(--card);border-radius:14px;padding:12px;font-size:13px;border:1px solid var(--line)}
+.stc{margin-top:auto;border-radius:14px;padding:12px;font-size:12px;color:var(--mut);background:var(--card);border:1px solid var(--line)}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:6px;animation:fy 1.2s infinite}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{display:flex;gap:8px;align-items:center;padding:10px 24px;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:15;flex-wrap:wrap}
+.top h3{margin-right:auto;font-size:17px;font-weight:600}.top input,.top select{padding:6px 14px;border-radius:980px;border:1px solid var(--line);background:var(--card);font-size:13px}
+.pgs{padding:24px 28px 60px;max-width:1200px;width:100%;margin:0 auto}
+.card{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--line);margin-bottom:18px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;align-items:center}
+.g4{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:14px 0}
+.g3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:14px 0}
+.sc{background:var(--card);border-radius:18px;padding:18px;border:1px solid var(--line)}.sc b{font-size:32px;font-weight:700;letter-spacing:-.03em;display:block;margin:4px 0}.sc h4{font-size:14px;font-weight:600;color:var(--mut)}.sc p{margin:0;font-size:12px;color:var(--mut)}
+.ic{display:flex;gap:16px;background:var(--card);border-radius:18px;padding:16px;margin-bottom:14px;border:1px solid var(--line);transition:box-shadow .2s;border-left:4px solid var(--red)}
+.ic img,.ph{width:140px;height:96px;border-radius:12px;object-fit:cover;flex:none;background:#2c2c2e;color:#8e8e93;display:grid;place-items:center;font-size:11px}
+.ib{flex:1;min-width:0}.stp{display:flex;gap:4px;margin:6px 0 8px;flex-wrap:wrap}.stp i{font-style:normal;font-size:11px;padding:3px 9px;border-radius:980px;background:var(--soft);color:var(--mut)}.stp i.on{background:var(--red);color:#fff}
+.bd{font-size:10px;padding:2px 8px;border-radius:980px;margin-left:8px;color:#fff;background:var(--mut);font-weight:600;text-transform:uppercase}
+.bd.Critical,.bd.CRITICAL,.bd.High{background:var(--red)}.bd.Medium{background:var(--org)}
+.bar{height:6px;border-radius:9px;background:var(--soft);overflow:hidden;margin:4px 0 12px}.bar i{display:block;height:100%;background:var(--red)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 22px;border-radius:980px;font-size:13px;z-index:60;opacity:0;transition:.3s;pointer-events:none;max-width:90%}.toast.on{opacity:1}
+#hospMap{height:460px;width:100%;border-radius:16px;border:1px solid var(--line)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}.tbl th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--mut);font-weight:600}.tbl td{padding:12px;border-bottom:1px solid var(--line)}
+.gw-badge{background:#16a34a22;color:#16a34a;border:1px solid #16a34a55;padding:6px 14px;border-radius:980px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+@keyframes fy{50%{transform:translateY(-6px)}}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:6px;border:0}.side .lk{width:auto;white-space:nowrap}.side .prof,.side .stc,.side h5{display:none}}
+</style>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="logo"><i>◉</i>RoadNetra</div>
+    <a href="/" class="b g sm" style="text-align:center;text-decoration:none;display:block">← Main Platform</a>
+    <div class="prof">
+      <b>108 Trauma Command</b>
+      <p style="margin:2px 0 0;font-size:12px;color:var(--mut)">Dept. of Emergency Medicine</p>
+      <div style="margin-top:6px"><span class="pill red" style="font-size:11px">Level 1 Apex Trauma</span></div>
+    </div>
+    <h5>EMERGENCY OPERATIONS</h5>
+    <button class="lk on" data-pg="sos">🚨 Emergency SOS Queue</button>
+    <button class="lk" data-pg="fleet">🚑 108 Ambulance Fleet</button>
+    <button class="lk" data-pg="triage">🏥 Trauma Bays &amp; ICU</button>
+    <button class="lk" data-pg="golden">⏱️ Golden Hour Clock</button>
+    <button class="lk" data-pg="map">🗺️ Corridor Green Wave</button>
+    <h5>AUTHORITY SWITCH</h5>
+    <a href="/pwd" class="lk" style="text-decoration:none">🏗️ Municipal PWD ↗</a>
+    <a href="/police" class="lk" style="text-decoration:none">🚔 Traffic Police ↗</a>
+    <div class="stc">
+      <span class="dot"></span><b>CCTV Telemetry: Live</b><br>
+      Model B (Accident): Standby<br>
+      Police Signal Link: Active
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="top">
+      <h3 id="pgTitle">Emergency SOS &amp; Collision Stream</h3>
+      <div id="gwIndicator" class="gw-badge" style="display:none">🟢 Police Green Wave ACTIVE</div>
+      <button class="b sm" onclick="triggerManualSync()">↻ Sync</button>
+      <button class="b g sm" id="thm" onclick="toggleTheme()">◐</button>
+    </div>
+
+    <div class="pgs">
+      <!-- SECTION 1: SOS QUEUE -->
+      <section id="sec-sos">
+        <div class="card" style="background:linear-gradient(135deg,var(--card),#fee2e222)">
+          <span class="pill red">Priority 1 · Critical Response</span>
+          <h2 style="font-size:30px;margin:10px 0 6px">Autonomous Highway Accident &amp; Collision Triage</h2>
+          <p>Instant CCTV telemetry for high-speed vehicular collisions, rollovers, and multi-vehicle pileups. Pre-empts emergency services within 45 seconds of impact.</p>
+          <div class="row" style="margin-top:12px">
+            <button class="b sm" onclick="triggerAmbulanceGlobal()">🚑 Dispatch Immediate ALS Ambulance</button>
+            <button class="b grn sm" onclick="toggleGreenWave()">🟢 Toggle Traffic Signal Green Wave</button>
+            <button class="b g sm" onclick="simulateAccidentAlert()">+ Simulate Test Collision</button>
+          </div>
+        </div>
+
+        <div class="g4">
+          <div class="sc"><span class="pill red">COLLISIONS</span><b id="kpiAccidents">0</b><h4>Active Accident Alerts</h4><p>High kinetic impact</p></div>
+          <div class="sc"><span class="pill green">FLEET READY</span><b id="kpiAmb">4 / 6</b><h4>ALS Ambulances Available</h4><p>Oxygen &amp; Ventilator ready</p></div>
+          <div class="sc"><span class="pill blue">AVG ETA</span><b id="kpiEta">6.8 Mins</b><h4>Pre-Empted Arrival Time</h4><p>Using Green Wave corridors</p></div>
+          <div class="sc"><span class="pill orange">GOLDEN HOUR</span><b id="kpiCompliance">96.2%</b><h4>Golden Hour Success Rate</h4><p>&lt; 15 Min definitive care</p></div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:14px">Verified Highway Collisions Queue</h3>
+          <div id="hospIncidentsContainer">
+            <p style="color:var(--mut)">Connecting to incident cache…</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: FLEET -->
+      <section id="sec-fleet" hidden>
+        <div class="card">
+          <span class="pill red">ALS &amp; BLS Units</span>
+          <h2 style="margin:10px 0 6px">108 Emergency Ambulance Fleet Telemetry</h2>
+          <p>State-wide fleet monitored via AIS-140 GPS transponders and siren-pre-emption beacons.</p>
+          <div class="g3" style="margin-top:18px">
+            <div class="sc">
+              <span class="pill red">DISPATCHED · SIREN ON</span>
+              <h3 style="margin:10px 0 4px">ALS Unit #108-04</h3>
+              <p>Vehicle: Force Traveller Advanced Life Support</p>
+              <p>Crew: Dr. Arvind (Emergency Physician) + Paramedic Rohit</p>
+              <p>Equipment: Hamilton T1 Ventilator · ZOLL X-Series Defib</p>
+              <div class="bar"><i style="width:70%;background:var(--red)"></i></div>
+              <small style="color:var(--mut)">ETA to NH-44 Collision: <strong>4 Mins</strong></small>
+              <div class="row" style="margin-top:10px">
+                <button class="b sm" onclick="toast('Direct link to onboard physician active')">📞 Hospital Patch</button>
+                <button class="b grn sm" onclick="toggleGreenWave()">Pre-empt Signals</button>
+              </div>
+            </div>
+
+            <div class="sc">
+              <span class="pill green">STANDBY IN BAY 1</span>
+              <h3 style="margin:10px 0 4px">ALS Unit #108-02</h3>
+              <p>Location: AIIMS Trauma Hub Outer Ring Road</p>
+              <p>Crew: Paramedic Meera + Driver Suresh</p>
+              <p>Equipment: Automated CPR Lucas 3 · ECMO Transport</p>
+              <div class="bar"><i style="width:100%;background:var(--grn)"></i></div>
+              <small style="color:var(--mut)">Ready for immediate zero-delay rollout</small>
+              <div class="row" style="margin-top:10px">
+                <button class="b sm" onclick="toast('ALS Unit #108-02 rolled out on priority')">🚀 Roll Out Unit</button>
+              </div>
+            </div>
+
+            <div class="sc">
+              <span class="pill orange">RETURNING FROM CALL</span>
+              <h3 style="margin:10px 0 4px">BLS Unit #108-07</h3>
+              <p>En route back from Safdarjung ER</p>
+              <p>Crew: EMT Vikram + Driver Lalit</p>
+              <p>Status: Sanitization &amp; restocking sterile kits</p>
+              <div class="bar"><i style="width:35%;background:var(--org)"></i></div>
+              <small style="color:var(--mut)">Available in: ~18 mins</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: TRIAGE & BEDS -->
+      <section id="sec-triage" hidden>
+        <div class="card">
+          <span class="pill red">Trauma Resuscitation</span>
+          <h2 style="margin:10px 0 6px">Trauma Bay &amp; ICU Bed Allocation</h2>
+          <p>Real-time bed availability for immediate polytrauma receiving and neuro-surgical intervention.</p>
+          <div class="g4" style="margin-top:16px">
+            <div class="sc">
+              <h4>Red Resus Bays</h4>
+              <b style="color:var(--red)">3 / 4</b>
+              <p>Bay 1, 2, 4 vacant for incoming</p>
+              <button class="b sm" style="margin-top:8px" onclick="toast('Red Bay 1 reserved for incoming collision')">Reserve Bay 1</button>
+            </div>
+            <div class="sc">
+              <h4>Neuro-Trauma ICU</h4>
+              <b style="color:var(--blue)">8 / 12</b>
+              <p>Dedicated intracranial pressure monitoring</p>
+              <button class="b g sm" style="margin-top:8px" onclick="toast('ICU alerted for incoming patient')">Pre-Alert Team</button>
+            </div>
+            <div class="sc">
+              <h4>Blood Bank O-Neg</h4>
+              <b style="color:var(--org)">14 Units</b>
+              <p>Universal donor PRBC on standby</p>
+              <button class="b g sm" style="margin-top:8px" onclick="toast('Cross-matching 4 units O-Negative')">Hold 4 Units</button>
+            </div>
+            <div class="sc">
+              <h4>Emergency OR 02</h4>
+              <b style="color:var(--grn)">CLEARED</b>
+              <p>Ortho &amp; Vascular surgery team on floor</p>
+              <button class="b grn sm" style="margin-top:8px" onclick="toast('OR 02 pre-warmed for laparotomy')">Pre-Warm OR</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: GOLDEN HOUR -->
+      <section id="sec-golden" hidden>
+        <div class="card">
+          <span class="pill red">Critical Survival Metric</span>
+          <h2 style="margin:10px 0 6px">Golden Hour Countdown &amp; Protocol Compliance</h2>
+          <p>Definitive surgical resuscitation achieved within the first 60 minutes saves 84% of polytrauma victims.</p>
+          <div style="background:var(--soft);border-radius:18px;padding:26px;text-align:center;margin:18px 0">
+            <small style="color:var(--mut);letter-spacing:.1em">ACTIVE INCIDENT TRAUMA CLOCK</small>
+            <div id="ghTimer" style="font-size:64px;font-weight:800;color:var(--red);margin:10px 0">48:12</div>
+            <p style="margin:0;font-size:14px">Minutes remaining until Golden Hour critical care threshold</p>
+            <div class="row" style="justify-content:center;margin-top:16px">
+              <span class="pill green">✓ Detection: 00:32s</span>
+              <span class="pill green">✓ ALS Dispatch: 01:15s</span>
+              <span class="pill red">● En Route: 04:20s</span>
+              <span class="pill blue">Pending: Hospital Arrival</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: CORRIDOR MAP -->
+      <section id="sec-map" hidden>
+        <div class="card">
+          <div class="row" style="justify-content:space-between">
+            <div>
+              <span class="pill red">Emergency Route Pre-Emption</span>
+              <h2 style="margin:10px 0 4px">Ambulance Corridor &amp; Accident Map</h2>
+              <p>Green Wave pre-emption active along NH-44 corridor to AIIMS Apex Trauma Centre.</p>
+            </div>
+            <button class="b sm" onclick="refreshHospMap()">↻ Center Hospital</button>
+          </div>
+          <div id="hospMap" style="margin-top:14px"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let incidents = [];
+let mapInstance = null;
+let markers = [];
+let greenWaveActive = false;
+let secondsRemaining = 48 * 60 + 12;
+
+function $(id){ return document.getElementById(id); }
+
+function toast(msg){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(t.timer);
+  t.timer = setTimeout(() => t.classList.remove('on'), 3000);
+}
+
+function toggleTheme(){
+  const r = document.documentElement;
+  const isDark = r.dataset.theme === 'dark' || (!r.dataset.theme && matchMedia('(prefers-color-scheme:dark)').matches);
+  r.dataset.theme = isDark ? 'light' : 'dark';
+}
+
+function switchNav(pg){
+  document.querySelectorAll('.side .lk').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.pgs section').forEach(s => s.hidden = true);
+  
+  const btn = document.querySelector(`.side .lk[data-pg="${pg}"]`);
+  if(btn) btn.classList.add('on');
+  
+  const sec = $('sec-' + pg);
+  if(sec) sec.hidden = false;
+
+  const titles = {
+    sos: "Emergency SOS & Collision Stream",
+    fleet: "108 Ambulance Fleet Telemetry",
+    triage: "Trauma Bay & ICU Capacity",
+    golden: "Golden Hour Countdown Clock",
+    map: "Corridor Green Wave & Traffic Map"
+  };
+  $('pgTitle').textContent = titles[pg] || "108 Trauma Command";
+
+  if(pg === 'map'){
+    setTimeout(initHospMap, 200);
+  }
+}
+
+document.querySelectorAll('.side .lk[data-pg]').forEach(b => {
+  b.onclick = () => switchNav(b.dataset.pg);
+});
+
+async function fetchHospIncidents(){
+  try {
+    const res = await fetch('/api/incidents?agency=hospital');
+    if(!res.ok) throw new Error('API failed');
+    incidents = await res.json();
+    renderHospIncidents();
+    $('kpiAccidents').textContent = incidents.length;
+
+    const sres = await fetch('/api/summary');
+    if(sres.ok){
+      const sum = await sres.json();
+      if(sum.green_wave_active !== undefined){
+        setGreenWaveUI(sum.green_wave_active);
+      }
+    }
+  } catch(e) {
+    console.error("Fetch error:", e);
+  }
+}
+
+function renderHospIncidents(){
+  const container = $('hospIncidentsContainer');
+  if(!incidents.length){
+    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--mut)">No active highway collision alerts. Edge cameras in dual-stream monitoring.</div>`;
+    return;
+  }
+
+  container.innerHTML = incidents.map(inc => {
+    const imgUrl = inc.image_url || '/static/evidence/accident_1.jpg';
+    return `
+    <div class="ic">
+      <img src="${imgUrl}" alt="Accident Evidence" onerror="this.onerror=null;this.src='/static/evidence/accident_1.jpg';">
+      <div class="ib">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
+          <div>
+            <span class="pill red" style="font-weight:700">CRITICAL COLLISION · ${inc.id}</span>
+            <span class="bd ${inc.severity}">${inc.severity}</span>
+          </div>
+          <small style="color:var(--mut)">${inc.timestamp || 'Real-time'}</small>
+        </div>
+        <h4 style="margin:6px 0 2px;font-size:16px;color:var(--red)">${inc.title || 'Highway Vehicle Collision'}</h4>
+        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${inc.location_name} · <strong>Conf:</strong> ${Math.round((inc.confidence||0.9)*100)}%</p>
+        
+        <div style="background:#fee2e222;border-left:3px solid var(--red);padding:6px 10px;border-radius:6px;font-size:12px;margin:6px 0">
+          <strong>Kinetic Signature:</strong> ${inc.judge_reason || 'Severe impact deformation and rollover detected'}
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <button class="b sm" onclick="dispatchAmbulance('${inc.id}')">🚑 Dispatch ALS Unit</button>
+          <button class="b grn sm" onclick="toggleGreenWave()">🟢 Pre-empt Signal Corridor</button>
+          <button class="b g sm" onclick="markResolved('${inc.id}')">Mark Patient Received</button>
+        </div>
+      </div>
+    </div>
+    `;
+  }).join('');
+}
+
+async function dispatchAmbulance(id){
+  try {
+    const res = await fetch('/api/action/ambulance', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({incident_id: id})
+    });
+    const d = await res.json();
+    if(d.success){
+      toast(`🚑 Unit ${d.ambulance} dispatched with siren! ETA: ${d.eta_mins} mins`);
+      setGreenWaveUI(true);
+      fetchHospIncidents();
+    }
+  } catch(e) {
+    toast('Ambulance dispatch command sent!');
+  }
+}
+
+function triggerAmbulanceGlobal(){
+  dispatchAmbulance(incidents.length ? incidents[0].id : 'INC-2026-0815');
+}
+
+async function toggleGreenWave(){
+  try {
+    const res = await fetch('/api/action/green_wave', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({active: !greenWaveActive})
+    });
+    const d = await res.json();
+    setGreenWaveUI(d.green_wave_active);
+    toast(d.green_wave_active ? '🟢 Police Green Wave ACTIVE on NH-44 Corridor' : '⚪ Green wave returned to normal cycle');
+  } catch(e) {
+    setGreenWaveUI(!greenWaveActive);
+  }
+}
+
+function setGreenWaveUI(active){
+  greenWaveActive = active;
+  const ind = $('gwIndicator');
+  if(ind) ind.style.display = active ? 'inline-flex' : 'none';
+}
+
+async function markResolved(id){
+  try {
+    await fetch(`/api/incidents/${id}/action`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({status: 'Resolved', note: 'Patient successfully admitted to Apex Trauma ICU'})
+    });
+    toast(`Patient admitted to Apex Trauma Centre.`);
+    fetchHospIncidents();
+  } catch(e) {
+    toast('Marked admitted');
+  }
+}
+
+async function simulateAccidentAlert(){
+  try {
+    const res = await fetch('/api/incidents/create', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        type: 'accident',
+        conf: 0.96,
+        location_name: 'NH-44 Highway, Km 16.8 (Expressway Flyover)',
+        judge_reason: 'Kinetic deformation detected: Lateral vehicle collision with crushed chassis'
+      })
+    });
+    const d = await res.json();
+    if(d.success){
+      toast(`🚨 Critical Accident Alert Dispatched: ${d.incident.id}`);
+      fetchHospIncidents();
+    }
+  } catch(e) {
+    toast('Accident alert dispatched');
+  }
+}
+
+function triggerManualSync(){
+  toast('Syncing with 108 emergency grid…');
+  fetchHospIncidents();
+}
+
+function initHospMap(){
+  if(mapInstance) return;
+  mapInstance = L.map('hospMap').setView([28.6289, 77.2065], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap · RoadNetra AI 108'
+  }).addTo(mapInstance);
+
+  // Hospital Icon
+  const hospMarker = L.marker([28.6289, 77.2065]).addTo(mapInstance);
+  hospMarker.bindPopup("<b>🏥 Apex Trauma Hospital</b><br>Level 1 Trauma Facility<br>Resus Bays 1-4 Ready").openPopup();
+
+  refreshHospMap();
+}
+
+function refreshHospMap(){
+  if(!mapInstance) return;
+  markers.forEach(m => mapInstance.removeLayer(m));
+  markers = [];
+
+  incidents.forEach(inc => {
+    const lat = inc.gps ? inc.gps[0] : 28.6420;
+    const lng = inc.gps ? inc.gps[1] : 77.2280;
+
+    const circle = L.circleMarker([lat, lng], {
+      color: '#ff3b30',
+      fillColor: '#ff3b30',
+      fillOpacity: 0.85,
+      radius: 10
+    }).addTo(mapInstance);
+
+    circle.bindPopup(`
+      <b>🚨 Collision: ${inc.id}</b><br>
+      ${inc.location_name}<br>
+      <button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#ff3b30;color:#fff;border:0;cursor:pointer" onclick="dispatchAmbulance('${inc.id}')">Dispatch ALS Unit</button>
+    `);
+    markers.push(circle);
+
+    // Green corridor route line
+    const corridor = L.polyline([
+      [28.6289, 77.2065],
+      [lat, lng]
+    ], {
+      color: '#16a34a',
+      weight: 4,
+      dashArray: '8, 8'
+    }).addTo(mapInstance);
+    markers.push(corridor);
+  });
+}
+
+// Timer countdown
+setInterval(() => {
+  if(secondsRemaining > 0){
+    secondsRemaining--;
+    const mins = Math.floor(secondsRemaining / 60);
+    const secs = secondsRemaining % 60;
+    const el = $('ghTimer');
+    if(el) el.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+}, 1000);
+
+fetchHospIncidents();
+setInterval(fetchHospIncidents, 30000);
+</script>
+</body></html>

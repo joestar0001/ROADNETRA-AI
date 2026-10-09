@@ -1,0 +1,522 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>RoadNetra AI · Municipal PWD &amp; NHAI Dashboard</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f5f7;--card:#fff;--ink:#1d1d1f;--mut:#6e6e73;--g:#0071e3;--grn:#30a14e;--gd:#000;--line:#d2d2d7;--soft:#f0f0f3;--red:#ff3b30;--org:#ff9f0a;--blue:#0071e3;--glass:rgba(255,255,255,.72)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--mut:#a1a1a6;--g:#2997ff;--grn:#30d158;--gd:#1c1c1e;--line:#38383a;--soft:#2c2c2e;--glass:rgba(28,28,30,.72)}}
+:root[data-theme=dark]{--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--mut:#a1a1a6;--g:#2997ff;--grn:#30d158;--gd:#1c1c1e;--line:#38383a;--soft:#2c2c2e;--glass:rgba(28,28,30,.72)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}[hidden]{display:none!important}p{margin:0 0 6px;color:var(--mut)}h1,h2,h3,h4{margin:0;letter-spacing:-.022em;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif}
+button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:var(--g);color:#fff;font-weight:400;font-size:14px;padding:8px 18px;border-radius:980px;cursor:pointer;transition:opacity .2s}.b:hover{opacity:.85}.b.g{background:transparent;color:var(--g);border:1px solid var(--g)}.b.sm{padding:4px 12px;font-size:12px}.b.dk{background:var(--ink);color:var(--bg)}.b.org{background:var(--org);color:#fff}.b:focus-visible,a:focus-visible,.lk:focus-visible{outline:3px solid #0071e366;outline-offset:2px}
+.pill{display:inline-flex;gap:6px;align-items:center;padding:3px 12px;border-radius:980px;background:var(--soft);color:var(--mut);font-weight:500;font-size:12px}
+.pill.blue{background:#0071e322;color:var(--g)}.pill.green{background:#30a14e22;color:var(--grn)}.pill.orange{background:#ff9f0a22;color:var(--org)}.pill.red{background:#ff3b3022;color:var(--red)}
+.nav{position:sticky;top:0;margin:0;width:100%;z-index:20;display:flex;gap:2px;align-items:center;padding:0 max(16px,calc((100% - 1000px)/2));height:48px;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);overflow:hidden}
+.logo{display:flex;gap:8px;align-items:center;font-weight:600;font-size:16px;margin-right:18px}.logo i{width:24px;height:24px;border-radius:7px;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-style:normal;font-size:13px}
+.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+.side{background:var(--glass);backdrop-filter:blur(20px);border-right:1px solid var(--line);padding:14px 12px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.side .lk{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:8px 12px;border-radius:10px;font-size:14px;cursor:pointer;color:var(--ink);font-weight:500}.side .lk.on{background:var(--g);color:#fff}.side .lk:hover:not(.on){background:var(--soft)}.side h5{margin:14px 12px 4px;font-size:11px;font-weight:600;color:var(--mut);letter-spacing:.05em}
+.prof{background:var(--card);border-radius:14px;padding:12px;font-size:13px;border:1px solid var(--line)}
+.stc{margin-top:auto;border-radius:14px;padding:12px;font-size:12px;color:var(--mut);background:var(--card);border:1px solid var(--line)}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--grn);margin-right:6px;animation:fy 2s infinite}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{display:flex;gap:8px;align-items:center;padding:10px 24px;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:15;flex-wrap:wrap}
+.top h3{margin-right:auto;font-size:17px;font-weight:600}.top input,.top select{padding:6px 14px;border-radius:980px;border:1px solid var(--line);background:var(--card);font-size:13px}
+.pgs{padding:24px 28px 60px;max-width:1200px;width:100%;margin:0 auto}
+.card{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--line);margin-bottom:18px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;align-items:center}
+.g4{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:14px 0}
+.g3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:14px 0}
+.sc{background:var(--card);border-radius:18px;padding:18px;border:1px solid var(--line)}.sc b{font-size:32px;font-weight:700;letter-spacing:-.03em;display:block;margin:4px 0}.sc h4{font-size:14px;font-weight:600;color:var(--mut)}.sc p{margin:0;font-size:12px;color:var(--mut)}
+.ic{display:flex;gap:16px;background:var(--card);border-radius:18px;padding:16px;margin-bottom:14px;border:1px solid var(--line);transition:box-shadow .2s}.ic:hover{box-shadow:0 4px 18px rgba(0,0,0,.04)}
+.ic img,.ph{width:140px;height:96px;border-radius:12px;object-fit:cover;flex:none;background:#2c2c2e;color:#8e8e93;display:grid;place-items:center;font-size:11px}
+.ib{flex:1;min-width:0}.stp{display:flex;gap:4px;margin:6px 0 8px;flex-wrap:wrap}.stp i{font-style:normal;font-size:11px;padding:3px 9px;border-radius:980px;background:var(--soft);color:var(--mut)}.stp i.on{background:var(--grn);color:#fff}
+.bd{font-size:10px;padding:2px 8px;border-radius:980px;margin-left:8px;color:#fff;background:var(--mut);font-weight:600;text-transform:uppercase}
+.bd.HIGH,.bd.CRITICAL,.bd.Critical,.bd.High{background:var(--red)}.bd.MEDIUM,.bd.Medium{background:var(--org)}.bd.LOW,.bd.Low{background:var(--grn)}
+.bar{height:6px;border-radius:9px;background:var(--soft);overflow:hidden;margin:4px 0 12px}.bar i{display:block;height:100%;background:var(--g)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 22px;border-radius:980px;font-size:13px;z-index:60;opacity:0;transition:.3s;pointer-events:none;max-width:90%}.toast.on{opacity:1}
+#map{height:480px;width:100%;border-radius:16px;border:1px solid var(--line)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}.tbl th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);color:var(--mut);font-weight:600}.tbl td{padding:12px;border-bottom:1px solid var(--line)}
+@keyframes fy{50%{transform:translateY(-6px)}}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:6px;border:0}.side .lk{width:auto;white-space:nowrap}.side .prof,.side .stc,.side h5{display:none}}
+</style>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="logo"><i>◉</i>RoadNetra</div>
+    <a href="/" class="b g sm" style="text-align:center;text-decoration:none;display:block">← Main Platform</a>
+    <div class="prof">
+      <b>PWD &amp; NHAI Command</b>
+      <p style="margin:2px 0 0;font-size:12px;color:var(--mut)">Ministry of Road Transport</p>
+      <div style="margin-top:6px"><span class="pill blue" style="font-size:11px">Zone 4 Concessionaire</span></div>
+    </div>
+    <h5>INFRASTRUCTURE</h5>
+    <button class="lk on" data-pg="orders">📋 Work Orders</button>
+    <button class="lk" data-pg="estimator">🏗️ Asphalt &amp; Materials</button>
+    <button class="lk" data-pg="crews">🚚 Patching Crews</button>
+    <button class="lk" data-pg="map">🗺️ GIS Highway Map</button>
+    <button class="lk" data-pg="sla">⏱️ SLA Compliance</button>
+    <h5>AUTHORITY SWITCH</h5>
+    <a href="/hospital" class="lk" style="text-decoration:none">🏥 Hospital Command ↗</a>
+    <a href="/police" class="lk" style="text-decoration:none">🚔 Traffic Police ↗</a>
+    <div class="stc">
+      <span class="dot"></span><b>YOLOv8 Edge: Online</b><br>
+      Judge Verification: Active<br>
+      Auto-Sync: 30s Polling
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="top">
+      <h3 id="pgTitle">Work Orders &amp; Maintenance Queue</h3>
+      <input type="text" id="filterInput" placeholder="Filter defects or road km…" style="width:220px;" oninput="applyFilter()">
+      <button class="b sm" onclick="triggerManualSync()">↻ Refresh</button>
+      <button class="b g sm" id="thm" onclick="toggleTheme()">◐</button>
+    </div>
+
+    <div class="pgs">
+      <!-- SECTION 1: WORK ORDERS -->
+      <section id="sec-orders">
+        <div class="card" style="background:linear-gradient(135deg,var(--card),var(--soft))">
+          <span class="pill orange">Operational Command</span>
+          <h2 style="font-size:30px;margin:10px 0 6px">Autonomous Highway Maintenance Dispatch</h2>
+          <p>Real-time queue of AI-detected, Judge-verified road surface cavities, damaged dividers, and eroded infrastructure requiring engineering attention.</p>
+          <div class="row" style="margin-top:12px">
+            <button class="b sm" onclick="filterBySeverity('all')">All Work Orders</button>
+            <button class="b g sm" onclick="filterBySeverity('High')">High / Critical Only</button>
+            <button class="b g sm" onclick="filterBySeverity('Medium')">Medium Priority</button>
+            <button class="b g sm" onclick="simulateNewDefect()">+ Log Emergency Road Patch</button>
+          </div>
+        </div>
+
+        <div class="g4">
+          <div class="sc"><span class="pill orange">TICKETS</span><b id="kpiTotal">0</b><h4>Active Work Orders</h4><p>Pending field repair</p></div>
+          <div class="sc"><span class="pill blue">MATERIAL</span><b id="kpiAsphalt">0.0 T</b><h4>Est. Cold-Mix Asphalt</h4><p>Required for cavities</p></div>
+          <div class="sc"><span class="pill green">BUDGET</span><b id="kpiCost">₹ 0</b><h4>Est. Repair Allocation</h4><p>Contractor tender est.</p></div>
+          <div class="sc"><span class="pill red">SLA CLOCK</span><b id="kpiSla">94.2%</b><h4>On-Time SLA Rate</h4><p>&lt; 24h Critical repair target</p></div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom:14px">Active Road Infrastructure Defects Queue</h3>
+          <div id="incidentsContainer">
+            <p style="color:var(--mut)">Loading verified defects from RoadNetra server…</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: ASPHALT & MATERIAL ESTIMATOR -->
+      <section id="sec-estimator" hidden>
+        <div class="card">
+          <span class="pill blue">Engineering Toolkit</span>
+          <h2 style="margin:10px 0 6px">Automated Cold-Mix &amp; Material Estimator</h2>
+          <p>Calculates cold-mix asphalt tonnage, bitumen emulsion tack coat, and contractor tender budget based on segmented pothole surface areas.</p>
+          
+          <div class="g3" style="margin-top:18px">
+            <div class="sc">
+              <h4>Cavity Geometry Parameters</h4>
+              <label style="display:block;font-size:12px;margin:8px 0 4px;color:var(--mut)">Average Pothole Depth (cm)</label>
+              <input type="number" id="inpDepth" value="6.5" min="2" max="25" step="0.5" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" oninput="calcMaterial()">
+              <label style="display:block;font-size:12px;margin:12px 0 4px;color:var(--mut)">Number of Unrepaired Potholes</label>
+              <input type="number" id="inpCount" value="14" min="1" max="100" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" oninput="calcMaterial()">
+              <label style="display:block;font-size:12px;margin:12px 0 4px;color:var(--mut)">Pothole Size Factor</label>
+              <select id="inpSize" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" onchange="calcMaterial()">
+                <option value="1.0">Standard Pothole (0.4 m²)</option>
+                <option value="1.8">Severe Crater (0.75 m²)</option>
+                <option value="2.5">Continuous Trench / Failure (&gt; 1.2 m²)</option>
+              </select>
+            </div>
+
+            <div class="sc">
+              <h4>Material Procurement Breakdown</h4>
+              <p style="margin-top:10px">Cold-Mix Asphalt Tonnage:</p>
+              <b id="outTons" style="font-size:24px;color:var(--g)">3.8 Tons</b>
+              <p style="margin-top:10px">RS-1 Bitumen Emulsion Tack Coat:</p>
+              <b id="outBitumen" style="font-size:24px;color:var(--org)">145 Liters</b>
+              <p style="margin-top:10px">Compactor Roller Hours:</p>
+              <b id="outRoller" style="font-size:24px;color:var(--ink)">6.5 Hours</b>
+            </div>
+
+            <div class="sc">
+              <h4>Contractor Tender Valuation</h4>
+              <p style="margin-top:10px">Material Cost (₹4,800/Ton):</p>
+              <b id="outMatCost" style="font-size:20px">₹ 18,240</b>
+              <p style="margin-top:10px">Labour &amp; Road Closure Crew:</p>
+              <b id="outLabCost" style="font-size:20px">₹ 12,500</b>
+              <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">
+                <small style="color:var(--mut)">Total Allocated Tender:</small>
+                <b id="outTotalCost" style="font-size:26px;color:var(--grn);display:block">₹ 30,740</b>
+              </div>
+              <button class="b sm" style="margin-top:12px;width:100%" onclick="toast('Work Order Tender Docket Generated (#TND-2026-904)')">📄 Generate Tender Docket</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: CREWS -->
+      <section id="sec-crews" hidden>
+        <div class="card">
+          <span class="pill green">Field Operations</span>
+          <h2 style="margin:10px 0 6px">Municipal Patching &amp; Infrastructure Vans</h2>
+          <p>Real-time status of asphalt maintenance vans, bitumen heating sprayers, and highway patrol units.</p>
+
+          <div class="g3" style="margin-top:18px">
+            <div class="sc">
+              <span class="pill green">ON SITE · REPAIRING</span>
+              <h3 style="margin:10px 0 4px">Patch Van Alpha (#PV-01)</h3>
+              <p>Assigned: <strong>NH-44 Corridor, Km 14.2</strong></p>
+              <p>Vehicle: Tata LPT 709 Bitumen Dispenser</p>
+              <p>Crew Leader: Er. Rajesh Sharma (4 Technicians)</p>
+              <div class="bar"><i style="width:75%;background:var(--grn)"></i></div>
+              <small style="color:var(--mut)">Cold-mix stock remaining: 1.2 / 3.0 Tons</small>
+              <div class="row" style="margin-top:12px">
+                <button class="b sm" onclick="toast('Direct dispatch radio connected to Van Alpha')">📻 Radio Van</button>
+                <button class="b g sm" onclick="toast('Status recorded: Work in Progress')">Update Log</button>
+              </div>
+            </div>
+
+            <div class="sc">
+              <span class="pill orange">EN ROUTE</span>
+              <h3 style="margin:10px 0 4px">Heavy Roller Unit Bravo (#RU-03)</h3>
+              <p>Assigned: <strong>MG Road Junction Flyover</strong></p>
+              <p>Vehicle: Dynapac CC1200 Double Drum Roller</p>
+              <p>Crew Leader: M. Srinivas (3 Technicians)</p>
+              <div class="bar"><i style="width:40%;background:var(--org)"></i></div>
+              <small style="color:var(--mut)">ETA to site: ~12 mins</small>
+              <div class="row" style="margin-top:12px">
+                <button class="b sm" onclick="toast('Route confirmed via Fastag corridor')">Track GPS</button>
+                <button class="b g sm" onclick="toast('Notified traffic police for lane closure')">Request Police Escort</button>
+              </div>
+            </div>
+
+            <div class="sc">
+              <span class="pill blue">STANDBY IN DEPOT</span>
+              <h3 style="margin:10px 0 4px">Signage &amp; Guardrail Rig (#SR-02)</h3>
+              <p>Location: Central PWD Depot, Sector 18</p>
+              <p>Equipment: Hydraulic Post Driver &amp; Laser Alignment</p>
+              <p>Crew Leader: D. Verma (5 Technicians)</p>
+              <div class="bar"><i style="width:100%;background:var(--g)"></i></div>
+              <small style="color:var(--mut)">Ready for immediate dispatch</small>
+              <div class="row" style="margin-top:12px">
+                <button class="b sm" onclick="toast('Signage Rig dispatched to Ashta Bypass')">🚀 Dispatch to Hazard</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: GIS MAP -->
+      <section id="sec-map" hidden>
+        <div class="card">
+          <div class="row" style="justify-content:space-between">
+            <div>
+              <span class="pill blue">GIS Spatial Intelligence</span>
+              <h2 style="margin:10px 0 4px">City-Wide Road Asset &amp; Defect Map</h2>
+              <p>Geolocated inspection layer showing real-time potholes, divider breaches, and road markings.</p>
+            </div>
+            <button class="b sm" onclick="refreshMapMarkers()">↻ Center Map</button>
+          </div>
+          <div id="map" style="margin-top:14px"></div>
+          <div class="row" style="margin-top:12px">
+            <span class="pill red">● High Severity Pothole</span>
+            <span class="pill orange">● Medium Pothole</span>
+            <span class="pill green">● Repaired &amp; Closed</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: SLA -->
+      <section id="sec-sla" hidden>
+        <div class="card">
+          <span class="pill green">Contractor Performance</span>
+          <h2 style="margin:10px 0 6px">Maintenance Service Level Agreements (SLA)</h2>
+          <p>Indian Road Congress (IRC) standard compliance tracking for pothole rectification timelines.</p>
+          <table class="tbl">
+            <thead>
+              <tr><th>Defect Category</th><th>Target Resolution SLA</th><th>Compliance Target</th><th>Current Performance</th><th>Penalty Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Severe Pothole (&gt;7cm depth)</strong></td><td>24 Hours</td><td>&ge; 95.0%</td><td><span class="pill green">96.4%</span></td><td>No Penalty</td></tr>
+              <tr><td><strong>Medium Pothole (3–7cm depth)</strong></td><td>72 Hours</td><td>&ge; 90.0%</td><td><span class="pill green">92.1%</span></td><td>No Penalty</td></tr>
+              <tr><td><strong>Damaged Crash Barrier / Divider</strong></td><td>12 Hours</td><td>&ge; 98.0%</td><td><span class="pill red">89.5%</span></td><td><span class="pill red">₹25,000 Warned</span></td></tr>
+              <tr><td><strong>Faded Pedestrian Zebra Crossing</strong></td><td>7 Days</td><td>&ge; 85.0%</td><td><span class="pill green">88.0%</span></td><td>No Penalty</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let incidents = [];
+let activeSeverity = 'all';
+let mapInstance = null;
+let mapMarkers = [];
+
+const STAGES = ["Notified", "Acknowledged", "Crew En Route", "Under Repair", "Resolved"];
+
+function $(id){ return document.getElementById(id); }
+
+function toast(msg){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(t.timer);
+  t.timer = setTimeout(() => t.classList.remove('on'), 3000);
+}
+
+function toggleTheme(){
+  const r = document.documentElement;
+  const isDark = r.dataset.theme === 'dark' || (!r.dataset.theme && matchMedia('(prefers-color-scheme:dark)').matches);
+  r.dataset.theme = isDark ? 'light' : 'dark';
+}
+
+function switchNav(pg){
+  document.querySelectorAll('.side .lk').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.pgs section').forEach(s => s.hidden = true);
+  
+  const btn = document.querySelector(`.side .lk[data-pg="${pg}"]`);
+  if(btn) btn.classList.add('on');
+  
+  const sec = $('sec-' + pg);
+  if(sec) sec.hidden = false;
+
+  const titles = {
+    orders: "Work Orders & Maintenance Queue",
+    estimator: "Cold-Mix Asphalt & Material Estimator",
+    crews: "Municipal Patching Crews & Field Fleet",
+    map: "GIS Highway Asset & Defect Map",
+    sla: "Service Level Agreement Performance"
+  };
+  $('pgTitle').textContent = titles[pg] || "PWD & NHAI Command";
+
+  if(pg === 'map'){
+    setTimeout(initMap, 200);
+  }
+}
+
+document.querySelectorAll('.side .lk[data-pg]').forEach(b => {
+  b.onclick = () => switchNav(b.dataset.pg);
+});
+
+async function fetchIncidents(){
+  try {
+    const res = await fetch('/api/incidents?agency=pwd');
+    if(!res.ok) throw new Error('API failed');
+    incidents = await res.json();
+    renderIncidents();
+    updateKPIs();
+  } catch(e) {
+    console.error("Fetch error:", e);
+  }
+}
+
+function updateKPIs(){
+  const openCount = incidents.filter(i => i.status !== 'Resolved').length;
+  $('kpiTotal').textContent = openCount;
+
+  let totalCost = 0;
+  let totalTons = 0;
+  incidents.forEach(i => {
+    const cost = i.repair_cost_est || (i.confidence ? Math.round(i.confidence * 18000) : 15000);
+    totalCost += cost;
+    totalTons += (i.asphalt_tons || 0.6);
+  });
+
+  $('kpiCost').textContent = '₹ ' + totalCost.toLocaleString('en-IN');
+  $('kpiAsphalt').textContent = totalTons.toFixed(1) + ' T';
+}
+
+function renderIncidents(){
+  const container = $('incidentsContainer');
+  const q = ($('filterInput').value || '').toLowerCase();
+
+  const filtered = incidents.filter(i => {
+    const matchSev = (activeSeverity === 'all') || (i.severity && i.severity.toLowerCase() === activeSeverity.toLowerCase());
+    const matchQuery = !q || (i.id + ' ' + i.title + ' ' + i.location_name).toLowerCase().includes(q);
+    return matchSev && matchQuery;
+  });
+
+  if(!filtered.length){
+    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--mut)">No defects matching current filter criteria.</div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(inc => {
+    const curIdx = STAGES.indexOf(inc.status) >= 0 ? STAGES.indexOf(inc.status) : 1;
+    const cost = inc.repair_cost_est || (inc.confidence ? Math.round(inc.confidence * 18000) : 15000);
+    const tons = inc.asphalt_tons || 0.6;
+    const imgUrl = inc.image_url || '/static/evidence/pothole_1.jpg';
+
+    return `
+    <div class="ic" id="inc-${inc.id}">
+      <img src="${imgUrl}" alt="Evidence" onerror="this.onerror=null;this.src='/static/evidence/pothole_1.jpg';">
+      <div class="ib">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
+          <div>
+            <span class="pill blue" style="font-weight:700">${inc.id}</span>
+            <span class="bd ${inc.severity}">${inc.severity} Priority</span>
+          </div>
+          <small style="color:var(--mut)">${inc.timestamp || 'Just now'}</small>
+        </div>
+        <h4 style="margin:6px 0 2px;font-size:16px">${inc.title || 'Road Surface Defect'}</h4>
+        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${inc.location_name} · <strong>Conf:</strong> ${Math.round((inc.confidence||0.85)*100)}%</p>
+        <p style="font-size:12px;color:var(--mut)">Est. Asphalt: <strong>${tons} T</strong> · Allocated Repair Budget: <strong>₹ ${cost.toLocaleString('en-IN')}</strong></p>
+        <div style="background:var(--soft);border-left:3px solid var(--g);padding:6px 10px;border-radius:6px;font-size:12px;margin:6px 0">
+          <strong>Stage-2 Judge:</strong> ${inc.judge_reason || 'Verified road hazard cavity'}
+        </div>
+        
+        <div class="stp">
+          ${STAGES.map((s, idx) => `<i class="${idx <= curIdx ? 'on' : ''}">${s}</i>`).join('')}
+        </div>
+
+        <div class="row" style="margin-top:8px">
+          ${curIdx < STAGES.length - 1 ? `
+            <button class="b sm" onclick="advanceStatus('${inc.id}', '${STAGES[curIdx + 1]}')">Advance to: ${STAGES[curIdx + 1]}</button>
+          ` : `
+            <span class="pill green">✔ Completed &amp; Reopened</span>
+          `}
+          <button class="b g sm" onclick="showOnMap('${inc.id}')">View on Map ↗</button>
+        </div>
+      </div>
+    </div>
+    `;
+  }).join('');
+}
+
+async function advanceStatus(id, newStatus){
+  try {
+    const res = await fetch(`/api/incidents/${id}/action`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({status: newStatus, note: 'Updated by PWD/NHAI Engineer'})
+    });
+    const data = await res.json();
+    if(data.success){
+      toast(`Defect ${id} marked as ${newStatus}!`);
+      const target = incidents.find(i => i.id === id);
+      if(target) target.status = newStatus;
+      renderIncidents();
+      updateKPIs();
+    }
+  } catch(e) {
+    toast(`Failed to update status`);
+  }
+}
+
+function filterBySeverity(sev){
+  activeSeverity = sev;
+  renderIncidents();
+}
+
+function applyFilter(){
+  renderIncidents();
+}
+
+async function simulateNewDefect(){
+  try {
+    const res = await fetch('/api/incidents/create', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        type: 'pothole',
+        conf: 0.92,
+        location_name: 'NH-44 Corridor, Km 18.4 (Outer Fast Lane)',
+        judge_reason: 'Verified deep cavity with exposed sub-base rock'
+      })
+    });
+    const d = await res.json();
+    if(d.success){
+      toast(`New emergency work order created: ${d.incident.id}`);
+      fetchIncidents();
+    }
+  } catch(e) {
+    toast('Error creating work order');
+  }
+}
+
+function triggerManualSync(){
+  toast('Syncing with RoadNetra AI edge server…');
+  fetchIncidents();
+}
+
+function calcMaterial(){
+  const depth = parseFloat($('inpDepth').value) || 6.5;
+  const count = parseInt($('inpCount').value) || 14;
+  const factor = parseFloat($('inpSize').value) || 1.0;
+
+  // Formula: Volume = count * area * depth * density (2.4 T/m3)
+  const area = 0.4 * factor;
+  const vol = (area * (depth / 100)) * count;
+  const tons = vol * 2.4;
+  const bitumen = tons * 38; // 38 L per ton
+  const rollerHours = Math.max(2, (tons * 1.6)).toFixed(1);
+
+  const matCost = Math.round(tons * 4800);
+  const labCost = count * 900;
+  const total = matCost + labCost;
+
+  $('outTons').textContent = tons.toFixed(1) + ' Tons';
+  $('outBitumen').textContent = Math.round(bitumen) + ' Liters';
+  $('outRoller').textContent = rollerHours + ' Hours';
+
+  $('outMatCost').textContent = '₹ ' + matCost.toLocaleString('en-IN');
+  $('outLabCost').textContent = '₹ ' + labCost.toLocaleString('en-IN');
+  $('outTotalCost').textContent = '₹ ' + total.toLocaleString('en-IN');
+}
+
+function initMap(){
+  if(mapInstance) return;
+  mapInstance = L.map('map').setView([28.6289, 77.2065], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap · RoadNetra AI'
+  }).addTo(mapInstance);
+  refreshMapMarkers();
+}
+
+function refreshMapMarkers(){
+  if(!mapInstance) return;
+  mapMarkers.forEach(m => mapInstance.removeLayer(m));
+  mapMarkers = [];
+
+  incidents.forEach(inc => {
+    const lat = inc.gps ? inc.gps[0] : (28.61 + (Math.random() - 0.5) * 0.08);
+    const lng = inc.gps ? inc.gps[1] : (77.21 + (Math.random() - 0.5) * 0.08);
+
+    const isHigh = (inc.severity === 'Critical' || inc.severity === 'High');
+    const color = inc.status === 'Resolved' ? '#30a14e' : (isHigh ? '#ff3b30' : '#ff9f0a');
+
+    const circle = L.circleMarker([lat, lng], {
+      color: color,
+      fillColor: color,
+      fillOpacity: 0.8,
+      radius: isHigh ? 9 : 7
+    }).addTo(mapInstance);
+
+    circle.bindPopup(`
+      <div style="font-family:sans-serif;font-size:13px">
+        <b>${inc.id} · ${inc.severity}</b><br>
+        ${inc.location_name}<br>
+        <small>Status: ${inc.status}</small><br>
+        <button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#0071e3;color:#fff;border:0;cursor:pointer" onclick="advanceStatus('${inc.id}', 'Under Repair')">Start Repair</button>
+      </div>
+    `);
+    mapMarkers.push(circle);
+  });
+}
+
+function showOnMap(id){
+  switchNav('map');
+  const target = incidents.find(i => i.id === id);
+  if(target && target.gps && mapInstance){
+    mapInstance.setView(target.gps, 14);
+  }
+}
+
+// Initial bootstrap
+fetchIncidents();
+calcMaterial();
+setInterval(fetchIncidents, 30000);
+</script>
+</body></html>
