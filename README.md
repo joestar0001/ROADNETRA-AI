@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="frontend/assets/img/logo-mark.svg" alt="RoadNetra AI" width="72">
+<img src="FINAL%20PROJECT/frontend/assets/img/logo-mark.svg" alt="RoadNetra AI" width="72">
 
 # RoadNetra AI
 
@@ -28,9 +28,9 @@ India's road network is watched by thousands of CCTV cameras, yet most footage i
 - **Scores and routes each incident** to the right authority: Emergency 112 and police for accidents, NHAI or the municipal PWD for road damage, with a geotagged evidence frame and a PDF work order.
 
 <div align="center">
-<img src="frontend/assets/img/model-night-rollover.jpg" width="32%" alt="Night-time rollover detected">
-<img src="frontend/assets/img/model-junction-crash.jpg" width="32%" alt="Junction collision detected">
-<img src="frontend/assets/img/model-traffic-clear.jpg" width="32%" alt="Normal traffic, no alert">
+<img src="FINAL%20PROJECT/frontend/assets/img/model-night-rollover.jpg" width="32%" alt="Night-time rollover detected">
+<img src="FINAL%20PROJECT/frontend/assets/img/model-junction-crash.jpg" width="32%" alt="Junction collision detected">
+<img src="FINAL%20PROJECT/frontend/assets/img/model-traffic-clear.jpg" width="32%" alt="Normal traffic, no alert">
 <br>
 <sub>Outputs from the trained accident model on held-out test images: a night rollover (0.91), a junction collision (0.90) and dense normal traffic with no alert.</sub>
 </div>
@@ -116,10 +116,11 @@ ROADNETRA-AI/
 │   └── *.ipynb                           # Colab notebooks
 ├── tests/
 │   └── test_accident_dataset.py          # 14 dataset integrity and leakage tests
-├── frontend/                             # Operations dashboard (static HTML prototype)
-│   ├── index.html                        # Landing page and screen gallery
-│   ├── screens/                          # Command centre, cameras, analytics, incidents, field officer, settings, login
-│   └── assets/                           # Shared CSS, JS, demo data and images
+├── FINAL PROJECT/                        # Full platform: Flask server, AI pipeline, agency portals
+│   └── frontend/                         # Operations dashboard (served at /frontend/)
+│       ├── index.html                    # Landing page and screen gallery
+│       ├── screens/                      # Command centre, cameras, analytics, incidents, field officer, settings, login
+│       └── assets/                       # Shared CSS, JS, demo data and images
 └── README.md
 ```
 
@@ -163,11 +164,11 @@ for r in model.predict("cctv_clip.mp4", conf=0.40, stream=True):
 ### 3. Open the dashboard
 
 ```bash
-cd frontend
-python -m http.server 8080
+cd "FINAL PROJECT"
+python server.py
 ```
 
-Then visit <http://127.0.0.1:8080>. The dashboard currently runs on demo data in `assets/js/demo-data.js`.
+Then visit <http://127.0.0.1:8080/frontend/>. The dashboard currently runs on demo data in `assets/js/demo-data.js`.
 
 ### 4. Retrain Model B (optional)
 
