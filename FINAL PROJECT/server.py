@@ -108,6 +108,14 @@ def police_dashboard():
             return f.read()
     return send_from_directory(app.static_folder, "police.html")
 
+# RoadNetra AI design-system frontend (landing, command center, cameras, analytics, etc.)
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+
+@app.route("/frontend/")
+@app.route("/frontend/<path:filename>")
+def serve_frontend(filename="index.html"):
+    return send_from_directory(FRONTEND_DIR, filename)
+
 # Tracking and Deduplication State
 tracker = DefectTracker(iou_thresh=0.20, max_dist=100.0, max_age=25, min_hits=2)
 dispatched_track_ids = set()

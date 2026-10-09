@@ -71,6 +71,7 @@ RoadNetra AI provides tailored dashboards adhering to the **Apple Human Interfac
 | **Municipal PWD & NHAI** | `http://localhost:8080/pwd` | Work order ticket management, crew dispatch roster (Crew A/B/C), SLA timer, and resolution verification |
 | **108 Hospital Trauma Desk** | `http://localhost:8080/hospital` | Critical accident dispatch, ICU/ER trauma bed availability tracker, and ALS ambulance coordination |
 | **Traffic Police Control Room** | `http://localhost:8080/police` | Green corridor signal preemption, lane blocking, variable message sign (VMS) broadcasts |
+| **Design-System Frontend** | `http://localhost:8080/frontend/` | Landing page, login, live command center, CCTV grid, analytics, incident detail, field officer and settings screens |
 
 ---
 
@@ -134,6 +135,7 @@ The primary hazard detector was trained on a curated infrastructure dataset unde
 │   ├── pothole_best.pt               # Trained Primary YOLOv8 Hazard Weights
 │   ├── yolov8n.pt                    # Semantic Judge Verification Weights
 │   └── yolov8s.pt                    # Base Architecture Weights
+├── frontend/                         # RoadNetra AI design-system UI (served at /frontend/)
 ├── static/                           # Static assets, evidence crops, and sample videos
 └── data/test_videos/                 # Benchmark test clips (day, highway, night)
 ```

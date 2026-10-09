@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-bright": "#353942", "surface": "#0f131c", "surface-container-lowest": "#0a0e16", "tertiary-fixed": "#ffdad6", "on-tertiary": "#690005", "primary-container": "#2563eb", "surface-container-high": "#262a33", "surface-container-low": "#181c24", "surface-dim": "#0f131c", "on-tertiary-container": "#ffecea", "surface-tint": "#b4c5ff", "tertiary-container": "#d52022", "on-primary-fixed-variant": "#003ea8", "outline": "#8d90a0", "surface-container-highest": "#31353e", "on-primary-fixed": "#00174b", "tertiary-fixed-dim": "#ffb4ab", "inverse-surface": "#dfe2ee", "outline-variant": "#434655", "secondary-fixed-dim": "#68dba9", "on-error": "#690005", "error-container": "#93000a", "background": "#0f131c", "surface-container": "#1c2028", "inverse-on-surface": "#2c3039", "on-tertiary-fixed-variant": "#93000b", "on-tertiary-fixed": "#410002", "primary-fixed": "#dbe1ff", "surface-variant": "#31353e", "on-background": "#dfe2ee", "on-primary-container": "#eeefff", "on-secondary-container": "#00311f", "primary": "#b4c5ff", "on-secondary-fixed-variant": "#005137", "secondary-container": "#25a475", "secondary": "#68dba9", "on-secondary": "#003825", "on-secondary-fixed": "#002114", "on-primary": "#002a78", "on-error-container": "#ffdad6", "inverse-primary": "#0053db", "tertiary": "#ffb4ab", "secondary-fixed": "#85f8c4", "primary-fixed-dim": "#b4c5ff", "error": "#ffb4ab", "on-surface-variant": "#c3c6d7", "on-surface": "#dfe2ee" }, borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, spacing: { "margin": "1.5rem", "space-sm": "0.5rem", "space-md": "0.75rem", "space-3xl": "3rem", "margin-mobile": "1rem", "space-lg": "1rem", "space-xs": "0.25rem", "gutter": "1rem", "space-xl": "1.5rem", "gutter-compact": "0.5rem", "space-2xl": "2rem" }, fontFamily: { "body-lg": ["Inter"], "display-lg": ["Plus Jakarta Sans"], "data-mono": ["Inter"], "label-sm": ["Inter"], "headline-sm": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "label-md": ["Inter"], "headline-lg": ["Plus Jakarta Sans"], "body-md": ["Inter"], "body-sm": ["Inter"] }, fontSize: { "body-lg": ["16px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "400" }], "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }], "data-mono": ["13px", { lineHeight: "18px", letterSpacing: "-0.01em", fontWeight: "500" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "600" }], "headline-sm": ["16px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "600" }], "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }], "display-lg-mobile": ["28px", { lineHeight: "36px", letterSpacing: "-0.015em", fontWeight: "700" }], "label-md": ["13px", { lineHeight: "18px", fontWeight: "500" }], "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.015em", fontWeight: "600" }], "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }], "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#0f131c;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface text-on-surface font-body-md flex flex-col min-h-screen selection:bg-primary-container selection:text-on-primary-container"><main class="flex-1 flex flex-col relative w-full pt-safe pb-safe bg-surface"><div class="flex flex-col w-full text-on-surface">
+<!-- 1. Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full bg-surface-container-lowest/90 backdrop-blur-md px-space-md py-space-sm flex items-center justify-between shadow-md">
+<div class="flex items-center gap-space-sm min-w-0">
+<img alt="RoadNetra-AI Logo" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1UyeeLTjIG7ygghyxfAuhUiiKO3KO9Dd4ReL0TpAjFcwb0xUzDwbF0uxBY6B1fH4zgTnLwUgz4XxzyeB0lbOAtCC5muBAcKIH052kPfnh62Bz3F0EuPOODtAmh5W3RNfJQC3rCOwQ72EdI-QgWTNLGI4-1edt_Np6Tf7XxCLFxiFxaLFnqh1EA8_OIHNs8w6XMbilQlGdKK0If-wXIDs-HL9RpSyyY654hhjl0cE8w"/>
+<span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold hidden xs:inline">RoadNetra-AI</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<nav class="hidden md:flex items-center gap-space-md">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#features">Features</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#how-it-works">How It Works</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#impact">Impact</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#contact">Contact</a>
+</nav>
+<button class="px-space-md py-space-xs rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md font-semibold shadow-sm hover:brightness-110 active:scale-95 transition-all flex items-center gap-1" onclick="document.getElementById('demo-modal').classList.remove('hidden')">
+<span>Request Demo</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</header>
+<!-- 2. Hero Section -->
+<section class="w-full px-space-md pt-space-xl pb-space-2xl flex flex-col gap-space-xl relative overflow-hidden bg-gradient-to-b from-surface via-surface-container-lowest to-surface">
+<!-- Ambient glowing radar grid blur -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full bg-primary-container/15 blur-3xl pointer-events-none"></div>
+<div class="flex flex-col gap-space-md text-center items-center relative z-10">
+<!-- Operational Status Pill -->
+<div class="inline-flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-high shadow-inner">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-semibold">Active Engine v4.2 • Edge Online</span>
+</div>
+<h1 class="font-display-lg-mobile text-display-lg-mobile text-inverse-surface font-extrabold tracking-tight">
+        Safer roads.<br/><span class="text-primary-container">Faster response.</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg mx-auto">
+        Government-grade computer vision and automated incident dispatch engine for national highways, state expressways, and municipal corridors.
+      </p>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row w-full max-w-xs sm:max-w-md gap-space-sm pt-space-xs">
+<button class="w-full sm:flex-1 py-space-md px-space-lg rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-headline-sm font-semibold shadow-lg hover:shadow-primary-container/30 active:scale-98 transition-all flex items-center justify-center gap-2" onclick="document.getElementById('demo-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined text-lg">videocam</span>
+<span>Request Demo</span>
+</button>
+<a class="w-full sm:flex-1 py-space-md px-space-lg rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-container-highest font-headline-sm text-headline-sm font-semibold shadow-sm active:scale-98 transition-all flex items-center justify-center gap-2" href="#live-cctv-frame">
+<span class="material-symbols-outlined text-lg text-primary">radar</span>
+<span>Live Telemetry</span>
+</a>
+</div>
+</div>
+<!-- Hero Visual: CCTV Frame UI -->
+<div class="w-full rounded-xl bg-surface-container-lowest overflow-hidden shadow-2xl relative flex flex-col" id="live-cctv-frame">
+<!-- Camera Metadata Bar -->
+<div class="bg-surface-container-high px-space-md py-space-xs flex flex-wrap items-center justify-between text-on-surface-variant font-data-mono text-data-mono gap-1">
+<div class="flex items-center gap-2">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-tertiary-container animate-pulse"></span>
+<span class="text-tertiary font-bold">REC ● LIVE</span>
+<span class="text-outline">CAM-084 [NH-48 KM 142.6]</span>
+</div>
+<div class="flex items-center gap-2 text-xs">
+<span class="text-secondary font-mono">4K 60FPS</span>
+<span class="hidden xs:inline text-outline">LAT 28.4595°N, 77.0266°E</span>
+</div>
+</div>
+<!-- Video Feed Placeholder with Overlays -->
+<div class="relative w-full aspect-[16/10] bg-surface-container overflow-hidden">
+<!-- Road Background Image -->
+<img class="w-full h-full object-cover opacity-80" data-alt="Dark high-angle CCTV security camera view of a busy six-lane highway expressway at twilight with asphalt road surface, vehicle headlights, concrete dividers, highway gantries, and directional signs with cool obsidian and deep cobalt blue shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkE48EUX_T2DMxC_XZ2PpECghaeDXGsUHBwYqHDj8WU5AoTD1FQz6rZaKsTj7VchYpyK3FFeiRLgYaNFhzEYUe0kUWW635iM7mi26MC70VHOyNnkGF5B59U-aUxD4U8mNw1-o6c2_5hLfm3GbggkuC12RhYy1EtCL0haQEhhUwa0sWsDP3l-CPjEZ8b_4oMPojfXn_fUbnJ13fXW-QL3oiHWYUvsxfwBFyrybu-Xc"/>
+<!-- Optical Crosshairs & Lens Markings -->
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+<div class="w-12 h-12 relative opacity-40">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-3 bg-white"></div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0.5 h-3 bg-white"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 w-3 bg-white"></div>
+<div class="absolute right-0 top-1/2 -translate-y-1/2 h-0.5 w-3 bg-white"></div>
+</div>
+</div>
+<!-- 1. Red Bounding Box: Accident P1 -->
+<div class="absolute top-1/4 left-1/4 w-36 h-28 pointer-events-none">
+<div class="w-full h-full rounded-sm bg-tertiary-container/20 flex flex-col justify-between p-1 shadow-sm">
+<div class="bg-tertiary-container text-on-tertiary px-1 py-0.5 rounded-xs font-data-mono text-[10px] leading-none font-bold uppercase tracking-wider flex items-center justify-between">
+<span>ACCIDENT • 99.4%</span>
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+</div>
+<div class="bg-surface-container-lowest/90 text-tertiary px-1 py-0.5 rounded-xs font-data-mono text-[9px] leading-tight">
+              LANE 2 BLOCKED [P1]
+            </div>
+</div>
+</div>
+<!-- 2. Amber Bounding Box: Road Debris -->
+<div class="absolute bottom-8 right-10 w-28 h-20 pointer-events-none">
+<div class="w-full h-full rounded-sm bg-amber-500/20 flex flex-col justify-between p-1 shadow-sm">
+<div class="bg-amber-600 text-surface-container-lowest px-1 py-0.5 rounded-xs font-data-mono text-[10px] leading-none font-bold uppercase tracking-wider">
+              DEBRIS • 94.2%
+            </div>
+<div class="bg-surface-container-lowest/90 text-amber-400 px-1 py-0.5 rounded-xs font-data-mono text-[9px] leading-tight">
+              SHOULDER CORRIDOR
+            </div>
+</div>
+</div>
+<!-- 3. Cyan Bounding Box: Pothole Lane 1 -->
+<div class="absolute bottom-6 left-12 w-24 h-16 pointer-events-none">
+<div class="w-full h-full rounded-sm bg-primary/20 flex flex-col justify-between p-1 shadow-sm">
+<div class="bg-primary-container text-on-primary-container px-1 py-0.5 rounded-xs font-data-mono text-[9px] leading-none font-bold uppercase tracking-wider">
+              POTHOLE • 97.8%
+            </div>
+<div class="bg-surface-container-lowest/90 text-primary px-1 py-0.5 rounded-xs font-data-mono text-[9px] leading-tight">
+              DEPTH: 8CM [LANE 1]
+            </div>
+</div>
+</div>
+<!-- Real-time HUD Bottom Pill -->
+<div class="absolute top-2 right-2 bg-surface-container-lowest/90 backdrop-blur px-2 py-1 rounded-md flex items-center gap-1.5 text-on-surface shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-data-mono text-[11px] text-secondary font-medium">TensorRT • 14ms</span>
+</div>
+</div>
+<!-- Real-Time Inference Alert Footer -->
+<div class="bg-surface-container-low px-space-md py-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-lg">emergency_home</span>
+<span class="font-label-md text-label-md text-tertiary font-bold tracking-tight">CRITICAL P1 ALERT DISPATCHED</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• Unit HP-108 en route (ETA 2m 40s)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-data-mono text-label-sm text-outline">AUTO-DISPATCH QUEUE: <strong class="text-inverse-surface">ACTIVE</strong></span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Trust Strip / Partners -->
+<section class="w-full py-space-lg px-space-md bg-surface-container-lowest">
+<div class="max-w-4xl mx-auto flex flex-col items-center gap-space-md text-center">
+<p class="font-label-sm text-label-sm text-outline tracking-widest uppercase font-bold">
+        TRUSTED BY ROAD AUTHORITIES &amp; PUBLIC TRANSIT
+      </p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm w-full">
+<!-- NHAI -->
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col items-center justify-center gap-1 shadow-sm">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-xl">shield_locked</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-wider">NHAI</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-center leading-tight">Natl. Highways Authority</span>
+<span class="font-label-sm text-[10px] text-secondary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-xs">verified</span> Certified Feed
+          </span>
+</div>
+<!-- PWD -->
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col items-center justify-center gap-1 shadow-sm">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-xl">engineering</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-wider">PWD</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-center leading-tight">Public Works Dept</span>
+<span class="font-label-sm text-[10px] text-secondary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-xs">verified</span> State Corridors
+          </span>
+</div>
+<!-- Municipalities -->
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col items-center justify-center gap-1 shadow-sm">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-xl">location_city</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-wider">SMART CITIES</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-center leading-tight">Municipal Bodies</span>
+<span class="font-label-sm text-[10px] text-secondary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-xs">verified</span> 18+ Integrations
+          </span>
+</div>
+<!-- Emergency 108/112 -->
+<div class="bg-surface-container-low rounded-lg p-space-md flex flex-col items-center justify-center gap-1 shadow-sm">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-xl">ambulance</span>
+<span class="font-headline-sm text-headline-sm font-bold tracking-wider">108 / 112</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-center leading-tight">Emergency Patrol</span>
+<span class="font-label-sm text-[10px] text-secondary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-xs">verified</span> Direct CAD Dispatch
+          </span>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Problem to Solution -->
+<section class="w-full px-space-md py-space-2xl flex flex-col gap-space-xl bg-surface">
+<div class="flex flex-col gap-space-xs text-center">
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase font-semibold">Systemic Modernization</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-inverse-surface">
+        From Blind Spots to Total Oversight
+      </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+        Transforming manual, delayed, and reactive road maintenance into predictive digital vigilance.
+      </p>
+</div>
+<div class="flex flex-col gap-space-md max-w-xl mx-auto w-full">
+<!-- Card 1 -->
+<div class="bg-surface-container-low rounded-xl p-space-lg flex flex-col gap-space-md shadow-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-lg bg-tertiary-container/20 text-tertiary">
+<span class="material-symbols-outlined text-lg">visibility_off</span>
+</span>
+<span class="font-body-sm text-body-sm text-tertiary font-semibold uppercase">The Failure Mode</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Blind Highway Corridors</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Traditional periodic inspections miss sudden roadblocks, fallen debris, and high-speed multi-car pileups until motorists phone in.
+          </p>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-high flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-secondary font-headline-sm text-headline-sm font-semibold">
+<span class="material-symbols-outlined text-base">check_circle</span>
+<span>RoadNetra Solution: Continuous 24/7 Vision</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            RoadNetra inspects every highway camera frame every 33 milliseconds, immediately isolating stalled vehicles and live obstructions with zero human latency.
+          </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-low rounded-xl p-space-lg flex flex-col gap-space-md shadow-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-lg bg-tertiary-container/20 text-tertiary">
+<span class="material-symbols-outlined text-lg">avg_time</span>
+</span>
+<span class="font-body-sm text-body-sm text-tertiary font-semibold uppercase">The Failure Mode</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Delayed Emergency Response (Avg 45m)</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Ambulances navigate incorrect kilometer markers and clogged toll gates while victim survival probabilities decline sharply in the golden hour.
+          </p>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-high flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-secondary font-headline-sm text-headline-sm font-semibold">
+<span class="material-symbols-outlined text-base">timer</span>
+<span>RoadNetra Solution: Instant Dispatch (Sub-3m)</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Automated CAD integration calculates precise kilometer GPS coordinates and sends collision telemetry to the nearest active patrol team instantaneously.
+          </p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-low rounded-xl p-space-lg flex flex-col gap-space-md shadow-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-lg bg-tertiary-container/20 text-tertiary">
+<span class="material-symbols-outlined text-lg">car_crash</span>
+</span>
+<span class="font-body-sm text-body-sm text-tertiary font-semibold uppercase">The Failure Mode</span>
+</div>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Unreported Infrastructure Decay</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Asphalt potholes, cratering, and cracked barriers remain invisible to maintenance engineers until catastrophic tire blowouts or citizen petitions occur.
+          </p>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-high flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-secondary font-headline-sm text-headline-sm font-semibold">
+<span class="material-symbols-outlined text-base">analytics</span>
+<span>RoadNetra Solution: Automated Pothole Telemetry</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Computer vision measures crater depth and perimeter daily, continuously compiling GIS heatmaps to automatically assign road resurfacing tenders before failures.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. How It Works (5-Step Flow) -->
+<section class="w-full px-space-md py-space-2xl bg-surface-container-lowest" id="how-it-works">
+<div class="max-w-xl mx-auto flex flex-col gap-space-xl">
+<div class="flex flex-col gap-space-xs text-center">
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase font-semibold">End-To-End Automation</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-inverse-surface">
+          How RoadNetra Operates
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          From pixel ingestion to physical clearance confirmation in five deterministic stages.
+        </p>
+</div>
+<!-- Stepper List with visual connection -->
+<div class="relative flex flex-col gap-space-lg">
+<!-- Connecting Vertical Line -->
+<div class="absolute left-5 top-5 bottom-5 w-0.5 bg-gradient-to-b from-primary-container via-secondary to-primary-container opacity-40"></div>
+<!-- Step 1 -->
+<div class="relative flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 z-10 shadow-md font-headline-sm text-headline-sm font-bold">
+            1
+          </div>
+<div class="bg-surface-container-low rounded-xl p-space-md flex-1 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Detect</span>
+<span class="font-data-mono text-[10px] px-2 py-0.5 rounded bg-surface-container text-secondary">RTSP / 4K / IP</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Edge AI models process existing highway CCTV video streams in real-time, executing inference for crashes, slow vehicles, pedestrian intrusions, and lane violations.
+            </p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 z-10 shadow-md font-headline-sm text-headline-sm font-bold">
+            2
+          </div>
+<div class="bg-surface-container-low rounded-xl p-space-md flex-1 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Log</span>
+<span class="font-data-mono text-[10px] px-2 py-0.5 rounded bg-surface-container text-tertiary">P1 - P4 Severity</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Automatic incident cataloging with sub-second timestamps, GPS geo-pins, vehicle license plates (ANPR), and confidence indexes pushed to tamper-proof logs.
+            </p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 z-10 shadow-md font-headline-sm text-headline-sm font-bold">
+            3
+          </div>
+<div class="bg-surface-container-low rounded-xl p-space-md flex-1 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Route</span>
+<span class="font-data-mono text-[10px] px-2 py-0.5 rounded bg-surface-container text-primary">CAD Webhook</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Smart dispatch protocols beam telemetry directly to the nearest highway police interceptor, ambulance hub, or PWD road maintenance contractor via API &amp; SMS.
+            </p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="relative flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 z-10 shadow-md font-headline-sm text-headline-sm font-bold">
+            4
+          </div>
+<div class="bg-surface-container-low rounded-xl p-space-md flex-1 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Track</span>
+<span class="font-data-mono text-[10px] px-2 py-0.5 rounded bg-surface-container text-secondary">Active SLA</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Command room personnel monitor responder GPS positions in real-time with countdown timers, congestion clearance estimates, and route diversion guidance.
+            </p>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="relative flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0 z-10 shadow-md font-headline-sm text-headline-sm font-bold">
+            5
+          </div>
+<div class="bg-surface-container-low rounded-xl p-space-md flex-1 flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Verify</span>
+<span class="font-data-mono text-[10px] px-2 py-0.5 rounded bg-surface-container text-secondary">Audit Closed</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Post-clearance visual confirmation via automated camera frame analysis or drone inspection. Formal digital sign-off locks the incident record for audit review.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. Features Grid -->
+<section class="w-full px-space-md py-space-2xl bg-surface flex flex-col gap-space-xl" id="features">
+<div class="flex flex-col gap-space-xs text-center">
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase font-semibold">Engine Architecture</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-inverse-surface">
+        Engineered for High-Density Operations
+      </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mx-auto">
+        Mission-critical features built to perform under extreme surveillance stream loads.
+      </p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md max-w-2xl mx-auto w-full">
+<!-- Feature 1 -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col gap-space-sm shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">network_node</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">AI Visual Detection</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Multi-class neural network classifies multi-car collisions, stalled vehicles, wrong-way drivers, and surface potholes with &gt;98% benchmarked accuracy across rain, fog, and night conditions.
+        </p>
+<div class="mt-auto pt-space-xs flex items-center gap-2 text-primary font-data-mono text-xs">
+<span>YOLOv10 + TensorRT</span>
+<span>•</span>
+<span>Multi-lane</span>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col gap-space-sm shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Smart Incident Logging</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Tamper-proof event logs catalog timestamps, vehicular telemetry, license plate OCR, and video clip archives ready for legal court evidence and insurance claims validation.
+        </p>
+<div class="mt-auto pt-space-xs flex items-center gap-2 text-secondary font-data-mono text-xs">
+<span>Immutable Ledger</span>
+<span>•</span>
+<span>ANPR Ready</span>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col gap-space-sm shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/20 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined">alt_route</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Automated Routing</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Direct webhook, SMS, and VHF digital radio dispatch integration pushes incident coordinates to police patrol vehicles and medical trauma centers with zero operator manual dialing.
+        </p>
+<div class="mt-auto pt-space-xs flex items-center gap-2 text-tertiary font-data-mono text-xs">
+<span>Sub-1s Dispatch</span>
+<span>•</span>
+<span>CAD Protocol</span>
+</div>
+</div>
+<!-- Feature 4 -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col gap-space-sm shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">dashboard</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Live Command Dashboard</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          High-density GIS interactive map with live incident queues, real-time RTSP matrix switching, sensor calibration ribbons, and multi-monitor wall projection support.
+        </p>
+<div class="mt-auto pt-space-xs flex items-center gap-2 text-primary font-data-mono text-xs">
+<span>WebGL Rendering</span>
+<span>•</span>
+<span>4K Video Walls</span>
+</div>
+</div>
+<!-- Feature 5 (Spanning on sm) -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col gap-space-sm shadow-sm sm:col-span-2">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined">monitoring</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Verification &amp; Asset Analytics</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Dynamic black-spot hazard heatmaps identify chronic engineering flaws on expressways. Generates pavement quality index (PQI) rankings and contractor compliance audits for fiscal accountability.
+        </p>
+<div class="mt-auto pt-space-xs flex items-center gap-3 text-secondary font-data-mono text-xs">
+<span>GIS Spatial Modeling</span>
+<span>•</span>
+<span>Pavement Index</span>
+<span>•</span>
+<span>Audit Export</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. Impact Section (Interactive 5 Tabs) -->
+<section class="w-full px-space-md py-space-2xl bg-surface-container-lowest" id="impact">
+<div class="max-w-xl mx-auto flex flex-col gap-space-lg">
+<div class="flex flex-col gap-space-xs text-center">
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase font-semibold">Measurable Results</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-inverse-surface">
+          Institutional Impact
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Quantified outcomes delivered across deployed national highway corridors.
+        </p>
+</div>
+<!-- Tab Buttons Ribbon -->
+<div class="flex items-center gap-1 overflow-x-auto pb-1 bg-surface-container-low p-1 rounded-xl scrollbar-none">
+<button class="tab-btn active px-space-md py-space-xs rounded-lg font-label-md text-label-md font-semibold transition-all whitespace-nowrap bg-primary-container text-on-primary-container shadow-sm" id="tab-btn-social" onclick="switchTab('social')">
+          Social
+        </button>
+<button class="tab-btn px-space-md py-space-xs rounded-lg font-label-md text-label-md font-semibold transition-all whitespace-nowrap text-on-surface-variant hover:text-on-surface" id="tab-btn-economic" onclick="switchTab('economic')">
+          Economic
+        </button>
+<button class="tab-btn px-space-md py-space-xs rounded-lg font-label-md text-label-md font-semibold transition-all whitespace-nowrap text-on-surface-variant hover:text-on-surface" id="tab-btn-safety" onclick="switchTab('safety')">
+          Public Safety
+        </button>
+<button class="tab-btn px-space-md py-space-xs rounded-lg font-label-md text-label-md font-semibold transition-all whitespace-nowrap text-on-surface-variant hover:text-on-surface" id="tab-btn-tech" onclick="switchTab('tech')">
+          Technological
+        </button>
+<button class="tab-btn px-space-md py-space-xs rounded-lg font-label-md text-label-md font-semibold transition-all whitespace-nowrap text-on-surface-variant hover:text-on-surface" id="tab-btn-infra" onclick="switchTab('infra')">
+          Infrastructure
+        </button>
+</div>
+<!-- Tab Panels -->
+<div class="bg-surface-container-low rounded-xl p-space-lg shadow-md min-h-[220px] flex flex-col justify-center">
+<!-- 1. Social Panel -->
+<div class="tab-panel flex flex-col gap-space-md" id="panel-social">
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg-mobile text-secondary font-extrabold">42%</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Reduction in Road Mortality</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-secondary text-base">check</span>
+<span>Empowering citizen transit confidence through visible emergency readiness.</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-secondary text-base">check</span>
+<span>Equitable medical trauma response delivered to remote rural sectors.</span>
+</div>
+</div>
+</div>
+<!-- 2. Economic Panel -->
+<div class="tab-panel hidden flex flex-col gap-space-md" id="panel-economic">
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg-mobile text-primary font-extrabold">₹1,200 Cr</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Logistics Delays Saved</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-base">check</span>
+<span>Rapid accident lane clearance mitigates commercial freight gridlock.</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-base">check</span>
+<span>35% lower road maintenance expenditure via predictive early-repair resurfacing.</span>
+</div>
+</div>
+</div>
+<!-- 3. Public Safety Panel -->
+<div class="tab-panel hidden flex flex-col gap-space-md" id="panel-safety">
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg-mobile text-tertiary font-extrabold">&lt; 3 Min</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Golden-Hour Dispatch SLA</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-tertiary text-base">check</span>
+<span>Sub-3 minute arrival time for critical high-speed impact incidents.</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-tertiary text-base">check</span>
+<span>Zero blind-spot highway patrol routing coordinated by live GIS tracking.</span>
+</div>
+</div>
+</div>
+<!-- 4. Technological Panel -->
+<div class="tab-panel hidden flex flex-col gap-space-md" id="panel-tech">
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg-mobile text-secondary font-extrabold">14ms</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Edge Inference Latency</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-secondary text-base">check</span>
+<span>High-efficiency TensorRT neural compilation running on local roadside edge appliances.</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-secondary text-base">check</span>
+<span>Plug-and-play interoperability with legacy analog and modern 4K ONVIF IP cameras.</span>
+</div>
+</div>
+</div>
+<!-- 5. Infrastructure Panel -->
+<div class="tab-panel hidden flex flex-col gap-space-md" id="panel-infra">
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg-mobile text-primary font-extrabold">10,000+ KM</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Lane Telemetry Managed</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-base">check</span>
+<span>Automated road quality index (RQI) grading of asphalt health across states.</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-primary text-base">check</span>
+<span>Standardized asset telemetry for National Highway GIS digitization.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. Closing Banner -->
+<section class="w-full px-space-md py-space-2xl bg-surface relative overflow-hidden">
+<div class="max-w-2xl mx-auto rounded-2xl bg-gradient-to-r from-primary-container via-surface-container-high to-surface-container-highest p-space-xl text-center flex flex-col items-center gap-space-md shadow-xl relative">
+<!-- Glow ambient -->
+<div class="absolute inset-0 bg-primary-container/20 rounded-2xl pointer-events-none blur-xl"></div>
+<div class="relative z-10 flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-primary tracking-widest uppercase font-bold">National Infrastructure Modernization</span>
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-inverse-surface leading-snug">
+          Safer Roads • Faster Response • Smarter Maintenance • Data-Driven Governance
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg mx-auto mt-space-xs">
+          Deploy RoadNetra-AI across your transit network. Accelerate incident triage, protect highway commuters, and streamline civil maintenance audits.
+        </p>
+</div>
+<div class="relative z-10 flex flex-col sm:flex-row gap-space-sm w-full max-w-md pt-space-xs">
+<button class="w-full sm:flex-1 py-space-md px-space-lg rounded-lg bg-inverse-surface text-inverse-on-surface font-headline-sm text-headline-sm font-bold shadow-md hover:bg-white active:scale-95 transition-all" onclick="document.getElementById('demo-modal').classList.remove('hidden')">
+          Request Demo
+        </button>
+<button class="w-full sm:flex-1 py-space-md px-space-lg rounded-lg bg-surface-container-high text-on-surface font-headline-sm text-headline-sm font-semibold hover:bg-surface-container shadow-sm active:scale-95 transition-all" onclick="document.getElementById('demo-modal').classList.remove('hidden')">
+          Schedule Pilot
+        </button>
+</div>
+</div>
+</section>
+<!-- 9. Footer -->
+<footer class="w-full bg-surface-container-lowest px-space-md py-space-2xl flex flex-col gap-space-xl text-on-surface-variant" id="contact">
+<div class="max-w-4xl mx-auto w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-space-xl">
+<!-- Col 1: Brand Info -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<img alt="RoadNetra-AI Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UyeeLTjIG7ygghyxfAuhUiiKO3KO9Dd4ReL0TpAjFcwb0xUzDwbF0uxBY6B1fH4zgTnLwUgz4XxzyeB0lbOAtCC5muBAcKIH052kPfnh62Bz3F0EuPOODtAmh5W3RNfJQC3rCOwQ72EdI-QgWTNLGI4-1edt_Np6Tf7XxCLFxiFxaLFnqh1EA8_OIHNs8w6XMbilQlGdKK0If-wXIDs-HL9RpSyyY654hhjl0cE8w"/>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">RoadNetra-AI</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline">
+          Intelligent Surveillance and Automated Dispatch Engine for National Infrastructure.
+        </p>
+<div class="flex items-center gap-2 pt-space-xs text-on-surface">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="font-data-mono text-[11px]">256-bit AES Video Encryption</span>
+</div>
+</div>
+<!-- Col 2: Platform Links -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-wider">Platform</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#features">AI Incident Detection</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#features">CAD Dispatch Automation</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#features">Pothole &amp; Pavement Telemetry</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#features">4K Video Wall Dashboard</a>
+</div>
+<!-- Col 3: Compliance & Security -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-wider">Compliance</span>
+<div class="flex items-center gap-1.5 text-xs text-secondary font-medium">
+<span class="material-symbols-outlined text-sm">verified</span> ISO 27001 Certified
+        </div>
+<div class="flex items-center gap-1.5 text-xs text-secondary font-medium">
+<span class="material-symbols-outlined text-sm">verified</span> MeitY Empaneled
+        </div>
+<div class="flex items-center gap-1.5 text-xs text-secondary font-medium">
+<span class="material-symbols-outlined text-sm">verified</span> Data Localization Compliant
+        </div>
+<div class="flex items-center gap-1.5 text-xs text-outline">
+<span class="material-symbols-outlined text-sm">gavel</span> Section 136A Ready
+        </div>
+</div>
+<!-- Col 4: Contact & Pilot -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-wider">Contact</span>
+<p class="font-body-sm text-body-sm text-outline">
+          National Command Center Support:<br/>
+<strong class="text-on-surface">dispatch@roadnetra.gov.in</strong>
+</p>
+<span class="font-body-sm text-body-sm text-outline">Toll-Free Dispatch: 1800-ROAD-NETRA</span>
+</div>
+</div>
+<!-- Bottom Copyright -->
+<div class="max-w-4xl mx-auto w-full pt-space-lg flex flex-col sm:flex-row items-center justify-between text-xs text-outline gap-2">
+<span>© 2025 RoadNetra-AI Technologies Pvt. Ltd. All rights reserved.</span>
+<div class="flex gap-space-md">
+<a class="hover:underline" href="#">Privacy Protocol</a>
+<a class="hover:underline" href="#">Security Whitepaper</a>
+<a class="hover:underline" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+<!-- Modal: Request Demo / Pilot Dialog -->
+<div class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="demo-modal">
+<div class="bg-surface-container-low rounded-xl max-w-md w-full p-space-xl flex flex-col gap-space-md shadow-2xl relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">hub</span>
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">Request Authority Pilot</span>
+</div>
+<button class="p-1 rounded text-outline hover:text-on-surface" onclick="document.getElementById('demo-modal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Connect RoadNetra's computer vision pipeline to your highway CCTV network in less than 48 hours.
+      </p>
+<form class="flex flex-col gap-space-sm" onsubmit="handleDemoSubmit(event)">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline font-semibold">Official Name</label>
+<input class="w-full bg-surface-container text-on-surface px-space-md py-space-xs rounded-lg font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Dr. R. K. Sharma" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline font-semibold">Department / Authority</label>
+<input class="w-full bg-surface-container text-on-surface px-space-md py-space-xs rounded-lg font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="NHAI Project Implementation Unit / State PWD" required="" type="text"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline font-semibold">Official Government Email</label>
+<input class="w-full bg-surface-container text-on-surface px-space-md py-space-xs rounded-lg font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="official@nhai.org" required="" type="email"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-outline font-semibold">Corridor Length (KM) &amp; Camera Count</label>
+<input class="w-full bg-surface-container text-on-surface px-space-md py-space-xs rounded-lg font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="e.g. 140 KM • 72 IP Cameras" type="text"/>
+</div>
+<button class="mt-space-sm w-full py-space-md rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-headline-sm font-bold shadow-md hover:brightness-110 active:scale-98 transition-all" type="submit">
+          Submit Dispatch Authorization
+        </button>
+</form>
+</div>
+</div>
+<!-- Local Script for Dynamic Behavior -->
+<script>
+    function switchTab(tabId) {
+      // Hide all panels
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.add('hidden');
+      });
+
+      // Reset all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-primary-container', 'text-on-primary-container', 'shadow-sm');
+        btn.classList.add('text-on-surface-variant');
+      });
+
+      // Show selected panel
+      const targetPanel = document.getElementById('panel-' + tabId);
+      if (targetPanel) {
+        targetPanel.classList.remove('hidden');
+      }
+
+      // Activate selected button
+      const activeBtn = document.getElementById('tab-btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-on-surface-variant');
+        activeBtn.classList.add('bg-primary-container', 'text-on-primary-container', 'shadow-sm');
+      }
+    }
+
+    function handleDemoSubmit(e) {
+      e.preventDefault();
+      alert('Thank you. RoadNetra Government Liaison team will verify credentials and dispatch technical integration docs within 4 business hours.');
+      document.getElementById('demo-modal').classList.add('hidden');
+    }
+  </script>
+</div></main></body></html>
