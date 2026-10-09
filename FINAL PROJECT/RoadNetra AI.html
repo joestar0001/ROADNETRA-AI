@@ -97,7 +97,7 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
 <div class="prof"><b>Control Room</b><p style="margin:0;font-size:13px">Team ESPADA</p><select id="role" aria-label="Role"><option value="ops">Main Operations</option><option value="pwd">Municipal · PWD · NHAI</option><option value="hosp">Hospital</option><option value="pol">Traffic Police</option></select></div>
 <h5>MAIN</h5><button class="lk on" data-pg="ov">Overview</button><button class="lk" data-pg="lab">Live Lab</button><button class="lk" data-pg="arch">Architecture &amp; Benchmarks</button><button class="lk" data-pg="city">City Map</button><h5>AUTHORITY</h5><button class="lk" data-pg="inc">My Dashboard</button><a href="/pwd" target="_blank" class="lk" style="text-decoration:none">🏗️ PWD / NHAI ↗</a><a href="/hospital" target="_blank" class="lk" style="text-decoration:none">🏥 Hospital 108 ↗</a><a href="/police" target="_blank" class="lk" style="text-decoration:none">🚔 Traffic Police ↗</a>
 <div class="stc"><span class="dot"></span><b>YOLOv8 Edge: Online</b><br>Judge Engine: Connected<br>Multi-Agency Relays: Active</div><button class="sos" id="sos">🚑 112 Emergency<br><small>Tap to call (demo)</small></button></aside>
-<div class="main"><div class="top"><h3 id="ttl">Overview</h3><input id="q" placeholder="Search incidents…" aria-label="Search"><button class="b sm" data-pg="lab">+ New scan</button><button class="on up" id="net">● Online</button><button class="b g sm" id="thm">◐</button></div>
+<div class="main"><div class="top"><h3 id="ttl">Overview</h3><input id="q" placeholder="Search incidents…" aria-label="Search"><button class="b sm" id="bNew">+ New scan</button><button class="on up" id="net">● Online</button><button class="b g sm" id="thm">◐</button></div>
 <div class="pgs">
 <section id="g-ov"><div class="card"><span class="pill">AI-Assisted Road Intelligence</span><h2 style="font-size:36px;margin:12px 0">Smart road safety, powered by AI.</h2><p>Detect, verify and dispatch road hazards with one connected platform.</p><div class="row"><button class="b" data-pg="lab">Open Live Lab ↗</button><button class="b g" data-pg="city">City Map</button><button class="b g" data-pg="inc">My dashboard</button></div></div>
 <div class="g4" id="st1"></div><div class="two"><div><div class="ban" data-pg="lab"><div style="font-size:42px">📹</div><div><span class="pill" style="background:#2c2c2e;color:#2997ff">Live vision</span><h2 style="margin-top:8px">Scan new road footage</h2><p>Judge-verified detections with severity and automatic routing.</p></div><button class="b">→</button></div><h3 style="margin:26px 0 12px">Services</h3><div class="g3 svc"><div class="fc" data-pg="lab" style="cursor:pointer"><div class="ic2">🎬</div><h3>Live Lab</h3><p>Video &amp; webcam</p></div><div class="fc" data-pg="arch" style="cursor:pointer"><div class="ic2">🧠</div><h3>Architecture</h3><p>Pipeline &amp; benchmarks</p></div><div class="fc" data-pg="city" style="cursor:pointer"><div class="ic2">🗺️</div><h3>City Map</h3><p>Live incident pins</p></div><div class="fc" data-pg="inc" style="cursor:pointer"><div class="ic2">🛡️</div><h3>Authorities</h3><p>PWD, NHAI, hospital, police</p></div></div></div>
@@ -376,6 +376,15 @@ function loadFile(f){
 vid.addEventListener('ended',()=>{if(media===vid&&!vid.loop){toast('Scan complete · '+S.allUnique.length+' confirmed hazard(s)');refreshSummary()}});
 $('#bDemo').onclick=()=>loadStreamVideo('/static/sample_road_day.mp4','Demo road (potholes)',true);
 $('#bStop').onclick=()=>{stopAll();toast('Processing stopped')};
+function resetScan(){
+  stopAll();SID=null;V={};S.cand=0;S.ok=0;S.rej=0;S.allUnique=[];S.uniqueCounts={};accTs=[];
+  cx.clearRect(0,0,cv.width,cv.height);const dh=$('#dh');if(dh)dh.style.display='';
+  $('#judge').innerHTML='<p>Waiting for video…</p>';
+  $('#lastInc').innerHTML='<p>Confirmed detections appear here with confidence, location and routing.</p>';
+  ['tF','tB','tL','tA','tC'].forEach(k=>$('#'+k).textContent='0');$('#tR').textContent='0%';
+  setStep(-1);emit();
+}
+$('#bNew').onclick=()=>{resetScan();go('lab');toast('New scan: choose a video or photo, or run a sample');fileInput.click()};
 let accIdx=0;$('#bAcc').onclick=()=>{accIdx=accIdx%3+1;loadImageUrl(`/static/samples/accident_${accIdx}.jpg`,`Sample accident image ${accIdx}`)};
 const fileInput=$('#file');$('#bUpload').onclick=()=>fileInput.click();const dz=$('#dz');if(dz)dz.onclick=()=>fileInput.click();
 fileInput.onchange=e=>{if(e.target.files&&e.target.files[0]){loadFile(e.target.files[0]);e.target.value=''}};

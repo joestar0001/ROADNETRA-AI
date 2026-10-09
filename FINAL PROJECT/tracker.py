@@ -20,8 +20,11 @@ def centroid_distance(boxA, boxB):
     return math.sqrt((c1[0] - c2[0])**2 + (c1[1] - c2[1])**2)
 
 class TrackedDefect:
-    def __init__(self, track_id, class_name, initial_box, initial_conf, initial_crop, frame_idx, verdict_reason="", min_hits=2):
+    def __init__(self, track_id, class_name, initial_box, initial_conf, initial_crop, frame_idx, verdict_reason="", min_hits=2, window=None):
         self.min_hits = max(1, int(min_hits))
+        # Optional sliding window: confirm only if min_hits hits fall within the last `window` processed frames
+        self.window = window
+        self.hit_frames = [frame_idx]
         self.track_id = track_id
         self.class_name = class_name
         self.last_box = list(initial_box)
@@ -32,17 +35,24 @@ class TrackedDefect:
         self.last_frame = frame_idx
         self.hits = 1
         self.time_since_update = 0
-        self.is_confirmed = (self.hits >= self.min_hits)
+        self.is_confirmed = self._enough_hits(frame_idx)
         self.verdict_reason = verdict_reason
         self.payload = {}          # extra data kept from the best detection (e.g. full frame for evidence)
         self.incident_id = None    # set once the confirmed track has been dispatched
 
+    def _enough_hits(self, frame_idx):
+        if not self.window:
+            return self.hits >= self.min_hits
+        recent = [f for f in self.hit_frames if f > frame_idx - self.window]
+        return len(recent) >= self.min_hits
+
     def update(self, box, conf, crop, frame_idx, verdict_reason=""):
+        self.hit_frames = self.hit_frames[-15:] + [frame_idx]
         self.last_box = list(box)
         self.last_frame = frame_idx
         self.hits += 1
         self.time_since_update = 0
-        if self.hits >= self.min_hits:
+        if not self.is_confirmed and self._enough_hits(frame_idx):
             self.is_confirmed = True
         if conf > self.highest_conf:
             self.highest_conf = float(conf)
@@ -59,11 +69,12 @@ class DefectTracker:
     Prevents stationary objects (potholes, signs, zebra crossings, dividers)
     from being counted repeatedly across consecutive video frames.
     """
-    def __init__(self, iou_thresh=0.20, max_dist=100.0, max_age=25, min_hits=2):
+    def __init__(self, iou_thresh=0.20, max_dist=100.0, max_age=25, min_hits=2, window=None):
         self.iou_thresh = iou_thresh
         self.max_dist = max_dist
         self.max_age = max_age
         self.min_hits = min_hits
+        self.window = window
         self.tracks = []
         self.confirmed_defects = {}  # track_id -> TrackedDefect
         self.next_id = 1
@@ -141,7 +152,8 @@ class DefectTracker:
                     initial_crop=det.get('crop_rgb'),
                     frame_idx=frame_idx,
                     verdict_reason=det.get('verdict_reason', ""),
-                    min_hits=self.min_hits
+                    min_hits=self.min_hits,
+                    window=self.window
                 )
                 self.next_id += 1
                 self.tracks.append(new_track)

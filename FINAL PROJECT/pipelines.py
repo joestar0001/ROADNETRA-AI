@@ -153,8 +153,11 @@ class StreamSession:
         single = self.mode == "image"
         self.infra_tracker = DefectTracker(iou_thresh=0.20, max_dist=100.0, max_age=25,
                                            min_hits=1 if single else config.INFRA_CONFIRM_FRAMES)
-        self.accident_tracker = DefectTracker(iou_thresh=0.10, max_dist=160.0, max_age=15,
-                                              min_hits=1 if single else config.ACCIDENT_CONFIRM_FRAMES)
+        # A crash stays visible: require ACCIDENT_CONFIRM_FRAMES hits within the last ACCIDENT_CONFIRM_WINDOW
+        # processed frames, so isolated false positives scattered through a video never add up to an alert.
+        self.accident_tracker = DefectTracker(iou_thresh=0.10, max_dist=160.0, max_age=config.ACCIDENT_CONFIRM_WINDOW,
+                                              min_hits=1 if single else config.ACCIDENT_CONFIRM_FRAMES,
+                                              window=None if single else config.ACCIDENT_CONFIRM_WINDOW)
         self.infra_frames = 0
         self.accident_frames = 0
         self.judge_ok = 0
