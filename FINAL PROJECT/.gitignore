@@ -43,9 +43,6 @@ runs/
 .idea/
 
 # Temporary video and scratch test files
-data/test_videos/uploaded_*.mov
-data/test_videos/temp_*.mov
-data/test_videos/temp_*.mp4
 temp_*
 *.log
 
@@ -55,3 +52,4 @@ frontend/.env
 static/uploads/
 data/incidents_cache.legacy.json
 static/evidence/IR-*
+data/incidents_cache.json

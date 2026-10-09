@@ -40,7 +40,7 @@ Three models run behind one Flask backend. The browser never waits for AI: the v
 | Model | File | Classes | Accept rule |
 |---|---|---|---|
 | **Model A** · Road Infrastructure | `models/pothole_best.pt` | pothole, damaged_sign, damaged_divider, faded_zebra_crossing | per-class threshold + judge vetoes + 2 frames |
-| **Model B** · Severe Accident | `models/accident_best_colab.pt` | severe_accident | conf ≥ 0.55, or ≥ 0.40 with a vehicle/person in context + 3 frames |
+| **Model B** · Severe Accident | `../models/accident_best.pt` | severe_accident | conf ≥ 0.55, or ≥ 0.40 with a vehicle/person in context + 3 frames |
 | **Stage-2 Judge** | `models/yolov8n.pt` | 80 COCO classes | vetoes cars/people/paint mistaken for defects |
 
 Model B on its 273-image held-out test set: mAP@50 0.830, precision 0.995, recall 0.836. With the accept rule above, recall is 82.8% with 2/29 false alarms per image (before multi-frame verification).
@@ -151,15 +151,14 @@ The primary hazard detector was trained on a curated infrastructure dataset unde
 ├── requirements.txt
 ├── models/
 │   ├── pothole_best.pt               # Model A · road infrastructure
-│   ├── accident_best_colab.pt        # Model B · severe accident
 │   ├── yolov8n.pt                    # Stage-2 judge (COCO)
 │   └── yolov8s.pt                    # Base architecture weights
+│                                     # (Model B lives in the repo-root models/accident_best.pt)
 ├── data/
 │   ├── cameras.json                  # Camera registry (id, GPS, road, road_type)
-│   ├── incidents_cache.json          # Incident store (created at runtime)
-│   └── test_videos/                  # Sample clips
+│   └── incidents_cache.json          # Incident store (created at runtime, git-ignored)
 ├── frontend/                         # Design-system UI (served at /frontend/), frontend/.env.example
-└── static/                           # rn-map.js, evidence images, samples, uploads
+└── static/                           # rn-map.js, evidence images, sample videos/photos, uploads
 ```
 
 ---

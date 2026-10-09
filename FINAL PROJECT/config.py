@@ -74,7 +74,7 @@ HOST = settings.str("HOST", "0.0.0.0")
 
 # ---------------- Models ----------------
 POTHOLE_MODEL_PATH = settings.path("POTHOLE_MODEL_PATH", "models/pothole_best.pt")
-ACCIDENT_MODEL_PATH = settings.path("ACCIDENT_MODEL_PATH", "models/accident_best_colab.pt")
+ACCIDENT_MODEL_PATH = settings.path("ACCIDENT_MODEL_PATH", "../models/accident_best.pt")
 JUDGE_MODEL_PATH = settings.path("JUDGE_MODEL_PATH", "models/yolov8n.pt")
 DEVICE = settings.str("DEVICE", "auto")                  # auto | cpu | cuda | cuda:0 | mps
 TORCH_THREADS = settings.int("TORCH_THREADS", max(2, (os.cpu_count() or 6) // 3))

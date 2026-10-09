@@ -103,8 +103,7 @@ The deployed model, `models/accident_best.pt`, is the larger **YOLOv8s** trained
 ```text
 ROADNETRA-AI/
 ├── models/
-│   ├── accident_best.pt                  # Model B, YOLOv8s (deployed)
-│   ├── accident_best_colab.pt            # Backup of the Colab-trained weights
+│   ├── accident_best.pt                  # Model B, YOLOv8s (deployed, used by FINAL PROJECT)
 │   └── accident_best_laptop_yolov8n.pt   # Lightweight YOLOv8n for CPU-only edge devices
 ├── training/
 │   ├── build_accident_dataset.py         # Download, clean, de-duplicate and split the Kaggle sources

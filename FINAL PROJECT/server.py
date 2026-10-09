@@ -37,12 +37,8 @@ def add_cache_headers(response):
     return response
 
 
-def _html(name, fallback):
-    p = os.path.join(BASE_DIR, name)
-    if os.path.exists(p):
-        with open(p, "r", encoding="utf-8") as f:
-            return Response(f.read(), mimetype="text/html")
-    return send_from_directory(app.static_folder, fallback)
+def _html(name):
+    return send_from_directory(BASE_DIR, name, mimetype="text/html")
 
 
 # -------------------------------------------------------------
@@ -50,22 +46,22 @@ def _html(name, fallback):
 # -------------------------------------------------------------
 @app.route("/")
 def index():
-    return _html("RoadNetra AI.html", "index.html")
+    return _html("RoadNetra AI.html")
 
 
 @app.route("/pwd")
 def pwd_dashboard():
-    return _html("RoadNetra_PWD.html", "pwd.html")
+    return _html("RoadNetra_PWD.html")
 
 
 @app.route("/hospital")
 def hospital_dashboard():
-    return _html("RoadNetra_Hospital.html", "hospital.html")
+    return _html("RoadNetra_Hospital.html")
 
 
 @app.route("/police")
 def police_dashboard():
-    return _html("RoadNetra_Police.html", "police.html")
+    return _html("RoadNetra_Police.html")
 
 
 @app.route("/frontend")

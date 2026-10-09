@@ -182,7 +182,7 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
     <span class="pill" style="background:#0071e322;color:#0071e3">PLUG-AND-PLAY DUAL-STREAM</span>
   </div>
   <p style="color:var(--mut);font-size:13px;margin:8px 0 12px 0">
-    The inference engine has been engineered with dual-stream architecture. As soon as <code>accident_best.pt</code> is placed into <code>models/</code>, Model B binds automatically to the 30 FPS queue to detect multi-vehicle pileups, rollovers, and highway collisions.
+    The inference engine has been engineered with dual-stream architecture. Model B (<code>models/accident_best.pt</code>) runs on every frame the backend can process and confirms multi-vehicle pileups, rollovers and highway collisions over 3 frames.
   </p>
   <div style="display:flex;gap:18px;font-size:12px;flex-wrap:wrap">
     <div><strong>Target Class:</strong> <code>severe_accident</code></div>
