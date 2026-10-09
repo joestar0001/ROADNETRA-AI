@@ -37,6 +37,8 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 @media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:6px;border:0}.side .lk{width:auto;white-space:nowrap}.side .prof,.side .stc,.side h5{display:none}}
 </style>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/config.js"></script>
+<script src="/static/rn-map.js"></script>
 </head>
 <body>
 <div class="shell">
@@ -60,7 +62,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
     <div class="stc">
       <span class="dot"></span><b>YOLOv8 Edge: Online</b><br>
       Judge Verification: Active<br>
-      Auto-Sync: 30s Polling
+      Auto-Sync: 3s Polling
     </div>
   </aside>
 
@@ -389,7 +391,7 @@ async function advanceStatus(id, newStatus){
     const res = await fetch(`/api/incidents/${id}/action`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({status: newStatus, note: 'Updated by PWD/NHAI Engineer'})
+      body: JSON.stringify({status: newStatus, authority: 'pwd,nhai', note: 'Updated by PWD/NHAI Engineer'})
     });
     const data = await res.json();
     if(data.success){
@@ -467,11 +469,8 @@ function calcMaterial(){
 
 function initMap(){
   if(mapInstance) return;
-  mapInstance = L.map('map').setView([28.6289, 77.2065], 12);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap · RoadNetra AI'
-  }).addTo(mapInstance);
+  mapInstance = L.map('map').setView(RNMap.center, 12);
+  RNMap.addTiles(mapInstance, 'streets');
   refreshMapMarkers();
 }
 
@@ -504,6 +503,7 @@ function refreshMapMarkers(){
     `);
     mapMarkers.push(circle);
   });
+  if(!window._rnFit && mapMarkers.length){ try{ mapInstance.fitBounds(L.featureGroup(mapMarkers).getBounds().pad(0.25), {maxZoom:13}); window._rnFit=1; }catch(e){} }
 }
 
 function showOnMap(id){
@@ -517,6 +517,6 @@ function showOnMap(id){
 // Initial bootstrap
 fetchIncidents();
 calcMaterial();
-setInterval(fetchIncidents, 30000);
+setInterval(fetchIncidents, (window.RN_CONFIG && RN_CONFIG.stream && RN_CONFIG.stream.incidentPollMs) || 5000);
 </script>
 </body></html>

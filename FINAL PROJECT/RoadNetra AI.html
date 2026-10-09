@@ -1,4 +1,8 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>RoadNetra AI</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/config.js"></script>
+<script src="/static/rn-map.js"></script>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f5f7;--card:#fff;--ink:#1d1d1f;--mut:#6e6e73;--g:#0071e3;--grn:#30a14e;--gd:#000;--line:#d2d2d7;--soft:#f0f0f3;--red:#ff3b30;--org:#ff9f0a;--blue:#0071e3;--glass:rgba(255,255,255,.72)}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#000;--card:#1c1c1e;--ink:#f5f5f7;--mut:#a1a1a6;--g:#2997ff;--grn:#30d158;--gd:#1c1c1e;--line:#38383a;--soft:#2c2c2e;--glass:rgba(28,28,30,.72)}}
@@ -31,6 +35,17 @@ button,select,input{font:inherit;color:inherit}.b{border:0;background:var(--g);c
 .mapw{display:grid;gap:14px;grid-template-columns:minmax(0,2fr) minmax(240px,1fr)}svg.map{width:100%;border-radius:20px;background:var(--soft)}.pulse{animation:pl 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}@keyframes pl{from{transform:scale(.6);opacity:.8}to{transform:scale(2.2);opacity:0}}
 #mdl{position:fixed;inset:0;background:#0007;backdrop-filter:blur(10px);display:none;place-items:center;z-index:50;padding:20px}#mdl.on{display:grid}.mc{max-width:400px;width:100%}.mc img{width:100%;border-radius:12px;margin-bottom:10px}.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 20px;border-radius:980px;font-size:13px;z-index:60;opacity:0;transition:.3s;pointer-events:none;max-width:90%}.toast.on{opacity:1}
 @media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:6px;border:0}.side .lk{width:auto;white-space:nowrap}.side .prof,.side .stc,.side .sos,.side h5,.side .logo,.side #bk{display:none}.nav a{display:none}.nav .sp+*{display:block}}
+.lmap{height:540px;border-radius:20px;overflow:hidden;background:var(--soft);z-index:0}.leaflet-container{font:inherit}.loc{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0;font-size:13px;color:var(--mut)}.loc select{padding:6px 10px;border-radius:980px;border:1px solid var(--line);background:var(--card);font-size:13px;max-width:100%}.tel{grid-template-columns:repeat(auto-fit,minmax(88px,1fr))!important}.li{display:flex;gap:10px;background:var(--soft);border-radius:14px;padding:10px;margin-bottom:10px;font-size:13px;border-left:3px solid var(--red)}.li img{width:120px;height:90px;object-fit:cover;border-radius:10px;flex:none}.li p{margin:2px 0;font-size:12.5px}@media(max-width:560px){.li{flex-direction:column}.li img{width:100%;height:160px}}.jc{border-left-color:var(--org)}
+.svc{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important}.svc .fc{padding:18px}
+.lab>*,.two>*,.mapw>*,.main,.pgs{min-width:0}#locTxt{word-break:break-word}.tel b{font-variant-numeric:tabular-nums}
+.ic{border-left:4px solid var(--org);align-items:flex-start;box-shadow:0 1px 2px #0000000d;transition:box-shadow .2s}.ic:hover{box-shadow:0 6px 24px #0000001a}.ic.CRITICAL{border-left-color:var(--red)}.ic.HIGH{border-left-color:#ff6a3d}.ic.LOW{border-left-color:var(--grn)}.ic.done{opacity:.72}
+.ic img,.ic .ph{width:168px;height:116px}.ih{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}.ih b{font-size:15px}.ih .tp{font-weight:600}.ih .bd{margin-left:0}.ih time{margin-left:auto;font-size:12px;color:var(--mut);white-space:nowrap}
+.st{font-size:10.5px;padding:2px 8px;border-radius:980px;background:var(--soft);color:var(--mut);font-weight:600}.st.Resolved{background:#30d15822;color:var(--grn)}.st.Crew{background:#2997ff22;color:var(--g)}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;margin:6px 0 2px;font-size:13px;color:var(--mut)}.meta span{white-space:nowrap}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}.why{font-size:12.5px;margin:4px 0 0}
+.auths{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin:10px 0 8px}.au{background:var(--soft);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:5px}.au .ah{display:flex;justify-content:space-between;gap:6px;font-size:12.5px;font-weight:600}.au .ah small{font-weight:500;color:var(--mut)}
+.seg{display:flex;gap:3px}.seg i{flex:1;height:5px;border-radius:9px;background:var(--line)}.seg i.on{background:var(--grn)}.au .b{align-self:flex-start;margin-top:2px}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:12px}.kpi div{background:var(--soft);border-radius:14px;padding:10px 12px}.kpi b{display:block;font-size:22px;font-weight:600;letter-spacing:-.02em}.kpi span{font-size:12px;color:var(--mut)}
+@media(max-width:560px){.ic img,.ic .ph{width:100%;height:170px}.ih time{margin-left:0}}
 table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}table.bm-tbl th{padding:8px 6px;text-align:left;border-bottom:2px solid var(--line);color:var(--mut);font-weight:600}table.bm-tbl td{padding:9px 6px;border-bottom:1px solid var(--line)}
 
 :root{--b1:rgba(0,113,227,.2);--b2:rgba(191,90,242,.18);--b3:rgba(48,209,88,.16)}
@@ -74,7 +89,7 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
 <div class="fl" style="left:24px;top:24px"><small>Cam 07 · MG Road</small><b>3/3 frames</b><small>conf ≥ 0.55 · alert raised</small></div><div class="fl" style="right:24px;top:30px;animation-delay:-2s"><small>Judge Engine</small><b>Car = 91% ✕ rejected</b><small>Not a road defect</small></div><div class="fl" style="right:24px;bottom:20px;animation-delay:-1s"><small>Dispatched to</small><b>Municipal PWD</b><small>SLA 24 h · work order #RN-1004</small></div></div>
 <div class="strip"><small>DISPATCHES TO</small><div><span>MUNICIPAL PWD</span><span>·</span><span>NHAI</span><span>·</span><span>EMERGENCY 112</span><span>·</span><span>TRAFFIC POLICE</span><span>·</span><span>HOSPITALS</span></div></div>
 <div class="sec" id="feat"><span class="pill">Overview</span><h2>Simplify How You Watch Every Road.</h2><p>Fewer false alarms, faster response, one connected platform for every authority.</p><div class="tabs" id="tabs"></div><div class="g3" id="tc"></div></div>
-<div class="sec" id="how"><span class="pill">How it works</span><h2>Four steps from pixel to action</h2><div class="g3"><div class="fc st" style="--d:0s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="24" height="18" rx="4"/><path d="M28 18l8-5v14l-8-5z"/><circle class="bl" cx="10" cy="17" r="2" fill="#ff3b30" stroke="none"/></svg></div><h3>Capture</h3><p>Upload a clip or use your laptop camera.</p></div><div class="fc st" style="--d:2s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="30" height="30" rx="5" stroke-dasharray="3 3"/><g class="mv"><circle cx="16" cy="16" r="7"/><path d="M21 21l8 8"/></g></svg></div><h3>Detect</h3><p>Model A finds road damage. Model B (accidents) plugs in next.</p></div><div class="fc st" style="--d:4s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="sw"><path d="M20 8v24M8 14h24"/><path d="M8 14l-4 10h8zM32 14l-4 10h8z"/></g><path d="M12 34h16"/></svg></div><h3>Judge</h3><p>Cars, people and shadows are rejected. Real hazards are approved after 3 frames.</p></div><div class="fc st" style="--d:6s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="26" r="3" fill="currentColor"/><circle class="rg" cx="20" cy="26" r="6"/><circle class="rg d2" cx="20" cy="26" r="6"/><path d="M20 26L32 8"/></svg></div><h3>Dispatch</h3><p>Severity is scored and the right team is alerted with evidence.</p></div></div></div>
+<div class="sec" id="how"><span class="pill">How it works</span><h2>Four steps from pixel to action</h2><div class="g3"><div class="fc st" style="--d:0s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="24" height="18" rx="4"/><path d="M28 18l8-5v14l-8-5z"/><circle class="bl" cx="10" cy="17" r="2" fill="#ff3b30" stroke="none"/></svg></div><h3>Capture</h3><p>Upload a clip or use your laptop camera.</p></div><div class="fc st" style="--d:2s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="30" height="30" rx="5" stroke-dasharray="3 3"/><g class="mv"><circle cx="16" cy="16" r="7"/><path d="M21 21l8 8"/></g></svg></div><h3>Detect</h3><p>Model A finds road damage. Model B flags severe accidents.</p></div><div class="fc st" style="--d:4s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="sw"><path d="M20 8v24M8 14h24"/><path d="M8 14l-4 10h8zM32 14l-4 10h8z"/></g><path d="M12 34h16"/></svg></div><h3>Judge</h3><p>Cars, people and shadows are rejected. Real hazards are approved after 3 frames.</p></div><div class="fc st" style="--d:6s"><div class="ic2"><svg viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="26" r="3" fill="currentColor"/><circle class="rg" cx="20" cy="26" r="6"/><circle class="rg d2" cx="20" cy="26" r="6"/><path d="M20 26L32 8"/></svg></div><h3>Dispatch</h3><p>Severity is scored and the right team is alerted with evidence.</p></div></div></div>
 <div class="cta"><h2>Ready to turn cameras into guardians?</h2><p>Open the console, run the demo road, and watch an alert travel from detection to resolution.</p><button class="b" data-l="ov">Launch console ↗</button></div><div style="height:50px"></div></div>
 
 <div id="app" class="shell" hidden>
@@ -85,13 +100,15 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
 <div class="main"><div class="top"><h3 id="ttl">Overview</h3><input id="q" placeholder="Search incidents…" aria-label="Search"><button class="b sm" data-pg="lab">+ New scan</button><button class="on up" id="net">● Online</button><button class="b g sm" id="thm">◐</button></div>
 <div class="pgs">
 <section id="g-ov"><div class="card"><span class="pill">AI-Assisted Road Intelligence</span><h2 style="font-size:36px;margin:12px 0">Smart road safety, powered by AI.</h2><p>Detect, verify and dispatch road hazards with one connected platform.</p><div class="row"><button class="b" data-pg="lab">Open Live Lab ↗</button><button class="b g" data-pg="city">City Map</button><button class="b g" data-pg="inc">My dashboard</button></div></div>
-<div class="g4" id="st1"></div><div class="two"><div><div class="ban" data-pg="lab"><div style="font-size:42px">📹</div><div><span class="pill" style="background:#2c2c2e;color:#2997ff">Live vision</span><h2 style="margin-top:8px">Scan new road footage</h2><p>Judge-verified detections with severity and automatic routing.</p></div><button class="b">→</button></div><h3 style="margin:26px 0 12px">Services</h3><div class="g3"><div class="fc" data-pg="lab" style="cursor:pointer"><div class="ic2">🎬</div><h3>Live Lab</h3><p>Video &amp; webcam</p></div><div class="fc" data-pg="arch" style="cursor:pointer"><div class="ic2">🧠</div><h3>Architecture</h3><p>Pipeline &amp; benchmarks</p></div><div class="fc" data-pg="city" style="cursor:pointer"><div class="ic2">🗺️</div><h3>City Map</h3><p>Live incident pins</p></div><div class="fc" data-pg="inc" style="cursor:pointer"><div class="ic2">🛡️</div><h3>Authorities</h3><p>PWD, NHAI, hospital, police</p></div></div></div>
-<div class="card"><h3>Instant Hazard Identifier</h3><p>Drop a road video to start scanning.</p><div class="dz" id="dz"><div style="font-size:32px">⬆️</div><b>Upload or take video</b><p style="margin:0;font-size:14px">Click or drop a file</p></div><b>Quick samples:</b><div><span class="chip" data-sm="day">Demo road</span><span class="chip" data-sm="night">Night glare</span><span class="chip" data-sm="rain">Monsoon rain</span></div></div></div></section>
+<div class="g4" id="st1"></div><div class="two"><div><div class="ban" data-pg="lab"><div style="font-size:42px">📹</div><div><span class="pill" style="background:#2c2c2e;color:#2997ff">Live vision</span><h2 style="margin-top:8px">Scan new road footage</h2><p>Judge-verified detections with severity and automatic routing.</p></div><button class="b">→</button></div><h3 style="margin:26px 0 12px">Services</h3><div class="g3 svc"><div class="fc" data-pg="lab" style="cursor:pointer"><div class="ic2">🎬</div><h3>Live Lab</h3><p>Video &amp; webcam</p></div><div class="fc" data-pg="arch" style="cursor:pointer"><div class="ic2">🧠</div><h3>Architecture</h3><p>Pipeline &amp; benchmarks</p></div><div class="fc" data-pg="city" style="cursor:pointer"><div class="ic2">🗺️</div><h3>City Map</h3><p>Live incident pins</p></div><div class="fc" data-pg="inc" style="cursor:pointer"><div class="ic2">🛡️</div><h3>Authorities</h3><p>PWD, NHAI, hospital, police</p></div></div></div>
+<div class="card"><h3>Instant Hazard Identifier</h3><p>Drop a road video to start scanning.</p><div class="dz" id="dz"><div style="font-size:32px">⬆️</div><b>Upload or take video</b><p style="margin:0;font-size:14px">Click or drop a file</p></div><b>Quick samples:</b><div><span class="chip" data-sm="day">Demo road</span><span class="chip" data-sm="acc">Accident photo</span><span class="chip" data-sm="night">Night glare</span><span class="chip" data-sm="rain">Monsoon rain</span></div></div></div></section>
 
 <section id="g-lab" hidden><div class="stepper" id="stp"><span>Capture</span><span>Detect</span><span>Judge</span><span>Dispatch</span></div><div class="lab"><div class="card"><div class="drop" id="drop"><canvas id="cv" width="640" height="360"></canvas><div class="dh" id="dh">Drop a video here, or press Run demo road</div></div><video id="vid" muted playsinline></video>
-<div class="row"><button class="b" id="bDemo">Run demo road</button><button class="b g" id="bUpload">Upload video</button><input id="file" type="file" accept="video/*,.mp4,.mov,.avi,.mkv,.webm,.m4v" style="display:none"><button class="b g" id="bCam">Laptop camera</button><button class="b g" id="bStop">Stop</button><button class="b g" id="bAcc">Simulate accident</button></div>
-<div class="tel"><div><b id="tF">0</b><span>FPS</span></div><div><b id="tL">0</b><span>ms</span></div><div><b id="tC">0</b><span>candidates</span></div><div><b id="tR">0%</b><span>false alarms cut</span></div></div><p style="margin-top:10px;font-size:13px">Model B (accidents) is not connected yet. Detections here are simulated through <code>modelA(frame)</code>.</p></div>
-<div class="card"><h3>Judge Engine</h3><p>Tap a card to inspect or override.</p><div class="feed" id="judge"><p>Waiting for video…</p></div></div></div><div id="st2"></div></section>
+<div class="loc"><span>Camera / location</span><select id="camSel" aria-label="Camera or location"></select></div>
+<div class="loc" id="locTxt">📍 Loading location…</div>
+<div class="row"><button class="b" id="bDemo">Run demo road</button><button class="b g" id="bUpload">Upload video / photo</button><input id="file" type="file" accept="video/*,image/*,.mp4,.mov,.avi,.mkv,.webm,.m4v,.jpg,.jpeg,.png,.webp" style="display:none"><button class="b g" id="bCam">Laptop camera</button><button class="b g" id="bAcc">Try accident photo</button><button class="b g" id="bStop">Stop</button></div>
+<div class="tel"><div><b id="tF">0</b><span>render FPS</span></div><div><b id="tB">0</b><span>Model B FPS</span></div><div><b id="tL">0</b><span>Model B ms</span></div><div><b id="tA">0</b><span>Model A ms</span></div><div><b id="tC">0</b><span>candidates</span></div><div><b id="tR">0%</b><span>false alarms cut</span></div></div><p style="margin-top:10px;font-size:12.5px" id="mStat">Connecting to models…</p></div>
+<div class="card"><h3>Latest incident</h3><div id="lastInc"><p>Confirmed detections appear here with confidence, location and routing.</p></div><h3 style="margin-top:14px">Judge Engine</h3><p>Tap a card to inspect or override.</p><div class="feed" id="judge"><p>Waiting for video…</p></div></div></div><div id="st2"></div></section>
 
 <section id="g-arch" hidden>
 <div class="g4" style="margin-bottom:16px">
@@ -100,7 +117,7 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
   <div class="sc"><b>99.4%</b><h4>False-Alarm Veto</h4><p>Stage-2 Semantic Judge</p></div>
   <div class="sc"><b>86.3%</b><h4>Deduplication</h4><p>Spatial-Temporal IoU Tracker</p></div>
 </div>
-<div class="card"><div class="row" style="justify-content:space-between;align-items:center;margin-top:0"><h3>Two-stage verification pipeline</h3><span class="pill"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAflBMVEUAAALy9foACl6syvgLJlEBHEkDIEs3gfQAASkACTlabo0zS28qePOgtdaSoLZzhaEAWFhZlvV7e3tEWnpqCyJ/fz//AAC0ah//fx////9uAG4AAP8ADTtVVap/f/+qqlUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmVc+MAAAAIHRSTlMA/Qr+16No/1eV//T//v7/Av8C/QYEAQMDAQIByQMCA7dJEAAAAANySURBVHja7ZfZmpswDEaNbbEZEwjZp+28/1tWkheWEHDma+/iiySjgR8t1rEQ4rM+618vSR9HOTcd70chf6CzbnpTSVTaaCjnJlha9v2pjM1wHXTwQN4r06KlNVW6T6hzyNxSWlzk3HRIVpKirLOwFNBt3mR78rMuE5WOF00KtOg2FxyZiqZpCvzWaVnH/5sghEq2Cg71TVEUTc/aKVLuLhWEMhCdECUmmnRQCRP+C2jlUvxAyGbKC6msrXJauBk2nXKhqWlozqPCLayb30wStHwv2U7bNrSwbkZ8o400ci3lbvmdjoIrXtqJCgVU3/fRR3clwHZwcfdllAfykuvv9yjI8crt4KYtAsAGqXXLOq2mgOKlkO9tS9DGcItqYJ1clNrURpMpBiRFDskYkaSk5w8OSvgE2NuWHWfGXQtPAQCIRKGpV+wT/wjFll4pxSP66KTLc+4y3nmTKxcEod8723v0Jx99wvXlv8lMu3uvewNqWYeVSpjQ1xVSlhptVco+KrleFIJ2tKtBjkqaN659hd8ZajkA8ThB602tPj1CdNxEL/EbuUqNpeDGGa9YR7GSu0veQGXKDLWpX+D3GLlKrV4L7NqzmAJB499CXgUKsE81/bgc13nEXCUceh4dJojyPEIgDJxJ+jLPpXOROYiRS5poSJFFIU9IdNL4tNXhjNgWwg5ZClHXzIXKFSExpIZm1EZoHrVjsm9SnscTKiPUnnEX3TDZinF3GFaTHcrf+/JfX5X/iuW3pn5d/jXUiou23mL16eSfR/7YdmMewNFjUFPUMkpCi0y62bfIsDVXrKAWZiMTU5ObFpKgFlG7eKY/AXYxElHLXHUImIDN6zDY/nQ7jIyH6Ig1ufTHe7Qlc2fW+mQsURtOtjT4v0AtOko6qccRnYYDQXQFtVFn94D8En7TWI9aDAlRyzysq1Fn78hG9gWuZqZ8Rq2chLk9RFCv+7EGcXjhsaaNY01buiKQ3OZYc59xtS5vHrVx0GLU7us4HkX4qMijonka/UC+MYwG1C6HUb/fN9tsIeRRO47HiFpUkvsz+2xgL0NocWAPoe3pdAJmXL0G1IZXCEatSJqLTHypsZUYUeteahC13duvR1YLPugfpyfUJirxDGvrSSc9oTbxlRZbFOaDzwK1770cv/smvFq85bv5DLWf9Vn/ef0FtnYkcFTD6QEAAAAASUVORK5CYII=" width="16" height="16"> live data flow · tap any block</span></div><svg class="flow" id="flow" viewBox="0 0 900 690" role="img" aria-label="Two-stage verification pipeline"><rect class="bx2" x="150" y="8" width="600" height="116" rx="16"/><text class="sm" x="168" y="30">STAGE 1 · PRIMARY DETECTORS (HIGH RECALL)</text><rect class="bx2" x="20" y="318" width="860" height="364" rx="16"/><text class="sm" x="38" y="668">STAGE 2 · SEMANTIC VERIFICATION (PRIORS + GEOMETRY)</text><path id="pA" class="ln" d="M310 106V180H400V220"/><path id="pB" class="ln" d="M590 106V180H500V220"/><path id="pL" class="ln" d="M400 272V300H215V372"/><path id="pR" class="ln" d="M500 272V300H685V372"/><path id="oL1" class="ln" d="M155 492V545H125V600"/><path id="oL2" class="ln" d="M275 492V545H345V600"/><path id="oR1" class="ln" d="M625 492V545H565V600"/><path id="oR2" class="ln" d="M745 492V545H785V600"/><g class="nd" data-i="a"><rect class="bx" x="180" y="46" width="260" height="60" rx="12"/><image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAflBMVEUAAALy9foACl6syvgLJlEBHEkDIEs3gfQAASkACTlabo0zS28qePOgtdaSoLZzhaEAWFhZlvV7e3tEWnpqCyJ/fz//AAC0ah//fx////9uAG4AAP8ADTtVVap/f/+qqlUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmVc+MAAAAIHRSTlMA/Qr+16No/1eV//T//v7/Av8C/QYEAQMDAQIByQMCA7dJEAAAAANySURBVHja7ZfZmpswDEaNbbEZEwjZp+28/1tWkheWEHDma+/iiySjgR8t1rEQ4rM+618vSR9HOTcd70chf6CzbnpTSVTaaCjnJlha9v2pjM1wHXTwQN4r06KlNVW6T6hzyNxSWlzk3HRIVpKirLOwFNBt3mR78rMuE5WOF00KtOg2FxyZiqZpCvzWaVnH/5sghEq2Cg71TVEUTc/aKVLuLhWEMhCdECUmmnRQCRP+C2jlUvxAyGbKC6msrXJauBk2nXKhqWlozqPCLayb30wStHwv2U7bNrSwbkZ8o400ci3lbvmdjoIrXtqJCgVU3/fRR3clwHZwcfdllAfykuvv9yjI8crt4KYtAsAGqXXLOq2mgOKlkO9tS9DGcItqYJ1clNrURpMpBiRFDskYkaSk5w8OSvgE2NuWHWfGXQtPAQCIRKGpV+wT/wjFll4pxSP66KTLc+4y3nmTKxcEod8723v0Jx99wvXlv8lMu3uvewNqWYeVSpjQ1xVSlhptVco+KrleFIJ2tKtBjkqaN659hd8ZajkA8ThB602tPj1CdNxEL/EbuUqNpeDGGa9YR7GSu0veQGXKDLWpX+D3GLlKrV4L7NqzmAJB499CXgUKsE81/bgc13nEXCUceh4dJojyPEIgDJxJ+jLPpXOROYiRS5poSJFFIU9IdNL4tNXhjNgWwg5ZClHXzIXKFSExpIZm1EZoHrVjsm9SnscTKiPUnnEX3TDZinF3GFaTHcrf+/JfX5X/iuW3pn5d/jXUiou23mL16eSfR/7YdmMewNFjUFPUMkpCi0y62bfIsDVXrKAWZiMTU5ObFpKgFlG7eKY/AXYxElHLXHUImIDN6zDY/nQ7jIyH6Ig1ufTHe7Qlc2fW+mQsURtOtjT4v0AtOko6qccRnYYDQXQFtVFn94D8En7TWI9aDAlRyzysq1Fn78hG9gWuZqZ8Rq2chLk9RFCv+7EGcXjhsaaNY01buiKQ3OZYc59xtS5vHrVx0GLU7us4HkX4qMijonka/UC+MYwG1C6HUb/fN9tsIeRRO47HiFpUkvsz+2xgL0NocWAPoe3pdAJmXL0G1IZXCEatSJqLTHypsZUYUeteahC13duvR1YLPugfpyfUJirxDGvrSSc9oTbxlRZbFOaDzwK1770cv/smvFq85bv5DLWf9Vn/ef0FtnYkcFTD6QEAAAAASUVORK5CYII=" x="190" y="56" width="40" height="40"/><text x="240" y="72">Model A</text><text class="sm" x="240" y="90">Infrastructure defects</text></g><g class="nd pend" data-i="b"><rect class="bx" x="460" y="46" width="260" height="60" rx="12" stroke-dasharray="5 4"/><text x="480" y="72">Model B</text><text class="sm" x="480" y="90">Severe accidents · weights pending</text></g><text class="sm lbl" x="310" y="150" text-anchor="middle">candidate box</text><text class="sm lbl" x="590" y="150" text-anchor="middle">candidate box</text><g class="nd" data-i="j" id="jd"><rect class="bx" x="330" y="220" width="240" height="52" rx="26"/><text x="450" y="251" text-anchor="middle">Unified Judge Engine</text></g><text class="sm lbl" x="300" y="294" text-anchor="middle">for infrastructure</text><text class="sm lbl" x="600" y="294" text-anchor="middle">for accidents</text><g class="nd" data-i="d1"><polygon class="bx" points="215,372 335,452 215,532 95,452"/><text x="215" y="448" text-anchor="middle">Vehicle, person</text><text x="215" y="466" text-anchor="middle">or normal road?</text></g><g class="nd" data-i="d2"><polygon class="bx" points="685,372 805,452 685,532 565,452"/><text x="685" y="448" text-anchor="middle">Vehicles intact</text><text x="685" y="466" text-anchor="middle">or crumpled?</text></g><text class="sm lbl" x="125" y="538" text-anchor="middle">yes (car = 90%)</text><text class="sm lbl" x="345" y="538" text-anchor="middle">no (asphalt / sign)</text><text class="sm lbl" x="565" y="538" text-anchor="middle">intact, in lane</text><text class="sm lbl" x="785" y="538" text-anchor="middle">deformed / rolled</text><g class="nd no" id="bx1" data-i="r1"><rect class="bx" x="30" y="600" width="190" height="46" rx="12"/><text x="125" y="628" text-anchor="middle" style="font-size:12px">✕ Reject · car is not a defect</text></g><g class="nd ok" id="bx2" data-i="r2"><rect class="bx" x="250" y="600" width="190" height="46" rx="12"/><text x="345" y="628" text-anchor="middle" style="font-size:12px">✓ Approve defect</text></g><g class="nd no" id="bx3" data-i="r3"><rect class="bx" x="470" y="600" width="190" height="46" rx="12"/><text x="565" y="628" text-anchor="middle" style="font-size:12px">✕ Reject · traffic jam</text></g><g class="nd ok" id="bx4" data-i="r4"><rect class="bx" x="690" y="600" width="190" height="46" rx="12"/><text x="785" y="628" text-anchor="middle" style="font-size:12px">✓ Approve emergency alert</text></g><g id="tk"></g></svg><p id="fcap" style="margin-top:8px">Packets are candidate boxes. Watch them split at the Judge and land on an approve or reject outcome.</p><p id="fcnt" style="font-size:12px;margin:0">Processed 0 · Approved 0 · Rejected 0</p></div><div class="card" style="margin-top:14px"><div class="row" style="justify-content:space-between;align-items:center;margin-top:0"><h3>Model X-ray</h3><div id="xb" class="tabs" style="margin:0"><button data-x="in" class="on">Input</button><button data-x="hm">Heatmap</button><button data-x="dt">Detect</button><button data-x="jd">Judge</button></div></div><svg class="flow xr" id="xr" data-ly="in" viewBox="0 0 520 250" role="img" aria-label="Model X-ray"><defs><radialGradient id="hg"><stop offset="0" stop-color="#ff3b30" stop-opacity=".9"/><stop offset=".5" stop-color="#ff9f0a" stop-opacity=".5"/><stop offset="1" stop-color="#ff9f0a" stop-opacity="0"/></radialGradient></defs><rect width="520" height="250" fill="#14172f"/><path d="M200 90H320L470 250H50Z" fill="#3a3a3f"/><path class="dsh" d="M260 90L262 250" stroke="#ffd60a" stroke-width="4" stroke-dasharray="14 12"/><ellipse cx="215" cy="190" rx="30" ry="9" fill="#050505"/><g transform="translate(335 175)"><rect x="-34" y="-22" width="68" height="22" rx="7" fill="#e5484d"/><rect x="-22" y="-36" width="44" height="17" rx="7" fill="#c2383d"/><circle cx="-20" cy="0" r="6" fill="#111"/><circle cx="20" cy="0" r="6" fill="#111"/></g><g class="hm"><circle class="pu" cx="215" cy="190" r="52" fill="url(#hg)"/><circle class="pu" cx="335" cy="160" r="40" fill="url(#hg)" opacity=".7"/></g>
+<div class="card"><div class="row" style="justify-content:space-between;align-items:center;margin-top:0"><h3>Two-stage verification pipeline</h3><span class="pill"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAflBMVEUAAALy9foACl6syvgLJlEBHEkDIEs3gfQAASkACTlabo0zS28qePOgtdaSoLZzhaEAWFhZlvV7e3tEWnpqCyJ/fz//AAC0ah//fx////9uAG4AAP8ADTtVVap/f/+qqlUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmVc+MAAAAIHRSTlMA/Qr+16No/1eV//T//v7/Av8C/QYEAQMDAQIByQMCA7dJEAAAAANySURBVHja7ZfZmpswDEaNbbEZEwjZp+28/1tWkheWEHDma+/iiySjgR8t1rEQ4rM+618vSR9HOTcd70chf6CzbnpTSVTaaCjnJlha9v2pjM1wHXTwQN4r06KlNVW6T6hzyNxSWlzk3HRIVpKirLOwFNBt3mR78rMuE5WOF00KtOg2FxyZiqZpCvzWaVnH/5sghEq2Cg71TVEUTc/aKVLuLhWEMhCdECUmmnRQCRP+C2jlUvxAyGbKC6msrXJauBk2nXKhqWlozqPCLayb30wStHwv2U7bNrSwbkZ8o400ci3lbvmdjoIrXtqJCgVU3/fRR3clwHZwcfdllAfykuvv9yjI8crt4KYtAsAGqXXLOq2mgOKlkO9tS9DGcItqYJ1clNrURpMpBiRFDskYkaSk5w8OSvgE2NuWHWfGXQtPAQCIRKGpV+wT/wjFll4pxSP66KTLc+4y3nmTKxcEod8723v0Jx99wvXlv8lMu3uvewNqWYeVSpjQ1xVSlhptVco+KrleFIJ2tKtBjkqaN659hd8ZajkA8ThB602tPj1CdNxEL/EbuUqNpeDGGa9YR7GSu0veQGXKDLWpX+D3GLlKrV4L7NqzmAJB499CXgUKsE81/bgc13nEXCUceh4dJojyPEIgDJxJ+jLPpXOROYiRS5poSJFFIU9IdNL4tNXhjNgWwg5ZClHXzIXKFSExpIZm1EZoHrVjsm9SnscTKiPUnnEX3TDZinF3GFaTHcrf+/JfX5X/iuW3pn5d/jXUiou23mL16eSfR/7YdmMewNFjUFPUMkpCi0y62bfIsDVXrKAWZiMTU5ObFpKgFlG7eKY/AXYxElHLXHUImIDN6zDY/nQ7jIyH6Ig1ufTHe7Qlc2fW+mQsURtOtjT4v0AtOko6qccRnYYDQXQFtVFn94D8En7TWI9aDAlRyzysq1Fn78hG9gWuZqZ8Rq2chLk9RFCv+7EGcXjhsaaNY01buiKQ3OZYc59xtS5vHrVx0GLU7us4HkX4qMijonka/UC+MYwG1C6HUb/fN9tsIeRRO47HiFpUkvsz+2xgL0NocWAPoe3pdAJmXL0G1IZXCEatSJqLTHypsZUYUeteahC13duvR1YLPugfpyfUJirxDGvrSSc9oTbxlRZbFOaDzwK1770cv/smvFq85bv5DLWf9Vn/ef0FtnYkcFTD6QEAAAAASUVORK5CYII=" width="16" height="16"> live data flow · tap any block</span></div><svg class="flow" id="flow" viewBox="0 0 900 690" role="img" aria-label="Two-stage verification pipeline"><rect class="bx2" x="150" y="8" width="600" height="116" rx="16"/><text class="sm" x="168" y="30">STAGE 1 · PRIMARY DETECTORS (HIGH RECALL)</text><rect class="bx2" x="20" y="318" width="860" height="364" rx="16"/><text class="sm" x="38" y="668">STAGE 2 · SEMANTIC VERIFICATION (PRIORS + GEOMETRY)</text><path id="pA" class="ln" d="M310 106V180H400V220"/><path id="pB" class="ln" d="M590 106V180H500V220"/><path id="pL" class="ln" d="M400 272V300H215V372"/><path id="pR" class="ln" d="M500 272V300H685V372"/><path id="oL1" class="ln" d="M155 492V545H125V600"/><path id="oL2" class="ln" d="M275 492V545H345V600"/><path id="oR1" class="ln" d="M625 492V545H565V600"/><path id="oR2" class="ln" d="M745 492V545H785V600"/><g class="nd" data-i="a"><rect class="bx" x="180" y="46" width="260" height="60" rx="12"/><image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAflBMVEUAAALy9foACl6syvgLJlEBHEkDIEs3gfQAASkACTlabo0zS28qePOgtdaSoLZzhaEAWFhZlvV7e3tEWnpqCyJ/fz//AAC0ah//fx////9uAG4AAP8ADTtVVap/f/+qqlUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmVc+MAAAAIHRSTlMA/Qr+16No/1eV//T//v7/Av8C/QYEAQMDAQIByQMCA7dJEAAAAANySURBVHja7ZfZmpswDEaNbbEZEwjZp+28/1tWkheWEHDma+/iiySjgR8t1rEQ4rM+618vSR9HOTcd70chf6CzbnpTSVTaaCjnJlha9v2pjM1wHXTwQN4r06KlNVW6T6hzyNxSWlzk3HRIVpKirLOwFNBt3mR78rMuE5WOF00KtOg2FxyZiqZpCvzWaVnH/5sghEq2Cg71TVEUTc/aKVLuLhWEMhCdECUmmnRQCRP+C2jlUvxAyGbKC6msrXJauBk2nXKhqWlozqPCLayb30wStHwv2U7bNrSwbkZ8o400ci3lbvmdjoIrXtqJCgVU3/fRR3clwHZwcfdllAfykuvv9yjI8crt4KYtAsAGqXXLOq2mgOKlkO9tS9DGcItqYJ1clNrURpMpBiRFDskYkaSk5w8OSvgE2NuWHWfGXQtPAQCIRKGpV+wT/wjFll4pxSP66KTLc+4y3nmTKxcEod8723v0Jx99wvXlv8lMu3uvewNqWYeVSpjQ1xVSlhptVco+KrleFIJ2tKtBjkqaN659hd8ZajkA8ThB602tPj1CdNxEL/EbuUqNpeDGGa9YR7GSu0veQGXKDLWpX+D3GLlKrV4L7NqzmAJB499CXgUKsE81/bgc13nEXCUceh4dJojyPEIgDJxJ+jLPpXOROYiRS5poSJFFIU9IdNL4tNXhjNgWwg5ZClHXzIXKFSExpIZm1EZoHrVjsm9SnscTKiPUnnEX3TDZinF3GFaTHcrf+/JfX5X/iuW3pn5d/jXUiou23mL16eSfR/7YdmMewNFjUFPUMkpCi0y62bfIsDVXrKAWZiMTU5ObFpKgFlG7eKY/AXYxElHLXHUImIDN6zDY/nQ7jIyH6Ig1ufTHe7Qlc2fW+mQsURtOtjT4v0AtOko6qccRnYYDQXQFtVFn94D8En7TWI9aDAlRyzysq1Fn78hG9gWuZqZ8Rq2chLk9RFCv+7EGcXjhsaaNY01buiKQ3OZYc59xtS5vHrVx0GLU7us4HkX4qMijonka/UC+MYwG1C6HUb/fN9tsIeRRO47HiFpUkvsz+2xgL0NocWAPoe3pdAJmXL0G1IZXCEatSJqLTHypsZUYUeteahC13duvR1YLPugfpyfUJirxDGvrSSc9oTbxlRZbFOaDzwK1770cv/smvFq85bv5DLWf9Vn/ef0FtnYkcFTD6QEAAAAASUVORK5CYII=" x="190" y="56" width="40" height="40"/><text x="240" y="72">Model A</text><text class="sm" x="240" y="90">Infrastructure defects</text></g><g class="nd" data-i="b"><rect class="bx" x="460" y="46" width="260" height="60" rx="12"/><g transform="translate(478,56)"><rect width="40" height="40" rx="10" fill="#ff2d5522"/><path d="M8 27l4-10h16l4 10v5H8z" fill="none" stroke="#ff453a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="14" cy="32" r="3" fill="#ff453a"/><circle cx="26" cy="32" r="3" fill="#ff453a"/><path d="M20 4v6M12 7l3 4M28 7l-3 4" stroke="#ff9f0a" stroke-width="2.5" stroke-linecap="round"/></g><text x="528" y="72">Model B</text><text class="sm" x="528" y="90">Severe accidents · live</text></g><text class="sm lbl" x="310" y="150" text-anchor="middle">candidate box</text><text class="sm lbl" x="590" y="150" text-anchor="middle">candidate box</text><g class="nd" data-i="j" id="jd"><rect class="bx" x="330" y="220" width="240" height="52" rx="26"/><text x="450" y="251" text-anchor="middle">Unified Judge Engine</text></g><text class="sm lbl" x="300" y="294" text-anchor="middle">for infrastructure</text><text class="sm lbl" x="600" y="294" text-anchor="middle">for accidents</text><g class="nd" data-i="d1"><polygon class="bx" points="215,372 335,452 215,532 95,452"/><text x="215" y="448" text-anchor="middle">Vehicle, person</text><text x="215" y="466" text-anchor="middle">or normal road?</text></g><g class="nd" data-i="d2"><polygon class="bx" points="685,372 805,452 685,532 565,452"/><text x="685" y="448" text-anchor="middle">Vehicles intact</text><text x="685" y="466" text-anchor="middle">or crumpled?</text></g><text class="sm lbl" x="125" y="538" text-anchor="middle">yes (car = 90%)</text><text class="sm lbl" x="345" y="538" text-anchor="middle">no (asphalt / sign)</text><text class="sm lbl" x="565" y="538" text-anchor="middle">intact, in lane</text><text class="sm lbl" x="785" y="538" text-anchor="middle">deformed / rolled</text><g class="nd no" id="bx1" data-i="r1"><rect class="bx" x="30" y="600" width="190" height="46" rx="12"/><text x="125" y="628" text-anchor="middle" style="font-size:12px">✕ Reject · car is not a defect</text></g><g class="nd ok" id="bx2" data-i="r2"><rect class="bx" x="250" y="600" width="190" height="46" rx="12"/><text x="345" y="628" text-anchor="middle" style="font-size:12px">✓ Approve defect</text></g><g class="nd no" id="bx3" data-i="r3"><rect class="bx" x="470" y="600" width="190" height="46" rx="12"/><text x="565" y="628" text-anchor="middle" style="font-size:12px">✕ Reject · traffic jam</text></g><g class="nd ok" id="bx4" data-i="r4"><rect class="bx" x="690" y="600" width="190" height="46" rx="12"/><text x="785" y="628" text-anchor="middle" style="font-size:12px">✓ Approve emergency alert</text></g><g id="tk"></g></svg><p id="fcap" style="margin-top:8px">Packets are candidate boxes. Watch them split at the Judge and land on an approve or reject outcome.</p><p id="fcnt" style="font-size:12px;margin:0">Processed 0 · Approved 0 · Rejected 0</p></div><div class="card" style="margin-top:14px"><div class="row" style="justify-content:space-between;align-items:center;margin-top:0"><h3>Model X-ray</h3><div id="xb" class="tabs" style="margin:0"><button data-x="in" class="on">Input</button><button data-x="hm">Heatmap</button><button data-x="dt">Detect</button><button data-x="jd">Judge</button></div></div><svg class="flow xr" id="xr" data-ly="in" viewBox="0 0 520 250" role="img" aria-label="Model X-ray"><defs><radialGradient id="hg"><stop offset="0" stop-color="#ff3b30" stop-opacity=".9"/><stop offset=".5" stop-color="#ff9f0a" stop-opacity=".5"/><stop offset="1" stop-color="#ff9f0a" stop-opacity="0"/></radialGradient></defs><rect width="520" height="250" fill="#14172f"/><path d="M200 90H320L470 250H50Z" fill="#3a3a3f"/><path class="dsh" d="M260 90L262 250" stroke="#ffd60a" stroke-width="4" stroke-dasharray="14 12"/><ellipse cx="215" cy="190" rx="30" ry="9" fill="#050505"/><g transform="translate(335 175)"><rect x="-34" y="-22" width="68" height="22" rx="7" fill="#e5484d"/><rect x="-22" y="-36" width="44" height="17" rx="7" fill="#c2383d"/><circle cx="-20" cy="0" r="6" fill="#111"/><circle cx="20" cy="0" r="6" fill="#111"/></g><g class="hm"><circle class="pu" cx="215" cy="190" r="52" fill="url(#hg)"/><circle class="pu" cx="335" cy="160" r="40" fill="url(#hg)" opacity=".7"/></g>
 <g class="dt"><rect x="175" y="172" width="80" height="36" fill="none" stroke="#ff9f0a" stroke-width="2.5"/><text x="175" y="166" fill="#ff9f0a" class="lb">pothole 0.87</text><rect x="293" y="132" width="86" height="50" fill="none" stroke="#ff9f0a" stroke-width="2.5"/><text x="293" y="126" fill="#ff9f0a" class="lb">car 0.91</text></g><g class="jd"><rect x="175" y="172" width="80" height="36" fill="rgba(48,209,88,.2)" stroke="#30d158" stroke-width="2.5"/><text x="175" y="166" fill="#30d158" class="lb">approved ✓</text><rect x="293" y="132" width="86" height="50" fill="rgba(255,59,48,.18)" stroke="#ff453a" stroke-width="2.5"/><text x="293" y="126" fill="#ff453a" class="lb">rejected ✕ car</text></g><rect class="scn" x="0" y="0" width="520" height="3" fill="#2997ff" opacity=".7"/></svg><p id="xcap" style="margin-top:8px">Input: the raw CCTV frame the detector receives.</p></div>
 
 <div class="two" style="margin-top:18px">
@@ -165,7 +182,7 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
     <span class="pill" style="background:#0071e322;color:#0071e3">PLUG-AND-PLAY DUAL-STREAM</span>
   </div>
   <p style="color:var(--mut);font-size:13px;margin:8px 0 12px 0">
-    The inference engine has been engineered with dual-stream architecture. As soon as <code>accident_best.pt</code> is placed into <code>models/</code>, Model B binds automatically to the 30 FPS queue to detect multi-vehicle pileups, rollovers, and highway collisions.
+    The inference engine has been engineered with dual-stream architecture. Model B (<code>models/accident_best.pt</code>) runs on every frame the backend can process and confirms multi-vehicle pileups, rollovers and highway collisions over 3 frames.
   </p>
   <div style="display:flex;gap:18px;font-size:12px;flex-wrap:wrap">
     <div><strong>Target Class:</strong> <code>severe_accident</code></div>
@@ -182,502 +199,256 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
 <script>
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],R=Math.random;
-const AU={pwd:'Municipal PWD',nhai:'NHAI',hosp:'Hospital',pol:'Traffic Police'},ST=['Notified','Acknowledged','En route','Resolved'];
-const LOC=[['MG Road Junction',.22,.38],['NH-46 km 112',.78,.22],['Ashta Bypass',.5,.62],['Station Road',.3,.75],['Ring Road East',.82,.68],['Market Chowk',.45,.28]];
-/* ---------- shared store (vanilla JS) ---------- */
-const S={inc:[],v:0,role:'ops',q:'',ok:0,rej:0,cand:0,sel:null,n:1,uniqueCounts:{pothole:0,damaged_sign:0,damaged_divider:0,faded_zebra_crossing:0},allUnique:[]},subs=new Set(),emit=()=>{S.v++;subs.forEach(f=>f())},sub=f=>(subs.add(f),()=>subs.delete(f));
-const route=(t,s)=>t=='accident'?{pol:0,hosp:0,nhai:0}:s=='HIGH'?{pwd:0,nhai:0}:{pwd:0};
-function add(o,q){
-  const l=LOC[Math.floor(R()*LOC.length)];
-  Object.assign(o,{id:o.id||('RN-'+(1000+S.n++)),loc:o.loc||l[0],x:o.x!==undefined?o.x:l[1],y:o.y!==undefined?o.y:l[2],t:Date.now(),a:o.a||route(o.type,o.sev)});
-  if(!S.inc.find(x=>x.id===o.id)){
-    S.inc.unshift(o);
-  }
-  if(!q){
-    toast(o.id+' → '+(o.authority||Object.keys(o.a).map(k=>AU[k]).join(', '))+' notified');
-    fetch('/api/incidents/create',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({type:o.type,conf:(o.conf||85)/100,location_name:o.loc,judge_reason:o.why||'Verified by RoadNetra Judge'})
-    }).catch(()=>{});
-  }
-  emit()
-}
-[['pothole','HIGH',91],['pothole','MEDIUM',78],['accident','CRITICAL',94],['pothole','MEDIUM',67]].forEach(a=>add({type:a[0],sev:a[1],conf:a[2],size:.04+R()*.06},1));S.inc[0].a.pwd=1;S.inc[2].a.pol=1;
-
-// Sync real verified defects and evidence images from RoadNetra server
-fetch('/api/incidents').then(r=>r.json()).then(list=>{
-  if(Array.isArray(list)&&list.length){
-    list.forEach(item=>{
-      const t = item.type || 'pothole';
-      const sev = (item.severity || 'Medium').toUpperCase();
-      const mapped = {
-        id: item.id,
-        type: t,
-        sev: (sev==='CRITICAL'||sev==='HIGH')?sev:'MEDIUM',
-        conf: Math.round((item.confidence||0.85)*100),
-        size: item.asphalt_tons ? item.asphalt_tons*0.03 : 0.04,
-        loc: item.location_name,
-        x: item.gps ? Math.max(0.1, Math.min(0.9, (item.gps[1]-77.16)/0.12)) : (0.2+R()*0.6),
-        y: item.gps ? Math.max(0.1, Math.min(0.9, (28.69-item.gps[0])/0.12)) : (0.2+R()*0.6),
-        thumb: item.image_url || null,
-        t: Date.now(),
-        a: route(t, sev)
-      };
-      if(!S.inc.find(x=>x.id===mapped.id)){
-        S.inc.push(mapped);
-      }
-    });
-    emit();
-  }
-}).catch(()=>{});
-
-function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),3000)}
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const CFG=window.RN_CONFIG||{map:{center:[28.3589,76.9387],zoom:11},stream:{accidentWidth:640,infraWidth:1280,infraIntervalMs:1000,incidentPollMs:3000},cameras:[],defaultCameraId:'CAM-084'};
+const AU={pwd:'Municipal / State PWD',nhai:'NHAI',hosp:'108 Emergency & Hospital',pol:'Traffic Police'},ST=['Notified','Acknowledged','En route','Resolved'];
+const LABEL={pothole:'Pothole',damaged_sign:'Damaged sign',damaged_divider:'Damaged divider',faded_zebra_crossing:'Faded zebra crossing',severe_accident:'Severe accident'};
+const lbl=k=>LABEL[k]||String(k||'').replace(/_/g,' ');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/* ---------- shared store: incidents always come from the backend ---------- */
+const S={inc:[],v:0,role:'ops',q:'',ok:0,rej:0,cand:0,sel:null,uniqueCounts:{pothole:0,damaged_sign:0,damaged_divider:0,faded_zebra_crossing:0,severe_accident:0},allUnique:[],loc:null,locCtx:{camera_id:CFG.defaultCameraId}},subs=new Set(),emit=()=>{S.v++;subs.forEach(f=>f())},sub=f=>(subs.add(f),()=>subs.delete(f));
+function mapInc(x){return{id:x.id,type:x.type,cat:x.category,sev:String(x.severity||'Medium').toUpperCase(),prio:x.priority||'P3',conf:Math.round(x.confidence_pct??(x.confidence||0)*100),
+  loc:x.location_name,lat:x.lat??(x.gps||[])[0],lng:x.lng??(x.gps||[])[1],cam:x.camera_id,thumb:x.image_url,crop:x.crop_url,a:{...(x.authority_status||{})},why:x.judge_reason,agency:x.assigned_agency,
+  status:x.status,time:x.timestamp,at:x.detected_at,sla:x.sla_due,slaH:x.sla_hours,frames:x.frames_confirmed,cost:x.repair_cost_est,model:x.model,merged:x.merged_count||0,sample:x.source==='seed',title:x.title}}
+async function syncIncidents(){try{const r=await fetch('/api/incidents');if(r.ok){S.inc=(await r.json()).map(mapInc);emit()}}catch(e){}}
+syncIncidents();setInterval(syncIncidents,CFG.stream.incidentPollMs||3000);
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),3500)}
+const fmtTime=iso=>{try{return new Date(iso).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'})}catch(e){return iso||''}};
+const gpsTxt=i=>i.lat!=null?`${(+i.lat).toFixed(5)}, ${(+i.lng).toFixed(5)}`:'—';
 /* ---------- React + htm components ---------- */
 const html=htm.bind(React.createElement),useS=()=>React.useSyncExternalStore(sub,()=>S.v),mount=(s,C)=>ReactDOM.createRoot($(s)).render(html`<${C}/>`);
-function adv(i,k){
-  i.a[k]++;
-  toast(AU[k]+': '+ST[i.a[k]]);
-  fetch(`/api/incidents/${i.id}/action`,{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({status:ST[i.a[k]],note:'Action updated via '+AU[k]})
-  }).catch(()=>{});
-  emit()
+async function adv(i,k){
+  try{
+    const r=await fetch(`/api/incidents/${i.id}/action`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({authority:k,note:'Updated from command center'})});
+    const d=await r.json();
+    if(d.incident){const n=mapInc(d.incident);S.inc=S.inc.map(x=>x.id===n.id?n:x);toast(AU[k]+': '+ST[n.a[k]]);emit()}
+  }catch(e){toast('Could not reach the server')}
 }
-const Card=({i,ks})=>html`<div className="ic">${i.thumb?html`<img alt="Evidence" src=${i.thumb}/>`:html`<div className="ph">${i.type} evidence</div>`}<div className="ib"><b>${i.id} · ${i.type}</b><span className=${'bd '+i.sev}>${i.sev}</span><p>${i.loc} · confidence ${i.conf}%${i.type=='pothole'?' · est. ₹'+Math.round(i.size*2e5).toLocaleString('en-IN'):''}</p>${ks.map(k=>{const s=i.a[k];return html`<div key=${k}><small>${AU[k]}</small><div className="stp">${ST.map((x,j)=>html`<i key=${j} className=${j<=s?'on':''}>${x}</i>`)}</div>${s<3&&html`<button className="b sm" onClick=${()=>adv(i,k)}>${s==2?'Mark resolved':'Mark '+ST[s+1].toLowerCase()}</button> `}</div>`})}<button className="b g sm" onClick=${()=>{S.sel=i.id;emit();go('city')}}>Open on map</button></div></div>`;
-function Stats(){useS();const T=[[S.inc.length,'Total alerts','Open and closed'],[S.ok,'Judge approved','Real hazards'],[S.rej,'Judge rejected','False alarms stopped'],[new Set(S.inc.flatMap(i=>Object.keys(i.a))).size+' / 4','Authorities informed','PWD · NHAI · Hospital · Police']];return T.map(t=>html`<div className="sc" key=${t[1]}><b>${t[0]}</b><h4>${t[1]}</h4><p>${t[2]}</p></div>`)}
+const Card=({i,ks})=>html`<div className=${'ic '+i.sev+(i.status==='Resolved'?' done':'')}>${i.thumb?html`<img alt=${'Evidence for '+i.id} src=${i.thumb} loading="lazy"/>`:html`<div className="ph">${lbl(i.type)} evidence</div>`}<div className="ib">
+<div className="ih"><b>${i.id}</b><span className="tp">${lbl(i.type)}</span><span className=${'bd '+i.sev}>${i.prio} ${i.sev}</span><span className=${'st '+String(i.status).split(' ')[0]}>${i.status}</span>${i.sample&&html`<span className="st">SAMPLE</span>`}<time>${fmtTime(i.at)}</time></div>
+<div className="meta"><span>📍 ${i.loc}</span><span className="mono">${gpsTxt(i)}</span><span>📷 ${i.cam}</span><span>🎯 ${i.conf}% · ${i.frames||1} frame${(i.frames||1)>1?'s':''}</span>${i.cost?html`<span>₹${i.cost.toLocaleString('en-IN')} est.</span>`:''}${i.merged?html`<span>🔁 ${i.merged} merged</span>`:''}</div>
+<p className="why">⚖️ ${i.why}</p>
+<div className="auths">${ks.map(k=>{const s=i.a[k]??0;return html`<div className="au" key=${k}><div className="ah"><span>${AU[k]}</span><small>${ST[s]}</small></div><div className="seg">${ST.map((x,j)=>html`<i key=${j} className=${j<=s?'on':''} title=${x}></i>`)}</div>${s<3&&html`<button className="b sm" onClick=${()=>adv(i,k)}>${s==2?'Mark resolved':'Mark '+ST[s+1].toLowerCase()}</button>`}</div>`})}</div>
+<div className="row" style=${{margin:0}}><button className="b g sm" onClick=${()=>{S.sel=i.id;emit();go('city')}}>Open on map</button><a className="b g sm" style=${{textDecoration:'none'}} href=${i.thumb} target="_blank">Evidence ↗</a></div></div></div>`;
+function Stats(){useS();const T=[[S.inc.length,'Total incidents',S.inc.filter(i=>i.status!=='Resolved').length+' open · '+S.inc.filter(i=>i.type==='severe_accident').length+' accidents'],[S.ok,'Judge approved','This session'],[S.rej,'Judge rejected','False alarms stopped'],[new Set(S.inc.flatMap(i=>Object.keys(i.a))).size+' / 4','Authorities informed','PWD · NHAI · Hospital · Police']];return T.map(t=>html`<div className="sc" key=${t[1]}><b>${t[0]}</b><h4>${t[1]}</h4><p>${t[2]}</p></div>`)}
 function AuditReport(){
   useS();
   const uc=S.uniqueCounts||{};
-  const metrics=[
-    [uc.pothole||0,'🕳️ Unique Potholes','Road surface asphalt cavities'],
-    [uc.damaged_sign||0,'🛑 Unique Signs','Traffic & warning signage'],
-    [uc.damaged_divider||0,'🛡️ Unique Dividers','Crash barriers & medians'],
-    [uc.faded_zebra_crossing||0,'🚸 Unique Crossings','Pedestrian zebra crossings']
-  ];
+  const metrics=[[uc.severe_accident||0,'🚨 Accidents','Model B · severe collisions'],[uc.pothole||0,'🕳️ Potholes','Road surface cavities'],[uc.damaged_sign||0,'🛑 Signs','Traffic & warning signage'],[uc.damaged_divider||0,'🛡️ Dividers','Crash barriers & medians'],[uc.faded_zebra_crossing||0,'🚸 Crossings','Faded zebra crossings']];
   const list=S.allUnique||[];
   return html`<div>
-    <div className="g4">
-      ${metrics.map(t=>html`<div className="sc" key=${t[1]}><b>${t[0]}</b><h4>${t[1]}</h4><p>${t[2]}</p></div>`)}
-    </div>
+    <div className="g4">${metrics.map(t=>html`<div className="sc" key=${t[1]}><b>${t[0]}</b><h4>${t[1]}</h4><p>${t[2]}</p></div>`)}</div>
     <div style=${{display:'flex',justifyContent:'space-between',alignItems:'center',margin:'26px 0 12px',flexWrap:'wrap',gap:8}}>
-      <div>
-        <span className="pill" style=${{background:'rgba(48,209,88,.15)',color:'#30d158',fontWeight:600}}>ZERO DUPLICATES · CONFIRMED ROAD ASSETS</span>
-        <h3 style=${{fontSize:'20px',margin:'8px 0 2px'}}>📸 Verified Unique Defect Evidence Gallery</h3>
-        <p style=${{color:'var(--mut)',fontSize:'13px'}}>Every unique physical road defect detected throughout the video is cataloged exactly ONCE via spatial-temporal deduplication.</p>
-      </div>
-      <span className="pill">${list.length} Confirmed Assets</span>
-    </div>
-    ${list.length>0?html`<div className="g3">
-      ${list.map(d=>html`<div className="card" key=${d.track_id} style=${{padding:14,border:'1px solid var(--line)',borderRadius:16}}>
-        ${d.crop?html`<img src=${d.crop} alt="" style=${{width:'100%',height:130,objectFit:'cover',borderRadius:10,display:'block',marginBottom:10}}/>`:html`<div className="ph" style=${{width:'100%',height:130,borderRadius:10,marginBottom:10}}>Defect #${d.track_id}</div>`}
-        <div style=${{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
-          <b>Track #${d.track_id} · ${d.kind.toUpperCase()}</b>
-          <span className="pill" style=${{background:'rgba(48,209,88,.15)',color:'#30d158',fontSize:11}}>VERIFIED</span>
-        </div>
-        <p style=${{fontSize:13,margin:'2px 0'}}><strong>Peak Confidence:</strong> ${d.conf}%</p>
-        <p style=${{fontSize:13,margin:'2px 0'}}><strong>Frame Persistence:</strong> Seen across ${d.hits} frames</p>
-        <p style=${{fontSize:12,color:'var(--mut)',margin:'4px 0 8px',lineHeight:1.3}}><strong>Judge Finding:</strong> ✅ ${d.why}</p>
-        <div style=${{fontSize:12,color:'var(--g)',fontWeight:600}}>🏛️ Dispatched to ${d.authority}</div>
-      </div>`)}
-    </div>`:html`<div className="card" style=${{textAlign:'center',padding:'28px 16px'}}><p style=${{color:'var(--mut)',margin:0}}>No unique defects cataloged yet. Run the demo road or upload dashcam video footage to generate the de-duplicated audit report.</p></div>`}
+      <div><span className="pill" style=${{background:'rgba(48,209,88,.15)',color:'#30d158',fontWeight:600}}>MULTI-FRAME VERIFIED · ZERO DUPLICATES</span>
+        <h3 style=${{fontSize:'20px',margin:'8px 0 2px'}}>📸 Verified evidence from this scan</h3>
+        <p style=${{color:'var(--mut)',fontSize:'13px'}}>Each unique hazard is confirmed across frames, logged once as an incident and routed automatically.</p></div>
+      <span className="pill">${list.length} confirmed</span></div>
+    ${list.length>0?html`<div className="g3">${list.map(d=>html`<div className="card" key=${d.kind+d.track_id} style=${{padding:14,border:'1px solid var(--line)',borderRadius:16}}>
+        ${d.crop?html`<img src=${d.image||d.crop} alt="" style=${{width:'100%',height:140,objectFit:'cover',borderRadius:10,display:'block',marginBottom:10}}/>`:html`<div className="ph" style=${{width:'100%',height:140,borderRadius:10,marginBottom:10}}>${lbl(d.kind)}</div>`}
+        <div style=${{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6,gap:6}}><b>${d.incident_id||('Track #'+d.track_id)}</b><span className=${'bd '+String(d.severity||'').toUpperCase()}>${d.severity||'VERIFIED'}</span></div>
+        <p style=${{fontSize:13,margin:'2px 0'}}><strong>${lbl(d.kind)}</strong> · peak confidence ${d.conf}% · ${d.hits} frame(s)</p>
+        <p style=${{fontSize:13,margin:'2px 0'}}>📍 ${d.location_name}</p>
+        <p style=${{fontSize:12,color:'var(--mut)',margin:'4px 0 8px',lineHeight:1.3}}>⚖️ ${d.why}</p>
+        <div style=${{fontSize:12,color:'var(--g)',fontWeight:600}}>🏛️ ${d.authority}</div></div>`)}</div>`
+      :html`<div className="card" style=${{textAlign:'center',padding:'28px 16px'}}><p style=${{color:'var(--mut)',margin:0}}>No confirmed hazards in this scan yet. Run the demo road, try a sample accident image, or upload your own video or photo.</p></div>`}
   </div>`;
 }
 function Inc(){useS();const[sf,setSf]=React.useState('all'),[tb,setTb]=React.useState('pwd'),[amb,setAmb]=React.useState(4),[beds,setBeds]=React.useState(12),r=S.role,key=r=='pwd'?tb:r;
-const L=S.inc.filter(i=>(r=='ops'||i.a[key]!==undefined)&&(sf=='all'||i.sev==sf||(sf=='HIGH'&&i.sev=='CRITICAL'))&&(!S.q||(i.id+i.loc+i.type).toLowerCase().includes(S.q))),open=L.filter(i=>Object.values(i.a).some(v=>v<3)).length;
-const X={ops:html`<div className="sc"><h4>Operations view</h4><p>All alerts across all four authorities.</p></div>`,pwd:html`<div className="sc"><h4>Crew roster</h4><select><option>Crew A · asphalt patch</option><option>Crew B · night shift</option><option>Crew C · highway unit</option></select><p style=${{marginTop:8}}>SLA: HIGH 24 h · MEDIUM 72 h</p></div>`,
+const L=S.inc.filter(i=>(r=='ops'||i.a[key]!==undefined)&&(sf=='all'||i.sev==sf||(sf=='HIGH'&&i.sev=='CRITICAL'))&&(!S.q||(i.id+i.loc+i.type+i.cam).toLowerCase().includes(S.q))),open=L.filter(i=>i.status!=='Resolved').length;
+const now=Date.now(),od=S.inc.filter(i=>i.status!=='Resolved'&&i.sla&&new Date(i.sla).getTime()<now).length;
+const X={ops:html`<div className="kpi" style=${{gridColumn:'1/-1',marginTop:0}}><div><b>${S.inc.filter(i=>i.status!=='Resolved').length}</b><span>Open</span></div><div><b style=${{color:'var(--red)'}}>${S.inc.filter(i=>i.sev==='CRITICAL'&&i.status!=='Resolved').length}</b><span>Critical (P1)</span></div><div><b style=${{color:'var(--org)'}}>${od}</b><span>SLA overdue</span></div><div><b style=${{color:'var(--grn)'}}>${S.inc.filter(i=>i.status==='Resolved').length}</b><span>Resolved</span></div><div><b>${S.inc.filter(i=>i.type==='severe_accident').length}</b><span>Accidents</span></div></div>`,pwd:html`<div className="sc"><h4>Crew roster</h4><select><option>Crew A · asphalt patch</option><option>Crew B · night shift</option><option>Crew C · highway unit</option></select><p style=${{marginTop:8}}>SLA: HIGH 24 h · MEDIUM 72 h · LOW 7 d</p></div>`,
 hosp:html`<div className="sc"><h4>Ambulances</h4><b>${amb}</b> / 6 available<div className="row"><button className="b sm" onClick=${()=>{setAmb(Math.max(0,amb-1));toast('Ambulance dispatched')}}>Dispatch</button><button className="b g sm" onClick=${()=>setAmb(Math.min(6,amb+1))}>Returned</button></div></div><div className="sc"><h4>ER beds free</h4><input type="range" min="0" max="30" value=${beds} onChange=${e=>setBeds(+e.target.value)}/><p>${beds} beds · trauma team on standby</p></div>`,
 pol:html`<div className="sc"><h4>Traffic control</h4><div className="row"><button className="b sm" onClick=${()=>toast('Lane blocked')}>Block lane</button><button className="b g sm" onClick=${()=>toast('Diversion on')}>Divert traffic</button><button className="b g sm" onClick=${()=>toast('Signboard alert sent')}>Broadcast</button></div></div>`}[r];
-return html`<div className="card"><h2>${{ops:'Main operations',pwd:'Municipal · PWD · NHAI',hosp:'Hospital desk',pol:'Traffic Police control room'}[r]}</h2><p>Change role in the sidebar. ${open} open alerts.</p>${r=='pwd'&&html`<div className="row">${['pwd','nhai'].map(t=>html`<button key=${t} className=${'b sm '+(tb==t?'':'g')} onClick=${()=>setTb(t)}>${t=='pwd'?'Municipal / PWD':'NHAI highways'}</button>`)}</div>`}<div className="row">${[['all','All'],['HIGH','High'],['MEDIUM','Medium']].map(a=>html`<button key=${a[0]} className=${'b sm '+(sf==a[0]?'':'g')} onClick=${()=>setSf(a[0])}>${a[1]}</button>`)}</div><div className="g4">${X}</div></div><div style=${{marginTop:16}}>${L.map(i=>html`<${Card} key=${i.id} i=${i} ks=${r=='ops'?Object.keys(i.a):[key]}/>`)}${!L.length&&html`<p>No alerts match. Run the Live Lab to create some.</p>`}</div>`}
-function MapV(){useS();const[f,setF]=React.useState('all'),col=s=>s=='MEDIUM'?'#f5a524':s=='LOW'?'#4ca154':'#e5484d',sel=S.inc.find(i=>i.id==S.sel);
-return html`<div className="row">${[['all','All'],['pothole','Potholes'],['accident','Accidents']].map(a=>html`<button key=${a[0]} className=${'b sm '+(f==a[0]?'':'g')} onClick=${()=>setF(a[0])}>${a[1]}</button>`)}</div><div className="mapw"><svg className="map" viewBox="0 0 800 520"><path d="M0 260H800M0 130H800M0 400H800M200 0V520M420 0V520M620 0V520M80 0L320 520" stroke="var(--line)" strokeWidth="14" fill="none"/><path d="M0 330C200 300 300 460 800 380" stroke="#3b82c455" strokeWidth="26" fill="none"/><path d="M0 195H800" stroke="var(--mut)" strokeWidth="3" strokeDasharray="10 8" fill="none"/><text x="14" y="188" fill="var(--mut)" fontSize="12">NH-46</text>${S.inc.filter(i=>f=='all'||i.type==f).map(i=>html`<g key=${i.id} style=${{cursor:'pointer'}} onClick=${()=>{S.sel=i.id;emit()}}><circle className="pulse" cx=${i.x*800} cy=${i.y*520} r="9" fill=${col(i.sev)}/><circle cx=${i.x*800} cy=${i.y*520} r=${S.sel==i.id?13:9} fill=${col(i.sev)} stroke="#fff" strokeWidth="2.5"/></g>`)}</svg>
-<div><div className="card">${sel?html`<h3>${sel.id} · ${sel.type}</h3><p>${sel.loc} · ${sel.sev}</p>${sel.thumb&&html`<img alt="" src=${sel.thumb} style=${{width:'100%',borderRadius:14}}/>`}<p style=${{marginTop:8}}>${Object.keys(sel.a).map(k=>html`<span key=${k}>${AU[k]}: <b>${ST[sel.a[k]]}</b><br/></span>`)}</p>`:html`<p>Tap a pin to see its response chain.</p>`}</div><div className="card" style=${{marginTop:14}}><h3>Authority activity</h3>${Object.keys(AU).map(k=>{const L=S.inc.filter(i=>i.a[k]!==undefined);return html`<p key=${k}>${AU[k]}: ${L.filter(i=>i.a[k]<3).length} active · ${L.filter(i=>i.a[k]>=3).length} resolved</p>`})}</div></div></div>`}
+return html`<div className="card"><h2>${{ops:'Main operations',pwd:'Municipal · PWD · NHAI',hosp:'Hospital desk',pol:'Traffic Police control room'}[r]}</h2><p>Change role in the sidebar. ${open} open incidents.</p>${r=='pwd'&&html`<div className="row">${['pwd','nhai'].map(t=>html`<button key=${t} className=${'b sm '+(tb==t?'':'g')} onClick=${()=>setTb(t)}>${t=='pwd'?'Municipal / PWD':'NHAI highways'}</button>`)}</div>`}<div className="row">${[['all','All'],['CRITICAL','Critical'],['HIGH','High'],['MEDIUM','Medium'],['LOW','Low']].map(a=>html`<button key=${a[0]} className=${'b sm '+(sf==a[0]?'':'g')} onClick=${()=>setSf(a[0])}>${a[1]}</button>`)}</div><div className="g4">${X}</div></div><div style=${{marginTop:16}}>${L.map(i=>html`<${Card} key=${i.id} i=${i} ks=${r=='ops'?Object.keys(i.a):[key]}/>`)}${!L.length&&html`<p>No incidents match. Run the Live Lab to create some.</p>`}</div>`}
+/* ---------- live map (Leaflet + provider/key from frontend/.env) ---------- */
+const SEVCOL={CRITICAL:'#e5484d',HIGH:'#ff6a3d',MEDIUM:'#f5a524',LOW:'#4ca154'};
+let LM=null,LMfit=false;
+function MapV(){useS();const[f,setF]=React.useState('all'),ref=React.useRef(null),layer=React.useRef(null),sel=S.inc.find(i=>i.id==S.sel),st=window.RNMap?RNMap.status():{label:'—',ready:true};
+  React.useEffect(()=>{if(LM||!window.L)return;LM=L.map(ref.current,{scrollWheelZoom:true}).setView(CFG.map.center,CFG.map.zoom);RNMap.addTiles(LM);
+    L.layerGroup((CFG.cameras||[]).map(c=>L.circleMarker([c.lat,c.lng],{radius:4,color:'#8e8e93',weight:1,fillColor:c.status==='online'?'#2997ff':'#8e8e93',fillOpacity:.8}).bindTooltip(`${c.id} · ${c.name} (${c.road} KM ${c.km})`))).addTo(LM);
+    layer.current=L.layerGroup().addTo(LM)},[]);
+  React.useEffect(()=>{if(!LM||!layer.current)return;const g=layer.current;g.clearLayers();const pts=[];
+    const seen={};S.inc.filter(i=>f=='all'||(f=='accident'?i.type==='severe_accident':f=='pothole'?i.type==='pothole':i.cat==='damage')).forEach(i=>{if(i.lat==null)return;
+      const key=(+i.lat).toFixed(5)+','+(+i.lng).toFixed(5),n=seen[key]=(seen[key]||0)+1,ang=n*2.4,rad=n>1?0.00045*Math.sqrt(n-1):0,pos=[+i.lat+rad*Math.sin(ang),+i.lng+rad*Math.cos(ang)];
+      const m=L.circleMarker(pos,{radius:S.sel==i.id?12:8,color:'#fff',weight:2.5,fillColor:SEVCOL[i.sev]||'#f5a524',fillOpacity:i.status==='Resolved'?.35:.95})
+        .bindTooltip(`${i.id} · ${lbl(i.type)} · ${i.prio}`).on('click',()=>{S.sel=i.id;emit()});g.addLayer(m);pts.push([i.lat,i.lng])});
+    if(!LMfit&&pts.length&&ref.current.offsetWidth>0){LM.fitBounds(pts,{padding:[40,40],maxZoom:13});LMfit=true}
+    if(sel&&sel.lat!=null)LM.panTo([sel.lat,sel.lng])});
+  return html`<div className="row">${[['all','All'],['accident','Accidents'],['pothole','Potholes'],['damage','Road damage']].map(a=>html`<button key=${a[0]} className=${'b sm '+(f==a[0]?'':'g')} onClick=${()=>setF(a[0])}>${a[1]}</button>`)}<span className="pill" title="Set MAP_PROVIDER and MAP_API_KEY in FINAL PROJECT/frontend/.env">🗺️ ${st.label}${st.ready?'':' · add MAP_API_KEY'}</span></div>
+  <div className="mapw"><div ref=${ref} className="lmap"></div>
+  <div><div className="card">${sel?html`<h3>${sel.id} · ${lbl(sel.type)}</h3><p><span className=${'bd '+sel.sev} style=${{marginLeft:0}}>${sel.prio} ${sel.sev}</span> · ${sel.status}</p><p>📍 ${sel.loc}<br/>🧭 ${gpsTxt(sel)} · ${sel.cam}<br/>🎯 ${sel.conf}% confidence · 🕒 ${fmtTime(sel.at)}</p>${sel.thumb&&html`<img alt="" src=${sel.thumb} style=${{width:'100%',borderRadius:14,margin:'6px 0'}}/>`}<p style=${{fontSize:12}}>⚖️ ${sel.why}</p><p style=${{marginTop:8}}>${Object.keys(sel.a).map(k=>html`<span key=${k}>${AU[k]}: <b>${ST[sel.a[k]]}</b><br/></span>`)}</p><a className="b g sm" style=${{textDecoration:'none',display:'inline-block'}} target="_blank" href=${'https://www.google.com/maps?q='+sel.lat+','+sel.lng}>Open in Google Maps ↗</a>`:html`<p>Tap a pin to see its details and response chain. Blue dots are cameras.</p>`}</div>
+  <div className="card" style=${{marginTop:14}}><h3>Authority activity</h3>${Object.keys(AU).map(k=>{const L2=S.inc.filter(i=>i.a[k]!==undefined);return html`<p key=${k}>${AU[k]}: ${L2.filter(i=>i.a[k]<3).length} active · ${L2.filter(i=>i.a[k]>=3).length} resolved</p>`})}</div></div></div>`}
 mount('#st1',Stats);mount('#st2',AuditReport);mount('#incRoot',Inc);mount('#mapRoot',MapV);
 /* ---------- navigation & landing (vanilla) ---------- */
 const TT={ov:'Overview',lab:'Live Lab',arch:'Architecture & Benchmarks',city:'City Map',inc:'My Dashboard'};
-function go(p){$('#land').hidden=true;$('#app').hidden=false;$$('.pgs section').forEach(s=>s.hidden=s.id!='g-'+p);$$('.side .lk').forEach(b=>b.classList.toggle('on',b.dataset.pg==p));$('#ttl').textContent=TT[p];scrollTo(0,0)}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-pg],[data-l],[data-s],[data-sm]');if(!t)return;const d=t.dataset;if(d.pg)go(d.pg);else if(d.l)go(d.l);else if(d.s)document.getElementById(d.s).scrollIntoView({behavior:'smooth'});else if(d.sm){go('lab');const vPath=(d.sm==='night'||d.sm==='rain')?'/static/sample_highway_drive.mp4':'/static/sample_road_day.mp4';const label=d.sm==='night'?'Night Glare Highway':(d.sm==='rain'?'Monsoon Rain Highway':'City Road (Potholes)');loadStreamVideo(vPath,label);}});
+function go(p){$('#land').hidden=true;$('#app').hidden=false;$$('.pgs section').forEach(s=>s.hidden=s.id!='g-'+p);$$('.side .lk').forEach(b=>b.classList.toggle('on',b.dataset.pg==p));$('#ttl').textContent=TT[p];scrollTo(0,0);if(p==='city'&&LM)setTimeout(()=>{LM.invalidateSize();emit()},60)}
+const SAMPLES={day:['/static/sample_road_day.mp4','Demo road (potholes)','video'],night:['/static/sample_highway_drive.mp4','Night glare highway','video'],rain:['/static/sample_highway_drive.mp4','Monsoon rain highway','video'],acc:['/static/samples/accident_1.jpg','Sample accident image','image']};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-pg],[data-l],[data-s],[data-sm]');if(!t)return;const d=t.dataset;if(d.pg)go(d.pg);else if(d.l)go(d.l);else if(d.s)document.getElementById(d.s).scrollIntoView({behavior:'smooth'});else if(d.sm){go('lab');const s=SAMPLES[d.sm]||SAMPLES.day;s[2]==='image'?loadImageUrl(s[0],s[1]):loadStreamVideo(s[0],s[1],true)}});
 $('#bk').onclick=()=>{$('#app').hidden=true;$('#land').hidden=false;scrollTo(0,0)};
 $('#role').onchange=e=>{S.role=e.target.value;emit();go('inc')};$('#q').oninput=e=>{S.q=e.target.value.toLowerCase();emit()};
-$('#net').onclick=e=>{const b=e.target;b.classList.toggle('up');b.textContent=b.classList.contains('up')?'● Online':'● Offline';toast(b.classList.contains('up')?'Back online. Queued alerts synced.':'Offline mode: alerts queue locally.')};
+$('#net').onclick=async()=>{const b=$('#net');try{const r=await fetch('/api/health');const h=await r.json();b.classList.add('up');b.textContent='● Online';toast(`Backend online · ${h.device.toUpperCase()} · ${h.incidents} incidents`)}catch(e){b.classList.remove('up');b.textContent='● Offline';toast('Backend unreachable')}};
 $('#sos').onclick=()=>toast('Calling 112 (demo only)');$('#thm').onclick=()=>{const r=document.documentElement,d=r.dataset.theme=='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'};
-const TABS={'AI Detection':[['🕳️','Pothole & crack detection','Model A samples 1–2 FPS in a background thread so video never stutters.','lab'],['🚗','Accident detection','Model B watches every frame at 30 FPS. Weights plug in next.','arch'],['🌧️','Built for the wild','Night glare, shake, rain and occlusion are covered in training.','arch']],
-'Judge Engine':[['⚖️','Semantic verification','Rejects cars, people and shadows before any alert is raised.','lab'],['🧱','Geometry checks','Deformed metal and roll angle separate crashes from traffic jams.','arch'],['🔁','Temporal filter','A hazard must persist for 3 frames at confidence ≥ 0.55.','lab']],
-'Dispatch':[['🏛️','PWD & NHAI work orders','Severity-scored alerts with evidence and an SLA clock.','inc'],['🚑','Hospitals & Police','Accident alerts with ambulance and lane-control tools.','inc'],['🗺️','City Map','Every pin shows who was informed and who is acting.','city']]};
+const TABS={'AI Detection':[['🕳️','Pothole & road damage','Model A samples 1 frame per second in its own worker, so video never stutters.','lab'],['🚗','Accident detection','Model B checks every frame it can (latest-frame-wins) and confirms a crash over 3 frames.','lab'],['🌧️','Built for the wild','Night glare, shake, rain and occlusion are covered in training.','arch']],
+'Judge Engine':[['⚖️','Semantic verification','A COCO YOLOv8n judge rejects cars, people and paint mistaken for defects.','lab'],['🧱','Geometry checks','Oversized or impossible boxes are vetoed before any alert is raised.','arch'],['🔁','Multi-frame filter','A hazard must persist across frames before an incident is created.','lab']],
+'Dispatch':[['🏛️','PWD & NHAI work orders','Severity-scored incidents with GPS, evidence and an SLA clock.','inc'],['🚑','Hospitals & Police','Accidents go straight to 108 Emergency and Traffic Police.','inc'],['🗺️','Live city map','Every pin shows who was informed and who is acting.','city']]};
 function tabs(k){$('#tabs').innerHTML=Object.keys(TABS).map(x=>`<button class="${x==k?'on':''}" data-t="${x}">${x}</button>`).join('');$('#tc').innerHTML=TABS[k].map((c,i)=>`<div class="fc pop" style="animation-delay:${i*90}ms"><div class="ic2">${c[0]}</div><h3>${c[1]}</h3><p>${c[2]}</p><a data-l="${c[3]}">Open ↗</a></div>`).join('')}
 $('#tabs').onclick=e=>{if(e.target.dataset.t)tabs(e.target.dataset.t)};tabs('AI Detection');
-$('#bm').innerHTML=[['Model A mAP@50 (target)',82],['Model B mAP@50 (target)',78],['Judge false-alarm reduction',90],['Accident stream ≥45 FPS',100],['GPU saving from 1 FPS sampling',75]].map(a=>`<div style="font-size:14px">${a[0]} · ${a[1]}%</div><div class="bar"><i style="width:${a[1]}%"></i></div>`).join('');
-/* ---------- Live Lab (canvas + Judge Engine) ---------- */
-const cv=$('#cv'),cx=cv.getContext('2d'),vid=$('#vid');let src=null,pool=[],fr=0,fps=0,last=0,ls=0,V={},jn=0;const md=$('#mdl');
-const CLASS_COLORS={
-  'faded_zebra_crossing':'#ffd60a',
-  'pothole':'#ff3b30',
-  'damaged_sign':'#ffd60a',
-  'damaged_divider':'#ff9f0a',
-  'severe_accident':'#ff3b30'
-};
+if($('#bm'))$('#bm').innerHTML=[['Model B mAP@50 (held-out test set)',83],['Model B precision',99.5],['Model B recall',83.6],['Accident false-alarm rate (lower is better)',3.4],['Model A sampling saves vs every frame',97]].map(a=>`<div style="font-size:14px">${a[0]} · ${a[1]}%</div><div class="bar"><i style="width:${a[1]}%"></i></div>`).join('');
+/* ---------- Live Lab: dual-stream architecture ----------
+   Render loop (requestAnimationFrame) never waits for AI.
+   Model B (accident): latest-frame-wins loop, one request in flight, as fast as the backend allows.
+   Model A (infrastructure): every INFRA_INTERVAL_MS, non-blocking, updates cached boxes.          */
+const cv=$('#cv'),cx=cv.getContext('2d'),vid=$('#vid'),md=$('#mdl'),grabC=document.createElement('canvas'),grabX=grabC.getContext('2d');
+let media=null,mode=null,srcName='',SID=null,GEN=0,accPool=[],infraPool=[],accT=0,infraT=0,V={},rf=0,rfLast=0,accTs=[];
+const CLASS_COLORS={faded_zebra_crossing:'#ffd60a',pothole:'#ff3b30',damaged_sign:'#ffd60a',damaged_divider:'#ff9f0a',severe_accident:'#ff2d55'};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 sub(()=>$('#tR').textContent=(S.ok+S.rej)>0?Math.round(S.rej/(S.ok+S.rej)*100)+'%':'0%');
 function setStep(i){$$('#stp span').forEach((e,j)=>e.classList.toggle('on',j<=i))}
-
-async function modelA(){
-  if(!src||vid.readyState<2)return pool;
-  try{
-    const b64=cv.toDataURL('image/jpeg',.85);
-    const r=await fetch('/api/detect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({frame:b64})});
-    if(r.ok){
-      const d=await r.json();
-      if(d.unique_counts){
-        S.uniqueCounts=d.unique_counts;
-      }
-      if(d.all_unique_defects){
-        S.allUnique=d.all_unique_defects;
-      }
-      emit();
-
-      if(d.candidates&&d.candidates.length){
-        pool=d.candidates.map(c=>({
-          id:c.id,
-          kind:c.kind,
-          x:c.x,
-          y:c.y,
-          w:c.w,
-          h:c.h,
-          hits:c.is_confirmed?3:1,
-          done:1,
-          ok:c.ok,
-          why:c.why,
-          authority:c.authority,
-          conf:c.conf,
-          cropSrc:c.crop,
-          is_new_unique:c.is_new_unique,
-          is_confirmed:c.is_confirmed,
-          until:performance.now()+1800
-        }));
-      }else{
-        pool=[];
-      }
-    }
-  }catch(e){
-    console.warn('Inference error:',e);
+function mediaReady(){if(!media)return false;if(media===vid)return vid.readyState>=2;return media.complete&&media.naturalWidth>0}
+function mediaSize(){return media===vid?[vid.videoWidth||960,vid.videoHeight||540]:[media.naturalWidth,media.naturalHeight]}
+function grab(maxW,q){const[w,h]=mediaSize(),s=Math.min(1,maxW/w);grabC.width=Math.round(w*s);grabC.height=Math.round(h*s);grabX.drawImage(media,0,0,grabC.width,grabC.height);return grabC.toDataURL('image/jpeg',q)}
+async function post(url,body){const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error(url+' '+r.status);return r.json()}
+function body(frame){return{frame,stream_id:SID,mode,source_name:srcName,video_time:media===vid?+vid.currentTime.toFixed(2):null,location:S.locCtx}}
+function idle(){return media===vid&&(vid.paused||vid.ended)}
+async function accidentLoop(g){
+  while(g===GEN){
+    if(!mediaReady()||idle()){await sleep(120);continue}
+    const t0=performance.now();
+    try{const r=await post('/api/detect/accident',body(grab(CFG.stream.accidentWidth||640,.8)));if(g!==GEN)return;accPool=r.detections||[];accT=performance.now();handle(r);$('#tL').textContent=Math.round(r.latency_ms);accTs.push(performance.now());if(accTs.length>12)accTs.shift()}catch(e){await sleep(500)}
+    if(mode==='image')return;
+    await sleep(Math.max(0,33-(performance.now()-t0)));   // never faster than the 30 FPS source
   }
-  return pool;
 }
-
-function loadStreamVideo(url,label){
-  src='vid';
-  pool=[];
-  V={};
-  $('#judge').innerHTML='<p>Processing frames through Model A & Stage-2 Judge…</p>';
-  setStep(0);
-  const dh = $('#dh');
-  if(dh) dh.style.display='none';
-  fetch('/api/tracker/reset',{method:'POST'}).catch(()=>{});
-  vid.srcObject=null;
-  vid.muted = true;
-  vid.loop = true;
-  vid.autoplay = true;
-  vid.playsInline = true;
-  vid.src=url;
-  vid.load();
-  vid.onloadedmetadata = () => {
-    const vw = vid.videoWidth || 960;
-    const vh = vid.videoHeight || 540;
-    cv.width = vw;
-    cv.height = vh;
-    vid.play().catch(()=>{});
-  };
-  vid.play().catch(()=>{});
-  toast('Started: '+label);
+async function infraLoop(g){
+  while(g===GEN){
+    if(!mediaReady()||idle()){await sleep(150);continue}
+    const t0=performance.now();
+    try{const r=await post('/api/detect/infra',body(grab(CFG.stream.infraWidth||1280,.85)));if(g!==GEN)return;infraPool=r.detections||[];infraT=performance.now();handle(r);$('#tA').textContent=Math.round(r.latency_ms)}catch(e){await sleep(500)}
+    if(mode==='image')return;
+    await sleep(Math.max(0,(CFG.stream.infraIntervalMs||1000)-(performance.now()-t0)));
+  }
 }
-
+let sumBusy=0;async function refreshSummary(){if(!SID||sumBusy)return;sumBusy=1;try{const r=await fetch('/api/stream/'+SID+'/summary');if(r.ok){const d=await r.json();S.uniqueCounts=d.unique_counts;S.allUnique=d.all_unique_defects;emit()}}catch(e){}sumBusy=0}
+setInterval(()=>{if(SID&&media)refreshSummary()},2500);
+function showLoc(l){if(!l)return;S.loc=l;$('#locTxt').innerHTML=`📍 <b>${esc(l.location_name)}</b> · <span style="font-family:ui-monospace,monospace">${(+l.lat).toFixed(5)}, ${(+l.lng).toFixed(5)}</span> · ${esc(l.camera_id)} · ${esc(l.road_type)} road`}
+function handle(r){
+  if(r.location)showLoc(r.location);
+  setStep(2);
+  (r.detections||[]).forEach(o=>{
+    const k=o.ok?'t_'+o.id:'r_'+o.id;
+    if(V[k]&&(o.ok||performance.now()-V[k].t<6000)){if(o.ok&&V[k].pending&&o.is_confirmed)confirmCard(k,o);return}
+    S.cand++;$('#tC').textContent=S.cand;if(o.ok)S.ok++;else S.rej++;
+    const im=o.crop||'';V[k]={t:performance.now(),im,o,pending:o.ok&&!o.is_confirmed};
+    const j=document.createElement('div');j.className='jc '+(o.ok?(o.is_confirmed?'ok':''):'no');j.dataset.k=k;
+    j.innerHTML=`${im?`<img alt="" src="${im}" style="width:58px;height:48px;object-fit:cover;border-radius:8px">`:''}<div style="flex:1;min-width:0"><b>${o.ok?(o.is_confirmed?'APPROVED':'VERIFYING'):'REJECTED'} · ${esc(lbl(o.kind).toUpperCase())} · ${o.conf}%</b><small style="display:block;white-space:normal;line-height:1.25;margin-top:2px">Model ${o.model} · ${esc(o.why)}</small><span class="js" style="font-size:11px;font-weight:600;display:block;margin-top:3px;color:${o.ok?'#30d158':'#ff453a'}">${o.ok?(o.is_confirmed?'🏛️ '+esc(o.authority):`⏳ Seen ${o.hits}/${o.needed} frames`):'🛡️ Suppressed false alarm'}</span></div>`;
+    const jFeed=$('#judge');if(jFeed.querySelector('p'))jFeed.innerHTML='';jFeed.prepend(j);while(jFeed.children.length>60)jFeed.lastChild.remove();
+    emit();
+  });
+  (r.new_incidents||[]).forEach(n=>{
+    setStep(3);
+    if(n.merged){toast(`🔁 Duplicate merged into ${n.id}`)}else{toast(`🚨 ${n.priority} ${lbl(n.type)} ${n.id} · ${n.confidence_pct}% → ${n.assigned_agency}`)}
+    lastIncident(n);syncIncidents();refreshSummary();
+    const o=(r.detections||[]).find(d=>d.incident_id===n.id);if(o){const k='t_'+o.id;if(V[k])confirmCard(k,o)}
+  });
+}
+function confirmCard(k,o){const v=V[k];v.pending=false;v.o=o;const c=document.querySelector(`.jc[data-k="${k}"]`);if(!c)return;c.className='jc ok';c.querySelector('b').textContent=`APPROVED · ${lbl(o.kind).toUpperCase()} · ${o.conf}%`;c.querySelector('.js').textContent='🏛️ '+(o.incident_id?o.incident_id+' → ':'')+o.authority}
+function lastIncident(n){$('#lastInc').innerHTML=`<div class="li"><img alt="Evidence" src="${n.image_url}"><div><b>${esc(n.id)} · ${esc(lbl(n.type))}</b> <span class="bd ${String(n.severity).toUpperCase()}">${esc(n.priority)} ${esc(n.severity)}</span>${n.merged?' <span class="bd">MERGED</span>':''}
+<p>🎯 <b>${n.confidence_pct}%</b> confidence · ${n.frames_confirmed} frame(s)</p><p>📍 ${esc(n.location_name)}<br>🧭 ${(+n.lat).toFixed(5)}, ${(+n.lng).toFixed(5)} · ${esc(n.camera_id)}</p><p>🕒 ${fmtTime(n.detected_at)} · SLA ${n.sla_hours} h</p><p>🏛️ ${esc(n.assigned_agency)}</p><p style="font-size:12px">⚖️ ${esc(n.judge_reason)}</p></div></div>`}
+async function newStream(m,name){
+  GEN++;const g=GEN;mode=m;srcName=name;SID=null;accPool=[];infraPool=[];V={};S.allUnique=[];S.uniqueCounts={};emit();
+  $('#judge').innerHTML='<p>Processing frames through Model B (accidents), Model A (road damage) and the Stage-2 Judge…</p>';setStep(0);
+  const dh=$('#dh');if(dh)dh.style.display='none';
+  try{const r=await post('/api/stream/start',{mode:m,source_name:name,location:S.locCtx});if(g!==GEN)return;SID=r.stream_id;showLoc(r.location)}catch(e){toast('Backend unreachable: start the server');return}
+  setStep(1);accidentLoop(g);infraLoop(g);
+}
+function stopAll(){GEN++;media=null;vid.pause();if(vid.srcObject){vid.srcObject.getTracks().forEach(t=>t.stop());vid.srcObject=null}accPool=[];infraPool=[]}
+function playVideo(url,loop){vid.srcObject=null;vid.muted=true;vid.loop=!!loop;vid.playsInline=true;vid.src=url;vid.load();vid.onloadedmetadata=()=>vid.play().catch(()=>{});vid.play().catch(()=>{})}
+function loadStreamVideo(url,label,loop){stopAll();media=vid;playVideo(url,loop);newStream('video',label);toast('Started: '+label)}
+function loadImageUrl(url,label){stopAll();const im=new Image();im.onload=()=>{media=im;newStream('image',label);toast('Analysing image: '+label)};im.onerror=()=>toast('Could not open image');im.src=url}
 function loadFile(f){
-  if(!f) return;
-  go('lab');
-  src='vid';
-  pool=[];
-  V={};
-  $('#judge').innerHTML='<p>Processing uploaded video…</p>';
-  setStep(0);
-  const dh = $('#dh');
-  if(dh) dh.style.display='none';
-  fetch('/api/tracker/reset',{method:'POST'}).catch(()=>{});
-
-  vid.srcObject = null;
-  vid.muted = true;
-  vid.loop = true;
-  vid.autoplay = true;
-  vid.playsInline = true;
-
-  if (vid._blobUrl) {
-    try { URL.revokeObjectURL(vid._blobUrl); } catch(e){}
-  }
-  const blobUrl = URL.createObjectURL(f);
-  vid._blobUrl = blobUrl;
-  vid.src = blobUrl;
-  vid.load();
-
-  const startPlayback = () => {
-    const vw = vid.videoWidth || 960;
-    const vh = vid.videoHeight || 540;
-    if (cv.width !== vw || cv.height !== vh) {
-      cv.width = vw;
-      cv.height = vh;
-    }
-    vid.play().then(() => {
-      const d = $('#dh'); if(d) d.style.display='none';
-    }).catch(err => {
-      console.warn('Autoplay prevented, retrying muted:', err);
-      vid.muted = true;
-      vid.play().catch(()=>{});
-    });
-  };
-
-  vid.onloadedmetadata = startPlayback;
-  vid.oncanplay = startPlayback;
-  vid.play().catch(()=>{});
-
-  vid.onerror = async () => {
-    console.warn('Browser direct video playback failed. Uploading to server fallback...');
-    toast('Uploading video for server processing…');
-    const fd = new FormData();
-    fd.append('video', f);
-    try {
-      const resp = await fetch('/api/upload_video', { method: 'POST', body: fd });
-      if (resp.ok) {
-        const data = await resp.json();
-        if (data.video_url) {
-          loadStreamVideo(data.video_url, f.name);
-          return;
-        }
-      }
-    } catch(err) {
-      console.error('Server upload fallback error:', err);
-    }
-    toast('⚠️ Browser cannot decode this video. Try MP4 format.');
-  };
-
-  toast('Loaded: ' + f.name);
+  if(!f)return;go('lab');
+  if(f.type.startsWith('image/')||/\.(jpe?g|png|webp|bmp)$/i.test(f.name)){if(vid._blobUrl)URL.revokeObjectURL(vid._blobUrl);const u=URL.createObjectURL(f);vid._blobUrl=u;loadImageUrl(u,f.name);return}
+  stopAll();if(vid._blobUrl){try{URL.revokeObjectURL(vid._blobUrl)}catch(e){}}const u=URL.createObjectURL(f);vid._blobUrl=u;media=vid;playVideo(u,false);newStream('video',f.name);
+  vid.onerror=async()=>{toast('Browser cannot decode this video, uploading for server-side playback…');const fd=new FormData();fd.append('video',f);
+    try{const r=await fetch('/api/upload_video',{method:'POST',body:fd});const d=await r.json();if(d.video_url){loadStreamVideo(d.video_url,f.name,false);return}}catch(e){}toast('⚠️ Unsupported video. Try MP4 (H.264).')};
+  toast('Loaded: '+f.name);
 }
-
-$('#bDemo').onclick=()=>{loadStreamVideo('/static/sample_road_day.mp4','Demo road (potholes)')};
-$('#bStop').onclick=()=>{src=null;vid.pause();if(vid.srcObject)vid.srcObject.getTracks().forEach(t=>t.stop());pool=[];toast('Processing stopped')};
-
-// File upload button & input
-const fileInput = $('#file');
-const bUpload = $('#bUpload');
-if (bUpload) bUpload.onclick = () => fileInput.click();
-const dz = $('#dz');
-if (dz) dz.onclick = () => fileInput.click();
-
-fileInput.onchange = e => {
-  if (e.target.files && e.target.files[0]) {
-    loadFile(e.target.files[0]);
-    e.target.value = ''; // Reset so the same file can be selected again
-  }
-};
-
-// Global Drag & Drop handling (prevent browser opening file in new tab)
-window.addEventListener('dragenter', e => { e.preventDefault(); });
-window.addEventListener('dragover', e => { e.preventDefault(); if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy'; });
-window.addEventListener('dragleave', e => { e.preventDefault(); });
-window.addEventListener('drop', e => {
-  e.preventDefault();
-  if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-    loadFile(e.dataTransfer.files[0]);
-  }
-});
-
-// Dropzone highlights
-[$('#drop'), $('#dz'), $('#cv')].forEach(z => {
-  if (!z) return;
-  z.addEventListener('dragenter', e => { e.preventDefault(); z.classList.add('hot'); });
-  z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('hot'); });
-  z.addEventListener('dragleave', () => { z.classList.remove('hot'); });
-  z.addEventListener('drop', e => {
-    e.preventDefault();
-    z.classList.remove('hot');
-    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      loadFile(e.dataTransfer.files[0]);
-    }
-  });
-});
-
-$('#bCam').onclick=async()=>{
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({video:true});
-    go('lab');
-    src='vid';
-    pool=[];
-    V={};
-    $('#judge').innerHTML='<p>Processing live camera feed…</p>';
-    setStep(0);
-    $('#dh').style.display='none';
-    fetch('/api/tracker/reset',{method:'POST'}).catch(()=>{});
-    vid.srcObject=stream;
-    vid.play().catch(()=>{});
-    toast('Live camera stream active');
-  }catch(e){
-    toast('Camera unavailable. Using demo road video.');
-    loadStreamVideo('/static/sample_road_day.mp4','Demo road');
-  }
-};
-
-$('#bAcc').onclick=()=>{
-  add({type:'accident',sev:'CRITICAL',conf:94,size:.1,thumb:snap(.2,.2,.6,.6),why:'Simulated multi-vehicle collision for Model B verification',authority:'108 Emergency & Traffic Police'});
-  toast('Dispatched to 108 Emergency & Traffic Police');
-};
-
-function snap(x,y,w,h,W=160,H=100){
-  const c=document.createElement('canvas');c.width=W;c.height=H;
-  c.getContext('2d').drawImage(cv,x*cv.width,y*cv.height,w*cv.width,h*cv.height,0,0,W,H);
-  return c.toDataURL('image/jpeg',.8);
-}
-
-async function sample(){
-  if(!src||vid.readyState<2)return;
-  setStep(1);
-  const t0=performance.now();
-  const P=await modelA();
-  const lat=Math.round(performance.now()-t0);
-  $('#tL').textContent=lat;
-
-  P.forEach(o=>{
-    const k='j_'+o.id+'_'+(o.ok?'1':'0');
-    if(!V[k]){
-      S.cand++;
-      $('#tC').textContent=S.cand;
-      setStep(2);
-      if(o.ok)S.ok++;else S.rej++;
-
-      const im=o.cropSrc||snap(o.x,o.y,o.w,o.h,96,72);
-      V[k]={im,big:im,kind:o.kind,why:o.why,ok:o.ok,conf:o.conf,authority:o.authority};
-
-      const j=document.createElement('div');
-      j.className='jc '+(o.ok?'ok':'no');
-      j.dataset.k=k;
-      j.innerHTML=`
-        <img alt="" src="${im}" style="width:58px;height:48px;object-fit:cover;border-radius:8px">
-        <div style="flex:1;min-width:0">
-          <b>${o.ok?'APPROVED':'REJECTED'} · ${o.kind.toUpperCase()}</b>
-          <small style="display:block;white-space:normal;line-height:1.25;margin-top:2px">${o.why}</small>
-          <span style="font-size:11px;font-weight:600;display:block;margin-top:3px;color:${o.ok?'#30d158':'#ff453a'}">
-            ${o.ok?'🏛️ '+o.authority+' Notified':'🛡️ Suppressed False Alarm'}
-          </span>
-        </div>
-      `;
-      const jFeed=$('#judge');
-      if(jFeed.querySelector('p'))jFeed.innerHTML='';
-      jFeed.prepend(j);
-
-      if(o.ok&&o.is_new_unique){
-        setStep(3);
-        toast(`🚨 ${o.kind.toUpperCase()} #${o.id} confirmed → ${o.authority} notified`);
-        add({
-          id:'RN-T'+o.id,
-          type:o.kind,
-          sev:o.conf>85?'HIGH':'MEDIUM',
-          conf:o.conf,
-          size:0.05,
-          thumb:im,
-          why:o.why,
-          authority:o.authority
-        });
-      }
-    }
+vid.addEventListener('ended',()=>{if(media===vid&&!vid.loop){toast('Scan complete · '+S.allUnique.length+' confirmed hazard(s)');refreshSummary()}});
+$('#bDemo').onclick=()=>loadStreamVideo('/static/sample_road_day.mp4','Demo road (potholes)',true);
+$('#bStop').onclick=()=>{stopAll();toast('Processing stopped')};
+let accIdx=0;$('#bAcc').onclick=()=>{accIdx=accIdx%3+1;loadImageUrl(`/static/samples/accident_${accIdx}.jpg`,`Sample accident image ${accIdx}`)};
+const fileInput=$('#file');$('#bUpload').onclick=()=>fileInput.click();const dz=$('#dz');if(dz)dz.onclick=()=>fileInput.click();
+fileInput.onchange=e=>{if(e.target.files&&e.target.files[0]){loadFile(e.target.files[0]);e.target.value=''}};
+window.addEventListener('dragenter',e=>e.preventDefault());window.addEventListener('dragover',e=>{e.preventDefault();if(e.dataTransfer)e.dataTransfer.dropEffect='copy'});window.addEventListener('dragleave',e=>e.preventDefault());
+window.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files.length)loadFile(e.dataTransfer.files[0])});
+[$('#drop'),$('#dz'),$('#cv')].forEach(z=>{if(!z)return;z.addEventListener('dragenter',e=>{e.preventDefault();z.classList.add('hot')});z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('hot')});z.addEventListener('dragleave',()=>z.classList.remove('hot'));z.addEventListener('drop',()=>z.classList.remove('hot'))});
+$('#bCam').onclick=async()=>{try{const stream=await navigator.mediaDevices.getUserMedia({video:true});go('lab');stopAll();media=vid;vid.srcObject=stream;vid.play().catch(()=>{});newStream('live','Laptop camera');toast('Live camera stream active')}catch(e){toast('Camera unavailable, using demo road video');loadStreamVideo('/static/sample_road_day.mp4','Demo road',true)}};
+/* ---------- camera / location picker ---------- */
+const camSel=$('#camSel');
+camSel.innerHTML=(CFG.cameras||[]).map(c=>`<option value="${c.id}">${c.id} · ${esc(c.name)} (${esc(c.road)} KM ${esc(c.km)})${c.status!=='online'?' · offline':''}</option>`).join('')+'<option value="__gps">📍 My current location (GPS)</option><option value="__custom">✏️ Custom coordinates…</option>';
+camSel.value=CFG.defaultCameraId;
+async function reverseName(lat,lng){try{const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=16&lat=${lat}&lon=${lng}`,{headers:{'Accept-Language':'en'}});const d=await r.json();const a=d.address||{};return[a.road,a.suburb||a.neighbourhood,a.city||a.town||a.village||a.state_district].filter(Boolean).join(', ')||d.display_name}catch(e){return''}}
+function applyLoc(ctx,msg){S.locCtx=ctx;if(SID)post('/api/stream/start',{mode,source_name:srcName,location:ctx}).then(r=>showLoc(r.location)).catch(()=>{});
+  else{const c=(CFG.cameras||[]).find(x=>x.id===ctx.camera_id);showLoc(c?{location_name:`${c.name}, ${c.road} KM ${c.km}`,lat:c.lat,lng:c.lng,camera_id:c.id,road_type:c.road_type}:{location_name:ctx.place||'Custom location',lat:ctx.lat,lng:ctx.lng,camera_id:ctx.camera_id,road_type:ctx.road_type||'city'})}
+  if(msg)toast(msg)}
+camSel.onchange=()=>{const v=camSel.value;
+  if(v==='__gps'){if(!navigator.geolocation){toast('GPS not available in this browser');return}toast('Getting your location…');
+    navigator.geolocation.getCurrentPosition(async p=>{const lat=+p.coords.latitude.toFixed(6),lng=+p.coords.longitude.toFixed(6);const name=await reverseName(lat,lng);applyLoc({camera_id:'GPS',lat,lng,place:name||'My location',road_type:'city'},'Location set from GPS (±'+Math.round(p.coords.accuracy)+' m)')},e=>toast('Location permission denied'),{enableHighAccuracy:true,timeout:10000});return}
+  if(v==='__custom'){const s=prompt('Enter latitude, longitude (e.g. 23.2599, 77.4126)');if(!s)return;const m=s.split(/[ ,]+/).map(Number);if(m.length<2||m.some(isNaN)){toast('Invalid coordinates');return}
+    const name=prompt('Place name (optional)','')||'';const rt=(prompt('Road type: city, state or national','city')||'city').toLowerCase();
+    reverseName(m[0],m[1]).then(n=>applyLoc({camera_id:'CUSTOM',lat:m[0],lng:m[1],place:name||n||'Custom location',road_type:['city','state','national'].includes(rt)?rt:'city'},'Custom location set'));return}
+  applyLoc({camera_id:v},null)};
+applyLoc({camera_id:CFG.defaultCameraId},null);
+/* ---------- render loop: draws the media + cached boxes from both models ---------- */
+function drawBoxes(pool,age){
+  const fade=Math.max(.35,1-age/2500);
+  pool.forEach(o=>{
+    if(!o.ok)return;
+    const c=CLASS_COLORS[o.kind]||'#ffd60a',bx=o.x*cv.width,by=o.y*cv.height,bw=o.w*cv.width,bh=o.h*cv.height,lw=Math.max(2,cv.width/320);
+    cx.globalAlpha=fade;cx.strokeStyle=c;cx.lineWidth=o.is_confirmed?lw*1.3:lw;cx.setLineDash(o.is_confirmed?[]:[lw*4,lw*3]);cx.strokeRect(bx,by,bw,bh);cx.setLineDash([]);
+    const txt=o.is_confirmed?`${lbl(o.kind).toUpperCase()} ${Math.round(o.conf)}%`:`${lbl(o.kind).toUpperCase()} ${Math.round(o.conf)}% · ${o.hits}/${o.needed}`;
+    const fs=Math.max(12,Math.round(cv.width/70));cx.font=`600 ${fs}px -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif`;
+    const tw=cx.measureText(txt).width,ty=by-fs-10>0?by-fs-10:by+bh;
+    cx.fillStyle=c;cx.fillRect(bx,ty,tw+12,fs+10);cx.fillStyle='#000';cx.fillText(txt,bx+6,ty+fs+2);cx.globalAlpha=1;
   });
 }
-
 function loop(t){
   requestAnimationFrame(loop);
-  if(!src)return;
-  fr++;
-  if(vid.readyState>1){
-    const vw=vid.videoWidth||960;
-    const vh=vid.videoHeight||540;
-    if(cv.width!==vw||cv.height!==vh){
-      cv.width=vw;
-      cv.height=vh;
-    }
-    cx.drawImage(vid,0,0,cv.width,cv.height);
-  }
-  if(t-ls>500){
-    ls=t;
-    sample();
-  }
-
-  pool.forEach(o=>{
-    if(!o.ok)return; // Only draw real verified defects, suppress false alarms from video overlay
-    const c=CLASS_COLORS[o.kind]||'#ffd60a';
-    cx.strokeStyle=c;
-    cx.lineWidth=3.5;
-    const bx=o.x*cv.width,by=o.y*cv.height,bw=o.w*cv.width,bh=o.h*cv.height;
-    cx.strokeRect(bx,by,bw,bh);
-
-    const txt=`${o.kind.toUpperCase()} #${o.id} ${Math.round(o.conf)}%`;
-    cx.font='bold 14px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif';
-    const tw=cx.measureText(txt).width;
-    cx.fillStyle=c;
-    cx.fillRect(bx,Math.max(0,by-24),tw+10,24);
-    cx.fillStyle='#000000';
-    cx.fillText(txt,bx+5,Math.max(17,by-6));
-  });
-
-  if(t-last>1000){
-    $('#tF').textContent=fps;
-    fps=0;
-    last=t;
-  }
-  fps++;
+  if(!media||!mediaReady())return;
+  const[w,h]=mediaSize();if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h}
+  cx.drawImage(media,0,0,cv.width,cv.height);
+  const now=performance.now();drawBoxes(infraPool,now-infraT);drawBoxes(accPool,now-accT);
+  rf++;if(t-rfLast>1000){$('#tF').textContent=rf;const n=accTs.filter(x=>t-x<4000);$('#tB').textContent=n.length>1?((n.length-1)*1000/(n[n.length-1]-n[0])).toFixed(1):'0';rf=0;rfLast=t}
 }
-
+/* ---------- judge card details + operator override ---------- */
 $('#judge').addEventListener('click',e=>{
-  const c=e.target.closest('.jc'),v=c&&V[c.dataset.k];
-  if(!v)return;
-  md.innerHTML=`
-    <div class="mc card">
-      <img alt="" src="${v.big}" style="width:100%;max-height:220px;object-fit:cover;border-radius:12px">
-      <h3>${v.ok?'Approved':'Rejected'} · ${v.kind.toUpperCase()}</h3>
-      <p style="margin:6px 0 10px"><b>Judge Finding:</b> ${v.why}</p>
-      <p style="font-size:13px;color:var(--mut)">Confidence: ${v.conf}% · Status: ${v.ok?'Dispatched to '+v.authority:'Suppressed from municipal dispatch'}</p>
-      <div class="row" style="margin-top:14px">
-        <button class="b" data-ov="${c.dataset.k}">${v.ok?'Revoke alert':'Approve & Dispatch'}</button>
-        <button class="b g" data-x="1">Close</button>
-      </div>
-    </div>
-  `;
+  const c=e.target.closest('.jc'),v=c&&V[c.dataset.k];if(!v)return;const o=v.o,inc=o.incident_id&&S.inc.find(i=>i.id===o.incident_id);
+  md.innerHTML=`<div class="mc card">${inc&&inc.thumb?`<img alt="" src="${inc.thumb}" style="width:100%;max-height:240px;object-fit:cover;border-radius:12px">`:v.im?`<img alt="" src="${v.im}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:#000">`:''}
+    <h3>${o.ok?(o.is_confirmed?'Approved':'Verifying'):'Rejected'} · ${esc(lbl(o.kind))}</h3>
+    <p style="margin:6px 0"><b>Confidence:</b> ${o.conf}% (raw model score ${o.raw_conf}%) · Model ${o.model}</p>
+    <p style="margin:6px 0"><b>Judge finding:</b> ${esc(o.why)}</p>
+    ${inc?`<p style="margin:6px 0"><b>${esc(inc.id)}</b> · ${esc(inc.prio)} ${esc(inc.sev)} · ${esc(inc.status)}<br>📍 ${esc(inc.loc)}<br>🧭 ${gpsTxt(inc)} · ${esc(inc.cam)}<br>🕒 ${fmtTime(inc.at)}<br>🏛️ ${esc(inc.agency)}</p>`:`<p style="font-size:13px;color:var(--mut)">${o.ok?'Waiting for multi-frame confirmation before dispatch.':'Suppressed from dispatch.'}</p>`}
+    <div class="row" style="margin-top:14px">${o.ok&&inc?`<button class="b" data-rv="${esc(inc.id)}">Revoke (false alarm)</button>`:''}${!o.ok?`<button class="b" data-ov="${c.dataset.k}">Approve & dispatch</button>`:''}<button class="b g" data-x="1">Close</button></div></div>`;
   md.classList.add('on');
 });
-
-md.onclick=e=>{
-  const d=e.target.dataset;
-  if(e.target==md||d.x)md.classList.remove('on');
-  if(d.ov){
-    const v=V[d.ov],c=document.querySelector(`.jc[data-k="${d.ov}"]`);
-    if(v.ok){
-      S.inc=S.inc.filter(i=>i!=v.inc);
-      S.ok--;S.rej++;
-      v.ok=0;v.why='Revoked by operator override';
-      toast('Alert revoked');
-    }else{
-      S.ok++;S.rej--;
-      v.ok=1;v.why='Approved by operator override';
-      add({type:v.kind,sev:'MEDIUM',conf:v.conf,size:.05,thumb:v.big,why:v.why,authority:v.authority});
-      v.inc=S.inc[0];
-      toast('Alert approved & dispatched');
-    }
-    c.className='jc '+(v.ok?'ok':'no');
-    c.querySelector('b').textContent=(v.ok?'APPROVED':'REJECTED')+' · '+v.kind.toUpperCase();
-    c.querySelector('small').textContent=v.why;
-    emit();
-    md.classList.remove('on');
-  }
+md.onclick=async e=>{
+  const d=e.target.dataset;if(e.target==md||d.x){md.classList.remove('on');return}
+  if(d.rv){await post(`/api/incidents/${d.rv}/action`,{status:'Resolved',note:'Revoked by operator as a false alarm'}).catch(()=>{});toast(d.rv+' revoked');syncIncidents();md.classList.remove('on')}
+  if(d.ov){const v=V[d.ov];const l=S.loc||{};
+    const r=await post('/api/incidents/create',{type:v.o.kind,conf:v.o.raw_conf/100,camera_id:S.locCtx.camera_id,gps:l.lat!=null?[l.lat,l.lng]:null,location_name:S.locCtx.place,judge_reason:'Approved by operator override: '+v.o.why}).catch(()=>null);
+    if(r&&r.incident){S.ok++;S.rej--;toast(`${r.incident.id} dispatched → ${r.incident.assigned_agency}`);lastIncident({...r.incident,frames_confirmed:1});syncIncidents()}md.classList.remove('on')}
 };
+/* model status line */
+async function health(){try{const h=await (await fetch('/api/health')).json(),a=h.models.accident,b=h.models.infra;
+  $('#mStat').innerHTML=`<b>Model B</b> · accident · every frame · ${a.fps?a.fps.toFixed(1)+' FPS · ':''}${a.avg_ms?Math.round(a.avg_ms)+' ms':'ready'} &nbsp;|&nbsp; <b>Model A</b> · road damage · ${(CFG.stream.infraIntervalMs||1000)/1000}s sampling · ${b.avg_ms?Math.round(b.avg_ms)+' ms':'ready'} &nbsp;|&nbsp; <b>Judge</b> · YOLOv8n &nbsp;|&nbsp; ${h.device.toUpperCase()}`}catch(e){$('#mStat').textContent='Backend offline: run python server.py'}}
+health();setInterval(()=>{if(!$('#g-lab').hidden)health()},3000);
 /* reveal, spotlight */
 const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
 if(io)$$('#land .g3:not(#tc) .fc,#land .sec h2,#land .scene,#land .cta,#land .strip').forEach(e=>{e.classList.add('rv');io.observe(e)});
 let sp=0;document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.fc');if(!c||sp)return;sp=1;requestAnimationFrame(()=>{const b=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-b.left+'px');c.style.setProperty('--my',e.clientY-b.top+'px');sp=0})});
 /* animated pipeline: tokens travel along the diagram paths */
-const FD={a:'Model A samples 1–2 FPS in a background thread and proposes road-damage candidate boxes (high recall).',b:'Model B watches every frame at 30 FPS for rollovers, collisions and fires. Weights plug in next.',j:'The Unified Judge Engine receives every candidate box and routes it to the right Stage 2 check.',d1:'Infrastructure check: is the crop a vehicle, person or normal road? Yes means it is not a defect.',d2:'Accident check: intact upright cars in lane are traffic, deformed metal or a roll angle is a crash.',r1:'Rejected: a car is not a road divider or defect.',r2:'Approved: asphalt or sign defect goes to PWD / NHAI.',r3:'Rejected: stopped cars in a jam are not an accident.',r4:'Approved: emergency alert goes to Police, Hospital and NHAI.'};
+const R=Math.random;
+const FD={a:'Model A samples 1 frame per second in its own worker and proposes road-damage boxes (pothole, damaged sign, damaged divider, faded zebra crossing).',b:'Model B checks every frame the backend can process (latest-frame-wins) for severe accidents, confirmed over 3 frames.',j:'The Stage-2 Judge receives every candidate box and routes it to the right check.',d1:'Infrastructure check: is the crop a vehicle, person or road paint? Then it is not a defect.',d2:'Accident check: confident Model B scores pass; borderline scores need a vehicle or person at the scene.',r1:'Rejected: a car is not a road divider or defect.',r2:'Approved: asphalt or sign defect goes to PWD / NHAI.',r3:'Rejected: an empty road or scenery is not an accident.',r4:'Approved: emergency alert goes to Police, Hospital and NHAI.'};
 $('#flow').addEventListener('click',e=>{const n=e.target.closest('.nd');if(n)$('#fcap').textContent=FD[n.dataset.i]});
 const FP={},BX={oL1:'bx1',oL2:'bx2',oR1:'bx3',oR2:'bx4'};let tk=[],ft=0,f0=0,fc={n:0,ok:0,no:0};
 function fl(t){requestAnimationFrame(fl);if($('#app').hidden||$('#g-arch').hidden||document.hidden){f0=0;return}

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Camera Grid · RoadNetra AI</title>
+  <meta name="description" content="Live CCTV camera grid for the NH-48 corridor with stream health and per-camera detections.">
+  <link rel="icon" href="../assets/img/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/js/tw-config.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="../assets/css/app.css">
+  <style>
+    /* page-specific: camera tiles */
+    .cam-tile { transition: border-color .2s, transform .2s, box-shadow .2s; }
+    .cam-tile:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+    .cam-tile.has-p1 { border-color: rgba(239, 68, 68, 0.55); box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4), 0 12px 40px -14px rgba(239, 68, 68, 0.55); }
+    .cam-tile.has-p2 { border-color: rgba(245, 158, 11, 0.45); box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.3); }
+    .cam-tile.has-p3 { border-color: rgba(14, 165, 233, 0.4); box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.25); }
+    .rn-feed.is-offline img { filter: grayscale(1) brightness(.35) blur(1.5px); }
+    .rn-feed .model-frame { object-position: center 68%; }
+    .no-signal { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; text-align: center;
+      background: repeating-linear-gradient(135deg, rgba(148,163,184,.05) 0 10px, transparent 10px 20px); }
+  </style>
+</head>
+<body data-page="cameras" data-title="Camera Grid" data-crumb="Operations · 12 corridor cameras" class="min-h-screen">
+<main class="rn-app-main min-h-screen overflow-x-clip">
+  <div class="px-4 sm:px-6 py-6 space-y-6 max-w-[1680px] mx-auto">
+
+    <!-- Summary strip -->
+    <section class="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4" aria-label="Camera summary">
+      <div class="rn-card p-4 sm:p-5 min-w-0">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label">Streams online</span><span class="material-symbols-rounded text-ok-soft">videocam</span></div>
+        <div class="mt-2 flex items-baseline gap-1.5"><span class="rn-kpi-value" id="s-online">–</span><span class="text-[15px] text-muted" id="s-total"></span></div>
+        <div class="mt-3 rn-bar"><span id="s-online-bar" style="width:0%"></span></div>
+      </div>
+      <div class="rn-card p-4 sm:p-5 min-w-0">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label">Offline</span><span class="material-symbols-rounded text-warn-soft">videocam_off</span></div>
+        <div class="mt-2 flex items-baseline gap-1.5"><span class="rn-kpi-value text-warn-soft" id="s-offline">–</span><span class="text-[12.5px] text-muted">no frames 6 min</span></div>
+        <div class="mt-3 text-[12px] text-dim truncate" id="s-offline-ids"></div>
+      </div>
+      <div class="rn-card p-4 sm:p-5 min-w-0 shadow-glow-red col-span-2 sm:col-span-1">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label !text-danger-soft">Active incidents</span><span class="rn-badge rn-p1"><span class="rn-dot rn-dot-pulse"></span>Live</span></div>
+        <div class="mt-2 flex items-baseline gap-1.5"><span class="rn-kpi-value text-danger-soft" id="s-inc">–</span><span class="text-[12.5px] text-muted" id="s-inc-p1"></span></div>
+        <div class="mt-3 text-[12px] text-dim truncate" id="s-inc-break"></div>
+      </div>
+      <div class="rn-card p-4 sm:p-5 min-w-0 col-span-2 sm:col-span-1">
+        <div class="flex items-start justify-between gap-2"><span class="rn-label">Vision engine load</span><span class="material-symbols-rounded text-cyan">memory</span></div>
+        <div class="mt-2 space-y-1.5 text-[12.5px]">
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-danger shrink-0"></span><span class="text-muted truncate">Model B · accidents</span><span class="ml-auto rn-mono text-ink whitespace-nowrap"><span data-streams></span> × 30 FPS</span></div>
+          <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-warn shrink-0"></span><span class="text-muted truncate">Model A · road damage</span><span class="ml-auto rn-mono text-ink whitespace-nowrap"><span data-streams></span> × 1 FPS</span></div>
+        </div>
+        <div class="mt-2 text-[11.5px] text-dim">2.5 ms / frame on GPU (measured)</div>
+      </div>
+    </section>
+
+    <!-- Toolbar -->
+    <section class="rn-card p-3 sm:p-4 flex flex-col lg:flex-row lg:items-center gap-3" aria-label="Camera filters">
+      <label class="relative block lg:w-[320px] min-w-0">
+        <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-dim text-[19px]">search</span>
+        <input id="cam-q" type="search" class="rn-input pl-10 text-[13.5px]" placeholder="Search ID, location or KM…" aria-label="Search cameras by ID, location or KM">
+      </label>
+      <div class="overflow-x-auto -mx-1 px-1">
+        <div class="rn-seg whitespace-nowrap [&>button]:whitespace-nowrap" role="tablist" aria-label="Camera status filter" id="cam-filter">
+          <button role="tab" aria-selected="true" data-f="all">All <span class="rn-mono text-dim ml-1" data-n="all"></span></button>
+          <button role="tab" aria-selected="false" data-f="online">Online <span class="rn-mono text-dim ml-1" data-n="online"></span></button>
+          <button role="tab" aria-selected="false" data-f="offline">Offline <span class="rn-mono text-dim ml-1" data-n="offline"></span></button>
+          <button role="tab" aria-selected="false" data-f="incident" class="whitespace-nowrap"><span class="sm:hidden">Incident</span><span class="hidden sm:inline">With incident</span> <span class="rn-mono text-dim ml-1" data-n="incident"></span></button>
+        </div>
+      </div>
+      <div class="lg:ml-auto flex items-center gap-3">
+        <span class="text-[12.5px] text-dim" id="cam-count" aria-live="polite"></span>
+        <div class="hidden xl:inline-flex rn-seg" role="group" aria-label="Grid density" id="cam-density">
+          <button aria-selected="false" aria-label="2 columns" data-cols="2"><span class="material-symbols-rounded text-[18px]">grid_view</span></button>
+          <button aria-selected="true" aria-label="3 columns" data-cols="3"><span class="material-symbols-rounded text-[18px]">view_module</span></button>
+          <button aria-selected="false" aria-label="4 columns" data-cols="4"><span class="material-symbols-rounded text-[18px]">apps</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section aria-label="Camera feeds">
+      <ul id="cam-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"></ul>
+      <div id="cam-empty" class="hidden rn-card p-10 text-center">
+        <span class="material-symbols-rounded text-[32px] text-dim">search_off</span>
+        <p class="mt-2 text-[14px] font-semibold">No cameras match</p>
+        <p class="text-[13px] text-muted">Try another ID, place or KM, or clear the filter.</p>
+      </div>
+    </section>
+
+    <p class="text-center text-[12px] text-dim pb-2" id="cam-foot">Camera feeds, stream health and incidents on this screen are demo data. Accident frames are real Model B detections on test images; model figures are real test-set results.</p>
+  </div>
+</main>
+
+<!-- Camera drawer (closed by default) -->
+<div id="cam-overlay" class="rn-overlay hidden"></div>
+<div id="cam-drawer" class="rn-drawer hidden" role="dialog" aria-modal="true" aria-labelledby="cd-title">
+  <div class="sticky top-0 z-[5] flex items-center gap-3 px-4 sm:px-6 h-16 border-b border-line bg-panel/95 backdrop-blur">
+    <span class="material-symbols-rounded text-cyan">videocam</span>
+    <div class="min-w-0 flex-1">
+      <h2 id="cd-title" class="font-display font-bold text-[16px] leading-tight truncate">Camera</h2>
+      <div id="cd-sub" class="text-[12px] text-dim truncate"></div>
+    </div>
+    <button id="cd-close" class="rn-icon-btn" aria-label="Close camera details"><span class="material-symbols-rounded">close</span></button>
+  </div>
+  <div class="p-4 sm:p-6 space-y-5" id="cd-body">
+    <div id="cd-frame"></div>
+    <div id="cd-incident"></div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <dl id="cd-meta" class="grid grid-cols-2 gap-2.5 content-start"></dl>
+      <div class="rounded-xl border border-line overflow-hidden min-h-[200px]"><div id="cd-map" class="h-[220px]" aria-label="Camera location map"></div></div>
+    </div>
+    <div>
+      <div class="flex items-center justify-between">
+        <h3 class="font-display font-bold text-[15px]">Recent detections</h3>
+        <span class="text-[12px] text-dim" id="cd-dets-sub">last 2 h</span>
+      </div>
+      <ol id="cd-dets" class="mt-3 space-y-2"></ol>
+    </div>
+    <div class="flex flex-wrap gap-2 pt-1 pb-2" id="cd-actions"></div>
+  </div>
+</div>
+
+<script src="/config.js"></script>
+<script src="/api/rn-data.js"></script>
+<script>if(!window.RN_DATA||!(window.RN_DATA.INCIDENTS||[]).length)document.write('<script src="../assets/js/demo-data.js"><\/script>')</script>
+<script src="/static/rn-map.js"></script>
+<script src="../assets/js/shell.js"></script>
+<script>
+(function () {
+  const D = window.RN_DATA || {};
+  const INCIDENTS = D.INCIDENTS || [], CAMERAS = D.CAMERAS || [], LIVE = !!D.LIVE;
+  const SEVERITY = Object.assign({ P4: { label: "P4 Low", cls: "rn-p4", color: "#94A3B8" } }, D.SEVERITY || {});
+  const incOf = c => (c.incident && INCIDENTS.find(i => i.id === c.incident)) || null;
+  const typeIcon = { accident: "car_crash", pothole: "add_road", damage: "texture" };
+  const sevText = { P1: "text-danger-soft", P2: "text-warn-soft", P3: "text-info-soft", P4: "text-muted" };
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const conf2 = i => (+i.conf || 0).toFixed(2);
+  const detailHref = id => "incident-detail.html?id=" + encodeURIComponent(id);
+  if (LIVE) document.getElementById("cam-foot").textContent = "Cameras and incidents on this screen are live data from the RoadNetra backend. Incident frames are the annotated evidence saved at detection; idle tiles show a reference road frame, not a live stream.";
+  // Page-local frame choices: several shared camera images are screenshots of older UI mock-ups, so this page
+  // swaps them for clean road frames (and crops UI chrome off two of them). See report / demo-data.js camImgs.
+  const IMG = D.IMG || "../assets/img/";
+  const FRAME = {
+    "CAM-064": { src: IMG + "model-traffic-clear.jpg", clear: true },
+    "CAM-071": { src: IMG + "field-officer-2.jpg", style: "transform:scale(1.4);transform-origin:50% 32%" },
+    "CAM-078": { src: IMG + "cameras-3.jpg", style: "transform:scale(1.08)" },
+    "CAM-088": { src: IMG + "cameras-4.jpg" },
+    "CAM-097": { src: IMG + "index-1.jpg" },
+    "CAM-118": { src: IMG + "cameras-2.jpg", style: "transform:scale(1.12);transform-origin:40% 50%" },
+    "CAM-130": { src: IMG + "incident-detail-3.jpg", style: "transform:scale(1.55);transform-origin:50% 50%" },
+  };
+  const frameOf = c => {
+    const i = incOf(c);
+    if (i && i.img && (i.type === "accident" || LIVE)) return { src: i.img, model: i.type === "accident" && !LIVE, style: "" };
+    const f = FRAME[c.id] || {};
+    return { src: f.src || c.img, model: false, clear: !!f.clear, style: f.style || "" };
+  };
+
+  // ---------- summary ----------
+  const online = CAMERAS.filter(c => c.status === "online");
+  const offline = CAMERAS.filter(c => c.status === "offline");
+  const withInc = CAMERAS.filter(c => incOf(c));
+  document.getElementById("s-online").textContent = online.length;
+  document.getElementById("s-total").textContent = "/ " + CAMERAS.length;
+  document.getElementById("s-online-bar").style.width = Math.round(online.length / CAMERAS.length * 100) + "%";
+  document.getElementById("s-offline").textContent = offline.length;
+  document.getElementById("s-offline-ids").textContent = offline.map(c => c.id).join(" · ");
+  document.getElementById("s-inc").textContent = withInc.length;
+  const p1 = withInc.filter(c => incOf(c).sev === "P1").length;
+  document.getElementById("s-inc-p1").textContent = `${p1} P1 accidents`;
+  document.getElementById("s-inc-break").textContent = ["P2", "P3"].map(s => `${withInc.filter(c => incOf(c).sev === s).length} ${s}`).join(" · ") + " road-surface";
+  document.querySelectorAll("[data-streams]").forEach(e => e.textContent = online.length);
+
+  // ---------- grid ----------
+  const grid = document.getElementById("cam-grid");
+  let q = "", filter = "all", cols = 3;
+  const counts = { all: CAMERAS.length, online: online.length, offline: offline.length, incident: withInc.length };
+  Object.keys(counts).forEach(k => document.querySelector(`[data-n="${k}"]`).textContent = counts[k]);
+
+  function tile(c) {
+    const inc = incOf(c), f = frameOf(c), off = c.status === "offline";
+    const ring = inc ? "has-" + inc.sev.toLowerCase() : "";
+    return `
+    <li class="min-w-0">
+      <button data-cam="${c.id}" class="cam-tile ${ring} rn-card w-full text-left p-2.5 block" aria-label="Open ${c.id}, ${c.name}${off ? ", offline" : ""}${inc ? ", " + SEVERITY[inc.sev].label + " incident" : ""}">
+        <div class="rn-feed aspect-video ${off ? "is-offline" : ""}">
+          <img src="${f.src}" alt="${off ? "Last frame from" : "Live frame from"} ${c.id} at ${c.name}${f.model ? ", Model B detection box drawn" : ""}" class="${f.model ? "model-frame" : ""}" style="${f.style}" loading="lazy">
+          <div class="rn-feed-hud left-2 top-2">${off ? '<span class="rn-dot text-dim"></span>' : '<span class="rn-dot rn-dot-pulse text-ok"></span>'}${c.id} · ${off ? "OFFLINE" : "LIVE"}</div>
+          ${off ? "" : `<div class="rn-feed-hud right-2 top-2">${c.fps} FPS</div><div class="rn-feed-hud right-2 bottom-2">${c.res}</div>`}
+          ${inc ? `<div class="absolute left-2 bottom-2 z-[3]"><span class="rn-badge ${SEVERITY[inc.sev].cls} !bg-[rgba(2,6,14,.8)]">${inc.sev === "P1" ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${inc.sev} · ${inc.type === "accident" ? "Accident" : inc.type === "pothole" ? "Pothole" : "Damage"}</span></div>` : ""}
+          ${off ? `<div class="no-signal"><div><span class="material-symbols-rounded text-[30px] text-muted">signal_disconnected</span><div class="mt-1 text-[13px] font-semibold">No signal</div><div class="text-[11.5px] text-dim">Last frame 6 min ago</div></div></div>` : ""}
+        </div>
+        <div class="px-1.5 pt-3 pb-1 flex items-start gap-2">
+          <div class="min-w-0 flex-1">
+            <div class="font-semibold text-[14px] truncate">${c.name}</div>
+            <div class="text-[12.5px] text-muted truncate">${c.road} · KM ${c.km}</div>
+          </div>
+          ${off ? '<span class="rn-badge rn-p4">Offline</span>' : inc ? `<span class="rn-badge ${SEVERITY[inc.sev].cls}">${inc.sev}</span>` : '<span class="rn-badge rn-ok">Online</span>'}
+        </div>
+        ${inc ? `<div class="mx-1.5 mt-2 mb-1 flex items-center gap-2 text-[12px] rounded-lg border border-line bg-canvas/50 px-2.5 py-1.5"><span class="material-symbols-rounded text-[16px] ${sevText[inc.sev]}">${typeIcon[inc.type]}</span><span class="truncate">${esc(inc.title)}</span><span class="ml-auto rn-mono text-cyan whitespace-nowrap">${conf2(inc)}</span></div>` : ""}
+      </button>
+    </li>`;
+  }
+
+  function render() {
+    const s = q.trim().toLowerCase();
+    const list = CAMERAS.filter(c =>
+      (filter === "all" || (filter === "incident" ? !!incOf(c) : c.status === filter)) &&
+      (!s || [c.id, c.name, c.road, c.km, "km " + c.km, c.road + " km " + c.km].some(v => String(v == null ? "" : v).toLowerCase().includes(s))));
+    grid.className = `grid grid-cols-1 sm:grid-cols-2 gap-4 ${{ 2: "xl:grid-cols-2", 3: "xl:grid-cols-3", 4: "xl:grid-cols-4" }[cols]}`;
+    grid.innerHTML = list.map(tile).join("");
+    document.getElementById("cam-empty").classList.toggle("hidden", list.length > 0);
+    document.getElementById("cam-count").textContent = `Showing ${list.length} of ${CAMERAS.length}`;
+    grid.querySelectorAll("[data-cam]").forEach(b => b.addEventListener("click", () => openDrawer(b.dataset.cam, b)));
+  }
+  document.getElementById("cam-q").addEventListener("input", e => { q = e.target.value; render(); });
+  document.querySelectorAll("#cam-filter button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#cam-filter button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+    filter = b.dataset.f; render();
+  }));
+  document.querySelectorAll("#cam-density button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#cam-density button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+    cols = +b.dataset.cols; render();
+  }));
+
+  // ---------- drawer ----------
+  const overlay = document.getElementById("cam-overlay"), drawer = document.getElementById("cam-drawer");
+  const closeBtn = document.getElementById("cd-close");
+  let map, camMarker, incMarker, lastTrigger = null;
+
+  function detections(c) {
+    if (LIVE) {  // real detections from the backend for this camera (newest first)
+      const rows = [];
+      if (c.status === "offline") rows.push({ t: "—", icon: "signal_disconnected", tone: "text-warn-soft", title: "Stream offline · no frames received", sub: "Camera registry reports this feed as offline", conf: null });
+      INCIDENTS.filter(i => i.cam === c.id).slice(0, 8).forEach(i => rows.push({
+        t: i.detected || "", icon: typeIcon[i.type] || "report", tone: sevText[i.sev] || "text-muted",
+        title: `${esc(i.title)} · ${esc(i.sev)}`, sub: `${i.type === "accident" ? "Model B" : "Model A"} · ${esc(i.frames)} frame(s) · ${esc(i.status)} · <a class="text-brand-soft hover:underline" href="${detailHref(i.id)}">${esc(i.id)}</a>`, conf: +i.conf || null }));
+      if (!rows.length) rows.push({ t: "", icon: "check_circle", tone: "text-ok-soft", title: "No detections from this camera", sub: "Nothing has been reported to the RoadNetra backend for this feed", conf: null });
+      return rows;
+    }
+    // Demo log per camera. The 1-frame spike rows show the temporal filter at work.
+    const inc = incOf(c), rows = [];
+    if (c.status === "offline") rows.push({ t: "08:40:12", icon: "signal_disconnected", tone: "text-warn-soft", title: "Stream lost · no frames received", sub: "Field team notified · coverage gap flagged", conf: null });
+    if (inc) rows.push({ t: inc.detected, icon: typeIcon[inc.type], tone: sevText[inc.sev], title: `${inc.title} · ${inc.sev}`, sub: `${inc.type === "accident" ? "Model B" : "Model A"} · confirmed over ${inc.frames} frames · ${inc.id}`, conf: inc.conf, link: inc.id === "RN-2026-004821" });
+    const n = parseInt(String(c.id).slice(4), 10) || 0;
+    if (c.status === "online" && n % 3 !== 1) rows.push({ t: `08:${String(10 + n % 40).padStart(2, "0")}:${String(n % 60).padStart(2, "0")}`, icon: "filter_alt", tone: "text-dim", title: "1-frame spike suppressed", sub: `Model B · conf 0.${50 + n % 9} on a single frame (glare) · not alerted`, conf: null });
+    rows.push({ t: "07:30:00", icon: "check_circle", tone: "text-ok-soft", title: "Model A road scan · no new damage", sub: "Sampled at 1 FPS · boxes cached for 30 frames", conf: null });
+    return rows;
+  }
+
+  function openDrawer(id, trigger) {
+    const c = CAMERAS.find(x => x.id === id), inc = incOf(c), f = frameOf(c), off = c.status === "offline";
+    lastTrigger = trigger || null;
+    document.getElementById("cd-title").textContent = `${c.id} · ${c.name}`;
+    document.getElementById("cd-sub").textContent = `${c.road} KM ${c.km} · ${off ? "Offline" : "Live · " + c.fps + " FPS"}`;
+    document.getElementById("cd-frame").innerHTML = `
+      <div class="rn-feed aspect-video ${off ? "is-offline" : ""}">
+        <img src="${f.src}" alt="${off ? "Last frame from" : "Live frame from"} ${c.id}${f.model ? ", Model B detection box drawn around the crash" : ""}" class="${f.model ? "model-frame" : ""}" style="${f.style}">
+        <div class="rn-feed-hud left-3 top-3">${off ? '<span class="rn-dot text-dim"></span>' : '<span class="rn-dot rn-dot-pulse text-danger"></span>REC · '}${c.id} · ${off ? "OFFLINE" : "LIVE"}</div>
+        ${off ? "" : `<div class="rn-feed-hud right-3 top-3">${c.res} · ${c.fps} FPS</div>`}
+        ${inc && !off ? `<div class="rn-feed-hud right-3 bottom-3">${inc.type === "accident" ? "Model B" : "Model A"} · conf ${conf2(inc)}</div>` : ""}
+        ${f.clear ? `<div class="rn-feed-hud right-3 bottom-3"><span class="rn-dot text-ok"></span>Model B · no detection (real output)</div>` : ""}
+        ${off ? `<div class="no-signal"><div><span class="material-symbols-rounded text-[40px] text-muted">signal_disconnected</span><div class="mt-1 text-[15px] font-semibold">No signal</div><div class="text-[12px] text-dim">Last frame received 6 min ago</div></div></div>` : ""}
+      </div>`;
+    document.getElementById("cd-incident").innerHTML = inc ? `
+      <div class="rounded-xl border ${inc.sev === "P1" ? "border-danger/35 bg-danger/[0.07]" : "border-line bg-canvas/50"} p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+        <span class="material-symbols-rounded icon-fill ${sevText[inc.sev]}">${typeIcon[inc.type]}</span>
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-2"><span class="rn-badge ${SEVERITY[inc.sev].cls}">${SEVERITY[inc.sev].label}</span><a href="${detailHref(inc.id)}" class="rn-mono text-[12px] text-brand-soft hover:underline">${esc(inc.id)}</a></div>
+          <div class="mt-1 font-semibold text-[14px]">${esc(inc.title)} · <span class="text-muted font-normal">${esc(inc.place)}</span></div>
+          <div class="text-[12.5px] text-muted">${esc(inc.status)} · ${esc(inc.authority)} · ${esc(inc.unit)}${inc.eta && inc.eta !== "—" ? " · " + (/SLA/.test(inc.eta) ? "" : "ETA ") + esc(inc.eta) : ""}</div>
+        </div>
+      </div>` : "";
+    const meta = [
+      ["Status", off ? '<span class="rn-badge rn-p4">Offline</span>' : '<span class="rn-badge rn-ok"><span class="rn-dot"></span>Online</span>'],
+      ["Road · KM", `${c.road} · ${c.km}`],
+      ["Resolution", c.res], ["Frame rate", off ? "—" : c.fps + " FPS"],
+      ["GPS", `<span class="rn-mono text-[12.5px]">${(+c.lat || 0).toFixed(4)}, ${(+c.lng || 0).toFixed(4)}</span>`],
+      ["Models", off ? "Paused" : "B 30 FPS · A 1 FPS"],
+    ];
+    document.getElementById("cd-meta").innerHTML = meta.map(([k, v]) => `<div class="rounded-xl border border-line bg-canvas/50 p-3 min-w-0"><dt class="rn-label">${k}</dt><dd class="mt-1 text-[13px] font-medium truncate">${v}</dd></div>`).join("");
+    document.getElementById("cd-dets-sub").textContent = LIVE ? "from the RoadNetra backend" : "last 2 h";
+    document.getElementById("cd-dets").innerHTML = detections(c).map(d => `
+      <li class="flex gap-3 rounded-xl border border-line bg-canvas/40 p-3">
+        <span class="material-symbols-rounded ${d.tone} mt-0.5">${d.icon}</span>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2"><span class="font-medium text-[13.5px] truncate">${d.title}</span>${d.conf ? `<span class="ml-auto rn-mono text-[12px] text-cyan">${d.conf.toFixed(2)}</span>` : ""}</div>
+          <div class="text-[12px] text-muted">${d.sub}</div>
+        </div>
+        <span class="rn-mono text-[11.5px] text-dim whitespace-nowrap">${d.t}</span>
+      </li>`).join("");
+    document.getElementById("cd-actions").innerHTML = `
+      ${inc ? `<a href="${detailHref(inc.id)}" class="rn-btn ${inc.sev === "P1" ? "rn-btn-danger" : "rn-btn-primary"}"><span class="material-symbols-rounded">open_in_new</span>Open incident</a>` : ""}
+      <button class="rn-btn" data-act="snap" ${off ? "disabled aria-disabled=\"true\" style=\"opacity:.5;cursor:not-allowed\"" : ""}><span class="material-symbols-rounded">photo_camera</span>Snapshot</button>
+      ${off ? `<button class="rn-btn" data-act="ping"><span class="material-symbols-rounded">build</span>Notify field team</button>` : ""}
+      <button class="rn-btn rn-btn-ghost" data-act="close">Close</button>`;
+    const snap = document.querySelector('#cd-actions [data-act="snap"]');
+    if (!off) snap.addEventListener("click", () => RN.toast("Snapshot saved", `${c.id} · ${new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour12: false })} IST · added to evidence locker`, "ok"));
+    const ping = document.querySelector('#cd-actions [data-act="ping"]');
+    if (ping) ping.addEventListener("click", () => RN.toast("Field team notified", `${c.id} · ${c.road} KM ${c.km} · check power and uplink`, "warn"));
+    document.querySelector('#cd-actions [data-act="close"]').addEventListener("click", closeDrawer);
+
+    overlay.classList.remove("hidden"); drawer.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    drawer.scrollTop = 0;
+    closeBtn.focus();
+
+    // map
+    if (!map) {
+      map = L.map("cd-map", { zoomControl: true, attributionControl: true, scrollWheelZoom: false });
+      RN.darkTiles(map);
+    }
+    map.setView([c.lat, c.lng], 14);
+    if (camMarker) map.removeLayer(camMarker);
+    if (incMarker) { map.removeLayer(incMarker); incMarker = null; }
+    camMarker = L.marker([c.lat, c.lng], { icon: L.divIcon({ className: "", html: `<div class="rn-pin cam" style="${off ? "background:#64748B;box-shadow:none" : ""}"></div>`, iconSize: [12, 12] }) })
+      .addTo(map).bindPopup(`<b>${c.id}</b> · ${c.name}`);
+    if (inc) incMarker = L.marker([inc.lat, inc.lng], { icon: L.divIcon({ className: "", html: `<div class="rn-pin ${inc.sev.toLowerCase()}"></div>`, iconSize: [18, 18] }), zIndexOffset: 1000 })
+      .addTo(map).bindPopup(`<b>${inc.title}</b><br><span style="color:#94A3B8">${inc.road} KM ${inc.km}</span>`);
+    setTimeout(() => map.invalidateSize(), 60);
+  }
+
+  function closeDrawer() {
+    if (drawer.classList.contains("hidden")) return;
+    overlay.classList.add("hidden"); drawer.classList.add("hidden");
+    document.body.style.overflow = "";
+    if (lastTrigger && document.body.contains(lastTrigger)) lastTrigger.focus();
+  }
+  closeBtn.addEventListener("click", closeDrawer);
+  overlay.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", e => {
+    if (drawer.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeDrawer();
+    if (e.key === "Tab") { // keep focus inside the dialog
+      const f = [...drawer.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')].filter(el => el.offsetParent !== null);
+      if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
+  });
+
+  render();
+  // deep link: cameras.html#CAM-084 opens that camera
+  const hash = decodeURIComponent(location.hash.slice(1));
+  if (CAMERAS.some(c => c.id === hash)) openDrawer(hash);
+})();
+</script>
+</body>
+</html>

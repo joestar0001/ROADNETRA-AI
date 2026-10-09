@@ -1,0 +1,149 @@
+{
+  "_comment": "Camera registry. road_type: city | state | national (drives authority routing). Add your own cameras here.",
+  "cameras": [
+    {
+      "id": "CAM-064",
+      "road": "NH-48",
+      "km": "118.4",
+      "name": "Rajiv Chowk flyover",
+      "lat": 28.4405,
+      "lng": 77.0235,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    },
+    {
+      "id": "CAM-071",
+      "road": "NH-48",
+      "km": "128.0",
+      "name": "Kherki Daula toll",
+      "lat": 28.3996,
+      "lng": 76.9958,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "2560x1440"
+    },
+    {
+      "id": "CAM-078",
+      "road": "NH-48",
+      "km": "134.7",
+      "name": "IMT Manesar slip road",
+      "lat": 28.381,
+      "lng": 76.964,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    },
+    {
+      "id": "CAM-084",
+      "road": "NH-48",
+      "km": "142.6",
+      "name": "Manesar Bypass",
+      "lat": 28.3589,
+      "lng": 76.9387,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    },
+    {
+      "id": "CAM-088",
+      "road": "NH-48",
+      "km": "146.1",
+      "name": "Panchgaon chowk",
+      "lat": 28.3337,
+      "lng": 76.9163,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "2560x1440"
+    },
+    {
+      "id": "CAM-091",
+      "road": "NH-48",
+      "km": "151.2",
+      "name": "Bilaspur Chowk",
+      "lat": 28.2925,
+      "lng": 76.8786,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    },
+    {
+      "id": "CAM-097",
+      "road": "NH-48",
+      "km": "160.4",
+      "name": "Dharuhera crossing",
+      "lat": 28.2066,
+      "lng": 76.7984,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    },
+    {
+      "id": "CAM-104",
+      "road": "NH-48",
+      "km": "171.8",
+      "name": "Kapriwas",
+      "lat": 28.1525,
+      "lng": 76.7322,
+      "road_type": "national",
+      "status": "offline",
+      "fps": 0,
+      "res": "2560x1440"
+    },
+    {
+      "id": "CAM-112",
+      "road": "Dwarka Expwy",
+      "km": "18.4",
+      "name": "Sector 99 junction",
+      "lat": 28.4895,
+      "lng": 76.989,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    },
+    {
+      "id": "CAM-118",
+      "road": "Dwarka Expwy",
+      "km": "11.2",
+      "name": "Sector 84",
+      "lat": 28.438,
+      "lng": 76.985,
+      "road_type": "national",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    },
+    {
+      "id": "CAM-123",
+      "road": "SPR",
+      "km": "4.0",
+      "name": "Southern Peripheral Rd",
+      "lat": 28.4078,
+      "lng": 77.0587,
+      "road_type": "state",
+      "status": "offline",
+      "fps": 0,
+      "res": "2560x1440"
+    },
+    {
+      "id": "CAM-130",
+      "road": "Sohna Road",
+      "km": "6.2",
+      "name": "Vatika Chowk",
+      "lat": 28.4041,
+      "lng": 77.0436,
+      "road_type": "city",
+      "status": "online",
+      "fps": 30,
+      "res": "1920x1080"
+    }
+  ]
+}

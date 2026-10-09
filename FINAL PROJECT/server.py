@@ -1,69 +1,155 @@
 import os
-import cv2
-import time
 import json
-import base64
-import numpy as np
+import time
+import shutil
+import subprocess
+from datetime import datetime
+
 from flask import Flask, Response, jsonify, request, send_from_directory
-from ultralytics import YOLO
-from judge import RoadNetraJudge
-from tracker import DefectTracker
-from dispatcher import MultiAgencyDispatcher
+
+import config
+from dispatcher import MultiAgencyDispatcher, AUTHORITY_NAMES, AUTHORITY_STEPS
+from pipelines import ModelHub, DetectionService
+
+BASE_DIR = config.BASE_DIR
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
 app = Flask(__name__, static_folder="static", static_url_path="/static")
+app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024 * 1024  # 1 GB uploads
 
-# Base paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODELS_DIR = os.path.join(BASE_DIR, "models")
-MODEL_PATH = os.path.join(MODELS_DIR, "pothole_best.pt")
-if not os.path.exists(MODEL_PATH):
-    MODEL_PATH = os.path.join(BASE_DIR, "pothole_best.pt")
+dispatcher = MultiAgencyDispatcher(seed_demo=config.SEED_DEMO_INCIDENTS,
+                                   merge_window_infra_min=config.MERGE_WINDOW_INFRA_MIN,
+                                   merge_window_accident_min=config.MERGE_WINDOW_ACCIDENT_MIN)
+hub = ModelHub()
+service = DetectionService(hub, dispatcher)
 
-print("[ROADNETRA] Loading YOLOv8 Primary Defect Model from:", MODEL_PATH)
-primary_model = YOLO(MODEL_PATH)
-judge_engine = RoadNetraJudge()
-dispatcher = MultiAgencyDispatcher()
-
-# Global State for Live Video Streaming & Judge Feed
+# Shared operator state (VMS board, green wave)
 stream_state = {
-    "source_type": "highway",
-    "video_path": os.path.join(BASE_DIR, "data/test_videos/sample_highway_drive.mp4"),
-    "enable_judge": True,
-    "enable_accident_slot": False,
-    "infer_res": 640,
-    "thresholds": {
-        "pothole": 0.25,
-        "damaged_sign": 0.25,
-        "damaged_divider": 0.20,
-        "faded_zebra_crossing": 0.20
-    },
-    "vms_text": "CAUTION: ROAD HAZARD AHEAD - NH-44 CORRIDOR - REDUCE SPEED TO 30 KM/H",
+    "vms_text": "CAUTION: ROAD HAZARD AHEAD - REDUCE SPEED TO 30 KM/H",
     "green_wave_active": False,
-    "active_fps": 30.0
 }
+
 
 @app.after_request
 def add_cache_headers(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
+    if request.path.startswith("/api/") or request.path in ("/config.js",) or response.mimetype == "text/html":
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
     return response
 
+
+def _html(name):
+    return send_from_directory(BASE_DIR, name, mimetype="text/html")
+
+
 # -------------------------------------------------------------
-# Web & Static Routes
+# Pages
 # -------------------------------------------------------------
 @app.route("/")
 def index():
-    # Primary dashboard HTML file provided by user
-    html_path = os.path.join(BASE_DIR, "RoadNetra AI.html")
-    if os.path.exists(html_path):
-        with open(html_path, "r", encoding="utf-8") as f:
-            return f.read()
-    return send_from_directory(app.static_folder, "index.html")
+    return _html("RoadNetra AI.html")
 
-@app.route("/static/<path:filename>")
-def serve_static(filename):
-    return send_from_directory(app.static_folder, filename)
+
+@app.route("/pwd")
+def pwd_dashboard():
+    return _html("RoadNetra_PWD.html")
+
+
+@app.route("/hospital")
+def hospital_dashboard():
+    return _html("RoadNetra_Hospital.html")
+
+
+@app.route("/police")
+def police_dashboard():
+    return _html("RoadNetra_Police.html")
+
+
+@app.route("/frontend")
+def frontend_redirect():
+    return Response(status=302, headers={"Location": "/frontend/"})
+
+
+@app.route("/frontend/")
+@app.route("/frontend/<path:filename>")
+def serve_frontend(filename="index.html"):
+    if os.path.basename(filename).startswith(".env"):
+        return Response(status=404)
+    return send_from_directory(FRONTEND_DIR, filename)
+
+
+# -------------------------------------------------------------
+# Config shared with every page (live map provider + key from frontend/.env)
+# -------------------------------------------------------------
+def _public_config():
+    cfg = config.frontend_config()
+    cfg["cameras"] = dispatcher.cameras
+    cfg["authorities"] = AUTHORITY_NAMES
+    cfg["authoritySteps"] = AUTHORITY_STEPS
+    return cfg
+
+
+@app.route("/api/config")
+def api_config():
+    return jsonify(_public_config())
+
+
+@app.route("/config.js")
+def config_js():
+    body = "window.RN_CONFIG = " + json.dumps(_public_config()) + ";"
+    return Response(body, mimetype="application/javascript")
+
+
+@app.route("/api/health")
+def api_health():
+    return jsonify({"ok": True, "time": datetime.now().isoformat(timespec="seconds"),
+                    "incidents": len(dispatcher.incidents), **hub.info()})
+
+
+@app.route("/api/cameras")
+def api_cameras():
+    return jsonify(dispatcher.cameras)
+
+
+# -------------------------------------------------------------
+# Detection: Model B (accident, every frame) and Model A (infrastructure, ~1 FPS)
+# -------------------------------------------------------------
+@app.route("/api/stream/start", methods=["POST"])
+def api_stream_start():
+    data = request.json or {}
+    s = service.start_session(data.get("mode", "video"), data.get("source_name"), data.get("location"))
+    return jsonify({"stream_id": s.id, "mode": s.mode, "location": s.location})
+
+
+@app.route("/api/stream/<stream_id>/summary")
+def api_stream_summary(stream_id):
+    out = service.summary(stream_id)
+    return (jsonify(out), 200) if out else (jsonify({"error": "unknown stream"}), 404)
+
+
+@app.route("/api/detect/accident", methods=["POST"])
+def api_detect_accident():
+    return jsonify(service.detect("accident", request.json or {}))
+
+
+@app.route("/api/detect/infra", methods=["POST"])
+def api_detect_infra():
+    return jsonify(service.detect("infra", request.json or {}))
+
+
+@app.route("/api/detect", methods=["POST"])
+def api_detect():
+    """Runs all models on one frame (used for single images and older clients)."""
+    data = request.json or {}
+    data.setdefault("mode", "image")
+    out = service.detect("both", data)
+    out["candidates"] = out["detections"]  # legacy key
+    return jsonify(out)
+
+
+@app.route("/api/tracker/reset", methods=["POST"])
+def api_tracker_reset():
+    return jsonify({"success": True, "message": "Streams are isolated; start a new one with /api/stream/start"})
+
 
 @app.route("/api/upload_video", methods=["POST"])
 def api_upload_video():
@@ -72,281 +158,206 @@ def api_upload_video():
     file = request.files["video"]
     if file.filename == "":
         return jsonify({"success": False, "error": "Empty filename"}), 400
-    
     upload_dir = os.path.join(app.static_folder, "uploads")
     os.makedirs(upload_dir, exist_ok=True)
+    stamp = int(time.time())
     ext = os.path.splitext(file.filename)[1].lower() or ".mp4"
-    filename = f"uploaded_{int(time.time())}{ext}"
-    save_path = os.path.join(upload_dir, filename)
-    file.save(save_path)
-    
-    video_url = f"/static/uploads/{filename}"
-    return jsonify({"success": True, "video_url": video_url, "filename": file.filename})
+    raw_path = os.path.join(upload_dir, f"uploaded_{stamp}{ext}")
+    file.save(raw_path)
+    filename = os.path.basename(raw_path)
+    # Browsers only decode H.264/VP8/VP9/AV1. Transcode anything else with ffmpeg when it is installed.
+    ffmpeg = shutil.which("ffmpeg")
+    if ffmpeg:
+        out_path = os.path.join(upload_dir, f"uploaded_{stamp}_h264.mp4")
+        try:
+            subprocess.run([ffmpeg, "-v", "error", "-y", "-i", raw_path, "-c:v", "libx264", "-preset", "veryfast",
+                            "-crf", "23", "-pix_fmt", "yuv420p", "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                            "-movflags", "+faststart", "-an", out_path], check=True, timeout=900)
+            os.remove(raw_path)
+            filename = os.path.basename(out_path)
+        except Exception as e:
+            print("[UPLOAD] ffmpeg transcode failed, serving original:", e)
+    return jsonify({"success": True, "video_url": f"/static/uploads/{filename}", "filename": file.filename,
+                    "transcoded": filename.endswith("_h264.mp4")})
 
-# Authority dashboard routes
-@app.route("/pwd")
-def pwd_dashboard():
-    p = os.path.join(BASE_DIR, "RoadNetra_PWD.html")
-    if os.path.exists(p):
-        with open(p, "r", encoding="utf-8") as f:
-            return f.read()
-    return send_from_directory(app.static_folder, "pwd.html")
 
-@app.route("/hospital")
-def hospital_dashboard():
-    p = os.path.join(BASE_DIR, "RoadNetra_Hospital.html")
-    if os.path.exists(p):
-        with open(p, "r", encoding="utf-8") as f:
-            return f.read()
-    return send_from_directory(app.static_folder, "hospital.html")
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(os.path.join(FRONTEND_DIR, "assets", "img"), "logo-mark.svg", mimetype="image/svg+xml")
 
-@app.route("/police")
-def police_dashboard():
-    p = os.path.join(BASE_DIR, "RoadNetra_Police.html")
-    if os.path.exists(p):
-        with open(p, "r", encoding="utf-8") as f:
-            return f.read()
-    return send_from_directory(app.static_folder, "police.html")
-
-# Tracking and Deduplication State
-tracker = DefectTracker(iou_thresh=0.20, max_dist=100.0, max_age=25, min_hits=2)
-dispatched_track_ids = set()
-global_frame_idx = 0
-
-@app.route("/api/tracker/reset", methods=["POST"])
-def api_tracker_reset():
-    global tracker, dispatched_track_ids, global_frame_idx
-    tracker = DefectTracker(iou_thresh=0.20, max_dist=100.0, max_age=25, min_hits=2)
-    dispatched_track_ids = set()
-    global_frame_idx = 0
-    return jsonify({"success": True, "message": "Tracker reset for new stream"})
 
 # -------------------------------------------------------------
-# Real-Time AI Detection Endpoint (Frame Ingestion)
-# -------------------------------------------------------------
-@app.route("/api/detect", methods=["POST"])
-def api_detect():
-    global global_frame_idx, tracker, dispatched_track_ids
-    data = request.json or {}
-    frame_b64 = data.get("frame")
-    if not frame_b64:
-        return jsonify({"candidates": [], "unique_counts": tracker.get_unique_counts(), "all_unique_defects": []})
-
-    try:
-        if "," in frame_b64:
-            frame_b64 = frame_b64.split(",", 1)[1]
-        img_bytes = base64.b64decode(frame_b64)
-        np_arr = np.frombuffer(img_bytes, np.uint8)
-        frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-        if frame is None:
-            return jsonify({"candidates": [], "unique_counts": tracker.get_unique_counts(), "all_unique_defects": []})
-
-        global_frame_idx += 1
-        h_img, w_img = frame.shape[:2]
-
-        # Primary Proposal (Model A) at High Resolution (960px)
-        res = primary_model.predict(frame, conf=0.15, imgsz=960, verbose=False)[0]
-        accepted_for_tracking = []
-        candidates_out = []
-
-        class_thresholds = {
-            "pothole": 0.28,
-            "damaged_sign": 0.25,
-            "damaged_divider": 0.20,
-            "faded_zebra_crossing": 0.20,
-            "severe_accident": 0.25
-        }
-
-        if res.boxes is not None and len(res.boxes) > 0:
-            for b in res.boxes:
-                cls_id = int(b.cls[0].item())
-                cls_name = primary_model.names.get(cls_id, "pothole")
-                conf = float(b.conf[0].item())
-                x1, y1, x2, y2 = [int(v) for v in b.xyxy[0].tolist()]
-
-                # Filter proposals below class sensitivity threshold
-                req_thresh = class_thresholds.get(cls_name, 0.25)
-                if conf < req_thresh:
-                    continue
-
-                # Stage-2 Judge Evaluation
-                verdict = judge_engine.evaluate_candidate(frame, (x1, y1, x2, y2), cls_name, conf)
-                is_accepted = (verdict["status"] == "ACCEPTED")
-
-                # Extract crop
-                crop_bgr = frame[max(0, y1):min(h_img, y2), max(0, x1):min(w_img, x2)]
-                crop_b64 = ""
-                if crop_bgr.size > 0:
-                    _, crop_buf = cv2.imencode(".jpg", crop_bgr, [cv2.IMWRITE_JPEG_QUALITY, 80])
-                    crop_b64 = "data:image/jpeg;base64," + base64.b64encode(crop_buf).decode("utf-8")
-
-                # Authority Assignment
-                if cls_name in ["pothole", "faded_zebra_crossing", "damaged_sign"]:
-                    authority = "Municipal PWD & NHAI"
-                elif cls_name == "damaged_divider":
-                    authority = "Municipal PWD & Traffic Police"
-                elif "accident" in cls_name:
-                    authority = "108 Emergency & Traffic Police"
-                else:
-                    authority = "Municipal PWD"
-
-                if is_accepted:
-                    accepted_for_tracking.append({
-                        'box': [x1, y1, x2, y2],
-                        'class_name': cls_name,
-                        'conf': verdict['final_conf'],
-                        'crop_rgb': crop_b64,
-                        'verdict_reason': verdict['reason'],
-                        'authority': authority
-                    })
-                else:
-                    # Rejected candidate (e.g. car veto)
-                    candidates_out.append({
-                        "id": f"rej-{cls_id}-{global_frame_idx}",
-                        "kind": cls_name,
-                        "x": max(0.0, x1 / w_img),
-                        "y": max(0.0, y1 / h_img),
-                        "w": min(1.0, (x2 - x1) / w_img),
-                        "h": min(1.0, (y2 - y1) / h_img),
-                        "conf": round(conf * 100, 1),
-                        "ok": False,
-                        "why": verdict["reason"],
-                        "authority": "Suppressed (No Dispatch)",
-                        "crop": crop_b64,
-                        "is_confirmed": False,
-                        "is_new_unique": False
-                    })
-
-        # Spatial-Temporal Deduplication Tracker
-        tracked_results = tracker.update(accepted_for_tracking, global_frame_idx)
-
-        for track_id, is_confirmed, det in tracked_results:
-            x1, y1, x2, y2 = det['box']
-            cls_name = det['class_name']
-            authority = det.get('authority', 'Municipal PWD & NHAI')
-
-            is_new_unique = False
-            if is_confirmed and track_id not in dispatched_track_ids:
-                dispatched_track_ids.add(track_id)
-                is_new_unique = True
-                # Log to dispatcher cache
-                dispatcher.add_live_detection(
-                    defect_type=cls_name,
-                    conf=det['conf'],
-                    crop_rgb=det.get('crop_rgb'),
-                    location_name=f"Camera Feed (Zone Sector 14, Track #{track_id})",
-                    judge_reason=det.get('verdict_reason', "Verified by Stage-2 Judge")
-                )
-
-            candidates_out.append({
-                "id": f"{track_id}",
-                "kind": cls_name,
-                "x": max(0.0, x1 / w_img),
-                "y": max(0.0, y1 / h_img),
-                "w": min(1.0, (x2 - x1) / w_img),
-                "h": min(1.0, (y2 - y1) / h_img),
-                "conf": round(det['conf'] * 100, 1),
-                "ok": True,
-                "why": det.get('verdict_reason', 'Verified road defect'),
-                "authority": authority,
-                "crop": det.get('crop_rgb', ''),
-                "is_confirmed": is_confirmed,
-                "is_new_unique": is_new_unique
-            })
-
-        # Form unique confirmed defects list for the gallery
-        all_unique = []
-        for def_obj in tracker.get_all_confirmed_defects():
-            all_unique.append({
-                "track_id": def_obj.track_id,
-                "kind": def_obj.class_name,
-                "conf": round(def_obj.highest_conf * 100, 1),
-                "hits": def_obj.hits,
-                "why": def_obj.verdict_reason,
-                "crop": def_obj.best_crop if isinstance(def_obj.best_crop, str) else "",
-                "authority": "Municipal PWD & NHAI" if def_obj.class_name in ["pothole", "damaged_sign", "faded_zebra_crossing"] else "Municipal PWD & Traffic Police"
-            })
-
-        return jsonify({
-            "candidates": candidates_out,
-            "unique_counts": tracker.get_unique_counts(),
-            "all_unique_defects": all_unique
-        })
-    except Exception as e:
-        print("[API DETECT ERROR]", e)
-        return jsonify({"candidates": [], "unique_counts": tracker.get_unique_counts(), "all_unique_defects": []})
-
-# -------------------------------------------------------------
-# REST APIs for Multi-Agency Dashboards
+# Incidents (shared by the main dashboard, the design-system frontend and the 3 portals)
 # -------------------------------------------------------------
 @app.route("/api/incidents", methods=["GET"])
 def api_incidents():
     agency = request.args.get("agency")
     status = request.args.get("status")
+    itype = request.args.get("type")
     incidents = dispatcher.get_all_incidents()
     if agency and agency != "all":
-        incidents = [i for i in incidents if agency.lower() in i.get("assigned_agency", "").lower()]
+        key = {"pwd": "pwd", "nhai": "nhai", "hospital": "hospital", "hosp": "hospital", "police": "police", "pol": "police"}.get(agency.lower(), agency.lower())
+        incidents = [i for i in incidents if key in i.get("assigned_agency", "").lower()]
     if status and status != "all":
         incidents = [i for i in incidents if i.get("status", "").lower() == status.lower()]
+    if itype and itype != "all":
+        incidents = [i for i in incidents if i.get("type") == itype or i.get("category") == itype]
     return jsonify(incidents)
+
+
+@app.route("/api/incidents/<incident_id>", methods=["GET"])
+def api_incident_get(incident_id):
+    inc = dispatcher.get_incident(incident_id)
+    return (jsonify(inc), 200) if inc else (jsonify({"error": "not found"}), 404)
+
 
 @app.route("/api/incidents/<incident_id>/action", methods=["POST"])
 def api_incident_action(incident_id):
     data = request.json or {}
+    authorities = [a.strip() for a in str(data.get("authority") or "").split(",") if a.strip()]
+    if authorities and not data.get("status"):
+        inc = dispatcher.advance_authority(incident_id, authorities[0], data.get("step"), data.get("note", ""))
+        return jsonify({"success": inc is not None, "id": incident_id, "incident": inc,
+                        "status": inc["status"] if inc else None})
     new_status = data.get("status", "Under Repair")
     note = data.get("note", "Action executed via Command Portal")
-    success = dispatcher.update_incident_status(incident_id, new_status, note)
-    return jsonify({"success": success, "id": incident_id, "status": new_status})
+    success = dispatcher.update_incident_status(incident_id, new_status, note, authorities or None)
+    inc = dispatcher.get_incident(incident_id)
+    return jsonify({"success": success, "id": incident_id, "status": inc["status"] if inc else new_status, "incident": inc})
+
 
 @app.route("/api/incidents/create", methods=["POST"])
 def api_incident_create():
     data = request.json or {}
     inc = dispatcher.add_live_detection(
         defect_type=data.get("type", "pothole"),
-        conf=data.get("conf", 0.85),
-        location_name=data.get("location_name", "Live Camera Feed #04"),
-        judge_reason=data.get("judge_reason", "Verified by Stage-2 Judge Model")
+        conf=float(data.get("conf", 0.85)),
+        location_name=data.get("location_name"),
+        gps=data.get("gps"),
+        judge_reason=data.get("judge_reason", "Manually reported by operator"),
+        camera_id=data.get("camera_id"),
     )
     return jsonify({"success": True, "incident": inc})
+
 
 @app.route("/api/summary")
 def api_summary():
     metrics = dispatcher.get_summary_metrics()
-    metrics["active_fps"] = stream_state["active_fps"]
     metrics["vms_text"] = stream_state["vms_text"]
     metrics["green_wave_active"] = stream_state["green_wave_active"]
+    meters = hub.info()["models"]
+    metrics["active_fps"] = meters["accident"]["fps"]
+    metrics["models"] = {k: {"avg_ms": v.get("avg_ms"), "fps": v.get("fps")} for k, v in meters.items() if k != "judge"}
     return jsonify(metrics)
+
 
 @app.route("/api/action/vms", methods=["POST"])
 def api_action_vms():
     data = request.json or {}
-    text = data.get("text", stream_state["vms_text"])
-    stream_state["vms_text"] = text.upper()
+    stream_state["vms_text"] = data.get("text", stream_state["vms_text"]).upper()
     return jsonify({"success": True, "vms_text": stream_state["vms_text"]})
+
 
 @app.route("/api/action/ambulance", methods=["POST"])
 def api_action_ambulance():
     data = request.json or {}
     inc_id = data.get("incident_id")
     if inc_id:
-        dispatcher.update_incident_status(inc_id, "Crew En Route", "ALS Ambulance Dispatched with Siren")
+        dispatcher.advance_authority(inc_id, "hosp", 2, "ALS ambulance dispatched with siren")
+        inc = dispatcher.get_incident(inc_id)
+        if inc:
+            inc["ambulance_eta_mins"] = 5
     stream_state["green_wave_active"] = True
     return jsonify({"success": True, "ambulance": "ALS-108-04", "eta_mins": 5, "green_wave": True})
+
 
 @app.route("/api/action/green_wave", methods=["POST"])
 def api_action_green_wave():
     data = request.json or {}
-    active = data.get("active", not stream_state["green_wave_active"])
-    stream_state["green_wave_active"] = active
-    return jsonify({"success": True, "green_wave_active": active})
+    stream_state["green_wave_active"] = data.get("active", not stream_state["green_wave_active"])
+    return jsonify({"success": True, "green_wave_active": stream_state["green_wave_active"]})
+
+
+# -------------------------------------------------------------
+# Live data for the design-system frontend (/frontend/), same schema as its demo-data.js
+# -------------------------------------------------------------
+MODEL_B_CARD = {
+    "name": "Model B · Severe Accident", "arch": "YOLOv8s", "imgsz": 640, "epochs": 100, "bestEpoch": 90,
+    "bestConf": 0.47, "pipelineConf": config.ACCIDENT_CONF, "temporalFrames": config.ACCIDENT_CONFIRM_FRAMES,
+    "dataset": {"total": 1815, "train": 1270, "val": 272, "test": 273, "accident": 1585, "negative": 230},
+    "test": {"mAP50": 0.830, "mAP5095": 0.502, "precision": 0.995, "recall": 0.836, "specificity": 0.966,
+             "accuracy": 0.850, "f1": 0.909, "falseAlarm": 0.034, "TP": 204, "FP": 1, "FN": 40, "TN": 28},
+    "latency": {"t4GpuMs": 2.5, "laptopCpuMs": 189},
+}
+SEVERITY_CARD = {
+    "P1": {"label": "P1 Critical", "cls": "rn-p1", "color": "#EF4444"},
+    "P2": {"label": "P2 High", "cls": "rn-p2", "color": "#F59E0B"},
+    "P3": {"label": "P3 Medium", "cls": "rn-p3", "color": "#0EA5E9"},
+    "P4": {"label": "P4 Low", "cls": "rn-p4", "color": "#94A3B8"},
+}
+
+
+def _ago(iso):
+    try:
+        secs = int((datetime.now() - datetime.fromisoformat(iso)).total_seconds())
+    except Exception:
+        return ""
+    if secs < 60:
+        return "just now"
+    if secs < 3600:
+        return f"{secs // 60} min"
+    if secs < 86400:
+        return f"{secs // 3600} h {secs % 3600 // 60} m"
+    return f"{secs // 86400} d"
+
+
+def _frontend_incident(i):
+    status_unit = {"hosp": "AMB-108", "pol": "PCR-12", "nhai": "NHAI PIU", "pwd": "PWD Gang-4"}
+    first = (i.get("authorities") or ["pwd"])[0]
+    acting = i.get("authority_status", {}).get(first, 0) >= 2
+    eta = (f"{i.get('ambulance_eta_mins')} min" if i.get("ambulance_eta_mins") else
+           ("Awaiting" if i["type"] == "severe_accident" else f"{i.get('sla_hours', 72)} h SLA"))
+    try:
+        detected = datetime.fromisoformat(i["detected_at"]).strftime("%H:%M:%S")
+    except Exception:
+        detected = i.get("timestamp", "")
+    return {
+        "id": i["id"], "sev": i.get("priority", "P3"), "type": i.get("category", "damage"),
+        "kind": i["type"], "title": i.get("title", "").replace("[Sample] ", ""),
+        "road": i.get("road") or "—", "km": i.get("km") or "—", "place": i.get("place") or i.get("location_name", ""),
+        "lat": i.get("lat") or i["gps"][0], "lng": i.get("lng") or i["gps"][1],
+        "conf": i.get("confidence", 0), "frames": i.get("frames_confirmed", 1), "cam": i.get("camera_id", "—"),
+        "authority": i.get("assigned_agency", ""), "unit": status_unit.get(first, "Queued") if acting else "Awaiting",
+        "eta": eta, "status": i.get("status", "Dispatched"), "detected": detected, "ago": _ago(i.get("detected_at", "")),
+        "img": i.get("image_url"), "crop": i.get("crop_url"), "why": i.get("judge_reason", ""),
+        "history": i.get("action_history", []), "sample": i.get("source") == "seed",
+        "severity": i.get("severity"), "score": i.get("severity_score"), "slaDue": i.get("sla_due"),
+    }
+
+
+@app.route("/api/rn-data.js")
+def api_rn_data_js():
+    incidents = [_frontend_incident(i) for i in dispatcher.get_all_incidents()]
+    open_by_cam = {}
+    for inc in incidents:
+        if inc["status"] != "Resolved":
+            open_by_cam.setdefault(inc["cam"], inc["id"])
+    cameras = [{**c, "img": f"../assets/img/{['model-traffic-clear.jpg', 'field-officer-2.jpg', 'cameras-3.jpg', 'cameras-4.jpg', 'index-1.jpg', 'cameras-2.jpg'][n % 6]}",
+                "res": c.get("res", "1920x1080").replace("x", "×"), "incident": open_by_cam.get(c["id"])}
+               for n, c in enumerate(dispatcher.cameras)]
+    data = {"MODEL": MODEL_B_CARD, "SEVERITY": SEVERITY_CARD, "INCIDENTS": incidents, "CAMERAS": cameras,
+            "IMG": "../assets/img/", "LIVE": True, "CONFIG": _public_config()}
+    return Response("window.RN_DATA = " + json.dumps(data) + ";", mimetype="application/javascript")
+
 
 # -------------------------------------------------------------
 # Entrypoint
 # -------------------------------------------------------------
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    print(f"\n=======================================================")
-    print(f"🚀 ROADNETRA AI Unified Platform Server Running!")
-    print(f"🌐 Access at: http://localhost:{port}")
-    print(f"=======================================================\n")
-    app.run(host="0.0.0.0", port=port, debug=False, threaded=True)
+    print("\n=======================================================")
+    print("ROADNETRA AI Unified Platform Server Running!")
+    print(f"Command center : http://localhost:{config.PORT}/")
+    print(f"Design frontend: http://localhost:{config.PORT}/frontend/")
+    print(f"Portals        : /pwd  /hospital  /police")
+    print("=======================================================\n")
+    app.run(host=config.HOST, port=config.PORT, debug=False, threaded=True)
