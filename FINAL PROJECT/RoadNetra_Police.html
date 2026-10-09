@@ -35,6 +35,8 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 @media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:6px;border:0}.side .lk{width:auto;white-space:nowrap}.side .prof,.side .stc,.side h5{display:none}}
 </style>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/config.js"></script>
+<script src="/static/rn-map.js"></script>
 </head>
 <body>
 <div class="shell">
@@ -302,7 +304,7 @@ function renderPoliceIncidents(){
   }
 
   container.innerHTML = incidents.map(inc => {
-    const isAcc = inc.type === 'accident';
+    const isAcc = String(inc.type || '').includes('accident');
     const imgUrl = inc.image_url || (isAcc ? '/static/evidence/accident_1.jpg' : '/static/evidence/guardrail_1.jpg');
 
     return `
@@ -339,7 +341,7 @@ async function deployPCR(id, loc){
     await fetch(`/api/incidents/${id}/action`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({status: 'Crew En Route', note: 'PCR Patrol Van Dispatched'})
+      body: JSON.stringify({status: 'Crew En Route', authority: 'pol', note: 'PCR Patrol Van Dispatched'})
     });
     toast(`🚔 PCR Van dispatched to ${loc}!`);
     fetchPoliceIncidents();
@@ -429,11 +431,8 @@ function triggerManualSync(){
 
 function initPoliceMap(){
   if(mapInstance) return;
-  mapInstance = L.map('policeMap').setView([28.6289, 77.2065], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap · RoadNetra Police'
-  }).addTo(mapInstance);
+  mapInstance = L.map('policeMap').setView(RNMap.center, 12);
+  RNMap.addTiles(mapInstance, 'streets');
   refreshPoliceMap();
 }
 
@@ -444,9 +443,9 @@ function refreshPoliceMap(){
 
   // Add VMS signs
   const vmsLocations = [
-    {pos: [28.6350, 77.2100], name: "VMS Gantry 1: NH-44 Km 12"},
-    {pos: [28.6200, 77.2150], name: "VMS Gantry 2: Outer Ring Rd Entry"},
-    {pos: [28.6400, 77.1950], name: "VMS Gantry 3: MG Road Overpass"}
+    {pos: [RNMap.center[0] + 0.012, RNMap.center[1] + 0.010], name: "VMS Gantry 1: Corridor northbound"},
+    {pos: [RNMap.center[0] - 0.010, RNMap.center[1] + 0.016], name: "VMS Gantry 2: Corridor entry ramp"},
+    {pos: [RNMap.center[0] + 0.018, RNMap.center[1] - 0.012], name: "VMS Gantry 3: Overpass southbound"}
   ];
 
   vmsLocations.forEach(v => {
@@ -458,7 +457,7 @@ function refreshPoliceMap(){
   incidents.forEach(inc => {
     const lat = inc.gps ? inc.gps[0] : 28.6300;
     const lng = inc.gps ? inc.gps[1] : 77.2050;
-    const isAcc = inc.type === 'accident';
+    const isAcc = String(inc.type || '').includes('accident');
 
     const circle = L.circleMarker([lat, lng], {
       color: isAcc ? '#ff3b30' : '#ff9f0a',
@@ -474,9 +473,10 @@ function refreshPoliceMap(){
     `);
     markers.push(circle);
   });
+  if(!window._rnFit && markers.filter(m => m.getRadius).length){ try{ mapInstance.fitBounds(L.featureGroup(markers.filter(m => m.getRadius)).getBounds().pad(0.25), {maxZoom:13}); window._rnFit=1; }catch(e){} }
 }
 
 fetchPoliceIncidents();
-setInterval(fetchPoliceIncidents, 30000);
+setInterval(fetchPoliceIncidents, (window.RN_CONFIG && RN_CONFIG.stream && RN_CONFIG.stream.incidentPollMs) || 5000);
 </script>
 </body></html>

@@ -71,6 +71,19 @@
       </div>
     </section>
 
+    <!-- Live now (only with the RoadNetra backend) -->
+    <section id="an-live" class="rn-card p-5 hidden" aria-labelledby="an-live-h">
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="rn-badge rn-ok"><span class="rn-dot rn-dot-pulse"></span>Live</span>
+        <h3 id="an-live-h" class="font-display font-bold text-[16px]">Right now on the corridor</h3>
+        <span class="text-[12.5px] text-dim">Current incidents from the RoadNetra backend</span>
+      </div>
+      <div class="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <dl class="lg:col-span-5 grid grid-cols-2 gap-3 content-start" id="an-live-tiles"></dl>
+        <ol class="lg:col-span-7 space-y-2" id="an-live-list"></ol>
+      </div>
+    </section>
+
     <!-- Trend + mix -->
     <section class="grid grid-cols-1 xl:grid-cols-12 gap-6">
       <div class="xl:col-span-8 min-w-0 rn-card p-5 flex flex-col">
@@ -239,15 +252,42 @@
       </div>
     </section>
 
-    <p class="text-center text-[12px] text-dim pb-2">Incident counts, trends, corridors and response times on this screen are demo data. Model B figures are real results on the held-out test set.</p>
+    <p class="text-center text-[12px] text-dim pb-2" id="an-foot">Incident counts, trends, corridors and response times on this screen are demo data. Model B figures are real results on the held-out test set.</p>
   </div>
 </main>
 
-<script src="../assets/js/demo-data.js"></script>
+<script src="/config.js"></script>
+<script src="/api/rn-data.js"></script>
+<script>if(!window.RN_DATA||!(window.RN_DATA.INCIDENTS||[]).length)document.write('<script src="../assets/js/demo-data.js"><\/script>')</script>
+<script src="/static/rn-map.js"></script>
 <script src="../assets/js/shell.js"></script>
 <script>
 (function () {
-  const { MODEL, INCIDENTS, CAMERAS } = window.RN_DATA;
+  const D = window.RN_DATA || {};
+  const MODEL = D.MODEL, INCIDENTS = D.INCIDENTS || [], CAMERAS = D.CAMERAS || [], LIVE = !!D.LIVE;
+  const SEVERITY = Object.assign({ P4: { label: "P4 Low", cls: "rn-p4" } }, D.SEVERITY || {});
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const isOpen = i => String(i.status || "").toLowerCase() !== "resolved";
+
+  // ---------- live headline counts + latest incidents (real INCIDENTS) ----------
+  if (LIVE) {
+    const open = INCIDENTS.filter(isOpen), n = (l, f) => l.filter(f).length;
+    const tile = (label, value, sub, tone) => `<div class="rounded-xl border border-line bg-canvas/50 p-3.5 min-w-0"><dt class="rn-label">${label}</dt><dd class="mt-1.5 rn-mono font-semibold text-[24px] leading-none ${tone}">${value}</dd><dd class="mt-1.5 text-[11.5px] text-dim truncate">${sub}</dd></div>`;
+    document.getElementById("an-live-tiles").innerHTML = [
+      tile("Open incidents", open.length, `${INCIDENTS.length} total in backend`, "text-ink"),
+      tile("Open P1", n(open, i => i.sev === "P1"), "severe accidents", "text-danger-soft"),
+      tile("Road defects open", n(open, i => i.type !== "accident"), `${n(open, i => i.type === "pothole")} potholes · ${n(open, i => i.type === "damage")} damage`, "text-warn-soft"),
+      tile("Resolved", INCIDENTS.length - open.length, "closed by authorities", "text-ok-soft"),
+    ].join("");
+    document.getElementById("an-live-list").innerHTML = INCIDENTS.slice(0, 5).map(i => `
+      <li><a href="incident-detail.html?id=${encodeURIComponent(i.id)}" class="flex items-center gap-3 rounded-xl border border-line bg-canvas/40 px-3 py-2.5 hover:border-line-strong">
+        <span class="rn-badge ${(SEVERITY[i.sev] || SEVERITY.P4).cls}">${esc(i.sev)}</span>
+        <span class="min-w-0 flex-1"><span class="block text-[13px] font-medium truncate">${esc(i.title)}</span><span class="block text-[11.5px] text-dim truncate">${esc(i.id)} · ${esc(i.ago || i.detected)}${i.ago && i.ago !== "just now" ? " ago" : ""} · ${esc(i.status)}</span></span>
+        <span class="rn-mono text-[12px] text-cyan">${(+i.conf || 0).toFixed(2)}</span>
+      </a></li>`).join("") || '<li class="text-[13px] text-muted py-6 text-center">No incidents reported yet.</li>';
+    document.getElementById("an-live").classList.remove("hidden");
+    document.getElementById("an-foot").textContent = "The “Right now” panel and blackspot map use live data from the RoadNetra backend. Historical trends, corridor shares and response-time charts are illustrative. Model B figures are real results on the held-out test set.";
+  }
   const C = { grid: "rgba(148,163,184,0.12)", text: "#94A3B8", brand: "#3B82F6", cyan: "#22D3EE", danger: "#EF4444", warn: "#F59E0B", ok: "#10B981", info: "#0EA5E9" };
   const fmt = n => n.toLocaleString("en-IN");
   const pct = (v, d = 1) => (v * 100).toFixed(d) + "%";
@@ -362,8 +402,15 @@
   const map = L.map("an-map", { scrollWheelZoom: false, attributionControl: true }).setView([28.33, 76.92], 10);
   RN.darkTiles(map);
   const bsLayer = L.layerGroup().addTo(map);
-  const camW = { "CAM-084": 9, "CAM-091": 8, "CAM-112": 7, "CAM-071": 6, "CAM-064": 5, "CAM-130": 5, "CAM-078": 4, "CAM-097": 4, "CAM-088": 3, "CAM-118": 3, "CAM-123": 2, "CAM-104": 2 };
-  const camAcc = { "CAM-084": .6, "CAM-091": .55, "CAM-112": .5, "CAM-064": .35, "CAM-088": .3, "CAM-097": .3 };
+  let camW = { "CAM-084": 9, "CAM-091": 8, "CAM-112": 7, "CAM-071": 6, "CAM-064": 5, "CAM-130": 5, "CAM-078": 4, "CAM-097": 4, "CAM-088": 3, "CAM-118": 3, "CAM-123": 2, "CAM-104": 2 };
+  let camAcc = { "CAM-084": .6, "CAM-091": .55, "CAM-112": .5, "CAM-064": .35, "CAM-088": .3, "CAM-097": .3 };
+  if (LIVE && INCIDENTS.length) {  // blackspots weighted by the real incidents per camera
+    camW = {}; camAcc = {};
+    CAMERAS.forEach(c => {
+      const mine = INCIDENTS.filter(i => i.cam === c.id);
+      camW[c.id] = mine.length; camAcc[c.id] = mine.length ? mine.filter(i => i.type === "accident").length / mine.length : 0;
+    });
+  }
 
   function render(key) {
     const d = build(key), R = d.R;
@@ -428,16 +475,18 @@
 
     // blackspots
     bsLayer.clearLayers();
-    const totalW = Object.values(camW).reduce((s, x) => s + x, 0);
+    const totalW = Object.values(camW).reduce((s, x) => s + x, 0) || 1;
     let top = null;
     CAMERAS.forEach(c => {
-      const n = Math.round(d.total * camW[c.id] / totalW), a = camAcc[c.id] || .15;
-      if (!top || n > top.n) top = { n, c };
+      if (c.lat == null || c.lng == null) return;
+      const liveW = LIVE && INCIDENTS.length;
+      const n = liveW ? (camW[c.id] || 0) : Math.round(d.total * (camW[c.id] || 1) / totalW), a = camAcc[c.id] || (liveW ? 0 : .15);
+      if (n > 0 && (!top || n > top.n)) top = { n, c };
       L.circleMarker([c.lat, c.lng], { radius: 5 + Math.sqrt(n) * 2.1, color: a >= .5 ? C.danger : a >= .3 ? C.warn : C.info, weight: 1.5, fillOpacity: .28 })
-        .bindPopup(`<b>${c.name}</b><br><span style="color:#94A3B8">${c.road} KM ${c.km} · ${c.id}</span><br>${n} detections · ${Math.round(n * a)} accidents`)
+        .bindPopup(`<b>${esc(c.name)}</b><br><span style="color:#94A3B8">${esc(c.road)} KM ${esc(c.km)} · ${esc(c.id)}</span><br>${n} detections · ${Math.round(n * a)} accidents${LIVE && INCIDENTS.length ? " (live)" : ""}`)
         .addTo(bsLayer);
     });
-    document.getElementById("bs-top").textContent = "Top: " + top.c.name;
+    document.getElementById("bs-top").textContent = top ? "Top: " + top.c.name : "";
     window.__anData = d;
   }
   document.querySelectorAll("#an-range [data-range]").forEach(b => b.addEventListener("click", () => render(b.dataset.range)));

@@ -1,3863 +1,2426 @@
 [
   {
-    "id": "INC-2026-1128",
-    "type": "faded_zebra_crossing",
-    "title": "Live Detected Faded Zebra Crossing",
-    "severity": "Medium",
-    "location_name": "Camera Feed (Zone Sector 14, Track #1)",
-    "gps": [
-      29.058400000000002,
-      77.5265
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.617,
-    "timestamp": "Today, 10:45 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface crosswalk stripe pattern verified",
-    "image_url": "/static/evidence/crop_INC-2026-1128.jpg",
-    "action_history": [
-      {
-        "time": "10:45 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 61.7%)"
-      },
-      {
-        "time": "10:45 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1127",
+    "id": "IR-2026-1010-0034",
     "type": "pothole",
-    "title": "Live Detected Pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
     "severity": "High",
-    "location_name": "NH-44 Corridor, Km 18.4 (Outer Fast Lane)",
+    "priority": "P2",
+    "severity_score": 72.3,
+    "confidence": 0.503,
+    "confidence_pct": 50.3,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
     "gps": [
-      29.0549,
-      77.524
+      28.3589,
+      76.9387
     ],
-    "assigned_agency": "Municipality & PWD",
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "stock-footage-a-serious-traffic-accident-involving-two-white-vehicles-colliding-the-front-ends-of-both-vehicles.webm",
+    "stream_id": "e73f5307de82",
+    "video_time_s": 1.15,
+    "bbox": [
+      0.006,
+      0.8422,
+      0.1567,
+      0.0978
+    ],
+    "detected_at": "2026-10-10T01:17:09",
+    "last_seen": "2026-10-10T01:17:09",
+    "timestamp": "Today, 01:17 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.92,
-    "timestamp": "Today, 10:42 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified deep cavity with exposed sub-base rock",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "10:42 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 92.0%)"
-      },
-      {
-        "time": "10:42 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1126",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #9)",
-    "gps": [
-      29.0514,
-      77.5215
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.591,
-    "timestamp": "Today, 10:13 PM",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:17:09",
     "verified_by_judge": true,
     "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1126.jpg",
+    "image_url": "/static/evidence/IR-2026-1010-0034_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0034_crop.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 59.1%)"
+        "time": "01:17 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (50.3% confidence, 2 frame(s))"
       },
       {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1125",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #7)",
-    "gps": [
-      29.047900000000002,
-      77.519
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.427,
-    "timestamp": "Today, 10:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1125.jpg",
-    "action_history": [
-      {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.7%)"
+        "time": "01:17 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
       },
       {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
+        "time": "01:17 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
       }
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
+    "repair_cost_est": 24195,
+    "asphalt_tons": 2.1
   },
   {
-    "id": "INC-2026-1124",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #6)",
-    "gps": [
-      29.0444,
-      77.51650000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.475,
-    "timestamp": "Today, 10:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1124.jpg",
-    "action_history": [
-      {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 47.5%)"
-      },
-      {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1123",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #4)",
-    "gps": [
-      29.0409,
-      77.51400000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.925,
-    "timestamp": "Today, 10:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1123.jpg",
-    "action_history": [
-      {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 92.5%)"
-      },
-      {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1122",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #2)",
-    "gps": [
-      29.0374,
-      77.5115
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.767,
-    "timestamp": "Today, 10:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1122.jpg",
-    "action_history": [
-      {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 76.7%)"
-      },
-      {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1121",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #5)",
-    "gps": [
-      29.033900000000003,
-      77.509
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.956,
-    "timestamp": "Today, 10:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1121.jpg",
-    "action_history": [
-      {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 95.6%)"
-      },
-      {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1120",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #3)",
-    "gps": [
-      29.0304,
-      77.5065
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.491,
-    "timestamp": "Today, 10:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1120.jpg",
-    "action_history": [
-      {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.1%)"
-      },
-      {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1119",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #1)",
-    "gps": [
-      29.0269,
-      77.504
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.836,
-    "timestamp": "Today, 10:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1119.jpg",
-    "action_history": [
-      {
-        "time": "10:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 83.6%)"
-      },
-      {
-        "time": "10:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1118",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Market Chowk",
-    "gps": [
-      29.023400000000002,
-      77.50150000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.83,
-    "timestamp": "Today, 06:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 83.0%)"
-      },
-      {
-        "time": "06:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1117",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Ring Road East",
-    "gps": [
-      29.0199,
-      77.49900000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.56,
-    "timestamp": "Today, 06:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 56.0%)"
-      },
-      {
-        "time": "06:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1116",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Market Chowk",
-    "gps": [
-      29.0164,
-      77.4965
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.89,
-    "timestamp": "Today, 06:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 89.0%)"
-      },
-      {
-        "time": "06:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1115",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Market Chowk",
-    "gps": [
-      29.012900000000002,
-      77.494
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.84,
-    "timestamp": "Today, 06:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 84.0%)"
-      },
-      {
-        "time": "06:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1114",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Ashta Bypass",
-    "gps": [
-      29.0094,
-      77.4915
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.64,
-    "timestamp": "Today, 06:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 64.0%)"
-      },
-      {
-        "time": "06:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1113",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Station Road",
-    "gps": [
-      29.0059,
-      77.489
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.89,
-    "timestamp": "Today, 06:13 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:13 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 89.0%)"
-      },
-      {
-        "time": "06:13 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1112",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "MG Road Junction",
-    "gps": [
-      29.0024,
-      77.4865
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.78,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 78.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1111",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Ashta Bypass",
-    "gps": [
-      28.998900000000003,
-      77.48400000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.88,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 88.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1110",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Ashta Bypass",
-    "gps": [
-      28.9954,
-      77.4815
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.91,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 91.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1109",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Ring Road East",
-    "gps": [
-      28.9919,
-      77.479
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.58,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 58.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1108",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Market Chowk",
-    "gps": [
-      28.988400000000002,
-      77.4765
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.83,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 83.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1107",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Ring Road East",
-    "gps": [
-      28.9849,
-      77.474
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.68,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 68.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1106",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Ring Road East",
-    "gps": [
-      28.9814,
-      77.4715
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.74,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 74.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1105",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Station Road",
-    "gps": [
-      28.9779,
-      77.46900000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.58,
-    "timestamp": "Today, 06:12 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Asphalt/sign defect, stable for 2 frames",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "06:12 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 58.0%)"
-      },
-      {
-        "time": "06:12 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1104",
-    "type": "accident",
-    "title": "Live Detected Accident",
+    "id": "IR-2026-1010-0033",
+    "type": "severe_accident",
+    "category": "accident",
+    "model": "Model B \u00b7 Severe Accident",
+    "title": "Severe Accident \u00b7 Manesar Bypass",
     "severity": "Critical",
-    "location_name": "NH-44 Highway, Km 16.8 (Expressway Flyover)",
+    "priority": "P1",
+    "severity_score": 98.8,
+    "confidence": 0.88,
+    "confidence_pct": 88.0,
+    "frames_confirmed": 3,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
     "gps": [
-      28.9744,
-      77.4665
+      28.3589,
+      76.9387
     ],
-    "assigned_agency": "Hospital Trauma & 108 EMS",
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "stock-footage-a-serious-traffic-accident-involving-two-white-vehicles-colliding-the-front-ends-of-both-vehicles.webm",
+    "stream_id": "e73f5307de82",
+    "video_time_s": 0.1,
+    "bbox": [
+      0.2282,
+      0.0,
+      0.7619,
+      0.2278
+    ],
+    "detected_at": "2026-10-10T01:17:07",
+    "last_seen": "2026-10-10T01:17:13",
+    "timestamp": "Today, 01:17 AM",
+    "assigned_agency": "108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI",
+    "authorities": [
+      "hosp",
+      "pol",
+      "nhai"
+    ],
+    "authority_status": {
+      "hosp": 0,
+      "pol": 0,
+      "nhai": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.96,
-    "timestamp": "Today, 05:00 PM",
+    "sla_hours": 1,
+    "sla_due": "2026-10-10T02:17:07",
     "verified_by_judge": true,
-    "judge_reason": "Kinetic deformation detected: Lateral vehicle collision with crushed chassis",
-    "image_url": "/static/evidence/accident_1.jpg",
+    "judge_reason": "Verified: Model B collision signature at 85% (above 55% acceptance threshold)",
+    "image_url": "/static/evidence/IR-2026-1010-0033_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0033_crop.jpg",
+    "merged_count": 1,
     "action_history": [
       {
-        "time": "05:00 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 96.0%)"
+        "time": "01:17 AM",
+        "action": "Model B \u00b7 Severe Accident detected severe accident on uploaded video (88.0% confidence, 3 frame(s))"
       },
       {
-        "time": "05:00 PM",
-        "action": "Automated priority dispatch routed to Hospital Trauma & 108 EMS"
+        "time": "01:17 AM",
+        "action": "Judge: Verified: Model B collision signature at 85% (above 55% acceptance threshold)"
+      },
+      {
+        "time": "01:17 AM",
+        "action": "P1 Critical \u00b7 routed to 108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI \u00b7 SLA 1 h"
+      },
+      {
+        "time": "01:17 AM",
+        "action": "Duplicate detection merged (seen again at 67.0% confidence)"
       }
     ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
+    "ambulance_eta_mins": null
   },
   {
-    "id": "INC-2026-1103",
+    "id": "IR-2026-1010-0032",
     "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "NH-44 Corridor, Km 18.4 (Outer Fast Lane)",
-    "gps": [
-      28.9709,
-      77.464
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.92,
-    "timestamp": "Today, 04:59 PM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified deep cavity with exposed sub-base rock",
-    "image_url": "/static/evidence/pothole_2.jpg",
-    "action_history": [
-      {
-        "time": "04:59 PM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 92.0%)"
-      },
-      {
-        "time": "04:59 PM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1102",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #18)",
-    "gps": [
-      28.9674,
-      77.4615
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.767,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1102.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 76.7%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1101",
-    "type": "damaged_sign",
-    "title": "Live Detected Damaged Sign",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
     "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #102)",
+    "priority": "P3",
+    "severity_score": 64.5,
+    "confidence": 0.538,
+    "confidence_pct": 53.8,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
     "gps": [
-      28.963900000000002,
-      77.459
+      28.3589,
+      76.9387
     ],
-    "assigned_agency": "Traffic Police & Transit Dept",
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 5.37,
+    "bbox": [
+      0.0048,
+      0.4252,
+      0.0769,
+      0.0551
+    ],
+    "detected_at": "2026-10-10T01:16:38",
+    "last_seen": "2026-10-10T01:16:38",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.428,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Vertical roadside sign structure verified",
-    "image_url": "/static/evidence/crop_INC-2026-1101.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.8%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Traffic Police & Transit Dept"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1100",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #17)",
-    "gps": [
-      28.9604,
-      77.4565
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.828,
-    "timestamp": "Today, 11:30 AM",
+    "sla_hours": 72,
+    "sla_due": "2026-10-13T01:16:38",
     "verified_by_judge": true,
     "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1100.jpg",
+    "image_url": "/static/evidence/IR-2026-1010-0032_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0032_crop.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 82.8%)"
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (53.8% confidence, 2 frame(s))"
       },
       {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "P3 Medium \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 72 h"
       }
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
+    "repair_cost_est": 17542,
+    "asphalt_tons": 1.5
   },
   {
-    "id": "INC-2026-1099",
-    "type": "damaged_sign",
-    "title": "Live Detected Damaged Sign",
+    "id": "IR-2026-1010-0031",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
     "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #5)",
-    "gps": [
-      28.9569,
-      77.45400000000001
-    ],
-    "assigned_agency": "Traffic Police & Transit Dept",
-    "status": "Dispatched",
-    "confidence": 0.421,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Vertical roadside sign structure verified",
-    "image_url": "/static/evidence/crop_INC-2026-1099.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.1%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Traffic Police & Transit Dept"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1098",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #16)",
-    "gps": [
-      28.953400000000002,
-      77.45150000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.767,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1098.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 76.7%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1097",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #15)",
-    "gps": [
-      28.9499,
-      77.449
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.627,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1097.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 62.7%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1096",
-    "type": "damaged_sign",
-    "title": "Live Detected Damaged Sign",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #101)",
-    "gps": [
-      28.9464,
-      77.4465
-    ],
-    "assigned_agency": "Traffic Police & Transit Dept",
-    "status": "Dispatched",
-    "confidence": 0.445,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Vertical roadside sign structure verified",
-    "image_url": "/static/evidence/crop_INC-2026-1096.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 44.5%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Traffic Police & Transit Dept"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1095",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #11)",
-    "gps": [
-      28.9429,
-      77.444
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.469,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1095.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 46.9%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1094",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #13)",
-    "gps": [
-      28.939400000000003,
-      77.4415
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.427,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1094.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.7%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1093",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #14)",
-    "gps": [
-      28.9359,
-      77.43900000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.828,
-    "timestamp": "Today, 11:30 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1093.jpg",
-    "action_history": [
-      {
-        "time": "11:30 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 82.8%)"
-      },
-      {
-        "time": "11:30 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1092",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #12)",
-    "gps": [
-      28.9324,
-      77.43650000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.767,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1092.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 76.7%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1091",
-    "type": "damaged_sign",
-    "title": "Live Detected Damaged Sign",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #3)",
-    "gps": [
-      28.928900000000002,
-      77.434
-    ],
-    "assigned_agency": "Traffic Police & Transit Dept",
-    "status": "Dispatched",
-    "confidence": 0.473,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Vertical roadside sign structure verified",
-    "image_url": "/static/evidence/crop_INC-2026-1091.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 47.3%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Traffic Police & Transit Dept"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1090",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #10)",
-    "gps": [
-      28.9254,
-      77.4315
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.58,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1090.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 58.0%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1089",
-    "type": "faded_zebra_crossing",
-    "title": "Live Detected Faded Zebra Crossing",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #4)",
-    "gps": [
-      28.9219,
-      77.429
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.312,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface crosswalk stripe pattern verified",
-    "image_url": "/static/evidence/crop_INC-2026-1089.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 31.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1088",
-    "type": "faded_zebra_crossing",
-    "title": "Live Detected Faded Zebra Crossing",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #100)",
-    "gps": [
-      28.918400000000002,
-      77.4265
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.418,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface crosswalk stripe pattern verified",
-    "image_url": "/static/evidence/crop_INC-2026-1088.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 41.8%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1087",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #9)",
-    "gps": [
-      28.9149,
-      77.424
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.469,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1087.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 46.9%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1086",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #8)",
-    "gps": [
-      28.9114,
-      77.42150000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
+    "priority": "P3",
+    "severity_score": 65.9,
     "confidence": 0.563,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1086.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 56.3%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1085",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #2)",
-    "gps": [
-      28.9079,
-      77.419
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.819,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1085.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 81.9%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1084",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #7)",
-    "gps": [
-      28.904400000000003,
-      77.4165
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.656,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1084.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 65.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1083",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #4)",
-    "gps": [
-      28.9009,
-      77.414
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.904,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1083.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 90.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1082",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #5)",
-    "gps": [
-      28.8974,
-      77.4115
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.427,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1082.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.7%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1081",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #6)",
-    "gps": [
-      28.893900000000002,
-      77.409
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.828,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1081.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 82.8%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1080",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #3)",
-    "gps": [
-      28.8904,
-      77.40650000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.532,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1080.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 53.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1079",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #1)",
-    "gps": [
-      28.8869,
-      77.404
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.804,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1079.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 80.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1078",
-    "type": "damaged_sign",
-    "title": "Live Detected Damaged Sign",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #99)",
-    "gps": [
-      28.8834,
-      77.4015
-    ],
-    "assigned_agency": "Traffic Police & Transit Dept",
-    "status": "Dispatched",
-    "confidence": 0.887,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Vertical roadside sign structure verified",
-    "image_url": "/static/evidence/crop_INC-2026-1078.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 88.7%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Traffic Police & Transit Dept"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1077",
-    "type": "damaged_sign",
-    "title": "Live Detected Damaged Sign",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #2)",
-    "gps": [
-      28.8799,
-      77.399
-    ],
-    "assigned_agency": "Traffic Police & Transit Dept",
-    "status": "Dispatched",
-    "confidence": 0.554,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Vertical roadside sign structure verified",
-    "image_url": "/static/evidence/crop_INC-2026-1077.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 55.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Traffic Police & Transit Dept"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1076",
-    "type": "faded_zebra_crossing",
-    "title": "Live Detected Faded Zebra Crossing",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #1)",
-    "gps": [
-      28.8764,
-      77.3965
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.32,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface crosswalk stripe pattern verified",
-    "image_url": "/static/evidence/crop_INC-2026-1076.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 32.0%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1075",
-    "type": "faded_zebra_crossing",
-    "title": "Live Detected Faded Zebra Crossing",
-    "severity": "Medium",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #98)",
-    "gps": [
-      28.8729,
-      77.394
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.445,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface crosswalk stripe pattern verified",
-    "image_url": "/static/evidence/crop_INC-2026-1075.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 44.5%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 35000,
-    "asphalt_tons": 0.0
-  },
-  {
-    "id": "INC-2026-1074",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #96)",
-    "gps": [
-      28.869400000000002,
-      77.39150000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1074.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1073",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #95)",
-    "gps": [
-      28.8659,
-      77.38900000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1073.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1072",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #92)",
-    "gps": [
-      28.8624,
-      77.3865
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1072.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1071",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #91)",
-    "gps": [
-      28.858900000000002,
-      77.384
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1071.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1070",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #90)",
-    "gps": [
-      28.8554,
-      77.3815
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1070.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1069",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #87)",
-    "gps": [
-      28.8519,
-      77.379
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1069.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1068",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #86)",
-    "gps": [
-      28.8484,
-      77.37650000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1068.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1067",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #85)",
-    "gps": [
-      28.844900000000003,
-      77.37400000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1067.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1066",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #82)",
-    "gps": [
-      28.8414,
-      77.3715
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1066.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1065",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #81)",
-    "gps": [
-      28.8379,
-      77.369
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1065.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1064",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #80)",
-    "gps": [
-      28.834400000000002,
-      77.3665
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1064.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1063",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #77)",
-    "gps": [
-      28.8309,
-      77.364
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1063.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1062",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #76)",
-    "gps": [
-      28.8274,
-      77.3615
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1062.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1061",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #75)",
-    "gps": [
-      28.823900000000002,
-      77.35900000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1061.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1060",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #72)",
-    "gps": [
-      28.8204,
-      77.3565
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1060.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1059",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #71)",
-    "gps": [
-      28.8169,
-      77.354
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1059.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1058",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #70)",
-    "gps": [
-      28.8134,
-      77.3515
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1058.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1057",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #67)",
-    "gps": [
-      28.809900000000003,
-      77.349
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1057.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1056",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #66)",
-    "gps": [
-      28.8064,
-      77.3465
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1056.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1055",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #65)",
-    "gps": [
-      28.8029,
-      77.34400000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1055.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1054",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #62)",
-    "gps": [
-      28.799400000000002,
-      77.3415
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1054.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1053",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #61)",
-    "gps": [
-      28.7959,
-      77.339
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1053.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1052",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #60)",
-    "gps": [
-      28.7924,
-      77.3365
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1052.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1051",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #57)",
-    "gps": [
-      28.7889,
-      77.334
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1051.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1050",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #56)",
-    "gps": [
-      28.785400000000003,
-      77.3315
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1050.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1049",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #55)",
-    "gps": [
-      28.7819,
-      77.32900000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1049.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1048",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #52)",
-    "gps": [
-      28.7784,
-      77.32650000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1048.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1047",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #51)",
-    "gps": [
-      28.774900000000002,
-      77.324
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1047.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1046",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #50)",
-    "gps": [
-      28.7714,
-      77.3215
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1046.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1045",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #47)",
-    "gps": [
-      28.7679,
-      77.319
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1045.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1044",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #46)",
-    "gps": [
-      28.764400000000002,
-      77.3165
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1044.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1043",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #45)",
-    "gps": [
-      28.7609,
-      77.31400000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:29 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1043.jpg",
-    "action_history": [
-      {
-        "time": "11:29 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:29 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1042",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #42)",
-    "gps": [
-      28.7574,
-      77.31150000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1042.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1041",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #41)",
-    "gps": [
-      28.7539,
-      77.309
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1041.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1040",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #40)",
-    "gps": [
-      28.750400000000003,
-      77.3065
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1040.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1039",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #37)",
-    "gps": [
-      28.7469,
-      77.304
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1039.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1038",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #36)",
-    "gps": [
-      28.7434,
-      77.3015
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1038.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1037",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #35)",
-    "gps": [
-      28.739900000000002,
-      77.299
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1037.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1036",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #32)",
-    "gps": [
-      28.7364,
-      77.29650000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1036.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1035",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #31)",
-    "gps": [
-      28.7329,
-      77.294
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1035.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1034",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #30)",
-    "gps": [
-      28.729400000000002,
-      77.2915
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1034.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1033",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #27)",
-    "gps": [
-      28.7259,
-      77.289
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1033.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1032",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #26)",
-    "gps": [
-      28.7224,
-      77.2865
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1032.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1031",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #25)",
-    "gps": [
-      28.7189,
-      77.284
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1031.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1030",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #22)",
-    "gps": [
-      28.715400000000002,
-      77.28150000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1030.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1029",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #21)",
-    "gps": [
-      28.7119,
-      77.279
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1029.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1028",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #20)",
-    "gps": [
-      28.7084,
-      77.2765
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1028.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1027",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #17)",
-    "gps": [
-      28.704900000000002,
-      77.274
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1027.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1026",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #16)",
-    "gps": [
-      28.7014,
-      77.2715
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1026.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1025",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #15)",
-    "gps": [
-      28.6979,
-      77.269
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1025.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1024",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #12)",
-    "gps": [
-      28.6944,
-      77.26650000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.696,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1024.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 69.6%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1023",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #11)",
-    "gps": [
-      28.690900000000003,
-      77.26400000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.839,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1023.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 83.9%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1022",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #10)",
-    "gps": [
-      28.6874,
-      77.2615
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.482,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1022.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 48.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1021",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #9)",
-    "gps": [
-      28.6839,
-      77.259
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1021.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1020",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #7)",
-    "gps": [
-      28.680400000000002,
-      77.2565
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1020.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1019",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #8)",
-    "gps": [
-      28.6769,
-      77.254
+    "confidence_pct": 56.3,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 3.89,
+    "bbox": [
+      0.8269,
+      0.1496,
+      0.1058,
+      0.0472
+    ],
+    "detected_at": "2026-10-10T01:16:28",
+    "last_seen": "2026-10-10T01:16:28",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
     ],
-    "assigned_agency": "Municipality & PWD",
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.82,
-    "timestamp": "Today, 11:28 AM",
+    "sla_hours": 72,
+    "sla_due": "2026-10-13T01:16:28",
     "verified_by_judge": true,
     "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1019.jpg",
+    "image_url": "/static/evidence/IR-2026-1010-0031_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0031_crop.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 82.0%)"
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (56.3% confidence, 2 frame(s))"
       },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1018",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #6)",
-    "gps": [
-      28.6734,
-      77.25150000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.789,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1018.jpg",
-    "action_history": [
       {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 78.9%)"
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
       },
       {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
+        "time": "01:16 AM",
+        "action": "P3 Medium \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 72 h"
       }
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
+    "repair_cost_est": 17996,
+    "asphalt_tons": 1.5
   },
-  {
-    "id": "INC-2026-1017",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #3)",
-    "gps": [
-      28.669900000000002,
-      77.24900000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.578,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1017.jpg",
-    "action_history": [
-      {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 57.8%)"
-      },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
+  {
+    "id": "IR-2026-1010-0030",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.858,
+    "confidence_pct": 85.8,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 0.64,
+    "bbox": [
+      0.2115,
+      0.4055,
+      0.1827,
+      0.2244
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1016",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #1)",
-    "gps": [
-      28.6664,
-      77.2465
+    "detected_at": "2026-10-10T01:16:26",
+    "last_seen": "2026-10-10T01:16:26",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
     ],
-    "assigned_agency": "Municipality & PWD",
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.427,
-    "timestamp": "Today, 11:28 AM",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:16:26",
     "verified_by_judge": true,
     "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1016.jpg",
+    "image_url": "/static/evidence/IR-2026-1010-0030_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0030_crop.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.7%)"
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (85.8% confidence, 2 frame(s))"
       },
-      {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
-  },
-  {
-    "id": "INC-2026-1015",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "CCTV Highway Camera #04 (Sector 14, Track #2)",
-    "gps": [
-      28.6629,
-      77.244
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.826,
-    "timestamp": "Today, 11:28 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "image_url": "/static/evidence/crop_INC-2026-1015.jpg",
-    "action_history": [
       {
-        "time": "11:28 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 82.6%)"
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
       },
       {
-        "time": "11:28 AM",
-        "action": "Automated priority dispatch routed to Municipality & PWD"
+        "time": "01:16 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
       }
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8
+    "repair_cost_est": 39598,
+    "asphalt_tons": 3.7
   },
   {
-    "id": "INC-2026-1014",
+    "id": "IR-2026-1010-0029",
     "type": "pothole",
-    "title": "Live Detected Pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
     "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #11)",
+    "priority": "P2",
+    "severity_score": 72.2,
+    "confidence": 0.708,
+    "confidence_pct": 70.8,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
     "gps": [
-      28.652900000000002,
-      77.235
+      28.3589,
+      76.9387
     ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Crew En Route",
-    "confidence": 0.839,
-    "timestamp": "2026-10-09 11:01 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "action_history": [
-      {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 83.9%)"
-      },
-      {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
-      },
-      {
-        "time": "11:22 AM",
-        "action": "Status updated to 'Crew En Route': Test action"
-      }
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 3.89,
+    "bbox": [
+      0.7476,
+      0.0748,
+      0.125,
+      0.0591
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
-  },
-  {
-    "id": "INC-2026-1013",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #10)",
-    "gps": [
-      28.649900000000002,
-      77.233
+    "detected_at": "2026-10-10T01:16:22",
+    "last_seen": "2026-10-10T01:16:22",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
     ],
-    "assigned_agency": "Municipality & PWD",
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.482,
-    "timestamp": "2026-10-09 11:01 AM",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:16:22",
     "verified_by_judge": true,
     "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0029_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0029_crop.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 48.2%)"
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (70.8% confidence, 2 frame(s))"
       },
-      {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
-  },
-  {
-    "id": "INC-2026-1012",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #9)",
-    "gps": [
-      28.646900000000002,
-      77.23100000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.494,
-    "timestamp": "2026-10-09 11:01 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "action_history": [
       {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 49.4%)"
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
       },
       {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
+        "time": "01:16 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
       }
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
+    "repair_cost_est": 19432,
+    "asphalt_tons": 1.6
   },
   {
-    "id": "INC-2026-1011",
+    "id": "IR-2026-1010-0028",
     "type": "pothole",
-    "title": "Live Detected Pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
     "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #7)",
+    "priority": "P2",
+    "severity_score": 68.9,
+    "confidence": 0.549,
+    "confidence_pct": 54.9,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
     "gps": [
-      28.643900000000002,
-      77.229
+      28.3589,
+      76.9387
     ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.422,
-    "timestamp": "2026-10-09 11:01 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "action_history": [
-      {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.2%)"
-      },
-      {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
-      }
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 5.52,
+    "bbox": [
+      0.1442,
+      0.3386,
+      0.1683,
+      0.0551
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
-  },
-  {
-    "id": "INC-2026-1010",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #8)",
-    "gps": [
-      28.640900000000002,
-      77.227
+    "detected_at": "2026-10-10T01:16:16",
+    "last_seen": "2026-10-10T01:17:02",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
     ],
-    "assigned_agency": "Municipality & PWD",
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.82,
-    "timestamp": "2026-10-09 11:01 AM",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:16:16",
     "verified_by_judge": true,
     "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0028_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0028_crop.jpg",
+    "merged_count": 1,
     "action_history": [
       {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 82.0%)"
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (54.9% confidence, 2 frame(s))"
       },
-      {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
-  },
-  {
-    "id": "INC-2026-1009",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #6)",
-    "gps": [
-      28.637900000000002,
-      77.22500000000001
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.789,
-    "timestamp": "2026-10-09 11:01 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "action_history": [
       {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 78.9%)"
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
       },
-      {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
-  },
-  {
-    "id": "INC-2026-1008",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #3)",
-    "gps": [
-      28.634900000000002,
-      77.223
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.578,
-    "timestamp": "2026-10-09 11:01 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "action_history": [
       {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 57.8%)"
+        "time": "01:16 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
       },
       {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
+        "time": "01:17 AM",
+        "action": "Duplicate detection merged (seen again at 54.9% confidence)"
       }
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
+    "repair_cost_est": 20563,
+    "asphalt_tons": 1.8
   },
   {
-    "id": "INC-2026-1007",
+    "id": "IR-2026-1010-0027",
     "type": "pothole",
-    "title": "Live Detected Pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
     "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #1)",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.893,
+    "confidence_pct": 89.3,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
     "gps": [
-      28.6319,
-      77.221
+      28.3589,
+      76.9387
     ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Dispatched",
-    "confidence": 0.427,
-    "timestamp": "2026-10-09 11:01 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "action_history": [
-      {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 42.7%)"
-      },
-      {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
-      }
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 5.52,
+    "bbox": [
+      0.6106,
+      0.5118,
+      0.2404,
+      0.189
     ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
-  },
-  {
-    "id": "INC-2026-1006",
-    "type": "pothole",
-    "title": "Live Detected Pothole",
-    "severity": "High",
-    "location_name": "Camera Feed (Zone Sector 14, Track #2)",
-    "gps": [
-      28.6289,
-      77.21900000000001
+    "detected_at": "2026-10-10T01:16:16",
+    "last_seen": "2026-10-10T01:16:16",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
     ],
-    "assigned_agency": "Municipality & PWD",
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
     "status": "Dispatched",
-    "confidence": 0.826,
-    "timestamp": "2026-10-09 11:01 AM",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:16:16",
     "verified_by_judge": true,
     "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
-    "action_history": [
-      {
-        "time": "11:01 AM",
-        "action": "Auto-detected & verified by ROADNETRA AI (Confidence: 82.6%)"
-      },
-      {
-        "time": "11:01 AM",
-        "action": "Automated priority dispatch dispatched to Municipality & PWD"
-      }
-    ],
-    "repair_cost_est": 22000,
-    "asphalt_tons": 2.8,
-    "image_url": "/static/evidence/pothole_1.jpg"
-  },
-  {
-    "id": "INC-2026-0811",
-    "type": "pothole",
-    "title": "Severe Crater Pothole (Depth > 9cm)",
-    "severity": "High",
-    "location_name": "NH-44 Highway, Km 14.2 (Southbound Lane 2)",
-    "gps": [
-      28.6289,
-      77.2065
-    ],
-    "assigned_agency": "PWD / NHAI",
-    "status": "Under Repair",
-    "confidence": 0.88,
-    "timestamp": "2026-10-09 08:42 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: Road surface cavity confirmed (Hazardous to 2-wheelers)",
-    "image_thumb": "sample_pothole_1.jpg",
+    "image_url": "/static/evidence/IR-2026-1010-0027_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0027_crop.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "08:42 AM",
-        "action": "Detected by ROADNETRA Edge CCTV unit #CCTV-NH44-09"
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (89.3% confidence, 2 frame(s))"
       },
       {
-        "time": "08:43 AM",
-        "action": "Automated Ticket Dispatched to PWD Central Division"
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
       },
       {
-        "time": "09:15 AM",
-        "action": "Maintenance Van #PV-04 Dispatched with Cold-Mix Asphalt Crew"
+        "time": "01:16 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
       }
     ],
-    "repair_cost_est": 18500,
-    "asphalt_tons": 2.4,
-    "image_url": "/static/evidence/pothole_1.jpg"
+    "repair_cost_est": 42261,
+    "asphalt_tons": 3.9
   },
   {
-    "id": "INC-2026-0812",
-    "type": "damaged_divider",
-    "title": "Crumpled Steel Crash Barrier (Median Breach)",
+    "id": "IR-2026-1010-0026",
+    "type": "severe_accident",
+    "category": "accident",
+    "model": "Model B \u00b7 Severe Accident",
+    "title": "Severe Accident \u00b7 Manesar Bypass",
     "severity": "Critical",
-    "location_name": "Ring Road Flyover, Junction 7 Ramp",
+    "priority": "P1",
+    "severity_score": 96.9,
+    "confidence": 0.825,
+    "confidence_pct": 82.5,
+    "frames_confirmed": 3,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
     "gps": [
-      28.6139,
-      77.209
+      28.3589,
+      76.9387
     ],
-    "assigned_agency": "PWD / NHAI",
-    "status": "Crew En Route",
-    "confidence": 0.84,
-    "timestamp": "2026-10-09 09:10 AM",
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 6.48,
+    "bbox": [
+      0.2764,
+      0.1063,
+      0.7067,
+      0.7126
+    ],
+    "detected_at": "2026-10-10T01:16:11",
+    "last_seen": "2026-10-10T01:17:02",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI",
+    "authorities": [
+      "hosp",
+      "pol",
+      "nhai"
+    ],
+    "authority_status": {
+      "hosp": 0,
+      "pol": 0,
+      "nhai": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 1,
+    "sla_due": "2026-10-10T02:16:11",
     "verified_by_judge": true,
-    "judge_reason": "Verified: Median guardrail structural deflection confirmed",
-    "image_thumb": "sample_divider_1.jpg",
+    "judge_reason": "Verified: Model B collision signature at 62% (above 55% acceptance threshold)",
+    "image_url": "/static/evidence/IR-2026-1010-0026_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0026_crop.jpg",
+    "merged_count": 4,
     "action_history": [
       {
-        "time": "09:10 AM",
-        "action": "Detected by ROADNETRA Overhead Fisheye #CCTV-RR-14"
+        "time": "01:16 AM",
+        "action": "Model B \u00b7 Severe Accident detected severe accident on uploaded video (68.7% confidence, 3 frame(s))"
       },
       {
-        "time": "09:11 AM",
-        "action": "Emergency Alert sent to NHAI Rapid Response Team"
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Model B collision signature at 62% (above 55% acceptance threshold)"
       },
       {
-        "time": "09:20 AM",
-        "action": "Traffic Police notified of median hazard"
+        "time": "01:16 AM",
+        "action": "P1 Critical \u00b7 routed to 108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI \u00b7 SLA 1 h"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Duplicate detection merged (seen again at 78.2% confidence)"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Duplicate detection merged (seen again at 82.5% confidence)"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Duplicate detection merged (seen again at 78.2% confidence)"
+      },
+      {
+        "time": "01:17 AM",
+        "action": "Duplicate detection merged (seen again at 82.5% confidence)"
+      }
+    ],
+    "ambulance_eta_mins": null
+  },
+  {
+    "id": "IR-2026-1010-0025",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.803,
+    "confidence_pct": 80.3,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 5.3,
+    "bbox": [
+      0.5577,
+      0.4134,
+      0.2548,
+      0.122
+    ],
+    "detected_at": "2026-10-10T01:16:11",
+    "last_seen": "2026-10-10T01:16:11",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:16:11",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0025_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0025_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (80.3% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 33651,
+    "asphalt_tons": 3.1
+  },
+  {
+    "id": "IR-2026-1010-0024",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.814,
+    "confidence_pct": 81.4,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 0.42,
+    "bbox": [
+      0.3197,
+      0.3819,
+      0.2067,
+      0.1811
+    ],
+    "detected_at": "2026-10-10T01:16:11",
+    "last_seen": "2026-10-10T01:16:11",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:16:11",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0024_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0024_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (81.4% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 37460,
+    "asphalt_tons": 3.4
+  },
+  {
+    "id": "IR-2026-1010-0023",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "Medium",
+    "priority": "P3",
+    "severity_score": 64.4,
+    "confidence": 0.552,
+    "confidence_pct": 55.2,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 5.3,
+    "bbox": [
+      0.0048,
+      0.3346,
+      0.0889,
+      0.0394
+    ],
+    "detected_at": "2026-10-10T01:16:09",
+    "last_seen": "2026-10-10T01:16:09",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 72,
+    "sla_due": "2026-10-13T01:16:09",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0023_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0023_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (55.2% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "P3 Medium \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 72 h"
+      }
+    ],
+    "repair_cost_est": 17101,
+    "asphalt_tons": 1.4
+  },
+  {
+    "id": "IR-2026-1010-0022",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.886,
+    "confidence_pct": 88.6,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "43220b9ac3d1",
+    "video_time_s": 5.3,
+    "bbox": [
+      0.0096,
+      0.437,
+      0.3317,
+      0.1614
+    ],
+    "detected_at": "2026-10-10T01:16:09",
+    "last_seen": "2026-10-10T01:16:16",
+    "timestamp": "Today, 01:16 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:16:09",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0022_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0022_crop.jpg",
+    "merged_count": 1,
+    "action_history": [
+      {
+        "time": "01:16 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (88.6% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      },
+      {
+        "time": "01:16 AM",
+        "action": "Duplicate detection merged (seen again at 88.6% confidence)"
+      }
+    ],
+    "repair_cost_est": 47121,
+    "asphalt_tons": 4.4
+  },
+  {
+    "id": "IR-2026-1010-0021",
+    "type": "severe_accident",
+    "category": "accident",
+    "model": "Model B \u00b7 Severe Accident",
+    "title": "Severe Accident \u00b7 Rajiv Chowk flyover",
+    "severity": "Critical",
+    "priority": "P1",
+    "severity_score": 99.1,
+    "confidence": 0.914,
+    "confidence_pct": 91.4,
+    "frames_confirmed": 3,
+    "location_name": "Rajiv Chowk flyover, NH-48 KM 118.4",
+    "place": "Rajiv Chowk flyover",
+    "road": "NH-48",
+    "km": "118.4",
+    "road_type": "national",
+    "camera_id": "CAM-064",
+    "gps": [
+      28.4405,
+      77.0235
+    ],
+    "lat": 28.4405,
+    "lng": 77.0235,
+    "source": "video",
+    "source_name": "acc_clip.mp4",
+    "stream_id": "655fcd841dac",
+    "video_time_s": 0.0,
+    "bbox": [
+      0.1016,
+      0.0,
+      0.5938,
+      0.9271
+    ],
+    "detected_at": "2026-10-10T01:14:21",
+    "last_seen": "2026-10-10T01:14:21",
+    "timestamp": "Today, 01:14 AM",
+    "assigned_agency": "108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI",
+    "authorities": [
+      "hosp",
+      "pol",
+      "nhai"
+    ],
+    "authority_status": {
+      "hosp": 0,
+      "pol": 0,
+      "nhai": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 1,
+    "sla_due": "2026-10-10T02:14:21",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Model B collision signature at 91% (above 55% acceptance threshold)",
+    "image_url": "/static/evidence/IR-2026-1010-0021_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0021_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:14 AM",
+        "action": "Model B \u00b7 Severe Accident detected severe accident on uploaded video (91.4% confidence, 3 frame(s))"
+      },
+      {
+        "time": "01:14 AM",
+        "action": "Judge: Verified: Model B collision signature at 91% (above 55% acceptance threshold)"
+      },
+      {
+        "time": "01:14 AM",
+        "action": "P1 Critical \u00b7 routed to 108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI \u00b7 SLA 1 h"
+      }
+    ],
+    "ambulance_eta_mins": null
+  },
+  {
+    "id": "IR-2026-1010-0020",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Sector 99 junction",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 71.9,
+    "confidence": 0.826,
+    "confidence_pct": 82.6,
+    "frames_confirmed": 2,
+    "location_name": "Sector 99 junction, Dwarka Expwy KM 18.4",
+    "place": "Sector 99 junction",
+    "road": "Dwarka Expwy",
+    "km": "18.4",
+    "road_type": "national",
+    "camera_id": "CAM-112",
+    "gps": [
+      28.4895,
+      76.989
+    ],
+    "lat": 28.4895,
+    "lng": 76.989,
+    "source": "video",
+    "source_name": "sample_highway_drive.mp4",
+    "stream_id": "2b299523e179",
+    "video_time_s": 6.32,
+    "bbox": [
+      0.7763,
+      0.6111,
+      0.0779,
+      0.0338
+    ],
+    "detected_at": "2026-10-10T01:13:00",
+    "last_seen": "2026-10-10T01:13:00",
+    "timestamp": "Today, 01:13 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:13:00",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0020_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0020_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:13 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (82.6% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:13 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:13 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 16579,
+    "asphalt_tons": 1.4
+  },
+  {
+    "id": "IR-2026-1010-0019",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Sector 99 junction",
+    "severity": "Medium",
+    "priority": "P3",
+    "severity_score": 65.7,
+    "confidence": 0.684,
+    "confidence_pct": 68.4,
+    "frames_confirmed": 2,
+    "location_name": "Sector 99 junction, Dwarka Expwy KM 18.4",
+    "place": "Sector 99 junction",
+    "road": "Dwarka Expwy",
+    "km": "18.4",
+    "road_type": "national",
+    "camera_id": "CAM-112",
+    "gps": [
+      28.4895,
+      76.989
+    ],
+    "lat": 28.4895,
+    "lng": 76.989,
+    "source": "video",
+    "source_name": "sample_highway_drive.mp4",
+    "stream_id": "2b299523e179",
+    "video_time_s": 8.73,
+    "bbox": [
+      0.5598,
+      0.5785,
+      0.0299,
+      0.0097
+    ],
+    "detected_at": "2026-10-10T01:12:59",
+    "last_seen": "2026-10-10T01:12:59",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 72,
+    "sla_due": "2026-10-13T01:12:59",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0019_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0019_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (68.4% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P3 Medium \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 72 h"
+      }
+    ],
+    "repair_cost_est": 15174,
+    "asphalt_tons": 1.2
+  },
+  {
+    "id": "IR-2026-1010-0018",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Sector 99 junction",
+    "severity": "Medium",
+    "priority": "P3",
+    "severity_score": 67.8,
+    "confidence": 0.717,
+    "confidence_pct": 71.7,
+    "frames_confirmed": 2,
+    "location_name": "Sector 99 junction, Dwarka Expwy KM 18.4",
+    "place": "Sector 99 junction",
+    "road": "Dwarka Expwy",
+    "km": "18.4",
+    "road_type": "national",
+    "camera_id": "CAM-112",
+    "gps": [
+      28.4895,
+      76.989
+    ],
+    "lat": 28.4895,
+    "lng": 76.989,
+    "source": "video",
+    "source_name": "sample_highway_drive.mp4",
+    "stream_id": "2b299523e179",
+    "video_time_s": 4.17,
+    "bbox": [
+      0.3841,
+      0.6232,
+      0.0643,
+      0.0242
+    ],
+    "detected_at": "2026-10-10T01:12:54",
+    "last_seen": "2026-10-10T01:12:54",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 72,
+    "sla_due": "2026-10-13T01:12:54",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0018_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0018_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (71.7% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P3 Medium \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 72 h"
+      }
+    ],
+    "repair_cost_est": 15933,
+    "asphalt_tons": 1.3
+  },
+  {
+    "id": "IR-2026-1010-0017",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 77.5,
+    "confidence": 0.812,
+    "confidence_pct": 81.2,
+    "frames_confirmed": 1,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "image",
+    "source_name": "pothole_1.jpg",
+    "stream_id": "bb9b65ccd115",
+    "video_time_s": null,
+    "bbox": [
+      0.9042,
+      0.2264,
+      0.0958,
+      0.1069
+    ],
+    "detected_at": "2026-10-10T01:12:44",
+    "last_seen": "2026-10-10T01:12:44",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:44",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0017_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0017_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded image (81.2% confidence, 1 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 21144,
+    "asphalt_tons": 1.8
+  },
+  {
+    "id": "IR-2026-1010-0016",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 78.0,
+    "confidence": 0.849,
+    "confidence_pct": 84.9,
+    "frames_confirmed": 1,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "image",
+    "source_name": "pothole_1.jpg",
+    "stream_id": "bb9b65ccd115",
+    "video_time_s": null,
+    "bbox": [
+      0.275,
+      0.4917,
+      0.1125,
+      0.0833
+    ],
+    "detected_at": "2026-10-10T01:12:44",
+    "last_seen": "2026-10-10T01:12:44",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:44",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0016_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0016_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded image (84.9% confidence, 1 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 20622,
+    "asphalt_tons": 1.8
+  },
+  {
+    "id": "IR-2026-1010-0015",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 86.5,
+    "confidence": 0.96,
+    "confidence_pct": 96.0,
+    "frames_confirmed": 1,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "image",
+    "source_name": "pothole_1.jpg",
+    "stream_id": "bb9b65ccd115",
+    "video_time_s": null,
+    "bbox": [
+      0.5486,
+      0.3986,
+      0.1528,
+      0.1042
+    ],
+    "detected_at": "2026-10-10T01:12:44",
+    "last_seen": "2026-10-10T01:12:44",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:44",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0015_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0015_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded image (96.0% confidence, 1 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 24553,
+    "asphalt_tons": 2.2
+  },
+  {
+    "id": "IR-2026-1010-0014",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.978,
+    "confidence_pct": 97.8,
+    "frames_confirmed": 1,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "image",
+    "source_name": "pothole_1.jpg",
+    "stream_id": "bb9b65ccd115",
+    "video_time_s": null,
+    "bbox": [
+      0.3778,
+      0.4375,
+      0.1903,
+      0.1139
+    ],
+    "detected_at": "2026-10-10T01:12:44",
+    "last_seen": "2026-10-10T01:12:44",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:44",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0014_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0014_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded image (97.8% confidence, 1 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 28005,
+    "asphalt_tons": 2.5
+  },
+  {
+    "id": "IR-2026-1010-0013",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "Medium",
+    "priority": "P3",
+    "severity_score": 64.8,
+    "confidence": 0.468,
+    "confidence_pct": 46.8,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "5d3c467153ae",
+    "video_time_s": 2.62,
+    "bbox": [
+      0.3486,
+      0.4016,
+      0.1298,
+      0.0551
+    ],
+    "detected_at": "2026-10-10T01:12:42",
+    "last_seen": "2026-10-10T01:12:42",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 72,
+    "sla_due": "2026-10-13T01:12:42",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0013_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0013_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (46.8% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P3 Medium \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 72 h"
+      }
+    ],
+    "repair_cost_est": 19291,
+    "asphalt_tons": 1.6
+  },
+  {
+    "id": "IR-2026-1010-0012",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "Medium",
+    "priority": "P3",
+    "severity_score": 63.8,
+    "confidence": 0.492,
+    "confidence_pct": 49.2,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "5d3c467153ae",
+    "video_time_s": 2.62,
+    "bbox": [
+      0.8413,
+      0.4291,
+      0.1058,
+      0.0472
+    ],
+    "detected_at": "2026-10-10T01:12:42",
+    "last_seen": "2026-10-10T01:12:42",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 72,
+    "sla_due": "2026-10-13T01:12:42",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0012_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0012_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (49.2% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P3 Medium \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 72 h"
+      }
+    ],
+    "repair_cost_est": 17996,
+    "asphalt_tons": 1.5
+  },
+  {
+    "id": "IR-2026-1010-0011",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 76.6,
+    "confidence": 0.576,
+    "confidence_pct": 57.6,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "5d3c467153ae",
+    "video_time_s": 2.62,
+    "bbox": [
+      0.5505,
+      0.5118,
+      0.2067,
+      0.0866
+    ],
+    "detected_at": "2026-10-10T01:12:42",
+    "last_seen": "2026-10-10T01:12:42",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:42",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0011_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0011_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (57.6% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 25740,
+    "asphalt_tons": 2.3
+  },
+  {
+    "id": "IR-2026-1010-0010",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 71.5,
+    "confidence": 0.655,
+    "confidence_pct": 65.5,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "5d3c467153ae",
+    "video_time_s": 2.62,
+    "bbox": [
+      0.7861,
+      0.6181,
+      0.1154,
+      0.0748
+    ],
+    "detected_at": "2026-10-10T01:12:42",
+    "last_seen": "2026-10-10T01:12:42",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:42",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0010_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0010_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (65.5% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 20179,
+    "asphalt_tons": 1.7
+  },
+  {
+    "id": "IR-2026-1010-0009",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 86.6,
+    "confidence": 0.721,
+    "confidence_pct": 72.1,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "5d3c467153ae",
+    "video_time_s": 0.15,
+    "bbox": [
+      0.0144,
+      0.3543,
+      0.238,
+      0.1614
+    ],
+    "detected_at": "2026-10-10T01:12:40",
+    "last_seen": "2026-10-10T01:12:40",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:40",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0009_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0009_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (72.1% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 38047,
+    "asphalt_tons": 3.5
+  },
+  {
+    "id": "IR-2026-1010-0008",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.944,
+    "confidence_pct": 94.4,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "5d3c467153ae",
+    "video_time_s": 6.25,
+    "bbox": [
+      0.3005,
+      0.5,
+      0.375,
+      0.3465
+    ],
+    "detected_at": "2026-10-10T01:12:38",
+    "last_seen": "2026-10-10T01:12:38",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:38",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0008_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0008_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (94.4% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 92962,
+    "asphalt_tons": 9.0
+  },
+  {
+    "id": "IR-2026-1010-0007",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "Pothole \u00b7 Manesar Bypass",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 89.0,
+    "confidence": 0.844,
+    "confidence_pct": 84.4,
+    "frames_confirmed": 2,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "video",
+    "source_name": "Demo road (potholes)",
+    "stream_id": "5d3c467153ae",
+    "video_time_s": 2.53,
+    "bbox": [
+      0.0168,
+      0.5709,
+      0.2596,
+      0.1299
+    ],
+    "detected_at": "2026-10-10T01:12:35",
+    "last_seen": "2026-10-10T01:12:35",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T01:12:35",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Road surface asphalt cavity & depression verified",
+    "image_url": "/static/evidence/IR-2026-1010-0007_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0007_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on uploaded video (84.4% confidence, 2 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Road surface asphalt cavity & depression verified"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 35233,
+    "asphalt_tons": 3.2
+  },
+  {
+    "id": "IR-2026-1010-0006",
+    "type": "severe_accident",
+    "category": "accident",
+    "model": "Model B \u00b7 Severe Accident",
+    "title": "Severe Accident \u00b7 Manesar Bypass",
+    "severity": "Critical",
+    "priority": "P1",
+    "severity_score": 99.2,
+    "confidence": 0.921,
+    "confidence_pct": 92.1,
+    "frames_confirmed": 1,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "image",
+    "source_name": "Sample accident image 1",
+    "stream_id": "b8047ce0488e",
+    "video_time_s": null,
+    "bbox": [
+      0.0359,
+      0.1672,
+      0.9484,
+      0.8047
+    ],
+    "detected_at": "2026-10-10T01:12:29",
+    "last_seen": "2026-10-10T01:12:29",
+    "timestamp": "Today, 01:12 AM",
+    "assigned_agency": "108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI",
+    "authorities": [
+      "hosp",
+      "pol",
+      "nhai"
+    ],
+    "authority_status": {
+      "hosp": 0,
+      "pol": 0,
+      "nhai": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 1,
+    "sla_due": "2026-10-10T02:12:29",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: Model B collision signature at 92% (above 55% acceptance threshold)",
+    "image_url": "/static/evidence/IR-2026-1010-0006_frame.jpg",
+    "crop_url": "/static/evidence/IR-2026-1010-0006_crop.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "01:12 AM",
+        "action": "Model B \u00b7 Severe Accident detected severe accident on uploaded image (92.1% confidence, 1 frame(s))"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "Judge: Verified: Model B collision signature at 92% (above 55% acceptance threshold)"
+      },
+      {
+        "time": "01:12 AM",
+        "action": "P1 Critical \u00b7 routed to 108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI \u00b7 SLA 1 h"
+      }
+    ],
+    "ambulance_eta_mins": null
+  },
+  {
+    "id": "IR-2026-1010-0001",
+    "type": "severe_accident",
+    "category": "accident",
+    "model": "Model B \u00b7 Severe Accident",
+    "title": "[Sample] Severe Accident \u00b7 Manesar Bypass",
+    "severity": "Critical",
+    "priority": "P1",
+    "severity_score": 99.4,
+    "confidence": 0.94,
+    "confidence_pct": 94.0,
+    "frames_confirmed": 1,
+    "location_name": "Manesar Bypass, NH-48 KM 142.6",
+    "place": "Manesar Bypass",
+    "road": "NH-48",
+    "km": "142.6",
+    "road_type": "national",
+    "camera_id": "CAM-084",
+    "gps": [
+      28.3589,
+      76.9387
+    ],
+    "lat": 28.3589,
+    "lng": 76.9387,
+    "source": "seed",
+    "source_name": "seed:severe_accident",
+    "stream_id": null,
+    "video_time_s": null,
+    "bbox": null,
+    "detected_at": "2026-10-10T00:47:23",
+    "last_seen": "2026-10-10T00:47:23",
+    "timestamp": "Today, 12:47 AM",
+    "assigned_agency": "108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI",
+    "authorities": [
+      "hosp",
+      "pol",
+      "nhai"
+    ],
+    "authority_status": {
+      "hosp": 0,
+      "pol": 0,
+      "nhai": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 1,
+    "sla_due": "2026-10-10T01:47:23",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: multi-vehicle collision with lane blockage",
+    "image_url": "/static/evidence/accident_1.jpg",
+    "crop_url": "/static/evidence/accident_1.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "12:47 AM",
+        "action": "Model B \u00b7 Severe Accident detected severe accident on camera (94.0% confidence, 1 frame(s))"
+      },
+      {
+        "time": "12:47 AM",
+        "action": "Judge: Verified: multi-vehicle collision with lane blockage"
+      },
+      {
+        "time": "12:47 AM",
+        "action": "P1 Critical \u00b7 routed to 108 Emergency & Hospital Trauma \u00b7 Traffic Police \u00b7 NHAI \u00b7 SLA 1 h"
+      }
+    ],
+    "ambulance_eta_mins": null
+  },
+  {
+    "id": "IR-2026-1010-0002",
+    "type": "pothole",
+    "category": "pothole",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "[Sample] Pothole \u00b7 Kherki Daula toll",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 71.4,
+    "confidence": 0.88,
+    "confidence_pct": 88.0,
+    "frames_confirmed": 1,
+    "location_name": "Kherki Daula toll, NH-48 KM 128.0",
+    "place": "Kherki Daula toll",
+    "road": "NH-48",
+    "km": "128.0",
+    "road_type": "national",
+    "camera_id": "CAM-071",
+    "gps": [
+      28.3996,
+      76.9958
+    ],
+    "lat": 28.3996,
+    "lng": 76.9958,
+    "source": "seed",
+    "source_name": "seed:pothole",
+    "stream_id": null,
+    "video_time_s": null,
+    "bbox": null,
+    "detected_at": "2026-10-10T00:02:23",
+    "last_seen": "2026-10-10T00:02:23",
+    "timestamp": "Today, 12:02 AM",
+    "assigned_agency": "NHAI & PWD Highway Division",
+    "authorities": [
+      "nhai",
+      "pwd"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-11T00:02:23",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: road surface asphalt cavity & depression",
+    "image_url": "/static/evidence/pothole_1.jpg",
+    "crop_url": "/static/evidence/pothole_1.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "12:02 AM",
+        "action": "Model A \u00b7 Road Infrastructure detected pothole on camera (88.0% confidence, 1 frame(s))"
+      },
+      {
+        "time": "12:02 AM",
+        "action": "Judge: Verified: road surface asphalt cavity & depression"
+      },
+      {
+        "time": "12:02 AM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 SLA 24 h"
+      }
+    ],
+    "repair_cost_est": 15000,
+    "asphalt_tons": 1.2
+  },
+  {
+    "id": "IR-2026-1010-0003",
+    "type": "damaged_divider",
+    "category": "damage",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "[Sample] Damaged Divider / Crash Barrier \u00b7 Sector 99 junction",
+    "severity": "High",
+    "priority": "P2",
+    "severity_score": 86.0,
+    "confidence": 0.84,
+    "confidence_pct": 84.0,
+    "frames_confirmed": 1,
+    "location_name": "Sector 99 junction, Dwarka Expwy KM 18.4",
+    "place": "Sector 99 junction",
+    "road": "Dwarka Expwy",
+    "km": "18.4",
+    "road_type": "national",
+    "camera_id": "CAM-112",
+    "gps": [
+      28.4895,
+      76.989
+    ],
+    "lat": 28.4895,
+    "lng": 76.989,
+    "source": "seed",
+    "source_name": "seed:damaged_divider",
+    "stream_id": null,
+    "video_time_s": null,
+    "bbox": null,
+    "detected_at": "2026-10-09T23:22:23",
+    "last_seen": "2026-10-09T23:22:23",
+    "timestamp": "Today, 11:22 PM",
+    "assigned_agency": "NHAI & PWD Highway Division \u00b7 Traffic Police",
+    "authorities": [
+      "nhai",
+      "pwd",
+      "pol"
+    ],
+    "authority_status": {
+      "nhai": 0,
+      "pwd": 0,
+      "pol": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 24,
+    "sla_due": "2026-10-10T23:22:23",
+    "verified_by_judge": true,
+    "judge_reason": "Verified: median guardrail structural deflection",
+    "image_url": "/static/evidence/guardrail_1.jpg",
+    "crop_url": "/static/evidence/guardrail_1.jpg",
+    "merged_count": 0,
+    "action_history": [
+      {
+        "time": "11:22 PM",
+        "action": "Model A \u00b7 Road Infrastructure detected damaged divider / crash barrier on camera (84.0% confidence, 1 frame(s))"
+      },
+      {
+        "time": "11:22 PM",
+        "action": "Judge: Verified: median guardrail structural deflection"
+      },
+      {
+        "time": "11:22 PM",
+        "action": "P2 High \u00b7 routed to NHAI & PWD Highway Division \u00b7 Traffic Police \u00b7 SLA 24 h"
       }
     ],
     "repair_cost_est": 45000,
-    "asphalt_tons": 0.0,
-    "image_url": "/static/evidence/guardrail_1.jpg"
+    "asphalt_tons": 0.0
   },
   {
-    "id": "INC-2026-0813",
-    "type": "severe_accident",
-    "title": "Multi-Vehicle Collision (Rollover & Lane Blockage)",
-    "severity": "Critical",
-    "location_name": "Outer Bypass Expressway, Km 22.8",
-    "gps": [
-      28.645,
-      77.228
-    ],
-    "assigned_agency": "Apollo Trauma Hospital & 108 EMS",
-    "status": "Dispatched",
-    "confidence": 0.94,
-    "timestamp": "2026-10-09 10:14 AM",
-    "verified_by_judge": true,
-    "judge_reason": "Verified: High-speed collision signature & inverted vehicle chassis",
-    "image_thumb": "sample_accident_1.jpg",
-    "action_history": [
-      {
-        "time": "10:14 AM",
-        "action": "Accident detected via ROADNETRA Dual-Stream Vision Model"
-      },
-      {
-        "time": "10:14 AM",
-        "action": "Automated SOS sent to 108 Emergency Dispatch & Apollo Trauma Bay"
-      },
-      {
-        "time": "10:15 AM",
-        "action": "Green Wave Traffic Signal corridor pre-empted"
-      }
-    ],
-    "casualties_est": 2,
-    "ambulance_eta_mins": 7,
-    "image_url": "/static/evidence/accident_1.jpg"
-  },
-  {
-    "id": "INC-2026-0814",
+    "id": "IR-2026-1010-0004",
     "type": "damaged_sign",
-    "title": "Bent Overhead Speed Limit Sign (Occluded)",
+    "category": "damage",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "[Sample] Damaged Traffic Sign \u00b7 Vatika Chowk",
     "severity": "Medium",
-    "location_name": "Sector 18 Commercial Hub Exit",
-    "gps": [
-      28.57,
-      77.32
-    ],
-    "assigned_agency": "Traffic Police & Transit Dept",
-    "status": "Dispatched",
+    "priority": "P3",
+    "severity_score": 57.8,
     "confidence": 0.91,
-    "timestamp": "2026-10-09 07:30 AM",
+    "confidence_pct": 91.0,
+    "frames_confirmed": 1,
+    "location_name": "Vatika Chowk, Sohna Road KM 6.2",
+    "place": "Vatika Chowk",
+    "road": "Sohna Road",
+    "km": "6.2",
+    "road_type": "city",
+    "camera_id": "CAM-130",
+    "gps": [
+      28.4041,
+      77.0436
+    ],
+    "lat": 28.4041,
+    "lng": 77.0436,
+    "source": "seed",
+    "source_name": "seed:damaged_sign",
+    "stream_id": null,
+    "video_time_s": null,
+    "bbox": null,
+    "detected_at": "2026-10-09T22:42:23",
+    "last_seen": "2026-10-09T22:42:23",
+    "timestamp": "Today, 10:42 PM",
+    "assigned_agency": "Municipality & PWD \u00b7 Traffic Police",
+    "authorities": [
+      "pwd",
+      "pol"
+    ],
+    "authority_status": {
+      "pwd": 0,
+      "pol": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 72,
+    "sla_due": "2026-10-12T22:42:23",
     "verified_by_judge": true,
-    "judge_reason": "Verified: Vertical signage bent at 45 degree angle",
-    "image_thumb": "sample_sign_1.jpg",
+    "judge_reason": "Verified: vertical signage bent at 45 degrees",
+    "image_url": "/static/evidence/sign_1.jpg",
+    "crop_url": "/static/evidence/sign_1.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "07:30 AM",
-        "action": "Detected by Patrol Car Dashcam Stream #DASH-08"
+        "time": "10:42 PM",
+        "action": "Model A \u00b7 Road Infrastructure detected damaged traffic sign on camera (91.0% confidence, 1 frame(s))"
       },
       {
-        "time": "07:32 AM",
-        "action": "Ticket logged for Municipal Street Asset Replacement"
+        "time": "10:42 PM",
+        "action": "Judge: Verified: vertical signage bent at 45 degrees"
+      },
+      {
+        "time": "10:42 PM",
+        "action": "P3 Medium \u00b7 routed to Municipality & PWD \u00b7 Traffic Police \u00b7 SLA 72 h"
       }
     ],
     "repair_cost_est": 8500,
-    "asphalt_tons": 0.0,
-    "image_url": "/static/evidence/sign_1.jpg"
+    "asphalt_tons": 0.0
   },
   {
-    "id": "INC-2026-0815",
+    "id": "IR-2026-1010-0005",
     "type": "faded_zebra_crossing",
-    "title": "Extremely Faded Pedestrian Crosswalk (> 80% Paint Loss)",
-    "severity": "High",
-    "location_name": "Metro Station Gate 3 School Zone Crossing",
-    "gps": [
-      28.632,
-      77.218
-    ],
-    "assigned_agency": "Municipality & PWD",
-    "status": "Pending",
+    "category": "damage",
+    "model": "Model A \u00b7 Road Infrastructure",
+    "title": "[Sample] Faded Zebra Crossing \u00b7 Vatika Chowk",
+    "severity": "Medium",
+    "priority": "P3",
+    "severity_score": 59.8,
     "confidence": 0.79,
-    "timestamp": "2026-10-09 06:50 AM",
+    "confidence_pct": 79.0,
+    "frames_confirmed": 1,
+    "location_name": "Vatika Chowk, Sohna Road KM 6.2",
+    "place": "Vatika Chowk",
+    "road": "Sohna Road",
+    "km": "6.2",
+    "road_type": "city",
+    "camera_id": "CAM-130",
+    "gps": [
+      28.4041,
+      77.0436
+    ],
+    "lat": 28.4041,
+    "lng": 77.0436,
+    "source": "seed",
+    "source_name": "seed:faded_zebra_crossing",
+    "stream_id": null,
+    "video_time_s": null,
+    "bbox": null,
+    "detected_at": "2026-10-09T21:52:23",
+    "last_seen": "2026-10-09T21:52:23",
+    "timestamp": "Today, 09:52 PM",
+    "assigned_agency": "Municipality & PWD \u00b7 Traffic Police",
+    "authorities": [
+      "pwd",
+      "pol"
+    ],
+    "authority_status": {
+      "pwd": 0,
+      "pol": 0
+    },
+    "status": "Dispatched",
+    "sla_hours": 72,
+    "sla_due": "2026-10-12T21:52:23",
     "verified_by_judge": true,
-    "judge_reason": "Verified: Surface crosswalk paint degradation confirmed in high-footfall zone",
-    "image_thumb": "sample_zebra_1.jpg",
+    "judge_reason": "Verified: crosswalk paint degradation in high-footfall zone",
+    "image_url": "/static/evidence/zebra_1.jpg",
+    "crop_url": "/static/evidence/zebra_1.jpg",
+    "merged_count": 0,
     "action_history": [
       {
-        "time": "06:50 AM",
-        "action": "Identified during Early Morning Road Marking Scan"
+        "time": "09:52 PM",
+        "action": "Model A \u00b7 Road Infrastructure detected faded zebra crossing on camera (79.0% confidence, 1 frame(s))"
       },
       {
-        "time": "06:52 AM",
-        "action": "High-Priority Thermoplastic Striping Work Order created"
+        "time": "09:52 PM",
+        "action": "Judge: Verified: crosswalk paint degradation in high-footfall zone"
+      },
+      {
+        "time": "09:52 PM",
+        "action": "P3 Medium \u00b7 routed to Municipality & PWD \u00b7 Traffic Police \u00b7 SLA 72 h"
       }
     ],
     "repair_cost_est": 12000,
-    "asphalt_tons": 0.0,
-    "image_url": "/static/evidence/zebra_1.jpg"
+    "asphalt_tons": 0.0
   }
 ]

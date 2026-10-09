@@ -20,7 +20,8 @@ def centroid_distance(boxA, boxB):
     return math.sqrt((c1[0] - c2[0])**2 + (c1[1] - c2[1])**2)
 
 class TrackedDefect:
-    def __init__(self, track_id, class_name, initial_box, initial_conf, initial_crop, frame_idx, verdict_reason=""):
+    def __init__(self, track_id, class_name, initial_box, initial_conf, initial_crop, frame_idx, verdict_reason="", min_hits=2):
+        self.min_hits = max(1, int(min_hits))
         self.track_id = track_id
         self.class_name = class_name
         self.last_box = list(initial_box)
@@ -31,15 +32,17 @@ class TrackedDefect:
         self.last_frame = frame_idx
         self.hits = 1
         self.time_since_update = 0
-        self.is_confirmed = (self.hits >= 2)
+        self.is_confirmed = (self.hits >= self.min_hits)
         self.verdict_reason = verdict_reason
+        self.payload = {}          # extra data kept from the best detection (e.g. full frame for evidence)
+        self.incident_id = None    # set once the confirmed track has been dispatched
 
     def update(self, box, conf, crop, frame_idx, verdict_reason=""):
         self.last_box = list(box)
         self.last_frame = frame_idx
         self.hits += 1
         self.time_since_update = 0
-        if self.hits >= 2:
+        if self.hits >= self.min_hits:
             self.is_confirmed = True
         if conf > self.highest_conf:
             self.highest_conf = float(conf)
@@ -137,10 +140,13 @@ class DefectTracker:
                     initial_conf=det['conf'],
                     initial_crop=det.get('crop_rgb'),
                     frame_idx=frame_idx,
-                    verdict_reason=det.get('verdict_reason', "")
+                    verdict_reason=det.get('verdict_reason', ""),
+                    min_hits=self.min_hits
                 )
                 self.next_id += 1
                 self.tracks.append(new_track)
+                if new_track.is_confirmed:
+                    self.confirmed_defects[new_track.track_id] = new_track
                 matched_results.append((new_track.track_id, new_track.is_confirmed, det))
 
         # Prune inactive tracks
@@ -154,12 +160,19 @@ class DefectTracker:
             "pothole": 0,
             "damaged_sign": 0,
             "damaged_divider": 0,
-            "faded_zebra_crossing": 0
+            "faded_zebra_crossing": 0,
+            "severe_accident": 0
         }
         for track in self.confirmed_defects.values():
             if track.class_name in counts:
                 counts[track.class_name] += 1
         return counts
+
+    def get_track(self, track_id):
+        for t in self.tracks:
+            if t.track_id == track_id:
+                return t
+        return self.confirmed_defects.get(track_id)
 
     def get_all_confirmed_defects(self):
         """Returns list of confirmed defects sorted by first detection frame."""

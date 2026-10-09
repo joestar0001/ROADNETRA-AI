@@ -65,7 +65,7 @@
     <section class="st-panel" id="panel-channels" role="tabpanel" aria-labelledby="tab-channels" hidden></section>
     <section class="st-panel" id="panel-cameras" role="tabpanel" aria-labelledby="tab-cameras" hidden></section>
 
-    <p class="text-center text-[12px] text-dim pb-2">Rules, endpoints, recipients and camera states are demo data and are not sent anywhere. Model defaults (0.47 confidence, 3-frame rule) come from the real Model B validation results.</p>
+    <p class="text-center text-[12px] text-dim pb-2" id="st-foot">Rules, endpoints, recipients and camera states are demo data and are not sent anywhere. Model defaults (0.47 confidence, 3-frame rule) come from the real Model B validation results.</p>
   </div>
 
   <!-- Sticky save bar -->
@@ -125,11 +125,16 @@
   </form>
 </aside>
 
-<script src="../assets/js/demo-data.js"></script>
+<script src="/config.js"></script>
+<script src="/api/rn-data.js"></script>
+<script>if(!window.RN_DATA||!(window.RN_DATA.INCIDENTS||[]).length)document.write('<script src="../assets/js/demo-data.js"><\/script>')</script>
+<script src="/static/rn-map.js"></script>
 <script src="../assets/js/shell.js"></script>
 <script>
 (function () {
-  const { MODEL, CAMERAS, SEVERITY } = window.RN_DATA;
+  const D = window.RN_DATA || {};
+  const MODEL = D.MODEL, CAMERAS = D.CAMERAS || [], SEVERITY = D.SEVERITY || {};
+  if (D.LIVE) document.getElementById("st-foot").textContent = "Camera list and states are live data from the RoadNetra backend. Rules, endpoints and recipients on this screen are prototype settings and are not sent anywhere. Model defaults come from the real Model B validation results.";
   const $ = s => document.querySelector(s);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const SEV = Object.assign({}, SEVERITY, { P4: { label: "P4 Ops", cls: "rn-p4" } });

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Incident RN-2026-004821 · RoadNetra AI</title>
-  <meta name="description" content="Evidence, temporal confirmation, response timer and journal for incident RN-2026-004821 on NH-48.">
+  <title>Incident · RoadNetra AI</title>
+  <meta name="description" content="Evidence, temporal confirmation, response timer and journal for a RoadNetra AI incident.">
   <link rel="icon" href="../assets/img/logo-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -21,14 +21,17 @@
     .fr-bar > .thr { position: absolute; left: 0; right: 0; border-top: 1.5px dashed rgba(252, 211, 77, .9); z-index: 1; }
     .fr.is-streak { border-color: rgba(239, 68, 68, .5); background: rgba(239, 68, 68, .07); }
     .fr.is-streak .fill { background: linear-gradient(180deg, #fca5a5, rgba(239,68,68,.55)); }
+    .fr.is-empty { border-style: dashed; opacity: .6; }
     .step-dot { width: 34px; height: 34px; border-radius: 999px; display: grid; place-items: center; flex: none; border: 1.5px solid var(--line-strong); background: var(--canvas); color: var(--dim); position: relative; z-index: 1; }
     .step.is-done .step-dot { background: rgba(16,185,129,.16); border-color: rgba(16,185,129,.55); color: #6ee7b7; }
     .step.is-current .step-dot { background: rgba(59,130,246,.22); border-color: #3b82f6; color: #fff; box-shadow: 0 0 0 5px rgba(59,130,246,.15); }
     .step-line { background: var(--line-strong); }
     .step.is-done .step-line { background: rgba(16,185,129,.55); }
+    #frames { grid-template-columns: repeat(var(--n, 7), minmax(0, 1fr)); }
+    @media (min-width: 768px) { #steps { grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr)); } }
   </style>
 </head>
-<body data-page="incident-detail" data-title="Incident RN-2026-004821" data-crumb="Operations · Incidents" class="min-h-screen">
+<body data-page="incident-detail" data-title="Incident" data-crumb="Operations · Incidents" class="min-h-screen">
 <main class="rn-app-main min-h-screen overflow-x-clip">
   <div class="px-4 sm:px-6 py-6 space-y-6 max-w-[1680px] mx-auto">
 
@@ -36,16 +39,17 @@
     <section class="rn-card p-5 sm:p-6 flex flex-col xl:flex-row xl:items-center gap-5" aria-label="Incident summary">
       <div class="min-w-0 flex-1">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="rn-badge rn-p1"><span class="rn-dot rn-dot-pulse"></span>P1 Critical</span>
-          <span id="status-badge" class="rn-badge rn-brand">Dispatched</span>
-          <span class="rn-badge rn-p4">Model B · conf 0.90</span>
-          <span class="rn-mono text-[12px] text-dim">RN-2026-004821</span>
+          <span id="hdr-sev" class="rn-badge rn-p4">–</span>
+          <span id="status-badge" class="rn-badge rn-brand">–</span>
+          <span id="hdr-model" class="rn-badge rn-p4">–</span>
+          <span id="hdr-id" class="rn-mono text-[12px] text-dim">–</span>
+          <span id="hdr-sample" class="rn-badge rn-p2 hidden" title="Seeded sample incident from the backend, not a live camera detection"><span class="material-symbols-rounded text-[14px]">science</span>Sample</span>
         </div>
-        <h2 class="mt-3 font-display font-extrabold text-[24px] sm:text-[28px] tracking-tight leading-tight">Multi-vehicle collision</h2>
+        <h2 id="hdr-title" class="mt-3 font-display font-extrabold text-[24px] sm:text-[28px] tracking-tight leading-tight">Loading incident…</h2>
         <div class="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13.5px] text-muted">
-          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">location_on</span>NH-48 KM 142.6 · Manesar Bypass, northbound</span>
-          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">videocam</span>CAM-084</span>
-          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">schedule</span>Detected <span class="rn-mono text-ink">08:42:11</span> IST</span>
+          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">location_on</span><span id="hdr-loc">–</span></span>
+          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">videocam</span><span id="hdr-cam">–</span></span>
+          <span class="flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">schedule</span>Detected <span class="rn-mono text-ink" id="hdr-detected">–</span></span>
         </div>
       </div>
       <div class="flex flex-wrap gap-2" id="hdr-actions">
@@ -63,33 +67,37 @@
         <!-- Evidence -->
         <article class="rn-card overflow-hidden" aria-labelledby="ev-h">
           <div class="flex flex-wrap items-center gap-3 px-5 py-4 border-b border-line">
-            <span class="material-symbols-rounded text-danger-soft">car_crash</span>
+            <span class="material-symbols-rounded text-danger-soft" id="ev-icon">car_crash</span>
             <h2 id="ev-h" class="font-display font-bold text-[16px]">Evidence</h2>
             <span class="text-[12.5px] text-dim">Frame that fired the alert</span>
             <div class="flex-1"></div>
-            <a href="cameras.html#CAM-084" class="rn-btn rn-btn-sm"><span class="material-symbols-rounded text-[18px]">videocam</span>Live camera</a>
+            <a href="cameras.html" id="ev-camlink" class="rn-btn rn-btn-sm"><span class="material-symbols-rounded text-[18px]">videocam</span>Live camera</a>
           </div>
           <div class="p-5 grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-5">
             <div class="rn-feed aspect-square sm:aspect-[4/3] lg:aspect-auto lg:min-h-[360px]">
-              <img src="../assets/img/model-junction-crash.jpg" alt="CCTV frame of an overturned white car beside a second damaged car at night, with the Model B box labelled severe accident 0.90" style="object-position:center 62%">
-              <div class="rn-feed-hud left-3 top-3"><span class="rn-dot rn-dot-pulse text-danger"></span>CAM-084 · REC</div>
-              <div class="rn-feed-hud right-3 top-3">08:42:11.000 IST</div>
-              <div class="rn-feed-hud left-3 bottom-3">Model B · YOLOv8s</div>
-              <div class="rn-feed-hud right-3 bottom-3 !text-danger-soft">severe_accident 0.90</div>
+              <img id="ev-img" alt="Evidence frame">
+              <div class="rn-feed-hud left-3 top-3"><span class="rn-dot rn-dot-pulse text-danger"></span><span id="ev-hud-cam">–</span></div>
+              <div class="rn-feed-hud right-3 top-3" id="ev-hud-time">–</div>
+              <div class="rn-feed-hud left-3 bottom-3" id="ev-hud-model">–</div>
+              <div class="rn-feed-hud right-3 bottom-3 !text-danger-soft" id="ev-hud-det">–</div>
             </div>
             <div class="min-w-0 flex flex-col">
               <span class="rn-label">Detection</span>
               <dl class="mt-2 grid grid-cols-2 gap-2.5">
-                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Class</dt><dd class="mt-1 text-[13px] font-medium">Severe accident</dd></div>
-                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confidence</dt><dd class="rn-mono mt-1 text-[14px] text-cyan">0.90</dd></div>
-                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Threshold</dt><dd class="rn-mono mt-1 text-[14px]">≥ 0.47</dd></div>
-                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confirmed</dt><dd class="rn-mono mt-1 text-[14px]">3 frames</dd></div>
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Class</dt><dd class="mt-1 text-[13px] font-medium" id="d-class">–</dd></div>
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confidence</dt><dd class="rn-mono mt-1 text-[14px] text-cyan" id="d-conf">–</dd></div>
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Threshold</dt><dd class="rn-mono mt-1 text-[14px]" id="d-thr">–</dd></div>
+                <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confirmed</dt><dd class="rn-mono mt-1 text-[14px]" id="d-frames">–</dd></div>
               </dl>
+              <div id="ev-why" class="mt-4 rounded-xl border border-cyan/25 bg-cyan/[0.06] p-4 text-[12.5px] text-muted leading-relaxed hidden">
+                <div class="flex items-center gap-2 text-ink font-semibold text-[13px]"><span class="material-symbols-rounded text-[18px] text-cyan">gavel</span>Verification</div>
+                <p class="mt-1.5" id="ev-why-text"></p>
+              </div>
               <div class="mt-4 rounded-xl border border-line bg-canvas/40 p-4 text-[12.5px] text-muted leading-relaxed">
                 <div class="flex items-center gap-2 text-ink font-semibold text-[13px]"><span class="material-symbols-rounded text-[18px] text-cyan">verified</span>How sure is the model?</div>
-                <p class="mt-1.5">On 273 held-out test images Model B caught <span class="text-ink font-semibold">83.6%</span> of crashes with <span class="text-ink font-semibold">99.5%</span> precision (1 false alarm) and mAP50 <span class="text-ink font-semibold">0.83</span>. It runs every frame at 2.5 ms on a GPU.</p>
+                <p class="mt-1.5" id="ev-model-note"></p>
               </div>
-              <div class="mt-auto pt-4 text-[11.5px] text-dim">The image is a real Model B output on a test image. Camera, time and location are demo data.</div>
+              <div class="mt-auto pt-4 text-[11.5px] text-dim" id="ev-foot"></div>
             </div>
           </div>
 
@@ -97,20 +105,20 @@
           <div class="px-5 pb-5">
             <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
               <h3 class="font-semibold text-[14px]">Temporal filter</h3>
-              <span class="text-[12.5px] text-muted">7 consecutive frames · 33 ms apart at 30 FPS</span>
-              <span class="ml-auto flex items-center gap-1.5 text-[11.5px] text-dim"><span class="inline-block w-5 border-t-[1.5px] border-dashed border-warn-soft"></span>0.47 threshold</span>
+              <span class="text-[12.5px] text-muted" id="fr-sub"></span>
+              <span class="ml-auto flex items-center gap-1.5 text-[11.5px] text-dim"><span class="inline-block w-5 border-t-[1.5px] border-dashed border-warn-soft"></span><span id="fr-thr">threshold</span></span>
             </div>
             <div class="mt-3 overflow-x-auto -mx-1 px-1 pb-1">
-              <ol id="frames" class="grid grid-cols-7 gap-2 min-w-[560px]"></ol>
+              <ol id="frames" class="grid gap-2 min-w-[320px]"></ol>
             </div>
             <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
               <div class="rounded-xl border border-danger/30 bg-danger/[0.06] p-4">
-                <div class="flex items-center gap-2 text-[13px] font-semibold"><span class="material-symbols-rounded text-[18px] text-danger-soft icon-fill">notifications_active</span>Alert fired on frame 3</div>
-                <p class="mt-1 text-[12.5px] text-muted">Frames 1–3 all scored ≥ 0.47, so the alert went out at <span class="rn-mono text-ink">08:42:11.000</span>, 67 ms after the first hit. Frames 4–7 kept confirming.</p>
+                <div class="flex items-center gap-2 text-[13px] font-semibold"><span class="material-symbols-rounded text-[18px] text-danger-soft icon-fill">notifications_active</span><span id="fr-fired-title">Alert</span></div>
+                <p class="mt-1 text-[12.5px] text-muted" id="fr-fired-text"></p>
               </div>
               <div class="rounded-xl border border-line bg-canvas/40 p-4">
-                <div class="flex items-center gap-2 text-[13px] font-semibold"><span class="material-symbols-rounded text-[18px] text-warn-soft">filter_alt</span>Why wait for 3 frames?</div>
-                <p class="mt-1 text-[12.5px] text-muted">A shadow, headlight glare or a stalled truck can look like a crash for one frame. Requiring 3 in a row drops those one-frame spikes and adds under 0.1 s of delay.</p>
+                <div class="flex items-center gap-2 text-[13px] font-semibold"><span class="material-symbols-rounded text-[18px] text-warn-soft">filter_alt</span>Why wait for <span id="fr-need-a">3</span> frames?</div>
+                <p class="mt-1 text-[12.5px] text-muted">A shadow, headlight glare or a stalled truck can look like a crash for one frame. Requiring <span id="fr-need-b">3</span> in a row drops those one-frame spikes and adds under 0.1 s of delay.</p>
               </div>
             </div>
           </div>
@@ -122,7 +130,7 @@
             <h2 id="lc-h" class="font-display font-bold text-[16px]">Lifecycle</h2>
             <span id="lc-sub" class="text-[12.5px] text-dim"></span>
           </div>
-          <ol id="steps" class="mt-5 grid grid-cols-1 md:grid-cols-6 gap-0 md:gap-2"></ol>
+          <ol id="steps" class="mt-5 grid grid-cols-1 gap-0 md:gap-2"></ol>
         </article>
 
         <!-- Journal -->
@@ -145,7 +153,7 @@
       <aside class="xl:col-span-4 space-y-6 min-w-0">
 
         <!-- Response -->
-        <article class="rn-card p-5 shadow-glow-red" aria-labelledby="rs-h">
+        <article class="rn-card p-5" id="rs-card" aria-labelledby="rs-h">
           <div class="flex items-center justify-between">
             <h2 id="rs-h" class="font-display font-bold text-[16px]">Response</h2>
             <span class="rn-badge rn-p1" id="rs-live"><span class="rn-dot rn-dot-pulse"></span>Clock running</span>
@@ -157,34 +165,30 @@
               <div class="mt-1.5 text-[11.5px] text-dim">since detection</div>
             </div>
             <div class="rounded-xl border border-line bg-canvas/50 p-3.5 min-w-0">
-              <div class="rn-label">Golden hour</div>
-              <div class="mt-1 rn-mono font-semibold text-[26px] leading-none tracking-tight text-ok-soft" id="golden">60:00</div>
+              <div class="rn-label" id="golden-label">Golden hour</div>
+              <div class="mt-1 rn-mono font-semibold text-[26px] leading-none tracking-tight text-ok-soft" id="golden">--:--</div>
               <div class="mt-2 rn-bar"><span id="golden-bar" style="width:100%"></span></div>
             </div>
           </div>
           <ul class="mt-4 space-y-2 text-[13px]">
-            <li class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px] text-ok-soft">bolt</span><span class="text-muted">Alert latency</span><span class="ml-auto rn-mono">1.4 s</span><span class="rn-badge rn-ok">&lt; 2 s target</span></li>
-            <li class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px] text-brand-soft">call_split</span><span class="text-muted">Routed to</span><span class="ml-auto text-right">112 CAD · Highway Police</span></li>
+            <li class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px] text-warn-soft">speed</span><span class="text-muted">Severity</span><span class="ml-auto text-right" id="rs-severity">–</span></li>
+            <li class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px] text-brand-soft">call_split</span><span class="text-muted shrink-0">Routed to</span><span class="ml-auto text-right" id="rs-routed">–</span></li>
+            <li class="flex items-center gap-2"><span class="material-symbols-rounded text-[18px] text-ok-soft">event</span><span class="text-muted">SLA due</span><span class="ml-auto rn-mono text-right" id="rs-sla">–</span></li>
           </ul>
           <div class="mt-4 rounded-xl border border-brand/35 bg-brand/[0.07] p-4">
             <div class="flex items-center gap-3">
-              <span class="w-10 h-10 rounded-xl grid place-items-center bg-danger/15 text-danger-soft shrink-0"><span class="material-symbols-rounded icon-fill">ambulance</span></span>
+              <span class="w-10 h-10 rounded-xl grid place-items-center bg-danger/15 text-danger-soft shrink-0"><span class="material-symbols-rounded icon-fill" id="unit-icon">ambulance</span></span>
               <div class="min-w-0 flex-1">
-                <div class="font-semibold text-[14px]">AMB-108</div>
-                <div class="text-[12px] text-muted" id="unit-state">ALS ambulance · en route, 1.9 km</div>
+                <div class="font-semibold text-[14px]" id="unit-name">–</div>
+                <div class="text-[12px] text-muted" id="unit-state">–</div>
               </div>
               <div class="text-right">
-                <div class="rn-label">ETA</div>
-                <div class="rn-mono font-semibold text-[18px]" id="eta">2:40</div>
+                <div class="rn-label" id="eta-label">ETA</div>
+                <div class="rn-mono font-semibold text-[18px]" id="eta">–</div>
               </div>
             </div>
-            <div class="mt-3 rn-bar"><span id="eta-bar" style="width:0%"></span></div>
           </div>
-          <div class="mt-4 grid grid-cols-3 gap-2">
-            <button class="rn-btn rn-btn-sm !h-auto py-2 flex-col !gap-1" data-call="AMB-108 crew"><span class="material-symbols-rounded">call</span>Crew</button>
-            <button class="rn-btn rn-btn-sm !h-auto py-2 flex-col !gap-1" data-call="Highway Police"><span class="material-symbols-rounded">local_police</span>Police</button>
-            <button class="rn-btn rn-btn-sm !h-auto py-2 flex-col !gap-1" data-call="nearest trauma centre"><span class="material-symbols-rounded">local_hospital</span>Hospital</button>
-          </div>
+          <div class="mt-4 grid grid-cols-3 gap-2" id="rs-calls"></div>
         </article>
 
         <!-- Location -->
@@ -196,176 +200,459 @@
           </div>
           <div id="inc-map" class="h-[240px]" aria-label="Map of the incident location"></div>
           <dl class="p-5 grid grid-cols-2 gap-2.5">
-            <div class="rounded-xl border border-line bg-canvas/50 p-3 col-span-2"><dt class="rn-label">GPS</dt><dd class="rn-mono mt-1 text-[13.5px]">28.3589° N, 76.9387° E</dd></div>
-            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Road · KM</dt><dd class="mt-1 text-[13px] font-medium">NH-48 · 142.6</dd></div>
-            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Direction</dt><dd class="mt-1 text-[13px] font-medium">Northbound</dd></div>
-            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Camera</dt><dd class="mt-1 text-[13px] font-medium"><a href="cameras.html#CAM-084" class="text-brand-soft hover:underline">CAM-084</a> · 30 FPS</dd></div>
-            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Place</dt><dd class="mt-1 text-[13px] font-medium">Manesar Bypass</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3 col-span-2"><dt class="rn-label">GPS</dt><dd class="rn-mono mt-1 text-[13.5px]" id="loc-gps">–</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Road · KM</dt><dd class="mt-1 text-[13px] font-medium" id="loc-road">–</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Road type</dt><dd class="mt-1 text-[13px] font-medium capitalize" id="loc-type">–</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Camera</dt><dd class="mt-1 text-[13px] font-medium" id="loc-cam">–</dd></div>
+            <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Place</dt><dd class="mt-1 text-[13px] font-medium" id="loc-place">–</dd></div>
           </dl>
         </article>
       </aside>
     </section>
 
-    <p class="text-center text-[12px] text-dim pb-2">Incident, units, timings and per-frame confidences on this screen are demo data. The evidence frame is a real Model B detection; model figures are real test-set results.</p>
+    <p class="text-center text-[12px] text-dim pb-2" id="foot-note">Incident, units, timings and per-frame confidences on this screen are demo data. The evidence frame is a real Model B detection; model figures are real test-set results.</p>
   </div>
 </main>
 
-<script src="../assets/js/demo-data.js"></script>
+<script src="/config.js"></script>
+<script src="/api/rn-data.js"></script>
+<script>if(!window.RN_DATA||!(window.RN_DATA.INCIDENTS||[]).length)document.write('<script src="../assets/js/demo-data.js"><\/script>')</script>
+<script src="/static/rn-map.js"></script>
 <script src="../assets/js/shell.js"></script>
 <script>
 (function () {
-  const { INCIDENTS, CAMERAS, MODEL } = window.RN_DATA;
-  const inc = INCIDENTS.find(i => i.id === "RN-2026-004821");
-  const cam = CAMERAS.find(c => c.id === inc.cam);
-  const nowIST = () => new Date().toLocaleTimeString("en-GB", { timeZone: "Asia/Kolkata", hour12: false });
-  const esc = s => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const D = window.RN_DATA || {};
+  const INCIDENTS = D.INCIDENTS || [], CAMERAS = D.CAMERAS || [], SEVERITY = D.SEVERITY || {};
+  const MODEL = D.MODEL || { bestConf: 0.47, pipelineConf: 0.55, temporalFrames: 3, test: {} };
+  const LIVE = !!D.LIVE;
+  const AUTH_NAMES = Object.assign({ pwd: "Municipal / State PWD", nhai: "NHAI", hosp: "108 Emergency & Hospital", pol: "Traffic Police" },
+    (window.RN_CONFIG && window.RN_CONFIG.authorities) || {});
+  const AUTH_SHORT = { pwd: "PWD", nhai: "NHAI", hosp: "Hospital", pol: "Police" };
+  const AUTH_STEPS = ["Notified", "Acknowledged", "En route", "Resolved"];
+  const AUTH_ICON = { hosp: "local_hospital", pol: "local_police", nhai: "add_road", pwd: "engineering" };
+  const KIND_LABEL = { severe_accident: "Severe accident", pothole: "Pothole", damaged_sign: "Damaged traffic sign",
+    damaged_divider: "Damaged divider / crash barrier", faded_zebra_crossing: "Faded zebra crossing", damage: "Road damage" };
+  const typeIcon = { accident: "car_crash", pothole: "add_road", damage: "texture" };
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const nowClock = () => new Date().toLocaleTimeString("en-GB", { hour12: false });
+  const num = (v, d) => (v == null || v === "" || isNaN(+v) ? d : +v);
+  const has = v => v != null && v !== "" && v !== "—";
+
+  // ---------- pick the incident: ?id= → first P1 → first incident ----------
+  const qid = new URLSearchParams(location.search).get("id");
+  let inc = (qid && INCIDENTS.find(i => i.id === qid)) || INCIDENTS.find(i => i.sev === "P1") || INCIDENTS[0];
+  if (!inc) {
+    $("hdr-title").textContent = qid ? `Incident ${qid} not found` : "No incidents yet";
+    $("foot-note").textContent = LIVE ? "The RoadNetra backend has no incidents to show." : "No demo incidents loaded.";
+    return;
+  }
+  if (qid && inc.id !== qid) RN.toast("Incident not found", `${esc(qid)} is not in the current data · showing ${esc(inc.id)}`, "warn");
+  inc = Object.assign({}, inc);
+  let raw = null;                 // full backend record (/api/incidents/<id>) when live
+  const cam = CAMERAS.find(c => c.id === inc.cam) || null;   // null for "GPS", "CUSTOM", uploads…
+  const isAcc = () => inc.type === "accident";
+  const kindOf = () => inc.kind || (isAcc() ? "severe_accident" : inc.type === "pothole" ? "pothole" : "damage");
+  const sevMeta = () => SEVERITY[inc.sev] || { label: inc.sev || "P3", cls: "rn-p4", color: "#94A3B8" };
+  const isResolved = () => String((raw && raw.status) || inc.status || "").toLowerCase() === "resolved";
+  const statusTone = s => ({ "New": "rn-p1", "Dispatched": "rn-brand", "Acknowledged": "rn-brand", "Responding": "rn-brand", "Crew En Route": "rn-p2", "Under Repair": "rn-p2", "Resolved": "rn-ok", "Work order issued": "rn-ok", "Assigned": "rn-ok" }[s] || "rn-p4");
+
+  // detection time: raw ISO, else today's HH:MM:SS from RN_DATA (offline demo)
+  function detectedAt() {
+    if (raw && raw.detected_at) { const d = new Date(raw.detected_at); if (!isNaN(d)) return d; }
+    const m = /^(\d{1,2}):(\d{2})(?::(\d{2}))?/.exec(inc.detected || "");
+    if (!m) return null;
+    const d = new Date(); d.setHours(+m[1], +m[2], +(m[3] || 0), 0);
+    if (d > new Date()) d.setDate(d.getDate() - 1);
+    return d;
+  }
+  function slaDueAt() {
+    const s = (raw && raw.sla_due) || inc.slaDue;
+    if (s) { const d = new Date(s); if (!isNaN(d)) return d; }
+    const det = detectedAt(), h = (raw && raw.sla_hours) || parseFloat((/(\d+(?:\.\d+)?)\s*h/.exec(inc.eta || "") || [])[1]);
+    return det && h ? new Date(det.getTime() + h * 3600e3) : null;
+  }
+  const fmtClock = d => d && !isNaN(d) ? d.toLocaleTimeString("en-GB", { hour12: false }) : "—";
+  const fmtWhen = d => {
+    if (!d) return inc.detected || "—";
+    const today = new Date().toDateString() === d.toDateString();
+    return fmtClock(d) + (today ? "" : " · " + d.toLocaleDateString("en-GB", { day: "numeric", month: "short" }));
+  };
+  const locText = () => [has(inc.road) ? inc.road + (has(inc.km) ? " KM " + inc.km : "") : "", inc.place].filter(Boolean).join(" · ") || (raw && raw.location_name) || "Location unknown";
+
+  // authorities from the raw record, else parsed from the authority text (offline demo)
+  function authorities() {
+    if (raw && raw.authority_status && Object.keys(raw.authority_status).length) {
+      const order = raw.authorities && raw.authorities.length ? raw.authorities : Object.keys(raw.authority_status);
+      return order.filter(k => k in raw.authority_status).map(k => ({ k, name: AUTH_NAMES[k] || k, step: num(raw.authority_status[k], 0), real: true }));
+    }
+    const t = String(inc.authority || "").toLowerCase(), out = [];
+    if (/108|112|emergency|hospital|ambulance/.test(t)) out.push("hosp");
+    if (/police/.test(t)) out.push("pol");
+    if (/nhai/.test(t)) out.push("nhai");
+    if (/pwd|municipal/.test(t)) out.push("pwd");
+    const st = String(inc.status || "").toLowerCase();
+    const step = st === "resolved" ? 3 : /route|repair|crew|responding/.test(st) ? 2 : /ack|assigned|work order/.test(st) ? 1 : 0;
+    return out.map(k => ({ k, name: AUTH_NAMES[k] || k, step, real: false }));
+  }
+
+  // ---------- header + evidence + location + response ----------
+  function renderHeader() {
+    const sm = sevMeta(), conf = num(inc.conf, 0), detD = detectedAt();
+    document.title = `Incident ${inc.id} · RoadNetra AI`;
+    const h1 = document.querySelector("header h1"); if (h1) h1.textContent = `Incident ${inc.id}`;
+    $("hdr-sev").className = `rn-badge ${sm.cls}`;
+    $("hdr-sev").innerHTML = `${inc.sev === "P1" && !isResolved() ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${esc(sm.label)}`;
+    const st = (raw && raw.status) || inc.status || "—";
+    $("status-badge").className = `rn-badge ${statusTone(st)}`; $("status-badge").textContent = st;
+    $("hdr-model").textContent = `${isAcc() ? "Model B" : "Model A"} · conf ${conf.toFixed(2)}`;
+    $("hdr-id").textContent = inc.id;
+    $("hdr-sample").classList.toggle("hidden", !inc.sample);
+    $("hdr-title").textContent = inc.title || KIND_LABEL[kindOf()] || "Incident";
+    $("hdr-loc").textContent = locText();
+    $("hdr-cam").textContent = has(inc.cam) ? inc.cam : "No camera";
+    $("hdr-detected").textContent = fmtWhen(detD);
+
+    $("ev-icon").textContent = typeIcon[inc.type] || "report";
+    const camLink = $("ev-camlink");
+    if (cam) camLink.href = "cameras.html#" + encodeURIComponent(cam.id); else camLink.classList.add("hidden");
+    const img = $("ev-img");
+    if (inc.img) {
+      if (img.getAttribute("src") !== inc.img) img.src = inc.img;
+      img.alt = `Evidence frame for ${inc.title || "the incident"}${has(inc.cam) ? " from " + inc.cam : ""}, ${KIND_LABEL[kindOf()] || kindOf()} at confidence ${conf.toFixed(2)}`;
+      if (/model-junction-crash/.test(inc.img)) img.style.objectPosition = "center 62%";
+    } else { img.removeAttribute("src"); img.alt = "No evidence frame stored"; }
+    $("ev-hud-cam").textContent = `${has(inc.cam) ? inc.cam : "Upload"} · REC`;
+    $("ev-hud-time").textContent = detD ? fmtClock(detD) : (inc.detected || "—");
+    $("ev-hud-model").textContent = isAcc() ? `Model B · ${MODEL.arch || "YOLOv8s"}` : "Model A · road infrastructure";
+    $("ev-hud-det").textContent = `${kindOf()} ${conf.toFixed(2)}`;
+    $("d-class").textContent = KIND_LABEL[kindOf()] || kindOf();
+    $("d-conf").textContent = conf.toFixed(2) + (raw && raw.confidence_pct != null ? ` · ${raw.confidence_pct}%` : "");
+    $("d-thr").textContent = "≥ " + num(MODEL.pipelineConf, 0.55).toFixed(2);
+    const frames = num(inc.frames, 1);
+    $("d-frames").textContent = `${frames} frame${frames === 1 ? "" : "s"}`;
+    const why = (raw && raw.judge_reason) || inc.why;
+    $("ev-why").classList.toggle("hidden", !why); $("ev-why-text").textContent = why || "";
+    const T = MODEL.test || {};
+    $("ev-model-note").innerHTML = isAcc()
+      ? `On ${MODEL.dataset ? MODEL.dataset.test : 273} held-out test images Model B caught <span class="text-ink font-semibold">${(num(T.recall, 0.836) * 100).toFixed(1)}%</span> of crashes with <span class="text-ink font-semibold">${(num(T.precision, 0.995) * 100).toFixed(1)}%</span> precision and mAP50 <span class="text-ink font-semibold">${num(T.mAP50, 0.83).toFixed(2)}</span>. It runs every frame at ${MODEL.latency ? MODEL.latency.t4GpuMs : 2.5} ms on a GPU.`
+      : "Model A samples the feed about once a second and flags potholes and damaged road furniture. Each detection is checked by the verification step before it is routed to the road authority.";
+    $("ev-foot").textContent = LIVE
+      ? `Annotated frame saved by the backend at detection${inc.sample ? " (seeded sample incident)" : ""}.`
+      : "The image is a real Model B output on a test image. Camera, time and location are demo data.";
+    $("foot-note").textContent = LIVE
+      ? "Live incident from the RoadNetra backend. Frame-strip spacing is nominal (only the peak confidence and frame count are stored); model figures are real test-set results."
+      : "Incident, units, timings and per-frame confidences on this screen are demo data. The evidence frame is a real Model B detection; model figures are real test-set results.";
+
+    // location card
+    $("loc-gps").textContent = `${num(inc.lat, 0).toFixed(4)}° N, ${num(inc.lng, 0).toFixed(4)}° E`;
+    $("loc-road").textContent = has(inc.road) ? `${inc.road} · ${has(inc.km) ? inc.km : "—"}` : "—";
+    $("loc-type").textContent = (raw && raw.road_type) || (cam && cam.road_type) || "—";
+    $("loc-cam").innerHTML = cam
+      ? `<a href="cameras.html#${encodeURIComponent(cam.id)}" class="text-brand-soft hover:underline">${esc(cam.id)}</a>${cam.status === "online" && cam.fps ? " · " + esc(cam.fps) + " FPS" : cam.status === "offline" ? " · offline" : ""}`
+      : esc(has(inc.cam) ? inc.cam : "—");
+    $("loc-place").textContent = inc.place || (raw && raw.location_name) || "—";
+
+    // response card (static parts)
+    $("rs-card").classList.toggle("shadow-glow-red", inc.sev === "P1" && !isResolved());
+    $("rs-severity").textContent = [inc.severity || (raw && raw.severity), has(inc.score) ? `score ${inc.score}` : ""].filter(Boolean).join(" · ") || sm.label;
+    $("rs-routed").textContent = (raw && raw.assigned_agency) || inc.authority || "—";
+    const due = slaDueAt();
+    $("rs-sla").textContent = due ? fmtWhen(due) : "—";
+    renderUnit();
+    const auths = authorities();
+    $("rs-calls").innerHTML = (auths.length ? auths : [{ k: "pol", name: AUTH_NAMES.pol }]).slice(0, 3).map(a =>
+      `<button class="rn-btn rn-btn-sm !h-auto py-2 flex-col !gap-1 min-w-0" data-call="${esc(a.name)}"><span class="material-symbols-rounded">${AUTH_ICON[a.k] || "call"}</span>${esc(AUTH_SHORT[a.k] || a.name)}</button>`).join("");
+  }
+
+  function renderUnit() {
+    const eta = String(inc.eta || ""), etaKnown = /^\d+(\.\d+)?\s*min/i.test(eta);
+    const unitKnown = has(inc.unit) && !/^(awaiting|queued)$/i.test(inc.unit);
+    $("unit-icon").textContent = isAcc() ? "ambulance" : "engineering";
+    if (isResolved()) {
+      $("unit-name").textContent = unitKnown ? inc.unit : "Response complete";
+      $("unit-state").textContent = "Released · incident resolved";
+      $("eta-label").textContent = "ETA"; $("eta").textContent = "—";
+    } else if (isAcc()) {
+      $("unit-name").textContent = unitKnown ? inc.unit : "Awaiting unit";
+      $("unit-state").textContent = etaKnown ? "Ambulance dispatched · ETA reported by dispatch" : unitKnown ? "Unit acting · no ETA reported yet" : "No unit has confirmed yet";
+      $("eta-label").textContent = "ETA"; $("eta").textContent = etaKnown ? eta : "—";
+    } else {
+      $("unit-name").textContent = unitKnown ? inc.unit : "Awaiting crew";
+      $("unit-state").textContent = (raw && raw.assigned_agency) || inc.authority || "Road authority";
+      $("eta-label").textContent = "SLA"; $("eta").textContent = eta.replace(/\s*SLA/i, "") || "—";
+    }
+  }
 
   // ---------- frame strip (temporal filter) ----------
-  const thr = MODEL.bestConf, need = MODEL.temporalFrames;
-  const confs = [0.84, 0.88, 0.90, 0.91, 0.89, 0.90, 0.92];
-  const stamps = ["10.934", "10.967", "11.000", "11.034", "11.067", "11.100", "11.134"]; // seconds after 08:42
-  document.getElementById("frames").innerHTML = confs.map((c, k) => {
-    const streak = k < need, fired = k === need - 1;
-    const ts = stamps[k];
-    return `
-    <li class="fr ${streak ? "is-streak" : ""} rounded-xl border border-line bg-canvas/40 p-2.5 min-w-0">
-      <div class="flex items-center justify-between text-[11px]">
-        <span class="text-dim font-semibold">F${k + 1}</span>
-        ${fired ? '<span class="material-symbols-rounded icon-fill text-[16px] text-danger-soft" title="Alert fired">notifications_active</span>' : `<span class="material-symbols-rounded text-[15px] ${streak ? "text-danger-soft" : "text-ok-soft"}">check</span>`}
-      </div>
-      <div class="fr-bar mt-2" role="img" aria-label="Frame ${k + 1} confidence ${c.toFixed(2)}${fired ? ", alert fired" : ""}">
-        <div class="thr" style="bottom:${thr * 100}%"></div>
-        <div class="fill" style="height:${c * 100}%"></div>
-      </div>
-      <div class="mt-2 rn-mono text-[13px] font-semibold ${streak ? "text-danger-soft" : "text-cyan"}">${c.toFixed(2)}</div>
-      <div class="rn-mono text-[10.5px] text-dim">:${ts}</div>
-    </li>`;
-  }).join("");
+  function renderFrames() {
+    const thr = num(MODEL.pipelineConf, 0.55), need = num(MODEL.temporalFrames, 3);
+    const frames = Math.max(1, num(inc.frames, 1)), n = Math.min(7, Math.max(3, frames)), conf = num(inc.conf, 0);
+    const gapMs = isAcc() ? 33 : 1000;
+    const fired = Math.min(frames, n) - 1;   // index of the frame that raised the alert
+    $("fr-need-a").textContent = need; $("fr-need-b").textContent = need;
+    $("fr-thr").textContent = `${thr.toFixed(2)} pipeline threshold`;
+    $("fr-sub").textContent = `${frames} confirming frame${frames === 1 ? "" : "s"} · bars show the peak confidence (${conf.toFixed(2)}); per-frame scores are not stored · nominal ${isAcc() ? "33 ms (30 FPS)" : "1 s (1 FPS sampling)"} spacing`;
+    const ol = $("frames"); ol.style.setProperty("--n", n);
+    ol.innerHTML = Array.from({ length: n }, (_, k) => {
+      const real = k < frames, isFired = k === fired, streak = real && k <= fired;
+      const off = (k - fired) * gapMs;
+      return `
+      <li class="fr ${streak ? "is-streak" : ""} ${real ? "" : "is-empty"} rounded-xl border border-line bg-canvas/40 p-2.5 min-w-0">
+        <div class="flex items-center justify-between text-[11px]">
+          <span class="text-dim font-semibold">F${k + 1}</span>
+          ${isFired ? '<span class="material-symbols-rounded icon-fill text-[16px] text-danger-soft" title="Alert raised">notifications_active</span>' : real ? '<span class="material-symbols-rounded text-[15px] text-danger-soft">check</span>' : '<span class="material-symbols-rounded text-[15px] text-dim">remove</span>'}
+        </div>
+        <div class="fr-bar mt-2" role="img" aria-label="Frame ${k + 1}${real ? ", peak confidence " + conf.toFixed(2) : ", not recorded"}${isFired ? ", alert raised" : ""}">
+          <div class="thr" style="bottom:${thr * 100}%"></div>
+          ${real ? `<div class="fill" style="height:${conf * 100}%"></div>` : ""}
+        </div>
+        <div class="mt-2 rn-mono text-[13px] font-semibold ${real ? "text-danger-soft" : "text-dim"}">${real ? conf.toFixed(2) : "—"}</div>
+        <div class="rn-mono text-[10.5px] text-dim">${real ? (off === 0 ? "alert" : off + " ms") : "not seen"}</div>
+      </li>`;
+    }).join("");
+    const detD = detectedAt();
+    if (frames >= need) {
+      $("fr-fired-title").textContent = `Alert raised on frame ${frames}`;
+      $("fr-fired-text").innerHTML = `${frames} frames scored at or above ${thr.toFixed(2)} (≥ ${need} required), so the alert went out at <span class="rn-mono text-ink">${esc(fmtClock(detD))}</span>. Peak confidence ${conf.toFixed(2)}.`;
+    } else {
+      $("fr-fired-title").textContent = `Raised after ${frames} frame${frames === 1 ? "" : "s"}`;
+      $("fr-fired-text").innerHTML = `Confirmed over ${frames} frame${frames === 1 ? "" : "s"}, below the ${need}-frame rule (e.g. a single uploaded image or a sampled Model A frame), then verified before routing at <span class="rn-mono text-ink">${esc(fmtClock(detD))}</span>.`;
+    }
+  }
 
   // ---------- lifecycle ----------
-  const STEPS = [
-    { k: "Detected", icon: "visibility", t: "08:42:10.934", who: "Model B · CAM-084" },
-    { k: "Confirmed", icon: "verified", t: "08:42:11.000", who: "3 frames ≥ 0.47" },
-    { k: "Routed", icon: "call_split", t: "08:42:12", who: "112 CAD · 1.4 s" },
-    { k: "Unit assigned", icon: "ambulance", t: "08:42:58", who: "AMB-108" },
-    { k: "On scene", icon: "location_on", t: "ETA 2:40", who: "AMB-108" },
-    { k: "Cleared", icon: "task_alt", t: "Pending", who: "Highway Police" },
-  ];
-  let current = 3; // index of the active step
+  let busy = false;
+  function buildSteps() {
+    const detD = detectedAt(), frames = num(inc.frames, 1), auths = authorities();
+    const steps = [
+      { k: "Detected", icon: "visibility", t: fmtClock(detD), who: `${isAcc() ? "Model B" : "Model A"}${has(inc.cam) ? " · " + inc.cam : ""}`, done: true },
+      { k: "Confirmed", icon: "verified", t: `${frames} frame${frames === 1 ? "" : "s"}`, who: `conf ${num(inc.conf, 0).toFixed(2)} ≥ ${num(MODEL.pipelineConf, 0.55).toFixed(2)}`, done: true },
+      { k: "Routed", icon: "call_split", t: fmtClock(detD), who: (raw && raw.assigned_agency) || inc.authority || "—", done: true },
+    ];
+    auths.forEach(a => steps.push({ k: a.name, icon: AUTH_ICON[a.k] || "groups", t: AUTH_STEPS[Math.min(3, a.step)], who: `step ${Math.min(3, a.step) + 1} of 4`, done: a.step >= 3, auth: a }));
+    if (!auths.length) steps.push({ k: "Unit", icon: isAcc() ? "ambulance" : "engineering", t: inc.unit || "Awaiting", who: inc.status || "", done: isResolved() });
+    steps.push({ k: "Resolved", icon: "task_alt", t: isResolved() ? (raw && raw.resolved_at ? fmtClock(new Date(raw.resolved_at)) : "Done") : "Pending", who: isResolved() ? "All authorities closed" : "Waiting on authorities", done: isResolved() });
+    return steps;
+  }
   function renderSteps() {
-    document.getElementById("lc-sub").textContent = current >= STEPS.length ? "All stages complete" : `Stage ${current + 1} of ${STEPS.length} · ${STEPS[current].k}`;
-    document.getElementById("steps").innerHTML = STEPS.map((s, k) => {
-      const st = k < current ? "is-done" : k === current ? "is-current" : "";
-      const last = k === STEPS.length - 1;
+    const steps = buildSteps();
+    let current = steps.findIndex(s => !s.done);
+    if (current < 0) current = steps.length;
+    $("lc-sub").textContent = current >= steps.length ? "All stages complete" : `Stage ${current + 1} of ${steps.length} · ${steps[current].k}`;
+    const ol = $("steps"); ol.style.setProperty("--n", steps.length);
+    ol.innerHTML = steps.map((s, k) => {
+      const st = s.done ? "is-done" : k === current ? "is-current" : "";
+      const last = k === steps.length - 1;
+      const canAdvance = LIVE && s.auth && s.auth.real && !s.done;
       return `
       <li class="step ${st} relative flex md:flex-col gap-3 md:gap-2 pb-5 md:pb-0 min-w-0" ${k === current ? 'aria-current="step"' : ""}>
-        ${last ? "" : `<span class="step-line absolute left-[16px] top-[34px] bottom-0 w-[2px] md:left-[34px] md:right-[-8px] md:top-[16px] md:bottom-auto md:w-auto md:h-[2px]" aria-hidden="true"></span>`}
-        <span class="step-dot"><span class="material-symbols-rounded text-[18px] ${k < current ? "icon-fill" : ""}">${k < current ? "check" : s.icon}</span></span>
+        ${last ? "" : '<span class="step-line absolute left-[16px] top-[34px] bottom-0 w-[2px] md:left-[34px] md:right-[-8px] md:top-[16px] md:bottom-auto md:w-auto md:h-[2px]" aria-hidden="true"></span>'}
+        <span class="step-dot"><span class="material-symbols-rounded text-[18px] ${s.done ? "icon-fill" : ""}">${s.done ? "check" : s.icon}</span></span>
         <div class="min-w-0 pt-1 md:pt-0">
-          <div class="text-[13.5px] font-semibold ${k > current ? "text-muted" : ""}">${s.k}</div>
-          <div class="rn-mono text-[11.5px] ${k === current ? "text-brand-soft" : "text-dim"}">${s.t}</div>
-          <div class="text-[11.5px] text-dim truncate">${s.who}</div>
+          <div class="text-[13.5px] font-semibold truncate ${!s.done && k > current ? "text-muted" : ""}" title="${esc(s.k)}">${esc(s.k)}</div>
+          <div class="rn-mono text-[11.5px] ${k === current ? "text-brand-soft" : "text-dim"}">${esc(s.t)}</div>
+          <div class="text-[11.5px] text-dim truncate" title="${esc(s.who)}">${esc(s.who)}</div>
+          ${canAdvance ? `<button class="mt-1.5 rn-btn rn-btn-sm !h-[28px] !px-2 !text-[12px]" data-advance="${esc(s.auth.k)}" ${busy ? "disabled" : ""} aria-label="Advance ${esc(s.auth.name)} to ${esc(AUTH_STEPS[Math.min(3, s.auth.step + 1)])}"><span class="material-symbols-rounded text-[16px]">skip_next</span>${esc(AUTH_STEPS[Math.min(3, s.auth.step + 1)])}</button>` : ""}
         </div>
       </li>`;
     }).join("");
   }
-  renderSteps();
+  $("steps").addEventListener("click", e => {
+    const b = e.target.closest("[data-advance]"); if (!b) return;
+    const k = b.dataset.advance;
+    act({ authority: k }, r => {
+      const a = (r.authority_status || {})[k];
+      RN.toast(`${esc(AUTH_NAMES[k] || k)}: ${AUTH_STEPS[Math.min(3, num(a, 0))]}`, `${esc(inc.id)} · status ${esc(r.status)}`, "ok");
+    });
+  });
 
-  // ---------- journal ----------
-  const journal = [
-    { t: "08:42:58", who: "Control Room · Desk 04", icon: "person", tone: "text-brand-soft", text: "Accepted alert. Assigned AMB-108 (ALS) from Manesar; ETA 2 min 40 s." },
-    { t: "08:42:20", who: "Highway Police", icon: "local_police", tone: "text-muted", text: "Patrol PCR-07 acknowledged via 112 CAD; diverting traffic from lane 2 northbound." },
-    { t: "08:42:12", who: "RoadNetra dispatcher", icon: "call_split", tone: "text-cyan", text: "Auto-routed to 112 CAD with frame, GPS and camera ID. Alert latency 1.4 s." },
-    { t: "08:42:11", who: "Model B · CAM-084", icon: "car_crash", tone: "text-danger-soft", text: "Severe accident confirmed over 3 consecutive frames (0.84 → 0.88 → 0.90). P1 assigned." },
-  ];
+  // ---------- journal: backend action_history (newest first) + local operator notes ----------
+  const NOTES_KEY = "rn-notes-" + inc.id;
+  let notes = [];
+  try { notes = JSON.parse(localStorage.getItem(NOTES_KEY) || "[]"); } catch (e) { notes = []; }
+  function historyEntries() {
+    const h = (raw && raw.action_history) || inc.history || [];
+    if (!h.length) {
+      const d = detectedAt();
+      return [
+        { t: fmtClock(d), who: "RoadNetra dispatcher", icon: "call_split", tone: "text-cyan", text: esc(`Routed to ${inc.authority || "the responsible authority"}.`) },
+        { t: fmtClock(d), who: isAcc() ? "Model B" : "Model A", icon: typeIcon[inc.type] || "report", tone: "text-danger-soft", text: esc(`${KIND_LABEL[kindOf()] || "Incident"} detected at conf ${num(inc.conf, 0).toFixed(2)} over ${num(inc.frames, 1)} frame(s). ${sevMeta().label} assigned.`) },
+      ];
+    }
+    return h.slice().reverse().map(x => {
+      const a = String(x.action || ""), m = /^([^:]{2,60}):\s+(.*)$/.exec(a);
+      let who = "RoadNetra", text = a, icon = "bolt", tone = "text-brand-soft";
+      if (/^Model [AB]/.test(a)) { who = a.startsWith("Model B") ? "Model B" : "Model A"; icon = typeIcon[inc.type] || "report"; tone = "text-danger-soft"; }
+      else if (m) { who = m[1]; text = m[2]; }
+      if (/^Judge/i.test(who)) { icon = "gavel"; tone = "text-cyan"; }
+      else if (/routed to/i.test(a)) { who = "RoadNetra dispatcher"; icon = "call_split"; tone = "text-cyan"; }
+      else if (/hospital|108|emergency/i.test(who)) { icon = "local_hospital"; tone = "text-danger-soft"; }
+      else if (/police/i.test(who)) { icon = "local_police"; tone = "text-muted"; }
+      else if (/nhai|pwd/i.test(who)) { icon = "engineering"; tone = "text-warn-soft"; }
+      if (/resolved/i.test(text)) { icon = "task_alt"; tone = "text-ok-soft"; }
+      return { t: x.time || "", who, icon, tone, text: esc(text) };
+    });
+  }
   function renderJournal() {
-    document.getElementById("jr-count").textContent = `${journal.length} entries`;
-    document.getElementById("journal").innerHTML = journal.map((e, k) => `
-      <li class="relative flex gap-3 ${k === journal.length - 1 ? "" : "pb-5"}">
-        ${k === journal.length - 1 ? "" : '<span class="absolute left-[15px] top-8 bottom-0 w-px bg-line" aria-hidden="true"></span>'}
+    const all = notes.concat(historyEntries());
+    $("jr-count").textContent = `${all.length} entries`;
+    $("journal").innerHTML = all.map((e, k) => `
+      <li class="relative flex gap-3 ${k === all.length - 1 ? "" : "pb-5"}">
+        ${k === all.length - 1 ? "" : '<span class="absolute left-[15px] top-8 bottom-0 w-px bg-line" aria-hidden="true"></span>'}
         <span class="w-8 h-8 rounded-full grid place-items-center border border-line bg-canvas shrink-0 ${e.tone}"><span class="material-symbols-rounded text-[17px]">${e.icon}</span></span>
         <div class="min-w-0 flex-1 pt-0.5">
-          <div class="flex flex-wrap items-baseline gap-x-2"><span class="text-[13px] font-semibold">${e.who}</span><span class="rn-mono text-[11.5px] text-dim">${e.t}</span>${e.mine ? '<span class="rn-badge rn-brand !h-[18px] !text-[10px]">You</span>' : ""}</div>
+          <div class="flex flex-wrap items-baseline gap-x-2"><span class="text-[13px] font-semibold">${esc(e.who)}</span><span class="rn-mono text-[11.5px] text-dim">${esc(e.t)}</span>${e.mine ? '<span class="rn-badge rn-brand !h-[18px] !text-[10px]">You · this browser</span>' : ""}</div>
           <p class="mt-0.5 text-[13px] text-muted break-words">${e.text}</p>
         </div>
       </li>`).join("");
   }
-  function addEntry(text, who = "Control Room · Desk 04", icon = "edit_note", tone = "text-brand-soft", mine = true) {
-    journal.unshift({ t: nowIST(), who, icon, tone, text: esc(text), mine });
+  function addNote(text, icon = "edit_note", tone = "text-brand-soft") {
+    notes.unshift({ t: nowClock(), who: "Control Room · Desk 04", icon, tone, text: esc(text), mine: true });
+    try { localStorage.setItem(NOTES_KEY, JSON.stringify(notes.slice(0, 50))); } catch (e) { /* storage unavailable */ }
     renderJournal();
   }
-  renderJournal();
-  document.getElementById("jr-form").addEventListener("submit", e => {
+  $("jr-form").addEventListener("submit", e => {
     e.preventDefault();
-    const inp = document.getElementById("jr-input"), v = inp.value.trim();
+    const inp = $("jr-input"), v = inp.value.trim();
     if (!v) { inp.focus(); return; }
-    addEntry(v); inp.value = "";
-    RN.toast("Note added", "Saved to the incident journal", "ok", 2500);
+    addNote(v); inp.value = "";
+    RN.toast("Note added", "Saved to this browser's incident journal", "ok", 2500);
   });
 
-  // ---------- timers ----------
-  // Demo clock: the page opens 4 min 12 s after detection; ETA counts down from 2:40.
-  const start = Date.now() - (4 * 60 + 12) * 1000, etaEnd = Date.now() + 160 * 1000;
-  let resolved = false, arrived = false;
-  const mmss = s => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+  // ---------- timers (real: now − detected_at; golden hour for accidents, SLA for road defects) ----------
+  const hms = s => {
+    s = Math.max(0, Math.floor(s));
+    const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
+    return (h ? h + ":" + String(m).padStart(2, "0") : String(m).padStart(2, "0")) + ":" + String(x).padStart(2, "0");
+  };
+  const dur = s => { const a = Math.abs(s), d = Math.floor(a / 86400), h = Math.floor(a % 86400 / 3600), m = Math.floor(a % 3600 / 60); return d ? `${d}d ${h}h` : h ? `${h}h ${String(m).padStart(2, "0")}m` : hms(a); };
   function tick() {
-    if (resolved) return;
-    const el = Math.floor((Date.now() - start) / 1000);
-    document.getElementById("elapsed").textContent = mmss(el);
-    const left = Math.max(0, 3600 - el);
-    document.getElementById("golden").textContent = mmss(left);
-    document.getElementById("golden-bar").style.width = (left / 36) + "%";
-    const eta = Math.max(0, Math.ceil((etaEnd - Date.now()) / 1000));
-    document.getElementById("eta").textContent = `${Math.floor(eta / 60)}:${String(eta % 60).padStart(2, "0")}`;
-    document.getElementById("eta-bar").style.width = (100 - eta / 1.6) + "%";
-    if (eta === 0 && !arrived) {
-      arrived = true; current = Math.max(current, 5); STEPS[4].t = nowIST(); renderSteps();
-      document.getElementById("unit-state").textContent = "On scene · triage in progress";
-      addEntry("AMB-108 reached the scene.", "AMB-108 crew", "ambulance", "text-danger-soft", false);
-      RN.toast("AMB-108 on scene", "RN-2026-004821 · NH-48 KM 142.6", "ok");
+    const det = detectedAt();
+    const endT = isResolved() ? (raw && raw.resolved_at ? new Date(raw.resolved_at) : null) : new Date();
+    const live = $("rs-live");
+    if (isResolved()) { live.className = "rn-badge rn-ok"; live.innerHTML = '<span class="rn-dot"></span>Clock stopped'; }
+    else { live.className = "rn-badge rn-p1"; live.innerHTML = '<span class="rn-dot rn-dot-pulse"></span>Clock running'; }
+    $("elapsed").textContent = det && endT ? hms((endT - det) / 1000) : (det ? "—" : "--:--");
+    const g = $("golden"), bar = $("golden-bar");
+    if (isAcc()) {
+      $("golden-label").textContent = "Golden hour";
+      if (!det) { g.textContent = "--:--"; return; }
+      if (isResolved() && !endT) { g.textContent = "Stopped"; bar.style.width = "0%"; return; }
+      const left = 3600 - ((endT || new Date()) - det) / 1000;
+      g.textContent = left > 0 ? hms(left) : "Over";
+      g.className = `mt-1 rn-mono font-semibold text-[26px] leading-none tracking-tight ${left > 1200 ? "text-ok-soft" : left > 0 ? "text-warn-soft" : "text-danger-soft"}`;
+      bar.style.width = Math.max(0, Math.min(100, left / 36)) + "%";
+    } else {
+      $("golden-label").textContent = "SLA remaining";
+      const due = slaDueAt();
+      if (!due) { g.textContent = "—"; bar.style.width = "0%"; return; }
+      if (isResolved()) { g.textContent = "Closed"; g.className = "mt-1 rn-mono font-semibold text-[22px] leading-none tracking-tight text-ok-soft"; bar.style.width = "100%"; return; }
+      const left = (due - new Date()) / 1000, total = det ? Math.max(1, (due - det) / 1000) : 86400;
+      g.textContent = left >= 0 ? dur(left) : "−" + dur(left);
+      g.className = `mt-1 rn-mono font-semibold text-[22px] leading-none tracking-tight ${left > total * 0.25 ? "text-ok-soft" : left > 0 ? "text-warn-soft" : "text-danger-soft"}`;
+      bar.style.width = Math.max(0, Math.min(100, left / total * 100)) + "%";
     }
   }
-  tick(); setInterval(tick, 1000);
 
   // ---------- actions ----------
-  document.getElementById("act-escalate").addEventListener("click", () => {
-    RN.toast("Escalated to duty officer", "RN-2026-004821 · second ambulance and tow requested via 112 CAD", "danger");
-    addEntry("Escalated: requested second ambulance and heavy tow.", "Control Room · Desk 04", "emergency_home", "text-danger-soft");
+  function setResolvedUI() {
+    const b = $("act-resolve");
+    if (isResolved()) { b.disabled = true; b.style.opacity = ".55"; b.innerHTML = '<span class="material-symbols-rounded">check_circle</span>Resolved'; }
+  }
+  function renderAll() { renderHeader(); renderFrames(); renderSteps(); renderJournal(); tick(); setResolvedUI(); }
+  function applyRaw(r) {
+    raw = r;
+    if (!r) return;
+    inc.status = r.status || inc.status;
+    if (r.confidence != null) inc.conf = r.confidence;
+    if (r.frames_confirmed != null) inc.frames = r.frames_confirmed;
+    if (r.image_url) inc.img = r.image_url;
+    if (r.ambulance_eta_mins) inc.eta = r.ambulance_eta_mins + " min";
+  }
+  async function act(body, onOk) {
+    if (!LIVE) { RN.toast("Not saved", "Demo data · start the RoadNetra backend to update incidents", "warn"); return false; }
+    if (busy) return false;
+    busy = true; renderSteps();
+    try {
+      const res = await fetch(`/api/incidents/${encodeURIComponent(inc.id)}/action`, {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok || !j.success || !j.incident) throw new Error(j.error || `HTTP ${res.status}`);
+      applyRaw(j.incident);
+      busy = false; renderAll();
+      if (onOk) onOk(j.incident);
+      return true;
+    } catch (err) {
+      busy = false; renderSteps();
+      RN.toast("Action failed", `${esc(inc.id)} · ${esc(err.message || err)}`, "danger");
+      return false;
+    }
+  }
+  $("act-escalate").addEventListener("click", () => {
+    RN.toast("Escalated to duty officer", `${esc(inc.id)} · ${esc(locText())} · flagged for the duty officer`, "danger");
+    addNote("Escalated to the duty officer.", "emergency_home", "text-danger-soft");
   });
-  document.getElementById("act-reassign").addEventListener("click", () =>
-    RN.toast("Reassign", "Choose another unit from the dispatch queue (not wired in this prototype)", "info"));
-  document.getElementById("act-pdf").addEventListener("click", () =>
-    RN.toast("Work order ready", "RN-2026-004821.pdf with frame, GPS and timeline (demo, no file generated)", "ok"));
-  document.getElementById("act-resolve").addEventListener("click", e => {
-    if (resolved) return;
-    resolved = true; current = STEPS.length;
-    STEPS[4].t = STEPS[4].t.startsWith("ETA") ? nowIST() : STEPS[4].t; STEPS[5].t = nowIST();
-    renderSteps();
-    const b = document.getElementById("status-badge"); b.className = "rn-badge rn-ok"; b.textContent = "Resolved";
-    const live = document.getElementById("rs-live"); live.className = "rn-badge rn-ok"; live.innerHTML = '<span class="rn-dot"></span>Clock stopped';
-    document.getElementById("unit-state").textContent = "Released · back to base";
-    e.currentTarget.disabled = true; e.currentTarget.style.opacity = ".55"; e.currentTarget.innerHTML = '<span class="material-symbols-rounded">check_circle</span>Resolved';
-    addEntry("Marked resolved. Lanes reopened.", "Control Room · Desk 04", "task_alt", "text-ok-soft");
-    RN.toast("Incident resolved", `RN-2026-004821 closed at ${nowIST()} IST · elapsed ${document.getElementById("elapsed").textContent}`, "ok");
+  $("act-reassign").addEventListener("click", () =>
+    RN.toast("Reassign", `${esc(inc.id)} · choose another unit from the dispatch queue (not wired in this prototype)`, "info"));
+  $("act-pdf").addEventListener("click", () =>
+    RN.toast("Work order", `${esc(inc.id)}.pdf with frame, GPS and timeline (prototype, no file generated)`, "ok"));
+  $("act-resolve").addEventListener("click", async e => {
+    if (isResolved()) return;
+    const btn = e.currentTarget;
+    if (!LIVE) {  // offline demo: local only
+      inc.status = "Resolved"; renderAll();
+      addNote("Marked resolved (local demo, not saved).", "task_alt", "text-ok-soft");
+      RN.toast("Incident resolved (demo)", `${esc(inc.id)} closed at ${nowClock()} · not saved to a backend`, "ok");
+      return;
+    }
+    btn.disabled = true;
+    const ok = await act({ status: "Resolved", note: "Resolved from incident detail" }, r =>
+      RN.toast(r.status === "Resolved" ? "Incident resolved" : "Status updated", `${esc(inc.id)} · ${esc(r.status)} at ${nowClock()} · elapsed ${$("elapsed").textContent}`, "ok"));
+    if (!ok) btn.disabled = false;
   });
-  document.querySelectorAll("[data-call]").forEach(b => b.addEventListener("click", () =>
-    RN.toast(`Calling ${b.dataset.call}`, "Bridged through the 112 CAD console (demo)", "info", 3000)));
-  document.getElementById("copy-gps").addEventListener("click", () => {
+  $("rs-calls").addEventListener("click", e => {
+    const b = e.target.closest("[data-call]"); if (!b) return;
+    RN.toast(`Calling ${esc(b.dataset.call)}`, `${esc(inc.id)} · bridged through the control-room console (prototype)`, "info", 3000);
+  });
+  $("copy-gps").addEventListener("click", () => {
     const txt = `${inc.lat}, ${inc.lng}`;
     (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(
       () => RN.toast("GPS copied", txt, "ok", 2500), () => RN.toast("GPS", txt, "info", 4000));
   });
 
   // ---------- map ----------
-  const map = L.map("inc-map", { zoomControl: true, scrollWheelZoom: false }).setView([inc.lat, inc.lng], 14);
-  RN.darkTiles(map);
-  const route = CAMERAS.filter(c => c.road === "NH-48").sort((a, b) => a.km - b.km).map(c => [c.lat, c.lng]);
-  L.polyline(route, { color: "#3B82F6", weight: 5, opacity: .5 }).addTo(map);
-  L.circle([inc.lat, inc.lng], { radius: 400, color: "#EF4444", weight: 1, fillColor: "#EF4444", fillOpacity: .08 }).addTo(map);
-  L.marker([cam.lat + 0.0012, cam.lng - 0.0016], { icon: L.divIcon({ className: "", html: '<div class="rn-pin cam"></div>', iconSize: [12, 12] }) })
-    .addTo(map).bindPopup(`<b>${cam.id}</b> · ${cam.name}`);
-  L.marker([inc.lat, inc.lng], { icon: L.divIcon({ className: "", html: '<div class="rn-pin p1"></div>', iconSize: [18, 18] }), zIndexOffset: 1000 })
-    .addTo(map).bindPopup(`<b>${inc.title}</b><br><span style="color:#94A3B8">${inc.road} KM ${inc.km}</span>`);
+  if (window.L && has(inc.lat) && has(inc.lng)) {
+    const lat = +inc.lat, lng = +inc.lng, color = sevMeta().color || "#EF4444";
+    const map = L.map("inc-map", { zoomControl: true, scrollWheelZoom: false }).setView([lat, lng], 14);
+    RN.darkTiles(map);
+    const road = has(inc.road) ? inc.road : cam && cam.road;
+    const route = CAMERAS.filter(c => road && c.road === road && !isNaN(parseFloat(c.km)) && has(c.lat) && has(c.lng))
+      .sort((a, b) => parseFloat(a.km) - parseFloat(b.km)).map(c => [c.lat, c.lng]);
+    if (route.length >= 2) L.polyline(route, { color: "#3B82F6", weight: 5, opacity: .5 }).addTo(map);
+    L.circle([lat, lng], { radius: 400, color, weight: 1, fillColor: color, fillOpacity: .08 }).addTo(map);
+    if (cam && has(cam.lat) && has(cam.lng)) {
+      const same = Math.abs(cam.lat - lat) < 1e-4 && Math.abs(cam.lng - lng) < 1e-4;   // offset so both pins show
+      L.marker(same ? [cam.lat + 0.0012, cam.lng - 0.0016] : [cam.lat, cam.lng], { icon: L.divIcon({ className: "", html: '<div class="rn-pin cam"></div>', iconSize: [12, 12] }) })
+        .addTo(map).bindPopup(`<b>${esc(cam.id)}</b> · ${esc(cam.name)}`);
+    }
+    const pin = ["p1", "p2", "p3", "p4"].includes(String(inc.sev).toLowerCase()) ? String(inc.sev).toLowerCase() : "p4";
+    L.marker([lat, lng], { icon: L.divIcon({ className: "", html: `<div class="rn-pin ${pin}"></div>`, iconSize: [18, 18] }), zIndexOffset: 1000 })
+      .addTo(map).bindPopup(`<b>${esc(inc.title)}</b><br><span style="color:#94A3B8">${esc(locText())}</span>`);
+  } else {
+    $("inc-map").innerHTML = '<div class="h-full grid place-items-center text-[13px] text-muted">Map unavailable</div>';
+  }
+
+  renderAll();
+  setInterval(tick, 1000);
+
+  // ---------- live: full backend record (authorities, history, exact times) ----------
+  if (LIVE && window.fetch) {
+    fetch("/api/incidents/" + encodeURIComponent(inc.id), { cache: "no-store" })
+      .then(r => (r.ok ? r.json() : null))
+      .then(r => { if (r && r.id) { applyRaw(r); renderAll(); } })
+      .catch(() => { /* keep RN_DATA values */ });
+  }
 })();
 </script>
 </body>

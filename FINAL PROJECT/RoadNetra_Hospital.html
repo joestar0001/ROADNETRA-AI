@@ -36,6 +36,8 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 @media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;overflow-x:auto;padding:6px;border:0}.side .lk{width:auto;white-space:nowrap}.side .prof,.side .stc,.side h5{display:none}}
 </style>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/config.js"></script>
+<script src="/static/rn-map.js"></script>
 </head>
 <body>
 <div class="shell">
@@ -58,7 +60,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
     <a href="/police" class="lk" style="text-decoration:none">🚔 Traffic Police ↗</a>
     <div class="stc">
       <span class="dot"></span><b>CCTV Telemetry: Live</b><br>
-      Model B (Accident): Standby<br>
+      Model B (Accident): Live<br>
       Police Signal Link: Active
     </div>
   </aside>
@@ -225,6 +227,8 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 <script>
 let incidents = [];
 let mapInstance = null;
+// Receiving trauma centre: set MAP_DEFAULT_LAT / MAP_DEFAULT_LNG in frontend/.env
+const HOSPITAL_POS = (window.RNMap && RNMap.center) || [28.6289, 77.2065];
 let markers = [];
 let greenWaveActive = false;
 let secondsRemaining = 48 * 60 + 12;
@@ -379,7 +383,7 @@ async function markResolved(id){
     await fetch(`/api/incidents/${id}/action`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({status: 'Resolved', note: 'Patient successfully admitted to Apex Trauma ICU'})
+      body: JSON.stringify({status: 'Resolved', authority: 'hosp', note: 'Patient successfully admitted to Apex Trauma ICU'})
     });
     toast(`Patient admitted to Apex Trauma Centre.`);
     fetchHospIncidents();
@@ -417,14 +421,11 @@ function triggerManualSync(){
 
 function initHospMap(){
   if(mapInstance) return;
-  mapInstance = L.map('hospMap').setView([28.6289, 77.2065], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap · RoadNetra AI 108'
-  }).addTo(mapInstance);
+  mapInstance = L.map('hospMap').setView(RNMap.center, 12);
+  RNMap.addTiles(mapInstance, 'streets');
 
   // Hospital Icon
-  const hospMarker = L.marker([28.6289, 77.2065]).addTo(mapInstance);
+  const hospMarker = L.marker(HOSPITAL_POS).addTo(mapInstance);
   hospMarker.bindPopup("<b>🏥 Apex Trauma Hospital</b><br>Level 1 Trauma Facility<br>Resus Bays 1-4 Ready").openPopup();
 
   refreshHospMap();
@@ -455,7 +456,7 @@ function refreshHospMap(){
 
     // Green corridor route line
     const corridor = L.polyline([
-      [28.6289, 77.2065],
+      HOSPITAL_POS,
       [lat, lng]
     ], {
       color: '#16a34a',
@@ -464,6 +465,7 @@ function refreshHospMap(){
     }).addTo(mapInstance);
     markers.push(corridor);
   });
+  if(!window._rnFit && markers.length){ try{ mapInstance.fitBounds(L.featureGroup(markers).getBounds().pad(0.25), {maxZoom:13}); window._rnFit=1; }catch(e){} }
 }
 
 // Timer countdown
@@ -478,6 +480,6 @@ setInterval(() => {
 }, 1000);
 
 fetchHospIncidents();
-setInterval(fetchHospIncidents, 30000);
+setInterval(fetchHospIncidents, (window.RN_CONFIG && RN_CONFIG.stream && RN_CONFIG.stream.incidentPollMs) || 5000);
 </script>
 </body></html>

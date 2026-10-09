@@ -23,8 +23,8 @@
     <div id="cc-alert" class="flex flex-col sm:flex-row sm:items-center gap-3 px-4 py-3 rounded-xl border border-warn/30 bg-warn/[0.07]">
       <span class="material-symbols-rounded icon-fill text-warn">videocam_off</span>
       <div class="flex-1 text-[13.5px]">
-        <span class="font-semibold text-warn-soft">2 cameras offline</span>
-        <span class="text-muted"> · CAM-104 (NH-48 KM 171.8) and CAM-123 (SPR KM 4.0) stopped sending frames 6 min ago. Coverage gap flagged to the field team.</span>
+        <span class="font-semibold text-warn-soft" id="cc-alert-title">Cameras offline</span>
+        <span class="text-muted" id="cc-alert-text"></span>
       </div>
       <div class="flex gap-2">
         <a href="cameras.html" class="rn-btn rn-btn-sm">View cameras</a>
@@ -36,13 +36,13 @@
     <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" aria-label="Key figures">
       <div class="rn-card p-5">
         <div class="flex items-start justify-between"><span class="rn-label">Open incidents</span><span class="material-symbols-rounded text-brand-soft">inventory_2</span></div>
-        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value" id="kpi-open">7</span><span class="text-[12.5px] rn-trend-down">+2 last hour</span></div>
-        <div class="mt-3 text-[12.5px] text-muted">3 accidents · 3 potholes · 1 road damage</div>
+        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value" id="kpi-open">–</span><span class="text-[12.5px] rn-trend-down" id="kpi-open-d"></span></div>
+        <div class="mt-3 text-[12.5px] text-muted" id="kpi-open-sub"></div>
       </div>
       <div class="rn-card p-5 shadow-glow-red">
         <div class="flex items-start justify-between"><span class="rn-label !text-danger-soft">P1 critical</span><span class="rn-badge rn-p1"><span class="rn-dot rn-dot-pulse"></span>Live</span></div>
-        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value text-danger-soft">3</span><span class="text-[12.5px] text-muted">severe accidents</span></div>
-        <div class="mt-3 text-[12.5px] text-muted">Auto-routed to 112 within <span class="text-ink font-semibold">1.4 s</span> of confirmation</div>
+        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value text-danger-soft" id="kpi-p1">–</span><span class="text-[12.5px] text-muted">severe accidents</span></div>
+        <div class="mt-3 text-[12.5px] text-muted" id="kpi-p1-sub">Auto-routed to 112 within <span class="text-ink font-semibold">1.4 s</span> of confirmation</div>
       </div>
       <div class="rn-card p-5">
         <div class="flex items-start justify-between"><span class="rn-label">Avg. alert latency</span><span class="material-symbols-rounded text-ok-soft">bolt</span></div>
@@ -51,8 +51,8 @@
       </div>
       <div class="rn-card p-5">
         <div class="flex items-start justify-between"><span class="rn-label">Cameras online</span><span class="material-symbols-rounded text-cyan">videocam</span></div>
-        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value">10<span class="text-[18px] text-muted"> / 12</span></span><span class="text-[12.5px] text-warn-soft">2 offline</span></div>
-        <div class="mt-3 rn-bar"><span style="width:83%"></span></div>
+        <div class="mt-3 flex items-baseline gap-2"><span class="rn-kpi-value"><span id="kpi-cam">–</span><span class="text-[18px] text-muted" id="kpi-cam-total"></span></span><span class="text-[12.5px] text-warn-soft" id="kpi-cam-off"></span></div>
+        <div class="mt-3 rn-bar"><span id="kpi-cam-bar" style="width:0%"></span></div>
       </div>
     </section>
 
@@ -64,7 +64,7 @@
             <div class="flex items-center gap-2.5">
               <span class="rn-dot rn-dot-pulse text-ok"></span>
               <h2 class="font-display font-bold text-[16px]">Corridor map</h2>
-              <span class="text-[12.5px] text-dim">NH-48 · KM 110 – 175</span>
+              <span class="text-[12.5px] text-dim" id="cc-map-sub">NH-48 · KM 110 – 175</span>
             </div>
             <div class="flex-1"></div>
             <div class="rn-seg" role="tablist" aria-label="Map layers">
@@ -145,38 +145,79 @@
       </div>
     </section>
 
-    <p class="text-center text-[12px] text-dim pb-2">Incidents, cameras and units on this screen are demo data. Model figures are real test-set results.</p>
+    <p class="text-center text-[12px] text-dim pb-2" id="cc-foot">Incidents, cameras and units on this screen are demo data. Model figures are real test-set results.</p>
   </div>
 </main>
 
-<script src="../assets/js/demo-data.js"></script>
+<script src="/config.js"></script>
+<script src="/api/rn-data.js"></script>
+<script>if(!window.RN_DATA||!(window.RN_DATA.INCIDENTS||[]).length)document.write('<script src="../assets/js/demo-data.js"><\/script>')</script>
+<script src="/static/rn-map.js"></script>
 <script src="../assets/js/shell.js"></script>
 <script>
 (function () {
-  const { INCIDENTS, CAMERAS, SEVERITY } = window.RN_DATA;
+  const D = window.RN_DATA || {};
+  const INCIDENTS = D.INCIDENTS || [], CAMERAS = D.CAMERAS || [], LIVE = !!D.LIVE;
+  const SEVERITY = Object.assign({ P4: { label: "P4 Low", cls: "rn-p4", color: "#94A3B8" } }, D.SEVERITY || {});
+  const sevOf = i => SEVERITY[i.sev] || SEVERITY.P4;
   const typeIcon = { accident: "car_crash", pothole: "add_road", damage: "texture" };
-  const statusTone = s => ({ "New": "rn-p1", "Dispatched": "rn-brand", "Responding": "rn-brand", "Work order issued": "rn-ok", "Assigned": "rn-ok", "Logged": "rn-p4" }[s] || "rn-p4");
+  const statusTone = s => ({ "New": "rn-p1", "Dispatched": "rn-brand", "Acknowledged": "rn-brand", "Responding": "rn-brand", "Crew En Route": "rn-p2", "Under Repair": "rn-p2", "Resolved": "rn-ok", "Work order issued": "rn-ok", "Assigned": "rn-ok", "Logged": "rn-p4" }[s] || "rn-p4");
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const kmNum = v => parseFloat(v);
+  const where = i => [i.road && i.road !== "—" ? i.road + (i.km && i.km !== "—" ? " KM " + i.km : "") : "", i.place].filter(Boolean).join(" · ");
+  const conf2 = i => (+i.conf || 0).toFixed(2);
+  const detailHref = id => "incident-detail.html?id=" + encodeURIComponent(id);
+  const isOpen = i => String(i.status || "").toLowerCase() !== "resolved";
+
+  // ---------- KPIs + banner (from RN_DATA) ----------
+  const open = INCIDENTS.filter(isOpen);
+  const nType = t => open.filter(i => i.type === t).length;
+  document.getElementById("kpi-open").textContent = open.length;
+  document.getElementById("kpi-open-sub").textContent = `${nType("accident")} accidents · ${nType("pothole")} potholes · ${nType("damage")} road damage`;
+  if (LIVE) {
+    const hourAgo = INCIDENTS.filter(i => /just now|^\d+ min$/.test(i.ago || "")).length;
+    document.getElementById("kpi-open-d").textContent = hourAgo ? `+${hourAgo} last hour` : "";
+    document.getElementById("kpi-p1-sub").textContent = `${INCIDENTS.filter(i => i.sev === "P1" && !isOpen(i)).length} resolved · routed by the RoadNetra dispatcher`;
+  } else document.getElementById("kpi-open-d").textContent = "+2 last hour";
+  document.getElementById("kpi-p1").textContent = open.filter(i => i.sev === "P1").length;
+  const camOn = CAMERAS.filter(c => c.status === "online"), camOff = CAMERAS.filter(c => c.status !== "online");
+  document.getElementById("kpi-cam").textContent = camOn.length;
+  document.getElementById("kpi-cam-total").textContent = " / " + CAMERAS.length;
+  document.getElementById("kpi-cam-off").textContent = camOff.length ? `${camOff.length} offline` : "all online";
+  document.getElementById("kpi-cam-bar").style.width = (CAMERAS.length ? Math.round(camOn.length / CAMERAS.length * 100) : 0) + "%";
+  if (camOff.length) {
+    document.getElementById("cc-alert-title").textContent = `${camOff.length} camera${camOff.length > 1 ? "s" : ""} offline`;
+    document.getElementById("cc-alert-text").textContent = " · " + camOff.slice(0, 3).map(c => `${c.id} (${c.road} KM ${c.km})`).join(", ") + (camOff.length > 3 ? ` and ${camOff.length - 3} more` : "") + " not sending frames. Coverage gap flagged to the field team.";
+  } else document.getElementById("cc-alert").remove();
+  if (LIVE) document.getElementById("cc-foot").textContent = "Incidents and cameras on this screen are live data from the RoadNetra backend. Units and ETAs come from dispatch updates; model figures are real test-set results.";
 
   // ---------- map ----------
-  const map = L.map("cc-map", { zoomControl: true, attributionControl: true, scrollWheelZoom: false }).setView([28.33, 76.92], 11);
+  const start = (window.RNMap && window.RNMap.center) || [28.33, 76.92];
+  const map = L.map("cc-map", { zoomControl: true, attributionControl: true, scrollWheelZoom: false }).setView(start, (window.RNMap && window.RNMap.zoom) || 11);
   RN.darkTiles(map);
   // corridor polyline through camera points (sorted by KM)
-  const route = CAMERAS.filter(c => c.road === "NH-48").sort((a, b) => a.km - b.km).map(c => [c.lat, c.lng]);
-  L.polyline(route, { color: "#3B82F6", weight: 5, opacity: .55 }).addTo(map);
-  L.polyline(route, { color: "#93C5FD", weight: 1.5, opacity: .9, dashArray: "6 8" }).addTo(map);
+  const route = CAMERAS.filter(c => c.road === "NH-48" && !isNaN(kmNum(c.km))).sort((a, b) => kmNum(a.km) - kmNum(b.km)).map(c => [c.lat, c.lng]);
+  if (route.length >= 2) {
+    L.polyline(route, { color: "#3B82F6", weight: 5, opacity: .55 }).addTo(map);
+    L.polyline(route, { color: "#93C5FD", weight: 1.5, opacity: .9, dashArray: "6 8" }).addTo(map);
+  }
 
   const camLayer = L.layerGroup(CAMERAS.map(c => L.marker([c.lat, c.lng], {
     icon: L.divIcon({ className: "", html: `<div class="rn-pin cam" style="${c.status === "offline" ? "background:#64748B;box-shadow:none" : ""}"></div>`, iconSize: [12, 12] }),
-  }).bindPopup(`<b>${c.id}</b> · ${c.name}<br><span style="color:#94A3B8">${c.road} KM ${c.km} · ${c.status === "online" ? c.fps + " FPS" : "OFFLINE"}</span>`)));
+  }).bindPopup(`<b>${esc(c.id)}</b> · ${esc(c.name)}<br><span style="color:#94A3B8">${esc(c.road)} KM ${esc(c.km)} · ${c.status === "online" ? esc(c.fps) + " FPS" : "OFFLINE"}</span>`)));
   const markers = {};
-  const incLayer = L.layerGroup(INCIDENTS.map(i => {
+  const incLayer = L.layerGroup(INCIDENTS.filter(i => i.lat != null && i.lng != null).map(i => {
     const m = L.marker([i.lat, i.lng], {
-      icon: L.divIcon({ className: "", html: `<div class="rn-pin ${i.sev.toLowerCase()}"></div>`, iconSize: [18, 18] }), zIndexOffset: 1000,
-    }).bindPopup(`<b>${i.title}</b><br><span style="color:#94A3B8">${i.road} KM ${i.km} · ${SEVERITY[i.sev].label}</span>`);
+      icon: L.divIcon({ className: "", html: `<div class="rn-pin ${String(i.sev || "p4").toLowerCase()}"></div>`, iconSize: [18, 18] }), zIndexOffset: 1000,
+    }).bindPopup(`<b>${esc(i.title)}</b><br><span style="color:#94A3B8">${esc(where(i))} · ${esc(sevOf(i).label)}</span><br><a href="${detailHref(i.id)}">Open incident</a>`);
     m.on("click", () => select(i.id, false));
     markers[i.id] = m; return m;
   }));
   camLayer.addTo(map); incLayer.addTo(map);
+  // fit the view to the incidents (plus cameras) instead of a fixed corridor view
+  const pts = INCIDENTS.filter(i => i.lat != null && i.lng != null).map(i => [i.lat, i.lng])
+    .concat(CAMERAS.filter(c => c.lat != null && c.lng != null).map(c => [c.lat, c.lng]));
+  if (INCIDENTS.length && pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.12), { maxZoom: 14 });
   document.querySelectorAll('[data-layer]').forEach(b => b.addEventListener("click", () => {
     document.querySelectorAll('[data-layer]').forEach(x => x.setAttribute("aria-selected", String(x === b)));
     const l = b.dataset.layer;
@@ -187,32 +228,32 @@
 
   // ---------- feed ----------
   const feed = document.getElementById("cc-feed");
-  let current = INCIDENTS[0].id, filter = "all";
+  let current = INCIDENTS.length ? INCIDENTS[0].id : null, filter = "all";
   function renderFeed() {
-    feed.innerHTML = INCIDENTS.filter(i => filter === "all" || i.sev === filter).map(i => `
+    feed.innerHTML = INCIDENTS.filter(i => filter === "all" || i.sev === filter || (filter === "P3" && i.sev === "P4")).map(i => `
       <li>
         <button data-id="${i.id}" class="w-full text-left rounded-xl border p-3.5 transition ${i.id === current ? "border-brand/50 bg-brand/[0.08]" : "border-line bg-canvas/40 hover:border-line-strong hover:bg-raised/40"}">
           <div class="flex items-center gap-2">
-            <span class="rn-badge ${SEVERITY[i.sev].cls}">${i.sev === "P1" ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${i.sev}</span>
-            <span class="rn-mono text-[11.5px] text-dim">${i.id}</span>
-            <span class="ml-auto text-[12px] text-dim">${i.ago} ago</span>
+            <span class="rn-badge ${sevOf(i).cls}">${i.sev === "P1" && isOpen(i) ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${esc(i.sev)}</span>
+            <span class="rn-mono text-[11.5px] text-dim">${esc(i.id)}</span>
+            <span class="ml-auto text-[12px] text-dim">${i.ago ? (i.ago === "just now" ? "just now" : esc(i.ago) + " ago") : ""}</span>
           </div>
           <div class="mt-2 flex items-center gap-2">
-            <span class="material-symbols-rounded text-[19px] ${i.sev === "P1" ? "text-danger-soft" : i.sev === "P2" ? "text-warn-soft" : "text-info-soft"}">${typeIcon[i.type]}</span>
-            <span class="font-semibold text-[14px] truncate">${i.title}</span>
+            <span class="material-symbols-rounded text-[19px] ${i.sev === "P1" ? "text-danger-soft" : i.sev === "P2" ? "text-warn-soft" : "text-info-soft"}">${typeIcon[i.type] || "report"}</span>
+            <span class="font-semibold text-[14px] truncate">${esc(i.title)}</span>
           </div>
-          <div class="mt-1 text-[12.5px] text-muted truncate">${i.road} KM ${i.km} · ${i.place}</div>
+          <div class="mt-1 text-[12.5px] text-muted truncate">${esc(where(i))}</div>
           <div class="mt-2.5 flex items-center gap-2 text-[11.5px]">
-            <span class="rn-mono text-cyan">conf ${i.conf.toFixed(2)}</span><span class="text-dim">·</span>
-            <span class="text-muted">${i.frames} frames</span>
-            <span class="ml-auto rn-badge ${statusTone(i.status)}">${i.status}</span>
+            <span class="rn-mono text-cyan">conf ${conf2(i)}</span><span class="text-dim">·</span>
+            <span class="text-muted">${esc(i.frames)} frame${+i.frames === 1 ? "" : "s"}</span>
+            <span class="ml-auto rn-badge ${statusTone(i.status)}">${esc(i.status)}</span>
           </div>
         </button>
       </li>`).join("") || `<li class="text-center text-muted text-[13px] py-10">No incidents at this severity.</li>`;
     feed.querySelectorAll("button[data-id]").forEach(b => b.addEventListener("click", () => select(b.dataset.id, true)));
   }
   ["all", "P1", "P2", "P3"].forEach(s => {
-    document.querySelector(`[data-count="${s}"]`).textContent = INCIDENTS.filter(i => s === "all" || i.sev === s).length;
+    document.querySelector(`[data-count="${s}"]`).textContent = INCIDENTS.filter(i => s === "all" || i.sev === s || (s === "P3" && i.sev === "P4")).length;
   });
   document.querySelectorAll("#cc-filters .rn-chip").forEach(c => c.addEventListener("click", () => {
     document.querySelectorAll("#cc-filters .rn-chip").forEach(x => x.classList.toggle("is-active", x === c));
@@ -221,56 +262,67 @@
 
   // ---------- selected incident ----------
   function select(id, pan) {
-    current = id; renderFeed();
     const i = INCIDENTS.find(x => x.id === id);
-    if (pan) { map.flyTo([i.lat, i.lng], 13, { duration: .8 }); markers[id].openPopup(); }
+    if (!i) {
+      document.getElementById("cc-selected").innerHTML = `<div class="md:col-span-2 text-center text-muted text-[13.5px] py-10">${LIVE ? "No incidents reported by the RoadNetra backend yet." : "No incidents in the demo data."}</div>`;
+      return;
+    }
+    current = id; renderFeed();
+    if (pan && markers[id]) { map.flyTo([i.lat, i.lng], 13, { duration: .8 }); markers[id].openPopup(); }
     const isAccident = i.type === "accident";
+    const thumb = i.crop || i.img;
     document.getElementById("cc-selected").innerHTML = `
       <div class="rn-feed aspect-[4/3] md:aspect-auto md:h-full min-h-[200px]">
-        <img src="${i.img}" alt="${i.title} captured by ${i.cam}">
-        <div class="rn-feed-hud left-2 top-2"><span class="rn-dot rn-dot-pulse text-danger"></span>${i.cam} · LIVE</div>
-        <div class="rn-feed-hud right-2 bottom-2">${isAccident ? "Model B" : "Model A"} · conf ${i.conf.toFixed(2)}</div>
+        ${thumb ? `<img src="${esc(thumb)}" alt="${esc(i.title)} captured by ${esc(i.cam)}">` : ""}
+        <div class="rn-feed-hud left-2 top-2"><span class="rn-dot rn-dot-pulse text-danger"></span>${esc(i.cam)} · ${LIVE ? "EVIDENCE" : "LIVE"}</div>
+        <div class="rn-feed-hud right-2 bottom-2">${isAccident ? "Model B" : "Model A"} · conf ${conf2(i)}</div>
       </div>
       <div class="flex flex-col min-w-0">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="rn-badge ${SEVERITY[i.sev].cls}">${i.sev === "P1" ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${SEVERITY[i.sev].label}</span>
-          <span class="rn-mono text-[12px] text-dim">${i.id}</span>
-          <span class="rn-badge ${statusTone(i.status)}">${i.status}</span>
+          <span class="rn-badge ${sevOf(i).cls}">${i.sev === "P1" && isOpen(i) ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${esc(sevOf(i).label)}</span>
+          <span class="rn-mono text-[12px] text-dim">${esc(i.id)}</span>
+          <span class="rn-badge ${statusTone(i.status)}">${esc(i.status)}</span>
+          ${i.sample ? '<span class="rn-badge rn-p2" title="Seeded sample incident">Sample</span>' : ""}
         </div>
-        <h3 class="mt-2 font-display font-bold text-[20px] tracking-tight">${i.title}</h3>
-        <div class="mt-1 text-[13.5px] text-muted flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">location_on</span>${i.road} KM ${i.km} · ${i.place}</div>
+        <h3 class="mt-2 font-display font-bold text-[20px] tracking-tight">${esc(i.title)}</h3>
+        <div class="mt-1 text-[13.5px] text-muted flex items-center gap-1.5"><span class="material-symbols-rounded text-[18px]">location_on</span>${esc(where(i))}</div>
         <dl class="mt-4 grid grid-cols-2 gap-3">
-          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Detected</dt><dd class="rn-mono mt-1 text-[14px]">${i.detected}</dd></div>
-          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confirmed</dt><dd class="rn-mono mt-1 text-[14px]">${i.frames} frames</dd></div>
-          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Routed to</dt><dd class="mt-1 text-[13px] font-medium leading-snug">${i.authority}</dd></div>
-          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Unit · ETA</dt><dd class="mt-1 text-[13px] font-medium">${i.unit} · <span class="rn-mono">${i.eta}</span></dd></div>
+          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Detected</dt><dd class="rn-mono mt-1 text-[14px]">${esc(i.detected)}</dd></div>
+          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Confirmed</dt><dd class="rn-mono mt-1 text-[14px]">${esc(i.frames)} frame${+i.frames === 1 ? "" : "s"}</dd></div>
+          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Routed to</dt><dd class="mt-1 text-[13px] font-medium leading-snug">${esc(i.authority)}</dd></div>
+          <div class="rounded-xl border border-line bg-canvas/50 p-3"><dt class="rn-label">Unit · ETA</dt><dd class="mt-1 text-[13px] font-medium">${esc(i.unit)} · <span class="rn-mono">${esc(i.eta)}</span></dd></div>
         </dl>
         <div class="mt-auto pt-5 flex flex-wrap gap-2">
           ${isAccident ? `<button class="rn-btn rn-btn-danger" data-act="dispatch"><span class="material-symbols-rounded">ambulance</span>Dispatch backup</button>` : `<button class="rn-btn rn-btn-primary" data-act="order"><span class="material-symbols-rounded">description</span>Issue work order</button>`}
-          <a href="incident-detail.html" class="rn-btn"><span class="material-symbols-rounded">open_in_new</span>Open incident</a>
-          <a href="cameras.html" class="rn-btn rn-btn-ghost"><span class="material-symbols-rounded">videocam</span>Camera feed</a>
+          <a href="${detailHref(i.id)}" class="rn-btn"><span class="material-symbols-rounded">open_in_new</span>Open incident</a>
+          <a href="cameras.html${CAMERAS.some(c => c.id === i.cam) ? "#" + encodeURIComponent(i.cam) : ""}" class="rn-btn rn-btn-ghost"><span class="material-symbols-rounded">videocam</span>Camera feed</a>
         </div>
       </div>`;
     const act = document.querySelector("#cc-selected [data-act]");
     act.addEventListener("click", () => act.dataset.act === "dispatch"
-      ? RN.toast("Backup dispatched", `${i.id} · nearest highway patrol notified over 112 CAD`, "danger")
-      : RN.toast("Work order issued", `${i.id} · PDF sent to ${i.authority}`, "ok"));
+      ? RN.toast("Backup dispatched", `${esc(i.id)} · nearest highway patrol notified (prototype)`, "danger")
+      : RN.toast("Work order issued", `${esc(i.id)} · PDF sent to ${esc(i.authority)} (prototype)`, "ok"));
   }
 
   // ---------- dispatch table ----------
   document.getElementById("cc-dispatch").innerHTML = INCIDENTS.map(i => `
-    <tr class="cursor-pointer" data-id="${i.id}">
-      <td><div class="flex items-center gap-2.5"><span class="rn-badge ${SEVERITY[i.sev].cls}">${i.sev}</span><div class="min-w-0"><div class="font-medium truncate">${i.title}</div><div class="rn-mono text-[11.5px] text-dim">${i.id}</div></div></div></td>
-      <td class="text-muted text-[13px]">${i.authority.replace(" · ", "<br>")}</td>
-      <td class="whitespace-nowrap"><div class="font-medium text-[13px]">${i.unit}</div><div class="rn-mono text-[11.5px] text-dim">${i.eta}</div></td>
-      <td><span class="rn-badge ${statusTone(i.status)}">${i.status}</span></td>
-    </tr>`).join("");
-  document.querySelectorAll("#cc-dispatch tr").forEach(r => r.addEventListener("click", () => {
+    <tr class="cursor-pointer" data-id="${esc(i.id)}">
+      <td><div class="flex items-center gap-2.5"><span class="rn-badge ${sevOf(i).cls}">${esc(i.sev)}</span><div class="min-w-0"><div class="font-medium truncate"><a href="${detailHref(i.id)}" class="hover:underline" data-detail>${esc(i.title)}</a></div><div class="rn-mono text-[11.5px] text-dim">${esc(i.id)}</div></div></div></td>
+      <td class="text-muted text-[13px]">${esc(i.authority).split(" · ").join("<br>")}</td>
+      <td class="whitespace-nowrap"><div class="font-medium text-[13px]">${esc(i.unit)}</div><div class="rn-mono text-[11.5px] text-dim">${esc(i.eta)}</div></td>
+      <td><span class="rn-badge ${statusTone(i.status)}">${esc(i.status)}</span></td>
+    </tr>`).join("") || `<tr><td colspan="4" class="text-center text-muted py-8">No incidents to dispatch.</td></tr>`;
+  document.querySelectorAll("#cc-dispatch tr[data-id]").forEach(r => r.addEventListener("click", e => {
+    if (e.target.closest("[data-detail]")) return;   // title link opens the incident page
     select(r.dataset.id, true); window.scrollTo({ top: 0, behavior: "smooth" });
   }));
 
   renderFeed(); select(current, false);
-  setTimeout(() => RN.toast("New P1 · Overturned car at junction", "Dwarka Expwy KM 18.4 · confirmed over 4 frames · awaiting unit", "danger"), 1800);
+  // demo only: one scripted alert so the offline prototype shows the toast; live alerts come from shell.js polling
+  if (!LIVE) {
+    const demoNew = INCIDENTS.find(i => i.status === "New");
+    if (demoNew) setTimeout(() => RN.toast(`New ${esc(demoNew.sev)} · ${esc(demoNew.title)}`, `${esc(where(demoNew))} · confirmed over ${esc(demoNew.frames)} frames · awaiting unit`, "danger", 5000, { href: detailHref(demoNew.id) }), 1800);
+  }
 })();
 </script>
 </body>

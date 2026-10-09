@@ -118,7 +118,7 @@
       <a href="command-center.html" class="rn-btn rn-btn-primary"><span class="material-symbols-rounded">arrow_back</span>Command Center</a>
       <a href="login.html" class="rn-btn"><span class="material-symbols-rounded">login</span>Sign-in screen</a>
     </div>
-    <p class="mt-8 text-[12.5px] text-dim leading-relaxed"><span class="text-muted font-medium">Try it:</span> use the tabs inside the phone. Incidents, units and the officer are demo data; the crash frame is a real Model B detection.</p>
+    <p class="mt-8 text-[12.5px] text-dim leading-relaxed" id="fo-side-note"><span class="text-muted font-medium">Try it:</span> use the tabs inside the phone. Incidents, units and the officer are demo data; the crash frame is a real Model B detection.</p>
   </aside>
 
   <!-- ===== Device ===== -->
@@ -164,22 +164,22 @@
             <span class="text-[12px] text-dim" id="fo-queue-count"></span>
           </div>
           <ul id="fo-queue" class="space-y-2.5"></ul>
-          <p class="text-center text-[11.5px] text-dim pb-1">Demo data · the crash frame is real Model B output</p>
+          <p class="text-center text-[11.5px] text-dim pb-1" id="fo-foot">Demo data · the crash frame is real Model B output</p>
         </section>
 
         <!-- ===== ROUTE ===== -->
         <section class="fo-view p-4 space-y-4 hidden" data-view="route" id="view-route" role="tabpanel" aria-labelledby="tab-route">
           <div class="rn-card p-4">
             <div class="flex items-center gap-2">
-              <span class="rn-badge rn-p1">P1</span>
-              <span class="rn-mono text-[11.5px] text-dim">RN-2026-004821</span>
+              <span class="rn-badge rn-p1" id="fo-r-sev">P1</span>
+              <span class="rn-mono text-[11.5px] text-dim" id="fo-r-id">RN-2026-004821</span>
               <span class="ml-auto rn-badge rn-ok"><span class="material-symbols-rounded text-[14px]">traffic</span>Light traffic</span>
             </div>
             <div class="mt-2.5 flex items-baseline gap-2">
-              <span class="font-display font-bold text-[28px] leading-none">5 min</span>
-              <span class="text-[13px] text-muted">· 3.7 km via NH-48</span>
+              <span class="font-display font-bold text-[28px] leading-none" id="fo-r-eta">5 min</span>
+              <span class="text-[13px] text-muted" id="fo-r-dist">· 3.7 km via NH-48</span>
             </div>
-            <div class="mt-1.5 text-[12.5px] text-muted">Arrive <span class="rn-mono text-ink" id="fo-arrive">08:51</span> · ambulance AMB-108 ahead of you</div>
+            <div class="mt-1.5 text-[12.5px] text-muted">Arrive <span class="rn-mono text-ink" id="fo-arrive">08:51</span> · <span id="fo-r-unit">ambulance AMB-108 ahead of you</span></div>
           </div>
           <div class="relative rounded-2xl overflow-hidden border border-line">
             <div id="fo-map" class="h-[280px]" role="region" aria-label="Route map from your position to the incident"></div>
@@ -213,12 +213,12 @@
         <section class="fo-view p-4 space-y-4 hidden" data-view="capture" id="view-capture" role="tabpanel" aria-labelledby="tab-capture">
           <div>
             <div class="flex items-center gap-2">
-              <span class="rn-badge rn-p2">P2</span>
-              <span class="rn-mono text-[11.5px] text-dim">RN-2026-004803</span>
+              <span class="rn-badge rn-p2" id="fo-cap-sev">P2</span>
+              <span class="rn-mono text-[11.5px] text-dim" id="fo-cap-id">RN-2026-004803</span>
               <span class="ml-auto rn-badge rn-ok" id="fo-cap-status">Assigned</span>
             </div>
             <h2 class="mt-2 font-display font-bold text-[19px]">Repair verification</h2>
-            <p class="mt-0.5 text-[13px] text-muted">Deep pothole, lane 1 · Sohna Road KM 6.2 · Vatika Chowk · PWD Gang-4</p>
+            <p class="mt-0.5 text-[13px] text-muted" id="fo-cap-desc">Deep pothole, lane 1 · Sohna Road KM 6.2 · Vatika Chowk · PWD Gang-4</p>
           </div>
 
           <figure>
@@ -226,19 +226,19 @@
               <img class="after" src="../assets/img/field-officer-4.jpg" alt="After: the pothole filled with fresh asphalt and compacted, marked with chalk">
               <div class="before-wrap"><img class="before" src="../assets/img/field-officer-3.jpg" alt="Before: a deep pothole about 14 cm deep with a measuring ruler"></div>
               <div class="divider"><div class="knob"><span class="material-symbols-rounded">code</span></div></div>
-              <span class="rn-feed-hud left-2 top-2 z-[3]">BEFORE · 07:31</span>
+              <span class="rn-feed-hud left-2 top-2 z-[3]" id="fo-cap-before">BEFORE · 07:31</span>
               <span class="rn-feed-hud right-2 top-2 z-[3]">AFTER · 11:05</span>
               <input type="range" min="0" max="100" value="50" id="fo-cmp-range" aria-label="Drag to compare before and after photos" aria-valuetext="50% before">
             </div>
             <figcaption class="mt-2 flex items-center justify-between text-[11.5px] text-dim">
               <span class="flex items-center gap-1"><span class="material-symbols-rounded text-[15px]">swipe</span>Drag to compare</span>
-              <span class="rn-mono">28.4041, 77.0436 · ±3 m</span>
+              <span class="rn-mono" id="fo-cap-gps">28.4041, 77.0436 · ±3 m</span>
             </figcaption>
           </figure>
 
           <div class="flex items-start gap-3 rounded-xl border border-cyan/25 bg-cyan/[0.06] p-3.5">
             <span class="material-symbols-rounded text-cyan mt-px">auto_awesome</span>
-            <p class="text-[12.5px] text-muted"><span class="text-ink font-medium">Camera re-check:</span> after you submit, Model A re-scans CAM-130's next sampled frame. The work order closes only if no pothole is detected at this spot.</p>
+            <p class="text-[12.5px] text-muted"><span class="text-ink font-medium">Camera re-check:</span> after you submit, Model A re-scans <span id="fo-cap-cam">CAM-130</span>'s next sampled frame. The work order closes only if no pothole is detected at this spot.</p>
           </div>
 
           <div class="rn-card overflow-hidden">
@@ -333,20 +333,64 @@
   </div>
 </div>
 
-<script src="../assets/js/demo-data.js"></script>
+<script src="/config.js"></script>
+<script src="/api/rn-data.js"></script>
+<script>if(!window.RN_DATA||!(window.RN_DATA.INCIDENTS||[]).length)document.write('<script src="../assets/js/demo-data.js"><\/script>')</script>
+<script src="/static/rn-map.js"></script>
 <script>
 (function () {
-  const { INCIDENTS, SEVERITY } = window.RN_DATA;
+  const D = window.RN_DATA || {};
+  const INCIDENTS = D.INCIDENTS || [], LIVE = !!D.LIVE;
+  const SEVERITY = Object.assign({ P4: { label: "P4 Low", cls: "rn-p4", color: "#94A3B8" } }, D.SEVERITY || {});
   const $ = s => document.querySelector(s);
-  const inc = INCIDENTS.find(i => i.id === "RN-2026-004821");
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const isOpen = i => String(i.status || "").toLowerCase() !== "resolved";
   const typeIcon = { accident: "car_crash", pothole: "add_road", damage: "texture" };
-  const sevText = { P1: "text-danger-soft", P2: "text-warn-soft", P3: "text-info-soft" };
+  const sevText = { P1: "text-danger-soft", P2: "text-warn-soft", P3: "text-info-soft", P4: "text-muted" };
+  const sevOf = i => SEVERITY[i.sev] || SEVERITY.P4;
+  const conf2 = i => (+i.conf || 0).toFixed(2);
+  const where = i => [i.road && i.road !== "—" ? i.road + (i.km && i.km !== "—" ? " KM " + i.km : "") : "", i.place].filter(Boolean).join(" · ");
+  const AUTH_STEPS = ["Notified", "Acknowledged", "En route", "Resolved"];
+  const UNIT = "QRU-12";   // officer, unit and shift are demo values (not in the backend)
 
-  // ---------- demo clock (incident detected 08:42:11, "4 min ago") ----------
-  const t0 = Date.now(), base = 8 * 3600 + 46 * 60;  // 08:46:00
-  const now = () => base + Math.floor((Date.now() - t0) / 1000);
+  // ---------- incident: ?id= → first open P1 accident → first accident → first incident ----------
+  const qid = new URLSearchParams(location.search).get("id");
+  const pick = (qid && INCIDENTS.find(i => i.id === qid))
+    || INCIDENTS.find(i => i.sev === "P1" && i.type === "accident" && isOpen(i))
+    || INCIDENTS.find(i => i.type === "accident") || INCIDENTS[0];
+  if (!pick) {
+    $("#fo-urgent").innerHTML = `<div class="p-6 text-center text-[13.5px] text-muted">${LIVE ? "No incidents from the RoadNetra backend yet." : "No demo incidents loaded."}</div>`;
+  }
+  const inc = Object.assign({}, pick || {});
+  const isAcc = inc.type === "accident";
+  let raw = null;   // backend record (authorities, authority_status) when live
+
+  // ---------- clock: real time when live; the offline demo keeps its scripted 08:46 clock ----------
+  const t0 = Date.now(), base = 8 * 3600 + 46 * 60;
+  const secOfDay = d => d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+  const now = () => (LIVE ? secOfDay(new Date()) : base + Math.floor((Date.now() - t0) / 1000));
   const hhmm = s => `${String(Math.floor(s / 3600) % 24).padStart(2, "0")}:${String(Math.floor(s / 60) % 60).padStart(2, "0")}`;
-  const detected = 8 * 3600 + 42 * 60 + 11;
+  function detectedDate() {
+    if (raw && raw.detected_at) { const d = new Date(raw.detected_at); if (!isNaN(d)) return d; }
+    const m = /^(\d{1,2}):(\d{2})(?::(\d{2}))?/.exec(inc.detected || "");
+    if (!m) return null;
+    const d = new Date(); d.setHours(+m[1], +m[2], +(m[3] || 0), 0);
+    if (LIVE && d > new Date()) d.setDate(d.getDate() - 1);
+    return d;
+  }
+  // seconds elapsed since detection (demo: relative to the scripted clock)
+  function elapsed() {
+    const d = detectedDate(); if (!d) return null;
+    return LIVE ? (Date.now() - d.getTime()) / 1000 : now() - secOfDay(d);
+  }
+  const detLabel = () => { const d = detectedDate(); return d ? d.toLocaleTimeString("en-GB", { hour12: false }) : (inc.detected || "—"); };
+  function slaLeft() {
+    const s = (raw && raw.sla_due) || inc.slaDue;
+    const due = s ? new Date(s) : null;
+    if (due && !isNaN(due)) return (due - new Date()) / 1000;
+    const h = parseFloat((/(\d+(?:\.\d+)?)\s*h/.exec(inc.eta || "") || [])[1]), e = elapsed();
+    return h && e != null ? h * 3600 - e : null;
+  }
 
   // ---------- toast (local; shell.js is not loaded here) ----------
   function toast(title, body, tone) {
@@ -356,6 +400,19 @@
     el.innerHTML = `<div class="min-w-0"><div class="font-semibold text-[13.5px]">${title}</div>${body ? `<div class="text-[12.5px] text-muted mt-0.5">${body}</div>` : ""}</div>`;
     $("#fo-toasts").appendChild(el);
     setTimeout(() => { el.style.transition = "opacity .3s"; el.style.opacity = "0"; setTimeout(() => el.remove(), 320); }, 3200);
+  }
+
+  // ---------- backend actions (live only) ----------
+  function authKey(r) {
+    const list = (r && r.authorities) || Object.keys((r && r.authority_status) || {});
+    return list.includes("pol") ? "pol" : list[0] || null;   // a highway patrol officer acts for Traffic Police when routed
+  }
+  async function post(id, body) {
+    const res = await fetch(`/api/incidents/${encodeURIComponent(id)}/action`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok || !j.success) throw new Error(j.error || `HTTP ${res.status}`);
+    return j.incident;
   }
 
   // ---------- tabs ----------
@@ -384,46 +441,64 @@
     toast(on ? "You're on duty" : "You're off duty", on ? "New alerts on your beat will reach this phone." : "Alerts on your beat go to the next nearest unit.", on ? "ok" : "warn");
   });
 
+  // ---------- geometry: demo officer position ~3–4 km from the real incident ----------
+  const hasPos = inc.lat != null && inc.lng != null && !isNaN(+inc.lat) && !isNaN(+inc.lng);
+  const incPos = hasPos ? [+inc.lat, +inc.lng] : [28.3589, 76.9387];
+  const unitPos = [incPos[0] + 0.0111, incPos[1] + 0.0127];
+  const routePts = [0, .12, .3, .5, .68, .85, 1].map((f, k) => [unitPos[0] + (incPos[0] - unitPos[0]) * f + (k % 2 ? 0.0006 : 0), unitPos[1] + (incPos[1] - unitPos[1]) * f]);
+  const hav = (a, b) => { const R = 6371, r = Math.PI / 180, dLa = (b[0] - a[0]) * r, dLo = (b[1] - a[1]) * r;
+    const x = Math.sin(dLa / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLo / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(x)); };
+  const distKm = routePts.slice(1).reduce((s, p, k) => s + hav(routePts[k], p), 0) * 1.15;
+  const etaMin = Math.max(1, Math.round(distKm / 45 * 60));
+
   // ---------- urgent card ----------
   const steps = ["En route", "On scene", "Cleared"];
-  let stage = 0, arrivedAt = null;
+  let stage = 0, arrivedAt = null, sending = false;
+  function syncStageFromRaw() {
+    const k = authKey(raw); if (!k) return;
+    const st = (raw.authority_status || {})[k] || 0;
+    if (st >= 3 || !isOpen(raw)) stage = 2;
+  }
   function renderUrgent() {
+    if (!pick) return;
     const tone = ["rn-brand", "rn-p2", "rn-ok"][stage];
     const act = [
-      `<button class="rn-btn rn-btn-danger fo-btn-xl w-full" data-act="arrive"><span class="material-symbols-rounded">where_to_vote</span>Arrived on scene</button>`,
-      `<button class="rn-btn fo-btn-xl w-full !border-ok/45 !text-ok-soft" data-act="clear"><span class="material-symbols-rounded">task_alt</span>Mark scene cleared</button>`,
+      `<button class="rn-btn rn-btn-danger fo-btn-xl w-full" data-act="arrive" ${sending ? "disabled" : ""}><span class="material-symbols-rounded">where_to_vote</span>Arrived on scene</button>`,
+      `<button class="rn-btn fo-btn-xl w-full !border-ok/45 !text-ok-soft" data-act="clear" ${sending ? "disabled" : ""}><span class="material-symbols-rounded">task_alt</span>Mark scene cleared</button>`,
       `<div class="h-[52px] rounded-[14px] border border-ok/30 bg-ok/10 text-ok-soft font-semibold text-[14px] flex items-center justify-center gap-2"><span class="material-symbols-rounded">check_circle</span>Scene cleared · handed to control room</div>`,
     ][stage];
+    const sm = sevOf(inc), demoImg = /model-junction-crash/.test(inc.img || "");
+    const unitKnown = inc.unit && !/^(awaiting|queued)$/i.test(inc.unit);
     $("#fo-urgent").innerHTML = `
       <div class="rn-feed !rounded-none aspect-[16/10]">
-        <img src="${inc.img}" alt="${inc.title} captured by ${inc.cam}, boxed by the accident model at confidence ${inc.conf.toFixed(2)}" class="object-[50%_62%]">
-        <div class="rn-feed-hud left-2 top-2"><span class="rn-dot rn-dot-pulse text-danger"></span>${inc.cam} · LIVE</div>
-        <div class="rn-feed-hud right-2 top-2">${hhmm(detected)}:11</div>
-        <div class="rn-feed-hud left-2 bottom-2">Model B · conf ${inc.conf.toFixed(2)} · ${inc.frames} frames</div>
+        ${inc.img ? `<img src="${esc(inc.img)}" alt="${esc(inc.title)} captured by ${esc(inc.cam)}, detected at confidence ${conf2(inc)}" class="${demoImg ? "object-[50%_62%]" : ""}">` : ""}
+        <div class="rn-feed-hud left-2 top-2"><span class="rn-dot rn-dot-pulse text-danger"></span>${esc(inc.cam || "—")} · ${LIVE ? "EVIDENCE" : "LIVE"}</div>
+        <div class="rn-feed-hud right-2 top-2">${esc(detLabel())}</div>
+        <div class="rn-feed-hud left-2 bottom-2">${isAcc ? "Model B" : "Model A"} · conf ${conf2(inc)} · ${esc(inc.frames)} frame${+inc.frames === 1 ? "" : "s"}</div>
       </div>
       <div class="p-4">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="rn-badge rn-p1"><span class="rn-dot rn-dot-pulse"></span>${SEVERITY[inc.sev].label}</span>
-          <span class="rn-mono text-[11.5px] text-dim">${inc.id}</span>
+          <span class="rn-badge ${sm.cls}">${inc.sev === "P1" && stage < 2 ? '<span class="rn-dot rn-dot-pulse"></span>' : ""}${esc(sm.label)}</span>
+          <span class="rn-mono text-[11.5px] text-dim">${esc(inc.id)}</span>
           <span class="ml-auto rn-badge ${tone}" id="fo-stage">${steps[stage]}${arrivedAt ? " · " + arrivedAt : ""}</span>
         </div>
-        <h3 class="mt-2 font-display font-bold text-[20px] leading-tight">${inc.title}</h3>
-        <p class="mt-1 text-[13px] text-muted flex items-center gap-1"><span class="material-symbols-rounded text-[17px]">location_on</span>${inc.road} KM ${inc.km} · ${inc.place}</p>
+        <h3 class="mt-2 font-display font-bold text-[20px] leading-tight">${esc(inc.title)}</h3>
+        <p class="mt-1 text-[13px] text-muted flex items-center gap-1"><span class="material-symbols-rounded text-[17px]">location_on</span>${esc(where(inc))}</p>
 
         <div class="mt-3.5 grid grid-cols-3 gap-2">
-          <div class="rounded-xl border border-line bg-canvas/50 p-2.5"><div class="rn-label !text-[10px]">Distance</div><div class="rn-mono font-semibold text-[15px] mt-1">${stage ? "0 km" : "3.7 km"}</div></div>
-          <div class="rounded-xl border border-line bg-canvas/50 p-2.5"><div class="rn-label !text-[10px]">Your ETA</div><div class="rn-mono font-semibold text-[15px] mt-1">${stage ? "—" : "5 min"}</div></div>
-          <div class="rounded-xl border border-line bg-canvas/50 p-2.5"><div class="rn-label !text-[10px]">${inc.unit}</div><div class="rn-mono font-semibold text-[15px] mt-1">${inc.eta}</div></div>
+          <div class="rounded-xl border border-line bg-canvas/50 p-2.5"><div class="rn-label !text-[10px]">Distance</div><div class="rn-mono font-semibold text-[15px] mt-1">${stage ? "0 km" : distKm.toFixed(1) + " km"}</div></div>
+          <div class="rounded-xl border border-line bg-canvas/50 p-2.5"><div class="rn-label !text-[10px]">Your ETA</div><div class="rn-mono font-semibold text-[15px] mt-1">${stage ? "—" : etaMin + " min"}</div></div>
+          <div class="rounded-xl border border-line bg-canvas/50 p-2.5 min-w-0"><div class="rn-label !text-[10px] truncate">${esc(unitKnown ? inc.unit : isAcc ? "Ambulance" : "Crew")}</div><div class="rn-mono font-semibold text-[15px] mt-1 truncate">${esc(unitKnown || /SLA/.test(inc.eta || "") ? inc.eta : "Awaiting")}</div></div>
         </div>
 
         <div class="mt-3 rounded-xl border border-danger/30 bg-danger/[0.07] p-3">
           <div class="flex items-center gap-2">
             <span class="material-symbols-rounded text-danger-soft text-[19px]">timer</span>
-            <span class="text-[12.5px] font-semibold text-danger-soft">Golden hour</span>
-            <span class="ml-auto rn-mono font-semibold text-[18px]" id="fo-golden" aria-label="Golden hour time remaining">--:--</span>
+            <span class="text-[12.5px] font-semibold text-danger-soft">${isAcc ? "Golden hour" : "SLA remaining"}</span>
+            <span class="ml-auto rn-mono font-semibold text-[18px]" id="fo-golden" aria-label="${isAcc ? "Golden hour" : "SLA"} time remaining">--:--</span>
           </div>
           <div class="mt-2 h-1.5 rounded-full bg-danger/15 overflow-hidden"><span id="fo-golden-bar" class="block h-full rounded-full bg-gradient-to-r from-danger to-warn" style="width:93%"></span></div>
-          <div class="mt-1.5 text-[11.5px] text-muted">Counted from first detection at ${hhmm(detected)}:11 · ambulance ${inc.unit} dispatched</div>
+          <div class="mt-1.5 text-[11.5px] text-muted">Counted from first detection at ${esc(detLabel())} · ${esc(unitKnown ? (isAcc ? "ambulance " : "crew ") + inc.unit + " acting" : "routed to " + (inc.authority || "the authority"))}</div>
         </div>
 
         <div class="mt-4 grid grid-cols-2 gap-2.5">
@@ -434,78 +509,128 @@
       </div>`;
     tickGolden();
   }
-  $("#fo-urgent").addEventListener("click", e => {
+  async function setStage(next, step, note, okTitle, okBody) {
+    const k = authKey(raw);
+    if (LIVE && k) {
+      sending = true; renderUrgent();
+      try {
+        raw = await post(inc.id, { authority: k, step, note });
+        inc.status = raw.status;
+        okBody += ` · ${AUTH_STEPS[step]} saved (${raw.status})`;
+      } catch (err) {
+        sending = false; renderUrgent();
+        toast("Update failed", `${esc(inc.id)} · ${esc(err.message || err)}`, "danger");
+        return false;
+      }
+      sending = false;
+    }
+    stage = next; renderUrgent();
+    toast(okTitle, okBody, "ok");
+    return true;
+  }
+  $("#fo-urgent").addEventListener("click", async e => {
     const b = e.target.closest("[data-act]"); if (!b) return;
     const a = b.dataset.act;
     if (a === "nav") go("route");
     if (a === "call") toast("Calling control room…", "Demo: the voice call would open in the phone dialer.", "");
     if (a === "arrive") {
-      stage = 1; arrivedAt = hhmm(now()); renderUrgent();
-      toast("Arrival logged · " + arrivedAt, `${inc.id} status set to On scene. Control room notified.`, "ok");
+      const t = hhmm(now());
+      if (await setStage(1, 2, `Field officer ${UNIT} on scene`, "Arrival logged · " + t, `${esc(inc.id)} status set to On scene. Control room notified.`)) { arrivedAt = t; renderUrgent(); }
     }
     if (a === "clear") {
-      stage = 2; renderUrgent();
-      $("#fo-stat-attended").textContent = "3";
-      const badge = $("#fo-alert-badge"); if (badge) badge.remove();
-      toast("Scene cleared", `${inc.id} handed back to the control room for closure.`, "ok");
+      if (await setStage(2, 3, `Scene cleared by ${UNIT}`, "Scene cleared", `${esc(inc.id)} handed back to the control room for closure.`)) {
+        $("#fo-stat-attended").textContent = "3";
+        const badge = $("#fo-alert-badge"); if (badge) badge.remove();
+      }
     }
   });
   function tickGolden() {
     const el = $("#fo-golden"); if (!el) return;
     if (stage === 2) { el.textContent = "Stopped"; el.classList.add("text-ok-soft", "!text-[14px]"); return; }
-    const left = Math.max(0, 3600 - (now() - detected));
-    el.textContent = `${String(Math.floor(left / 60)).padStart(2, "0")}:${String(left % 60).padStart(2, "0")}`;
-    $("#fo-golden-bar").style.width = (left / 36).toFixed(1) + "%";
+    let left, total;
+    if (isAcc) { const e2 = elapsed(); left = e2 == null ? null : 3600 - e2; total = 3600; }
+    else { left = slaLeft(); total = Math.max(1, (left || 0) + (elapsed() || 0)); }
+    if (left == null) { el.textContent = "—"; return; }
+    const a = Math.abs(Math.floor(left)), h = Math.floor(a / 3600), m = Math.floor(a % 3600 / 60), s = a % 60;
+    const txt = h ? `${h}h ${String(m).padStart(2, "0")}m` : `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    el.textContent = left > 0 ? txt : (isAcc ? "Over" : "−" + txt);
+    $("#fo-golden-bar").style.width = Math.max(0, Math.min(100, left / total * 100)).toFixed(1) + "%";
   }
 
-  // ---------- queue ----------
-  const statusTone = s => ({ "New": "rn-p1", "Dispatched": "rn-brand", "Responding": "rn-brand", "Work order issued": "rn-ok", "Assigned": "rn-ok", "Logged": "rn-p4" }[s] || "rn-p4");
-  const queue = INCIDENTS.filter(i => i.id !== inc.id);
+  // ---------- repair verification: first open pothole / road-damage incident ----------
+  const capInc = INCIDENTS.find(i => i.type === "pothole" && isOpen(i)) || INCIDENTS.find(i => i.type !== "accident" && isOpen(i)) || null;
+  if (capInc) {
+    const sm = sevOf(capInc);
+    $("#fo-cap-sev").className = `rn-badge ${sm.cls}`; $("#fo-cap-sev").textContent = capInc.sev;
+    $("#fo-cap-id").textContent = capInc.id;
+    $("#fo-cap-status").textContent = capInc.status;
+    $("#fo-cap-desc").textContent = [capInc.title, where(capInc), capInc.unit && !/^(awaiting|queued)$/i.test(capInc.unit) ? capInc.unit : capInc.authority].filter(Boolean).join(" · ");
+    $("#fo-cap-gps").textContent = `${(+capInc.lat || 0).toFixed(4)}, ${(+capInc.lng || 0).toFixed(4)} · ±3 m`;
+    $("#fo-cap-cam").textContent = capInc.cam || "the camera";
+    if (capInc.img && !/field-officer-3\.jpg$/.test(capInc.img)) {   // backend evidence frame as the "before" photo
+      const b = $("#fo-cmp .before");
+      b.src = capInc.img; b.alt = `Before: ${capInc.title} as detected`;
+      Object.assign(b.style, { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" });
+    }
+    const d = /^(\d{1,2}:\d{2})/.exec(capInc.detected || "");
+    if (d) $("#fo-cap-before").textContent = "BEFORE · " + d[1];
+  }
+
+  // ---------- queue: other open incidents ----------
+  const statusTone = s => ({ "New": "rn-p1", "Dispatched": "rn-brand", "Acknowledged": "rn-brand", "Responding": "rn-brand", "Crew En Route": "rn-p2", "Under Repair": "rn-p2", "Work order issued": "rn-ok", "Assigned": "rn-ok", "Logged": "rn-p4" }[s] || "rn-p4");
+  const queue = INCIDENTS.filter(i => i.id !== inc.id && isOpen(i));
   $("#fo-queue-count").textContent = queue.length + " open on corridor";
   $("#fo-queue").innerHTML = queue.map(i => `
     <li>
       <details class="fo-q rounded-2xl border border-line bg-card/70 overflow-hidden">
         <summary class="flex items-center gap-3 px-3.5 py-3 min-h-[64px]">
-          <span class="w-10 h-10 rounded-xl grid place-items-center flex-none bg-canvas/70 border border-line"><span class="material-symbols-rounded ${sevText[i.sev]}">${typeIcon[i.type]}</span></span>
+          <span class="w-10 h-10 rounded-xl grid place-items-center flex-none bg-canvas/70 border border-line"><span class="material-symbols-rounded ${sevText[i.sev] || "text-muted"}">${typeIcon[i.type] || "report"}</span></span>
           <span class="min-w-0 flex-1">
-            <span class="flex items-center gap-1.5"><span class="rn-badge ${SEVERITY[i.sev].cls} !h-5 !px-2">${i.sev}</span><span class="font-semibold text-[14px] truncate">${i.title}</span></span>
-            <span class="block mt-1 text-[12px] text-muted truncate">${i.road} KM ${i.km} · ${i.ago} ago</span>
+            <span class="flex items-center gap-1.5"><span class="rn-badge ${sevOf(i).cls} !h-5 !px-2">${esc(i.sev)}</span><span class="font-semibold text-[14px] truncate">${esc(i.title)}</span></span>
+            <span class="block mt-1 text-[12px] text-muted truncate">${esc(where(i))}${i.ago ? " · " + esc(i.ago) + (i.ago === "just now" ? "" : " ago") : ""}</span>
           </span>
           <span class="material-symbols-rounded text-dim fo-chev">expand_more</span>
         </summary>
         <div class="px-3.5 pb-3.5 pt-1 border-t border-line">
           <dl class="grid grid-cols-2 gap-x-3 gap-y-2 mt-2.5 text-[12.5px]">
-            <div><dt class="text-dim">Location</dt><dd class="font-medium">${i.place}</dd></div>
-            <div><dt class="text-dim">Status</dt><dd><span class="rn-badge ${statusTone(i.status)}">${i.status}</span></dd></div>
-            <div><dt class="text-dim">Routed to</dt><dd class="font-medium">${i.authority}</dd></div>
-            <div><dt class="text-dim">Unit · ETA</dt><dd class="font-medium">${i.unit} · <span class="rn-mono">${i.eta}</span></dd></div>
-            <div class="col-span-2"><dt class="text-dim">Detection</dt><dd class="rn-mono text-cyan">${i.cam} · conf ${i.conf.toFixed(2)} · ${i.frames} frames · ${i.type === "accident" ? "Model B" : "Model A"}</dd></div>
+            <div><dt class="text-dim">Location</dt><dd class="font-medium">${esc(i.place)}</dd></div>
+            <div><dt class="text-dim">Status</dt><dd><span class="rn-badge ${statusTone(i.status)}">${esc(i.status)}</span></dd></div>
+            <div><dt class="text-dim">Routed to</dt><dd class="font-medium">${esc(i.authority)}</dd></div>
+            <div><dt class="text-dim">Unit · ETA</dt><dd class="font-medium">${esc(i.unit)} · <span class="rn-mono">${esc(i.eta)}</span></dd></div>
+            <div class="col-span-2"><dt class="text-dim">Detection</dt><dd class="rn-mono text-cyan">${esc(i.cam)} · conf ${conf2(i)} · ${esc(i.frames)} frame${+i.frames === 1 ? "" : "s"} · ${i.type === "accident" ? "Model B" : "Model A"}</dd></div>
           </dl>
           <div class="mt-3 grid grid-cols-2 gap-2">
-            ${i.id === "RN-2026-004803"
+            ${capInc && i.id === capInc.id
               ? `<button class="rn-btn rn-btn-primary fo-btn-md col-span-2" data-q="verify"><span class="material-symbols-rounded">compare</span>Verify repair</button>`
-              : `<button class="rn-btn fo-btn-md" data-q="ack" data-id="${i.id}"><span class="material-symbols-rounded">done</span>Acknowledge</button>
-                 <button class="rn-btn fo-btn-md" data-q="assist" data-id="${i.id}"><span class="material-symbols-rounded">sos</span>Offer help</button>`}
+              : `<button class="rn-btn fo-btn-md" data-q="ack" data-id="${esc(i.id)}"><span class="material-symbols-rounded">done</span>Acknowledge</button>
+                 <a class="rn-btn fo-btn-md" href="field-officer.html?id=${encodeURIComponent(i.id)}"><span class="material-symbols-rounded">sos</span>Take this</a>`}
           </div>
         </div>
       </details>
-    </li>`).join("");
+    </li>`).join("") || '<li class="text-center text-[13px] text-muted py-6">No other open incidents on the corridor.</li>';
   $("#fo-queue").addEventListener("click", e => {
     const b = e.target.closest("[data-q]"); if (!b) return;
     if (b.dataset.q === "verify") return go("capture");
-    if (b.dataset.q === "ack") { b.disabled = true; b.innerHTML = '<span class="material-symbols-rounded">check</span>Seen'; toast("Acknowledged", b.dataset.id + " marked as seen by QRU-12.", "ok"); }
-    if (b.dataset.q === "assist") toast("Offer sent", `Control room will reassign ${b.dataset.id} to QRU-12 if needed.`, "");
+    if (b.dataset.q === "ack") { b.disabled = true; b.innerHTML = '<span class="material-symbols-rounded">check</span>Seen'; toast("Acknowledged", esc(b.dataset.id) + ` marked as seen by ${UNIT}.`, "ok"); }
   });
 
   // ---------- route ----------
-  const unitPos = [28.3700, 76.9514];
-  const routePts = [unitPos, [28.3688, 76.9501], [28.3659, 76.9468], [28.3628, 76.9432], [28.3612, 76.9419], [28.3600, 76.9404], [inc.lat, inc.lng]];
+  if (pick) {
+    const sm = sevOf(inc);
+    $("#fo-r-sev").className = `rn-badge ${sm.cls}`; $("#fo-r-sev").textContent = inc.sev;
+    $("#fo-r-id").textContent = inc.id;
+    $("#fo-r-eta").textContent = etaMin + " min";
+    $("#fo-r-dist").textContent = `· ${distKm.toFixed(1)} km${inc.road && inc.road !== "—" ? " via " + inc.road : ""}`;
+    const unitKnown = inc.unit && !/^(awaiting|queued)$/i.test(inc.unit);
+    $("#fo-r-unit").textContent = unitKnown ? `${isAcc ? "ambulance" : "crew"} ${inc.unit} also responding` : `${inc.authority || "authority"} notified`;
+  }
+  const kmTxt = inc.km && inc.km !== "—" ? "KM " + inc.km + ", " : "";
   const dirSteps = [
-    ["straight", "Head south-west on the NH-48 service lane", "600 m"],
-    ["merge", "Merge onto NH-48 main carriageway, southbound", "1.8 km"],
-    ["u_turn_left", "Emergency median crossing at KM 141.9", "120 m"],
-    ["straight", "Continue northbound in the left lane", "1.2 km"],
-    ["flag", "Arrive: KM 142.6, Manesar Bypass. Stop on the shoulder behind the cones", "—"],
+    ["straight", `Head towards ${inc.road && inc.road !== "—" ? inc.road : "the incident"} on the service lane`, (distKm * .16).toFixed(1) + " km"],
+    ["merge", "Merge onto the main carriageway", (distKm * .45).toFixed(1) + " km"],
+    ["u_turn_left", "Use the nearest emergency median crossing if needed", "120 m"],
+    ["straight", "Continue in the left lane, hazard lights on", (distKm * .35).toFixed(1) + " km"],
+    ["flag", `Arrive: ${esc(kmTxt)}${esc(inc.place || "incident location")}. Stop on the shoulder behind the cones`, "—"],
   ];
   $("#fo-steps").innerHTML = dirSteps.map(([ic, txt, d], k) => `
     <li class="flex items-center gap-3 px-4 py-3 min-h-[56px]">
@@ -513,23 +638,25 @@
       <span class="flex-1 text-[13.5px]">${txt}</span>
       <span class="rn-mono text-[12px] text-muted whitespace-nowrap">${d}</span>
     </li>`).join("");
-  $("#fo-arrive").textContent = hhmm(now() + 5 * 60);
+  $("#fo-arrive").textContent = hhmm(now() + etaMin * 60);
 
   let map = null, bounds = null;
   function initMap() {
     if (map) { setTimeout(() => map.invalidateSize(), 30); return; }
     if (!window.L) { $("#fo-map").innerHTML = '<div class="h-full grid place-items-center text-[13px] text-muted">Map unavailable offline</div>'; return; }
     map = L.map("fo-map", { zoomControl: false, attributionControl: true, scrollWheelZoom: false });
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
+    if (window.RNMap && typeof window.RNMap.addTiles === "function") window.RNMap.addTiles(map);
+    else L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
       maxZoom: 16, attribution: "Tiles © Esri",
     }).addTo(map);
     L.control.zoom({ position: "bottomright" }).addTo(map);
     L.polyline(routePts, { color: "#3B82F6", weight: 7, opacity: .45 }).addTo(map);
     L.polyline(routePts, { color: "#93C5FD", weight: 2.5, opacity: 1, dashArray: "8 8" }).addTo(map);
     L.marker(unitPos, { icon: L.divIcon({ className: "", html: '<div class="fo-unit-pin"></div>', iconSize: [22, 22] }), zIndexOffset: 900, keyboard: false })
-      .addTo(map).bindPopup("<b>QRU-12</b> · you");
-    L.marker([inc.lat, inc.lng], { icon: L.divIcon({ className: "", html: '<div class="rn-pin p1"></div>', iconSize: [18, 18] }), zIndexOffset: 1000, keyboard: false })
-      .addTo(map).bindPopup(`<b>${inc.title}</b><br><span style="color:#94A3B8">${inc.road} KM ${inc.km} · ${inc.id}</span>`);
+      .addTo(map).bindPopup(`<b>${UNIT}</b> · you (demo position)`);
+    const pin = ["p1", "p2", "p3", "p4"].includes(String(inc.sev).toLowerCase()) ? String(inc.sev).toLowerCase() : "p1";
+    L.marker(incPos, { icon: L.divIcon({ className: "", html: `<div class="rn-pin ${pin}"></div>`, iconSize: [18, 18] }), zIndexOffset: 1000, keyboard: false })
+      .addTo(map).bindPopup(`<b>${esc(inc.title)}</b><br><span style="color:#94A3B8">${esc(where(inc))} · ${esc(inc.id)}</span>`);
     bounds = L.latLngBounds(routePts).pad(0.35);
     map.fitBounds(bounds, { maxZoom: 14 });
     setTimeout(() => { map.invalidateSize(); map.fitBounds(bounds, { maxZoom: 14 }); }, 60);
@@ -538,7 +665,7 @@
   $("#fo-start-nav").addEventListener("click", () => toast("Turn-by-turn started", "Demo: voice guidance would open in the device's navigation app.", ""));
   document.querySelectorAll(".rn-switch").forEach(s => s.addEventListener("click", () => {
     const on = s.getAttribute("aria-checked") !== "true"; s.setAttribute("aria-checked", String(on));
-    if (s.id === "fo-share") toast(on ? "Sharing live location" : "Location sharing paused", on ? "Control room can see QRU-12 on the map." : "Control room sees your last known position.", on ? "ok" : "warn");
+    if (s.id === "fo-share") toast(on ? "Sharing live location" : "Location sharing paused", on ? `Control room can see ${UNIT} on the map.` : "Control room sees your last known position.", on ? "ok" : "warn");
   }));
 
   // ---------- capture ----------
@@ -548,7 +675,7 @@
   const updCount = () => { const n = checks.filter(c => c.checked).length; $("#fo-check-count").textContent = `${n} / ${checks.length}`; if (n === checks.length) $("#fo-cap-err").classList.add("hidden"); };
   checks.forEach(c => c.addEventListener("change", updCount));
   $("#fo-retake").addEventListener("click", () => toast("Camera", "Demo: would open the camera, GPS-stamped at the pothole location.", ""));
-  $("#fo-submit").addEventListener("click", e => {
+  $("#fo-submit").addEventListener("click", async e => {
     const missing = checks.filter(c => !c.checked).length, err = $("#fo-cap-err");
     if (missing) {
       err.lastElementChild.textContent = `Complete the checklist first (${missing} item${missing > 1 ? "s" : ""} left).`;
@@ -557,16 +684,45 @@
       return;
     }
     const b = e.currentTarget; b.disabled = true; b.classList.add("opacity-70");
+    const id = capInc ? capInc.id : "RN-2026-004803";
+    let saved = "";
+    if (LIVE && capInc) {
+      try {
+        const r = await fetch("/api/incidents/" + encodeURIComponent(capInc.id), { cache: "no-store" }).then(x => x.json());
+        const k = authKey(r);
+        if (k) { const u = await post(capInc.id, { authority: k, note: `Repair verification submitted by ${UNIT}` }); saved = ` · saved (${u.status})`; $("#fo-cap-status").textContent = u.status; }
+      } catch (ex) {
+        b.disabled = false; b.classList.remove("opacity-70");
+        toast("Submit failed", `${esc(id)} · ${esc(ex.message || ex)}`, "danger");
+        return;
+      }
+    }
     b.innerHTML = '<span class="material-symbols-rounded">check_circle</span>Submitted';
-    $("#fo-cap-status").textContent = "Awaiting camera re-check"; $("#fo-cap-status").className = "ml-auto rn-badge rn-brand";
+    if (!saved) $("#fo-cap-status").textContent = "Awaiting camera re-check";
+    $("#fo-cap-status").className = "ml-auto rn-badge rn-brand";
     $("#fo-stat-verified").textContent = "2";
-    toast("Verification submitted", "RN-2026-004803 · before/after photos and checklist sent to Municipal PWD.", "ok");
+    toast("Verification submitted", `${esc(id)} · before/after photos and checklist sent to ${esc(capInc ? capInc.authority : "Municipal PWD")}${saved}.`, "ok");
   });
+
+  // ---------- disclaimers ----------
+  if (LIVE) {
+    $("#fo-foot").textContent = "Live incidents from the RoadNetra backend · officer, unit position and route are demo";
+    $("#fo-side-note").innerHTML = '<span class="text-muted font-medium">Try it:</span> use the tabs inside the phone. Incidents come live from the RoadNetra backend; the officer, unit position, route and shift figures are demo data.';
+  }
 
   // ---------- clocks ----------
   renderUrgent();
   setInterval(() => { $("#fo-sb-time").textContent = hhmm(now()); tickGolden(); }, 1000);
+  $("#fo-sb-time").textContent = hhmm(now());
   go("alerts");
+
+  // live: authority state for status actions
+  if (LIVE && pick && window.fetch) {
+    fetch("/api/incidents/" + encodeURIComponent(inc.id), { cache: "no-store" })
+      .then(r => (r.ok ? r.json() : null))
+      .then(r => { if (r && r.id) { raw = r; inc.status = r.status; syncStageFromRaw(); renderUrgent(); } })
+      .catch(() => { /* keep RN_DATA values */ });
+  }
 })();
 </script>
 </body>

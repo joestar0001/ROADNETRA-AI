@@ -48,3 +48,10 @@ data/test_videos/temp_*.mov
 data/test_videos/temp_*.mp4
 temp_*
 *.log
+
+# Local secrets (API keys). Commit the .env.example files instead.
+.env
+frontend/.env
+static/uploads/
+data/incidents_cache.legacy.json
+static/evidence/IR-*
