@@ -62,7 +62,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
     <div class="stc">
       <span class="dot"></span><b>YOLOv8 Edge: Online</b><br>
       Judge Verification: Active<br>
-      Auto-Sync: 3s Polling
+      <span class="rn-live" id="rnLive"><i></i> Connecting…</span>
     </div>
   </aside>
 
@@ -90,10 +90,10 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
         </div>
 
         <div class="g4">
-          <div class="sc"><span class="pill orange">TICKETS</span><b id="kpiTotal">0</b><h4>Active Work Orders</h4><p>Pending field repair</p></div>
-          <div class="sc"><span class="pill blue">MATERIAL</span><b id="kpiAsphalt">0.0 T</b><h4>Est. Cold-Mix Asphalt</h4><p>Required for cavities</p></div>
-          <div class="sc"><span class="pill green">BUDGET</span><b id="kpiCost">₹ 0</b><h4>Est. Repair Allocation</h4><p>Contractor tender est.</p></div>
-          <div class="sc"><span class="pill red">SLA CLOCK</span><b id="kpiSla">94.2%</b><h4>On-Time SLA Rate</h4><p>&lt; 24h Critical repair target</p></div>
+          <div class="sc"><span class="pill orange">TICKETS</span><b id="kpiTotal">–</b><h4>Active Work Orders</h4><p id="kpiTotalSub">Pending field repair</p></div>
+          <div class="sc"><span class="pill blue">MATERIAL</span><b id="kpiAsphalt">–</b><h4>Est. Cold-Mix Asphalt</h4><p id="kpiAsphaltSub">For open pothole work orders</p></div>
+          <div class="sc"><span class="pill green">BUDGET</span><b id="kpiCost">–</b><h4>Open Repair Allocation</h4><p id="kpiCostSub">Contractor tender est.</p></div>
+          <div class="sc"><span class="pill red">SLA CLOCK</span><b id="kpiSla">–</b><h4>On-Time SLA Rate</h4><p id="kpiSlaSub">All infrastructure work orders</p></div>
         </div>
 
         <div class="card">
@@ -109,45 +109,46 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
         <div class="card">
           <span class="pill blue">Engineering Toolkit</span>
           <h2 style="margin:10px 0 6px">Automated Cold-Mix &amp; Material Estimator</h2>
-          <p>Calculates cold-mix asphalt tonnage, bitumen emulsion tack coat, and contractor tender budget based on segmented pothole surface areas.</p>
-          
-          <div class="g3" style="margin-top:18px">
+          <p>Calculates cold-mix asphalt tonnage, bitumen emulsion tack coat, and contractor tender budget from the pothole surface areas segmented by Model A. Inputs follow the live detections until you edit them.</p>
+          <div class="row"><span class="pill blue" id="estSource">Waiting for detections…</span><button class="b g sm" id="estAuto" onclick="useDetected()" hidden>↺ Use detected potholes</button></div>
+
+          <div class="g3" style="margin-top:12px">
             <div class="sc">
               <h4>Cavity Geometry Parameters</h4>
               <label style="display:block;font-size:12px;margin:8px 0 4px;color:var(--mut)">Average Pothole Depth (cm)</label>
-              <input type="number" id="inpDepth" value="6.5" min="2" max="25" step="0.5" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" oninput="calcMaterial()">
+              <input type="number" id="inpDepth" value="6.5" min="2" max="25" step="0.5" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" oninput="manualEstimate()">
               <label style="display:block;font-size:12px;margin:12px 0 4px;color:var(--mut)">Number of Unrepaired Potholes</label>
-              <input type="number" id="inpCount" value="14" min="1" max="100" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" oninput="calcMaterial()">
-              <label style="display:block;font-size:12px;margin:12px 0 4px;color:var(--mut)">Pothole Size Factor</label>
-              <select id="inpSize" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" onchange="calcMaterial()">
-                <option value="1.0">Standard Pothole (0.4 m²)</option>
-                <option value="1.8">Severe Crater (0.75 m²)</option>
-                <option value="2.5">Continuous Trench / Failure (&gt; 1.2 m²)</option>
-              </select>
+              <input type="number" id="inpCount" value="0" min="0" max="500" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" oninput="manualEstimate()">
+              <label style="display:block;font-size:12px;margin:12px 0 4px;color:var(--mut)">Average Pothole Surface Area (m²)</label>
+              <input type="number" id="inpArea" value="0.4" min="0.1" max="10" step="0.05" style="width:100%;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg)" oninput="manualEstimate()">
             </div>
 
             <div class="sc">
               <h4>Material Procurement Breakdown</h4>
               <p style="margin-top:10px">Cold-Mix Asphalt Tonnage:</p>
-              <b id="outTons" style="font-size:24px;color:var(--g)">3.8 Tons</b>
+              <b id="outTons" style="font-size:24px;color:var(--g)">–</b>
               <p style="margin-top:10px">RS-1 Bitumen Emulsion Tack Coat:</p>
-              <b id="outBitumen" style="font-size:24px;color:var(--org)">145 Liters</b>
+              <b id="outBitumen" style="font-size:24px;color:var(--org)">–</b>
               <p style="margin-top:10px">Compactor Roller Hours:</p>
-              <b id="outRoller" style="font-size:24px;color:var(--ink)">6.5 Hours</b>
+              <b id="outRoller" style="font-size:24px;color:var(--ink)">–</b>
             </div>
 
             <div class="sc">
               <h4>Contractor Tender Valuation</h4>
-              <p style="margin-top:10px">Material Cost (₹4,800/Ton):</p>
-              <b id="outMatCost" style="font-size:20px">₹ 18,240</b>
+              <p style="margin-top:10px" id="outMatLabel">Material Cost:</p>
+              <b id="outMatCost" style="font-size:20px">–</b>
               <p style="margin-top:10px">Labour &amp; Road Closure Crew:</p>
-              <b id="outLabCost" style="font-size:20px">₹ 12,500</b>
+              <b id="outLabCost" style="font-size:20px">–</b>
               <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">
                 <small style="color:var(--mut)">Total Allocated Tender:</small>
-                <b id="outTotalCost" style="font-size:26px;color:var(--grn);display:block">₹ 30,740</b>
+                <b id="outTotalCost" style="font-size:26px;color:var(--grn);display:block">–</b>
               </div>
-              <button class="b sm" style="margin-top:12px;width:100%" onclick="toast('Work Order Tender Docket Generated (#TND-2026-904)')">📄 Generate Tender Docket</button>
+              <button class="b sm" style="margin-top:12px;width:100%" onclick="tenderDocket()">📄 Generate Tender Docket</button>
             </div>
+          </div>
+          <div class="sc" style="margin-top:4px">
+            <h4>All open infrastructure work orders</h4>
+            <p id="budgetBreakdown">–</p>
           </div>
         </div>
       </section>
@@ -159,48 +160,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
           <h2 style="margin:10px 0 6px">Municipal Patching &amp; Infrastructure Vans</h2>
           <p>Real-time status of asphalt maintenance vans, bitumen heating sprayers, and highway patrol units.</p>
 
-          <div class="g3" style="margin-top:18px">
-            <div class="sc">
-              <span class="pill green">ON SITE · REPAIRING</span>
-              <h3 style="margin:10px 0 4px">Patch Van Alpha (#PV-01)</h3>
-              <p>Assigned: <strong>NH-44 Corridor, Km 14.2</strong></p>
-              <p>Vehicle: Tata LPT 709 Bitumen Dispenser</p>
-              <p>Crew Leader: Er. Rajesh Sharma (4 Technicians)</p>
-              <div class="bar"><i style="width:75%;background:var(--grn)"></i></div>
-              <small style="color:var(--mut)">Cold-mix stock remaining: 1.2 / 3.0 Tons</small>
-              <div class="row" style="margin-top:12px">
-                <button class="b sm" onclick="toast('Direct dispatch radio connected to Van Alpha')">📻 Radio Van</button>
-                <button class="b g sm" onclick="toast('Status recorded: Work in Progress')">Update Log</button>
-              </div>
-            </div>
-
-            <div class="sc">
-              <span class="pill orange">EN ROUTE</span>
-              <h3 style="margin:10px 0 4px">Heavy Roller Unit Bravo (#RU-03)</h3>
-              <p>Assigned: <strong>MG Road Junction Flyover</strong></p>
-              <p>Vehicle: Dynapac CC1200 Double Drum Roller</p>
-              <p>Crew Leader: M. Srinivas (3 Technicians)</p>
-              <div class="bar"><i style="width:40%;background:var(--org)"></i></div>
-              <small style="color:var(--mut)">ETA to site: ~12 mins</small>
-              <div class="row" style="margin-top:12px">
-                <button class="b sm" onclick="toast('Route confirmed via Fastag corridor')">Track GPS</button>
-                <button class="b g sm" onclick="toast('Notified traffic police for lane closure')">Request Police Escort</button>
-              </div>
-            </div>
-
-            <div class="sc">
-              <span class="pill blue">STANDBY IN DEPOT</span>
-              <h3 style="margin:10px 0 4px">Signage &amp; Guardrail Rig (#SR-02)</h3>
-              <p>Location: Central PWD Depot, Sector 18</p>
-              <p>Equipment: Hydraulic Post Driver &amp; Laser Alignment</p>
-              <p>Crew Leader: D. Verma (5 Technicians)</p>
-              <div class="bar"><i style="width:100%;background:var(--g)"></i></div>
-              <small style="color:var(--mut)">Ready for immediate dispatch</small>
-              <div class="row" style="margin-top:12px">
-                <button class="b sm" onclick="toast('Signage Rig dispatched to Ashta Bypass')">🚀 Dispatch to Hazard</button>
-              </div>
-            </div>
-          </div>
+          <div class="g3" style="margin-top:18px" id="crewsContainer"><p>Loading crew assignments…</p></div>
         </div>
       </section>
 
@@ -211,15 +171,16 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
             <div>
               <span class="pill blue">GIS Spatial Intelligence</span>
               <h2 style="margin:10px 0 4px">City-Wide Road Asset &amp; Defect Map</h2>
-              <p>Geolocated inspection layer showing real-time potholes, divider breaches, and road markings.</p>
+              <p>Geolocated inspection layer of every AI-detected pothole, divider breach, sign and road marking. New detections appear automatically.</p>
             </div>
             <button class="b sm" onclick="refreshMapMarkers()">↻ Center Map</button>
           </div>
           <div id="map" style="margin-top:14px"></div>
           <div class="row" style="margin-top:12px">
-            <span class="pill red">● High Severity Pothole</span>
-            <span class="pill orange">● Medium Pothole</span>
+            <span class="pill red">● High / Critical</span>
+            <span class="pill orange">● Medium / Low</span>
             <span class="pill green">● Repaired &amp; Closed</span>
+            <span class="pill blue" id="mapCount">–</span>
           </div>
         </div>
       </section>
@@ -229,16 +190,14 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
         <div class="card">
           <span class="pill green">Contractor Performance</span>
           <h2 style="margin:10px 0 6px">Maintenance Service Level Agreements (SLA)</h2>
-          <p>Indian Road Congress (IRC) standard compliance tracking for pothole rectification timelines.</p>
+          <p>Computed from every detected work order: SLA clock starts at detection (Critical 1 h · High 24 h · Medium 72 h · Low 7 d).</p>
+          <div class="g4" id="slaKpis"></div>
           <table class="tbl">
             <thead>
-              <tr><th>Defect Category</th><th>Target Resolution SLA</th><th>Compliance Target</th><th>Current Performance</th><th>Penalty Status</th></tr>
+              <tr><th>Defect Category</th><th>Work Orders</th><th>SLA by Severity</th><th>Overdue / Late</th><th>On-Time Performance</th><th>Penalty Exposure</th></tr>
             </thead>
-            <tbody>
-              <tr><td><strong>Severe Pothole (&gt;7cm depth)</strong></td><td>24 Hours</td><td>&ge; 95.0%</td><td><span class="pill green">96.4%</span></td><td>No Penalty</td></tr>
-              <tr><td><strong>Medium Pothole (3–7cm depth)</strong></td><td>72 Hours</td><td>&ge; 90.0%</td><td><span class="pill green">92.1%</span></td><td>No Penalty</td></tr>
-              <tr><td><strong>Damaged Crash Barrier / Divider</strong></td><td>12 Hours</td><td>&ge; 98.0%</td><td><span class="pill red">89.5%</span></td><td><span class="pill red">₹25,000 Warned</span></td></tr>
-              <tr><td><strong>Faded Pedestrian Zebra Crossing</strong></td><td>7 Days</td><td>&ge; 85.0%</td><td><span class="pill green">88.0%</span></td><td>No Penalty</td></tr>
+            <tbody id="slaBody">
+              <tr><td colspan="6">Loading…</td></tr>
             </tbody>
           </table>
         </div>
@@ -249,13 +208,12 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 
 <div class="toast" id="toast"></div>
 
+<script src="/static/rn-portal.js"></script>
 <script>
-let incidents = [];
-let activeSeverity = 'all';
-let mapInstance = null;
-let mapMarkers = [];
-
-const STAGES = ["Notified", "Acknowledged", "Crew En Route", "Under Repair", "Resolved"];
+const {esc, inr, pct, ago} = RNPortal;
+const STAGES = ["Notified", "Acknowledged", "Under Repair", "Resolved"];
+const LABEL = {pothole: 'Pothole', damaged_sign: 'Damaged sign', damaged_divider: 'Damaged divider', faded_zebra_crossing: 'Faded zebra crossing'};
+let D = null, incidents = [], activeSeverity = 'all', mapInstance = null, mapLayer = null, estManual = false;
 
 function $(id){ return document.getElementById(id); }
 
@@ -264,7 +222,7 @@ function toast(msg){
   t.textContent = msg;
   t.classList.add('on');
   clearTimeout(t.timer);
-  t.timer = setTimeout(() => t.classList.remove('on'), 3000);
+  t.timer = setTimeout(() => t.classList.remove('on'), 3500);
 }
 
 function toggleTheme(){
@@ -276,13 +234,10 @@ function toggleTheme(){
 function switchNav(pg){
   document.querySelectorAll('.side .lk').forEach(b => b.classList.remove('on'));
   document.querySelectorAll('.pgs section').forEach(s => s.hidden = true);
-  
   const btn = document.querySelector(`.side .lk[data-pg="${pg}"]`);
   if(btn) btn.classList.add('on');
-  
   const sec = $('sec-' + pg);
   if(sec) sec.hidden = false;
-
   const titles = {
     orders: "Work Orders & Maintenance Queue",
     estimator: "Cold-Mix Asphalt & Material Estimator",
@@ -291,232 +246,239 @@ function switchNav(pg){
     sla: "Service Level Agreement Performance"
   };
   $('pgTitle').textContent = titles[pg] || "PWD & NHAI Command";
-
-  if(pg === 'map'){
-    setTimeout(initMap, 200);
-  }
+  if(pg === 'map') setTimeout(initMap, 50);
 }
 
-document.querySelectorAll('.side .lk[data-pg]').forEach(b => {
-  b.onclick = () => switchNav(b.dataset.pg);
-});
+document.querySelectorAll('.side .lk[data-pg]').forEach(b => { b.onclick = () => switchNav(b.dataset.pg); });
 
-async function fetchIncidents(){
-  try {
-    const res = await fetch('/api/incidents?agency=pwd');
-    if(!res.ok) throw new Error('API failed');
-    incidents = await res.json();
+/* ---------- live data: /api/operations?portal=pwd ---------- */
+function onData(d, {changed, fresh}){
+  D = d;
+  incidents = d.incidents;
+  updateKPIs();
+  if(changed){
     renderIncidents();
-    updateKPIs();
-  } catch(e) {
-    console.error("Fetch error:", e);
+    renderCrews();
+    renderSla();
+    refreshMapMarkers(fresh[0]);
+    if(!estManual) useDetected(true);
   }
+  fresh.forEach(i => toast(`🆕 New work order ${i.id}: ${LABEL[i.type] || i.type} · ${i.location_name}`));
 }
+const refresh = RNPortal.start('pwd', onData);
 
 function updateKPIs(){
-  const openCount = incidents.filter(i => i.status !== 'Resolved').length;
-  $('kpiTotal').textContent = openCount;
-
-  let totalCost = 0;
-  let totalTons = 0;
-  incidents.forEach(i => {
-    const cost = i.repair_cost_est || (i.confidence ? Math.round(i.confidence * 18000) : 15000);
-    totalCost += cost;
-    totalTons += (i.asphalt_tons || 0.6);
-  });
-
-  $('kpiCost').textContent = '₹ ' + totalCost.toLocaleString('en-IN');
-  $('kpiAsphalt').textContent = totalTons.toFixed(1) + ' T';
+  const k = D.kpi, b = D.budget;
+  $('kpiTotal').textContent = k.open;
+  $('kpiTotalSub').textContent = `${k.resolved} resolved · ${k.overdue} overdue`;
+  $('kpiAsphalt').textContent = b.tons_open.toFixed(2) + ' T';
+  $('kpiAsphaltSub').textContent = `${D.estimator.count} open pothole${D.estimator.count === 1 ? '' : 's'} · ${Math.round(b.bitumen_open)} L tack coat`;
+  $('kpiCost').textContent = inr(b.open_total);
+  $('kpiCostSub').textContent = `${inr(b.spent)} spent on completed repairs`;
+  $('kpiSla').textContent = pct(k.sla_rate);
+  $('kpiSlaSub').textContent = k.penalty ? `${inr(k.penalty)} penalty exposure` : 'No SLA penalty exposure';
+  $('budgetBreakdown').innerHTML = `Material <strong>${inr(b.open_material)}</strong> · Labour &amp; road closure <strong>${inr(b.open_labour)}</strong> · ` +
+    `Total open allocation <strong>${inr(b.open_total)}</strong> · Already spent <strong>${inr(b.spent)}</strong> (potholes, dividers, signs and crossings)`;
 }
 
 function renderIncidents(){
   const container = $('incidentsContainer');
   const q = ($('filterInput').value || '').toLowerCase();
-
   const filtered = incidents.filter(i => {
-    const matchSev = (activeSeverity === 'all') || (i.severity && i.severity.toLowerCase() === activeSeverity.toLowerCase());
-    const matchQuery = !q || (i.id + ' ' + i.title + ' ' + i.location_name).toLowerCase().includes(q);
+    const sev = (i.severity || '').toLowerCase();
+    const matchSev = activeSeverity === 'all' || (activeSeverity === 'High' ? (sev === 'high' || sev === 'critical') : sev === activeSeverity.toLowerCase());
+    const matchQuery = !q || (i.id + ' ' + i.title + ' ' + i.location_name + ' ' + i.type).toLowerCase().includes(q);
     return matchSev && matchQuery;
-  });
+  }).sort((a, b) => (a.ops.step >= 3) - (b.ops.step >= 3) || (b.detected_at || '').localeCompare(a.detected_at || ''));
 
   if(!filtered.length){
     container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--mut)">No defects matching current filter criteria.</div>`;
     return;
   }
-
   container.innerHTML = filtered.map(inc => {
-    const curIdx = STAGES.indexOf(inc.status) >= 0 ? STAGES.indexOf(inc.status) : 1;
-    const cost = inc.repair_cost_est || (inc.confidence ? Math.round(inc.confidence * 18000) : 15000);
-    const tons = inc.asphalt_tons || 0.6;
-    const imgUrl = inc.image_url || '/static/evidence/pothole_1.jpg';
-
+    const step = inc.ops.step, r = inc.ops.repair, done = step >= 3;
+    const sla = done ? `Completed ${inc.ops.resolved_at ? ago(inc.ops.resolved_at) : ''}` :
+      inc.ops.overdue ? `<span style="color:var(--red)">SLA overdue by ${Math.abs(inc.ops.sla_left_h).toFixed(1)} h</span>` : `SLA: ${inc.ops.sla_left_h} h left`;
+    const material = inc.type === 'pothole' ? `${r.area_m2} m² · ${r.tons} T asphalt · ` : '';
     return `
-    <div class="ic" id="inc-${inc.id}">
-      <img src="${imgUrl}" alt="Evidence" onerror="this.onerror=null;this.src='/static/evidence/pothole_1.jpg';">
+    <div class="ic${done ? ' done' : ''}${RNPortal.isFresh(inc) ? ' fresh' : ''}" id="inc-${esc(inc.id)}">
+      <img src="${esc(inc.image_url || '/static/evidence/pothole_1.jpg')}" alt="Evidence" loading="lazy" onerror="this.onerror=null;this.src='/static/evidence/pothole_1.jpg';">
       <div class="ib">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
           <div>
-            <span class="pill blue" style="font-weight:700">${inc.id}</span>
-            <span class="bd ${inc.severity}">${inc.severity} Priority</span>
+            <span class="pill blue" style="font-weight:700">${esc(inc.id)}</span>
+            <span class="bd ${esc(inc.severity)}">${esc(inc.priority)} ${esc(inc.severity)}</span>
+            ${inc.source === 'seed' ? '<span class="pill" style="margin-left:6px">SAMPLE</span>' : ''}
           </div>
-          <small style="color:var(--mut)">${inc.timestamp || 'Just now'}</small>
+          <small style="color:var(--mut)">${ago(inc.detected_at)} · ${sla}</small>
         </div>
-        <h4 style="margin:6px 0 2px;font-size:16px">${inc.title || 'Road Surface Defect'}</h4>
-        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${inc.location_name} · <strong>Conf:</strong> ${Math.round((inc.confidence||0.85)*100)}%</p>
-        <p style="font-size:12px;color:var(--mut)">Est. Asphalt: <strong>${tons} T</strong> · Allocated Repair Budget: <strong>₹ ${cost.toLocaleString('en-IN')}</strong></p>
+        <h4 style="margin:6px 0 2px;font-size:16px">${esc((inc.title || 'Road Surface Defect').replace('[Sample] ', ''))}</h4>
+        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${esc(inc.location_name)} · <strong>Conf:</strong> ${Math.round((inc.confidence || 0) * 100)}% · ${esc(inc.assigned_agency)}</p>
+        <p style="font-size:12px;color:var(--mut)">${material}Repair budget: <strong>${inr(r.total)}</strong> (material ${inr(r.material)} · labour ${inr(r.labour)})</p>
         <div style="background:var(--soft);border-left:3px solid var(--g);padding:6px 10px;border-radius:6px;font-size:12px;margin:6px 0">
-          <strong>Stage-2 Judge:</strong> ${inc.judge_reason || 'Verified road hazard cavity'}
+          <strong>Stage-2 Judge:</strong> ${esc(inc.judge_reason || 'Verified road hazard')}
         </div>
-        
-        <div class="stp">
-          ${STAGES.map((s, idx) => `<i class="${idx <= curIdx ? 'on' : ''}">${s}</i>`).join('')}
-        </div>
-
+        <div class="stp">${STAGES.map((s, idx) => `<i class="${idx <= step ? 'on' : ''}">${s}</i>`).join('')}</div>
         <div class="row" style="margin-top:8px">
-          ${curIdx < STAGES.length - 1 ? `
-            <button class="b sm" onclick="advanceStatus('${inc.id}', '${STAGES[curIdx + 1]}')">Advance to: ${STAGES[curIdx + 1]}</button>
-          ` : `
-            <span class="pill green">✔ Completed &amp; Reopened</span>
-          `}
-          <button class="b g sm" onclick="showOnMap('${inc.id}')">View on Map ↗</button>
+          ${!done ? `<button class="b sm" onclick="advanceStatus('${esc(inc.id)}', ${step + 1})">Advance to: ${STAGES[step + 1]}</button>`
+                  : `<span class="pill green">✔ Repaired &amp; closed</span>`}
+          <button class="b g sm" onclick="showOnMap('${esc(inc.id)}')">View on Map ↗</button>
         </div>
       </div>
-    </div>
-    `;
+    </div>`;
   }).join('');
 }
 
-async function advanceStatus(id, newStatus){
+async function advanceStatus(id, step){
   try {
-    const res = await fetch(`/api/incidents/${id}/action`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({status: newStatus, authority: 'pwd,nhai', note: 'Updated by PWD/NHAI Engineer'})
+    const res = await fetch(`/api/incidents/${encodeURIComponent(id)}/action`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({authority: 'pwd,nhai', step, note: 'Updated by PWD/NHAI Engineer'})
     });
     const data = await res.json();
-    if(data.success){
-      toast(`Defect ${id} marked as ${newStatus}!`);
-      const target = incidents.find(i => i.id === id);
-      if(target) target.status = newStatus;
-      renderIncidents();
-      updateKPIs();
-    }
+    if(!data.success) throw new Error();
+    toast(`Work order ${id}: ${STAGES[step]}`);
+    refresh();
   } catch(e) {
-    toast(`Failed to update status`);
+    toast('Failed to update status');
   }
 }
 
-function filterBySeverity(sev){
-  activeSeverity = sev;
-  renderIncidents();
-}
-
-function applyFilter(){
-  renderIncidents();
-}
+function filterBySeverity(sev){ activeSeverity = sev; renderIncidents(); }
+function applyFilter(){ if(D) renderIncidents(); }
 
 async function simulateNewDefect(){
+  const cams = (window.RN_CONFIG && RN_CONFIG.cameras || []).filter(c => c.status === 'online');
+  const cam = cams[Math.floor(Math.random() * cams.length)] || {};
   try {
     const res = await fetch('/api/incidents/create', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        type: 'pothole',
-        conf: 0.92,
-        location_name: 'NH-44 Corridor, Km 18.4 (Outer Fast Lane)',
-        judge_reason: 'Verified deep cavity with exposed sub-base rock'
-      })
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({type: 'pothole', conf: 0.92, camera_id: cam.id, judge_reason: 'Manually logged by PWD engineer: deep cavity with exposed sub-base'})
     });
     const d = await res.json();
-    if(d.success){
-      toast(`New emergency work order created: ${d.incident.id}`);
-      fetchIncidents();
-    }
+    if(d.success){ toast(`Emergency work order created: ${d.incident.id}`); refresh(); }
   } catch(e) {
     toast('Error creating work order');
   }
 }
 
-function triggerManualSync(){
-  toast('Syncing with RoadNetra AI edge server…');
-  fetchIncidents();
-}
+function triggerManualSync(){ toast('Syncing with RoadNetra AI edge server…'); refresh(); }
 
+/* ---------- estimator: same formula and rates as the backend cost model ---------- */
+function useDetected(silent){
+  if(!D) return;
+  const e = D.estimator;
+  estManual = false;
+  $('inpCount').value = e.count;
+  $('inpArea').value = e.area_m2;
+  $('inpDepth').value = e.depth_cm;
+  $('estAuto').hidden = true;
+  $('estSource').textContent = `Live: ${e.count} open pothole${e.count === 1 ? '' : 's'} detected · avg ${e.area_m2} m² each`;
+  calcMaterial();
+  if(!silent) toast('Estimator synced with detected potholes');
+}
+function manualEstimate(){
+  estManual = true;
+  $('estAuto').hidden = false;
+  $('estSource').textContent = 'Manual what-if estimate (edited)';
+  calcMaterial();
+}
 function calcMaterial(){
-  const depth = parseFloat($('inpDepth').value) || 6.5;
-  const count = parseInt($('inpCount').value) || 14;
-  const factor = parseFloat($('inpSize').value) || 1.0;
-
-  // Formula: Volume = count * area * depth * density (2.4 T/m3)
-  const area = 0.4 * factor;
-  const vol = (area * (depth / 100)) * count;
-  const tons = vol * 2.4;
-  const bitumen = tons * 38; // 38 L per ton
-  const rollerHours = Math.max(2, (tons * 1.6)).toFixed(1);
-
-  const matCost = Math.round(tons * 4800);
-  const labCost = count * 900;
-  const total = matCost + labCost;
-
-  $('outTons').textContent = tons.toFixed(1) + ' Tons';
-  $('outBitumen').textContent = Math.round(bitumen) + ' Liters';
-  $('outRoller').textContent = rollerHours + ' Hours';
-
-  $('outMatCost').textContent = '₹ ' + matCost.toLocaleString('en-IN');
-  $('outLabCost').textContent = '₹ ' + labCost.toLocaleString('en-IN');
-  $('outTotalCost').textContent = '₹ ' + total.toLocaleString('en-IN');
+  const R = (D && D.estimator.rates) || {density: 2.4, asphalt_per_ton: 4800, labour_per_pothole: 900, bitumen_l_per_ton: 38};
+  const depth = Math.max(0, parseFloat($('inpDepth').value) || 0);
+  const count = Math.max(0, parseInt($('inpCount').value) || 0);
+  const area = Math.max(0, parseFloat($('inpArea').value) || 0);
+  const tons = area * (depth / 100) * R.density * count;
+  const matCost = Math.round(tons * R.asphalt_per_ton);
+  const labCost = Math.round(count * R.labour_per_pothole);
+  $('outTons').textContent = tons.toFixed(2) + ' Tons';
+  $('outBitumen').textContent = Math.round(tons * R.bitumen_l_per_ton) + ' Liters';
+  $('outRoller').textContent = (count ? Math.max(2, tons * 1.6) : 0).toFixed(1) + ' Hours';
+  $('outMatLabel').textContent = `Material Cost (${inr(R.asphalt_per_ton)}/Ton):`;
+  $('outMatCost').textContent = inr(matCost);
+  $('outLabCost').textContent = inr(labCost);
+  $('outTotalCost').textContent = inr(matCost + labCost);
 }
 
+function tenderDocket(){
+  if(!D) return;
+  const open = incidents.filter(i => i.ops.step < 3);
+  const rows = open.map(i => `<tr><td>${esc(i.id)}</td><td>${esc(LABEL[i.type] || i.type)}</td><td>${esc(i.location_name)}</td><td>${esc(i.severity)}</td><td style="text-align:right">${inr(i.ops.repair.material)}</td><td style="text-align:right">${inr(i.ops.repair.labour)}</td><td style="text-align:right"><b>${inr(i.ops.repair.total)}</b></td></tr>`).join('');
+  const w = window.open('', '_blank');
+  if(!w) return toast('Allow pop-ups to open the tender docket');
+  w.document.write(`<html><head><title>Tender docket</title><style>body{font-family:sans-serif;padding:30px}table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #ccc;padding:6px 8px;text-align:left}</style></head><body>
+    <h2>RoadNetra AI · Repair Tender Docket</h2><p>Generated ${new Date().toLocaleString('en-IN')} from ${open.length} open AI-detected work orders.</p>
+    <table><tr><th>Work order</th><th>Defect</th><th>Location</th><th>Severity</th><th>Material</th><th>Labour</th><th>Total</th></tr>${rows || '<tr><td colspan="7">No open work orders</td></tr>'}
+    <tr><td colspan="4"><b>Total</b></td><td style="text-align:right">${inr(D.budget.open_material)}</td><td style="text-align:right">${inr(D.budget.open_labour)}</td><td style="text-align:right"><b>${inr(D.budget.open_total)}</b></td></tr></table>
+    <p>Cold-mix asphalt: ${D.budget.tons_open.toFixed(2)} T · RS-1 tack coat: ${Math.round(D.budget.bitumen_open)} L</p><button onclick="window.print()">Print</button></body></html>`);
+  w.document.close();
+}
+
+/* ---------- crews & SLA ---------- */
+function renderCrews(){
+  $('crewsContainer').innerHTML = D.crews.map(c => {
+    const busy = !!c.incident_id, pill = !busy ? 'blue' : c.step >= 2 ? 'green' : 'orange';
+    const pctDone = !busy ? 100 : [15, 40, 75, 100][c.step] || 15;
+    return `<div class="sc">
+      <span class="pill ${pill}">${esc(c.status)}</span>
+      <h3 style="margin:10px 0 4px">${esc(c.name)} (#${esc(c.id)})</h3>
+      <p>${busy ? 'Assigned' : 'Location'}: <strong>${esc(c.location)}</strong></p>
+      <p>Equipment: ${esc(c.kit)}</p>
+      <p>Queue: ${c.queue} open work order${c.queue === 1 ? '' : 's'} for this crew</p>
+      <div class="bar"><i style="width:${pctDone}%;background:var(--${pill === 'green' ? 'grn' : pill === 'orange' ? 'org' : 'g'})"></i></div>
+      <div class="row" style="margin-top:12px">
+        ${busy ? `<button class="b sm" onclick="advanceStatus('${esc(c.incident_id)}', ${Math.min(3, c.step + 1)})">${STAGES[Math.min(3, c.step + 1)]} · ${esc(c.incident_id)}</button>
+                  <button class="b g sm" onclick="showOnMap('${esc(c.incident_id)}')">Track on map</button>`
+               : `<small style="color:var(--mut)">Ready for immediate dispatch</small>`}
+      </div></div>`;
+  }).join('');
+}
+
+function renderSla(){
+  const sevSla = 'Critical 1 h · High 24 h · Medium 72 h · Low 7 d';
+  $('slaBody').innerHTML = D.sla.map(r => `<tr>
+    <td><strong>${esc(r.label)}</strong></td><td>${r.total}</td><td><small>${sevSla}</small></td>
+    <td>${r.overdue} / ${r.late}</td>
+    <td>${r.compliance == null ? '<span class="pill">No work orders</span>' : `<span class="pill ${r.compliance >= 90 ? 'green' : r.compliance >= 75 ? 'orange' : 'red'}">${pct(r.compliance)}</span>`}</td>
+    <td>${r.penalty ? `<span class="pill red">${inr(r.penalty)}</span>` : 'No Penalty'}</td></tr>`).join('');
+  const k = D.kpi;
+  $('slaKpis').innerHTML = [
+    [pct(k.sla_rate), 'On-time rate', 'Resolved on time + open within SLA'],
+    [k.overdue, 'Open & overdue', 'Past SLA deadline'],
+    [k.resolved, 'Completed', 'Repairs closed'],
+    [inr(k.penalty), 'Penalty exposure', 'Overdue or late work orders'],
+  ].map(t => `<div class="sc"><b style="font-size:26px">${t[0]}</b><h4>${t[1]}</h4><p>${t[2]}</p></div>`).join('');
+}
+
+/* ---------- map ---------- */
 function initMap(){
-  if(mapInstance) return;
-  mapInstance = L.map('map').setView(RNMap.center, 12);
-  RNMap.addTiles(mapInstance, 'streets');
+  if(!mapInstance){
+    mapInstance = L.map('map').setView(RNMap.center, 12);
+    RNMap.addTiles(mapInstance, 'streets');
+    mapLayer = RNPortal.layer(mapInstance);
+  }
+  mapInstance.invalidateSize();
   refreshMapMarkers();
 }
 
-function refreshMapMarkers(){
-  if(!mapInstance) return;
-  mapMarkers.forEach(m => mapInstance.removeLayer(m));
-  mapMarkers = [];
-
-  incidents.forEach(inc => {
-    const lat = inc.gps ? inc.gps[0] : (28.61 + (Math.random() - 0.5) * 0.08);
-    const lng = inc.gps ? inc.gps[1] : (77.21 + (Math.random() - 0.5) * 0.08);
-
-    const isHigh = (inc.severity === 'Critical' || inc.severity === 'High');
-    const color = inc.status === 'Resolved' ? '#30a14e' : (isHigh ? '#ff3b30' : '#ff9f0a');
-
-    const circle = L.circleMarker([lat, lng], {
-      color: color,
-      fillColor: color,
-      fillOpacity: 0.8,
-      radius: isHigh ? 9 : 7
-    }).addTo(mapInstance);
-
-    circle.bindPopup(`
-      <div style="font-family:sans-serif;font-size:13px">
-        <b>${inc.id} · ${inc.severity}</b><br>
-        ${inc.location_name}<br>
-        <small>Status: ${inc.status}</small><br>
-        <button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#0071e3;color:#fff;border:0;cursor:pointer" onclick="advanceStatus('${inc.id}', 'Under Repair')">Start Repair</button>
-      </div>
-    `);
-    mapMarkers.push(circle);
-  });
-  if(!window._rnFit && mapMarkers.length){ try{ mapInstance.fitBounds(L.featureGroup(mapMarkers).getBounds().pad(0.25), {maxZoom:13}); window._rnFit=1; }catch(e){} }
+function refreshMapMarkers(focus){
+  if(!mapLayer) return;
+  mapLayer.sync(incidents.map(inc => {
+    const done = inc.ops.step >= 3, high = inc.severity === 'Critical' || inc.severity === 'High';
+    const color = done ? '#30a14e' : (high ? '#ff3b30' : '#ff9f0a');
+    return {id: inc.id, lat: inc.lat, lng: inc.lng, color, radius: high ? 9 : 7, opacity: done ? 0.45 : 0.9, pulse: RNPortal.isFresh(inc),
+      tip: `${inc.id} · ${LABEL[inc.type] || inc.type}`,
+      popup: `<div style="font-family:sans-serif;font-size:13px"><b>${esc(inc.id)} · ${esc(inc.severity)}</b><br>${esc(LABEL[inc.type] || inc.type)}<br>${esc(inc.location_name)}<br>
+        <small>${STAGES[inc.ops.step]} · ${inr(inc.ops.repair.total)}</small><br>
+        ${done ? '' : `<button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#0071e3;color:#fff;border:0;cursor:pointer" onclick="advanceStatus('${esc(inc.id)}', ${inc.ops.step + 1})">${STAGES[inc.ops.step + 1]}</button>`}</div>`};
+  }), focus);
+  const open = incidents.filter(i => i.ops.step < 3).length;
+  $('mapCount').textContent = `${incidents.length} defects · ${open} open`;
 }
 
 function showOnMap(id){
   switchNav('map');
-  const target = incidents.find(i => i.id === id);
-  if(target && target.gps && mapInstance){
-    mapInstance.setView(target.gps, 14);
-  }
+  setTimeout(() => mapLayer && mapLayer.focus(id, 15), 120);
 }
-
-// Initial bootstrap
-fetchIncidents();
-calcMaterial();
-setInterval(fetchIncidents, (window.RN_CONFIG && RN_CONFIG.stream && RN_CONFIG.stream.incidentPollMs) || 5000);
 </script>
 </body></html>

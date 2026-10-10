@@ -8,6 +8,7 @@ from datetime import datetime
 from flask import Flask, Response, jsonify, request, send_from_directory
 
 import config
+import operations
 from dispatcher import MultiAgencyDispatcher, AUTHORITY_NAMES, AUTHORITY_STEPS
 from pipelines import ModelHub, DetectionService
 
@@ -216,7 +217,10 @@ def api_incident_action(incident_id):
     data = request.json or {}
     authorities = [a.strip() for a in str(data.get("authority") or "").split(",") if a.strip()]
     if authorities and not data.get("status"):
-        inc = dispatcher.advance_authority(incident_id, authorities[0], data.get("step"), data.get("note", ""))
+        # Advance every listed authority that this incident is routed to (e.g. "pwd,nhai")
+        inc = None
+        for a in authorities:
+            inc = dispatcher.advance_authority(incident_id, a, data.get("step"), data.get("note", "")) or inc
         return jsonify({"success": inc is not None, "id": incident_id, "incident": inc,
                         "status": inc["status"] if inc else None})
     new_status = data.get("status", "Under Repair")
@@ -261,21 +265,43 @@ def api_action_vms():
 @app.route("/api/action/ambulance", methods=["POST"])
 def api_action_ambulance():
     data = request.json or {}
-    inc_id = data.get("incident_id")
-    if inc_id:
-        dispatcher.advance_authority(inc_id, "hosp", 2, "ALS ambulance dispatched with siren")
-        inc = dispatcher.get_incident(inc_id)
-        if inc:
-            inc["ambulance_eta_mins"] = 5
+    inc = dispatcher.get_incident(data.get("incident_id") or "")
+    if not inc or "hosp" not in inc.get("authority_status", {}):
+        return jsonify({"success": False, "error": "Unknown accident incident"}), 404
     stream_state["green_wave_active"] = True
-    return jsonify({"success": True, "ambulance": "ALS-108-04", "eta_mins": 5, "green_wave": True})
+    with dispatcher.lock:
+        if inc.get("ambulance_unit") and inc["authority_status"]["hosp"] >= 2:
+            return jsonify({"success": True, "ambulance": inc["ambulance_unit"], "eta_mins": inc.get("ambulance_eta_mins"),
+                            "green_wave": True, "already": True})
+        view = operations.build("hospital", dispatcher.get_all_incidents(), dispatcher.cameras, stream_state)
+        free = next((u["id"] for u in view["units"] if not u["incident_id"]), None)
+        if not free:
+            return jsonify({"success": False, "error": "No ambulance available"}), 409
+        km, eta = operations.ambulance_eta(inc, True)
+        inc["ambulance_unit"], inc["ambulance_eta_mins"], inc["ambulance_distance_km"] = free, eta, km
+        dispatcher.advance_authority(inc["id"], "hosp", 2, f"{free} dispatched with siren · {km} km · ETA {eta} min")
+    return jsonify({"success": True, "ambulance": free, "eta_mins": eta, "distance_km": km, "green_wave": True})
 
 
 @app.route("/api/action/green_wave", methods=["POST"])
 def api_action_green_wave():
     data = request.json or {}
-    stream_state["green_wave_active"] = data.get("active", not stream_state["green_wave_active"])
+    stream_state["green_wave_active"] = bool(data.get("active", not stream_state["green_wave_active"]))
     return jsonify({"success": True, "green_wave_active": stream_state["green_wave_active"]})
+
+
+@app.route("/api/operations")
+def api_operations():
+    """One poll per portal: its incidents plus every operational figure computed from them."""
+    portal = (request.args.get("portal") or "").lower()
+    portal = {"hosp": "hospital", "pol": "police", "nhai": "pwd"}.get(portal, portal)
+    if portal not in ("pwd", "hospital", "police"):
+        return jsonify({"error": "portal must be pwd, hospital or police"}), 400
+    with dispatcher.lock:
+        view = operations.build(portal, dispatcher.get_all_incidents(), dispatcher.cameras, stream_state)
+        version = dispatcher.version
+    return jsonify({"portal": portal, "version": version, "time": datetime.now().isoformat(timespec="seconds"),
+                    "live": dict(stream_state), **view})
 
 
 # -------------------------------------------------------------

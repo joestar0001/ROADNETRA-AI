@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 
 import cv2
 
+from operations import estimate_repair
+
 
 # Authority keys shared with every dashboard
 AUTHORITY_NAMES = {
@@ -74,6 +76,7 @@ class MultiAgencyDispatcher:
         self.merge_window_infra = timedelta(minutes=merge_window_infra_min)
         self.merge_window_accident = timedelta(minutes=merge_window_accident_min)
         self.lock = threading.RLock()
+        self.version = 0  # bumped on every change so dashboards can skip unchanged polls
         self.cameras = self._load_cameras()
         self.incidents = self._load(seed_demo)
 
@@ -102,12 +105,15 @@ class MultiAgencyDispatcher:
                 print(f"[DISPATCHER] Legacy incident store backed up to {legacy}")
             data = []
         self.incidents = data
+        for inc in self.incidents:  # keep stored costs on the current repair model
+            self._apply_repair_estimate(inc)
         if not self.incidents and seed_demo:
             self.incidents = self._seed()
             self._save()
         return self.incidents
 
     def _save(self):
+        self.version += 1
         tmp = self.data_file + ".tmp"
         try:
             with open(tmp, "w", encoding="utf-8") as f:
@@ -117,6 +123,20 @@ class MultiAgencyDispatcher:
             print("[DISPATCHER SAVE ERR]", e)
 
     # ------------------------------------------------------------------ helpers
+    @staticmethod
+    def _apply_repair_estimate(inc):
+        est = estimate_repair(inc)
+        if est:
+            inc["repair_cost_est"] = est["total"]
+            inc["asphalt_tons"] = est["tons"]
+
+    @staticmethod
+    def _stamp(inc, authority, old, new, when):
+        """Records when each authority reached each step (used for SLA, clearance and golden-hour timing)."""
+        times = inc.setdefault("authority_times", {}).setdefault(authority, {})
+        for s in range(old + 1, new + 1):
+            times.setdefault(str(s), when.isoformat(timespec="seconds"))
+
     def get_camera(self, camera_id):
         for c in self.cameras:
             if c["id"] == camera_id:
@@ -349,9 +369,7 @@ class MultiAgencyDispatcher:
             if t == "severe_accident":
                 incident["ambulance_eta_mins"] = None
             else:
-                incident["repair_cost_est"] = int(15000 + area_frac * 600000) if t == "pothole" else {
-                    "damaged_divider": 45000, "damaged_sign": 8500, "faded_zebra_crossing": 12000}[t]
-                incident["asphalt_tons"] = round(1.2 + area_frac * 60, 1) if t == "pothole" else 0.0
+                self._apply_repair_estimate(incident)
 
             self.incidents.insert(0, incident)
             self._save()
@@ -398,6 +416,8 @@ class MultiAgencyDispatcher:
                 return None
             cur = inc["authority_status"][authority]
             new = min(3, max(0, int(step) if step is not None else cur + 1))
+            now = datetime.now()
+            self._stamp(inc, authority, cur, new, now)
             inc["authority_status"][authority] = new
             inc["status"] = self._overall_status(inc)
             inc["action_history"].append({
@@ -405,7 +425,7 @@ class MultiAgencyDispatcher:
                 "action": f"{AUTHORITY_NAMES.get(authority, authority)}: {AUTHORITY_STEPS[new]}" + (f" ({note})" if note else "")
             })
             if inc["status"] == "Resolved":
-                inc["resolved_at"] = datetime.now().isoformat(timespec="seconds")
+                inc["resolved_at"] = now.isoformat(timespec="seconds")
             self._save()
             return inc
 
@@ -424,7 +444,9 @@ class MultiAgencyDispatcher:
                 target = 1
             steps = inc.setdefault("authority_status", {})
             keys = [k for k in (authorities or steps.keys()) if k in steps] or list(steps.keys())
+            now = datetime.now()
             for k in keys:
+                self._stamp(inc, k, steps[k], max(steps[k], target), now)
                 steps[k] = max(steps[k], target)
             overall = self._overall_status(inc)
             # Keep the portal's wording, but never mark the whole incident resolved while another authority is still acting

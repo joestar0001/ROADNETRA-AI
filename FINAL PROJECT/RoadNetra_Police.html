@@ -59,8 +59,8 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
     <a href="/hospital" class="lk" style="text-decoration:none">🏥 Hospital Command ↗</a>
     <div class="stc">
       <span class="dot"></span><b>CCTV Radar: Active</b><br>
-      VMS Relays: 8 Connected<br>
-      Signal Integration: Online
+      Signal Integration: Online<br>
+      <span class="rn-live" id="rnLive"><i></i> Connecting…</span>
     </div>
   </aside>
 
@@ -86,10 +86,10 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
         </div>
 
         <div class="g4">
-          <div class="sc"><span class="pill orange">HAZARDS</span><b id="kpiPolice">0</b><h4>Active Road Hazards</h4><p>Requiring traffic regulation</p></div>
-          <div class="sc"><span class="pill blue">PCR PATROLS</span><b>14 Vans</b><h4>Active on Highway</h4><p>Zone A-D coverage</p></div>
-          <div class="sc"><span class="pill orange">VMS SIGNS</span><b>8 Boards</b><h4>Dynamic Highway LED</h4><p>Broadcasting advisories</p></div>
-          <div class="sc"><span class="pill green">CLEARANCE</span><b>18.2 Mins</b><h4>Avg Bottleneck Clear</h4><p>Post-incident relief</p></div>
+          <div class="sc"><span class="pill orange">HAZARDS</span><b id="kpiPolice">–</b><h4>Active Road Hazards</h4><p id="kpiPoliceSub">Requiring traffic regulation</p></div>
+          <div class="sc"><span class="pill blue">PCR PATROLS</span><b id="kpiPcr">–</b><h4>Deployed to Incidents</h4><p id="kpiPcrSub">Of the highway patrol fleet</p></div>
+          <div class="sc"><span class="pill orange">VMS SIGNS</span><b id="kpiVms">–</b><h4>Gantries Warning Drivers</h4><p id="kpiVmsSub">Within 5 km of an open hazard</p></div>
+          <div class="sc"><span class="pill green">CLEARANCE</span><b id="kpiClear">–</b><h4>Avg Hazard Clearance</h4><p id="kpiClearSub">Detection to lane cleared</p></div>
         </div>
 
         <div class="card">
@@ -105,7 +105,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
         <div class="card">
           <span class="pill orange">Dynamic Highway Advisory</span>
           <h2 style="margin:10px 0 6px">Variable Message Sign (VMS) Overhead Broadcast</h2>
-          <p>Over-the-air broadcast to 8 electronic highway gantry signs across the NH-44 and Ring Road corridors.</p>
+          <p id="vmsSub">Over-the-air broadcast to the highway gantry signs nearest to open hazards.</p>
 
           <div style="margin:20px 0">
             <div class="vms-board">
@@ -118,14 +118,16 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
           <div class="sc">
             <h4>Broadcast New Advisory Message</h4>
             <label style="display:block;font-size:12px;margin:8px 0 4px;color:var(--mut)">Custom Signboard Text (Max 120 Characters)</label>
-            <input type="text" id="vmsInput" value="CAUTION: ROAD HAZARD AHEAD - NH-44 CORRIDOR - REDUCE SPEED TO 30 KM/H" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-family:monospace;font-size:14px" maxlength="120" oninput="$('vmsPreview').textContent = this.value.toUpperCase()">
+            <input type="text" id="vmsInput" value="" style="width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-family:monospace;font-size:14px" maxlength="120" oninput="$('vmsPreview').textContent = this.value.toUpperCase()">
             
             <div class="row" style="margin-top:12px">
-              <button class="b org" onclick="broadcastVMS()">📢 Push Broadcast to All 8 Gantries</button>
-              <button class="b g sm" onclick="setPresetVMS('ACCIDENT AHEAD ON LANE 2 - DUMP SPEED TO 20 KM/H')">Preset: Accident</button>
-              <button class="b g sm" onclick="setPresetVMS('SEVERE POTHOLE IN LEFT LANE - KEEP RIGHT AT KM 14')">Preset: Pothole</button>
-              <button class="b g sm" onclick="setPresetVMS('HEAVY MONSOON RAIN - ROAD SURFACE SLIPPERY - DRIVE SLOW')">Preset: Rain</button>
-              <button class="b g sm" onclick="setPresetVMS('CORRIDOR CLEAR - SPEED LIMIT 80 KM/H - DRIVE SAFE')">Preset: Clear</button>
+              <button class="b org" id="btnBroadcast" onclick="broadcastVMS()">📢 Push Broadcast</button>
+              <button class="b g sm" onclick="setPresetVMS('accident')">Preset: Latest Accident</button>
+              <button class="b g sm" onclick="setPresetVMS('hazard')">Preset: Latest Road Hazard</button>
+              <button class="b g sm" onclick="setPresetVMS('rain')">Preset: Rain</button>
+              <button class="b g sm" onclick="setPresetVMS('clear')">Preset: Clear</button>
+            </div>
+            <div class="g3" id="vmsBoards" style="margin-top:14px">
             </div>
           </div>
         </div>
@@ -156,9 +158,9 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 
             <div class="sc">
               <h4>Corridor Transit Savings</h4>
-              <b>- 8.4 Mins</b>
-              <p>Average time saved per emergency run</p>
-              <small style="color:var(--mut)">Zero signal wait on pre-empted corridor</small>
+              <b id="gwSaving">–</b>
+              <p>Average time saved per ambulance run</p>
+              <small style="color:var(--mut)" id="gwSavingSub">Computed from detected accident locations</small>
             </div>
           </div>
         </div>
@@ -171,34 +173,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
           <h2 style="margin:10px 0 6px">Police Control Room (PCR) Patrol Units</h2>
           <p>Live status of interceptor vehicles and highway patrol squads assigned to corridor safety.</p>
 
-          <div class="g3" style="margin-top:16px">
-            <div class="sc">
-              <span class="pill green">ON HIGHWAY PATROL</span>
-              <h3 style="margin:10px 0 4px">PCR Van #PCR-18</h3>
-              <p>Zone: <strong>NH-44 Express Corridor (Km 10–25)</strong></p>
-              <p>Officer: SI Vikramaditya Singh + 2 Constables</p>
-              <p>Gear: Laser Speed Gun · Crash Barricades · First Aid</p>
-              <button class="b sm" style="margin-top:10px" onclick="toast('PCR-18 dispatched to secure divider breach')">Dispatch to Hazard</button>
-            </div>
-
-            <div class="sc">
-              <span class="pill green">ON HIGHWAY PATROL</span>
-              <h3 style="margin:10px 0 4px">PCR Van #PCR-04</h3>
-              <p>Zone: <strong>Outer Ring Road Sector 14</strong></p>
-              <p>Officer: ASI Pradeep Kumar + 2 Constables</p>
-              <p>Gear: Breathalyzer · LED Cone Deployer</p>
-              <button class="b sm" style="margin-top:10px" onclick="toast('PCR-04 rerouted to intersection bottleneck')">Reroute Patrol</button>
-            </div>
-
-            <div class="sc">
-              <span class="pill orange">AT FLYOVER CHECKPOINT</span>
-              <h3 style="margin:10px 0 4px">Traffic Interceptor #INT-02</h3>
-              <p>Zone: <strong>MG Road Flyover North Ramp</strong></p>
-              <p>Officer: Inspector Meenakshi Rao</p>
-              <p>Equipment: High-Speed ANPR Automatic Number Plate Recognition</p>
-              <button class="b g sm" style="margin-top:10px" onclick="toast('ANPR log synchronized with ICCC')">Sync ANPR Log</button>
-            </div>
-          </div>
+          <div class="g3" style="margin-top:16px" id="patrolContainer"><p>Loading patrol assignments…</p></div>
         </div>
       </section>
 
@@ -209,7 +184,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
             <div>
               <span class="pill orange">Corridor Surveillance</span>
               <h2 style="margin:10px 0 4px">Highway Hazard &amp; VMS Spatial Grid</h2>
-              <p>Real-time geolocated pins for CCTV hazards, PCR vans, and electronic signs.</p>
+              <p id="mapSub">Real-time geolocated pins for detected hazards and VMS gantries.</p>
             </div>
             <button class="b sm" onclick="refreshPoliceMap()">↻ Recenter Map</button>
           </div>
@@ -222,11 +197,12 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 
 <div class="toast" id="toast"></div>
 
+<script src="/static/rn-portal.js"></script>
 <script>
-let incidents = [];
-let mapInstance = null;
-let markers = [];
-let greenWaveActive = false;
+const {esc, ago, time} = RNPortal;
+const STEPS = ['Notified', 'Acknowledged', 'PCR on scene', 'Cleared'];
+const LABEL = {severe_accident: 'Severe accident', damaged_sign: 'Damaged sign', damaged_divider: 'Damaged divider', faded_zebra_crossing: 'Faded zebra crossing', pothole: 'Pothole'};
+let D = null, incidents = [], mapInstance = null, mapLayer = null, greenWaveActive = false;
 
 function $(id){ return document.getElementById(id); }
 
@@ -235,7 +211,7 @@ function toast(msg){
   t.textContent = msg;
   t.classList.add('on');
   clearTimeout(t.timer);
-  t.timer = setTimeout(() => t.classList.remove('on'), 3000);
+  t.timer = setTimeout(() => t.classList.remove('on'), 4000);
 }
 
 function toggleTheme(){
@@ -247,13 +223,10 @@ function toggleTheme(){
 function switchNav(pg){
   document.querySelectorAll('.side .lk').forEach(b => b.classList.remove('on'));
   document.querySelectorAll('.pgs section').forEach(s => s.hidden = true);
-  
   const btn = document.querySelector(`.side .lk[data-pg="${pg}"]`);
   if(btn) btn.classList.add('on');
-  
   const sec = $('sec-' + pg);
   if(sec) sec.hidden = false;
-
   const titles = {
     cmd: "Traffic Incident Queue & Enforcement",
     vms: "Overhead Dynamic VMS Broadcasting",
@@ -262,135 +235,158 @@ function switchNav(pg){
     map: "Transit Corridor Spatial Map"
   };
   $('pgTitle').textContent = titles[pg] || "Traffic Police Command";
-
-  if(pg === 'map'){
-    setTimeout(initPoliceMap, 200);
-  }
+  if(pg === 'map') setTimeout(initPoliceMap, 50);
 }
 
-document.querySelectorAll('.side .lk[data-pg]').forEach(b => {
-  b.onclick = () => switchNav(b.dataset.pg);
-});
+document.querySelectorAll('.side .lk[data-pg]').forEach(b => { b.onclick = () => switchNav(b.dataset.pg); });
 
-async function fetchPoliceIncidents(){
-  try {
-    const res = await fetch('/api/incidents?agency=police');
-    if(!res.ok) throw new Error('API failed');
-    incidents = await res.json();
-    renderPoliceIncidents();
-    $('kpiPolice').textContent = incidents.length;
-
-    const sres = await fetch('/api/summary');
-    if(sres.ok){
-      const sum = await sres.json();
-      if(sum.vms_text){
-        $('vmsPreview').textContent = sum.vms_text;
-        $('vmsInput').value = sum.vms_text;
-      }
-      if(sum.green_wave_active !== undefined){
-        setGreenWaveState(sum.green_wave_active);
-      }
-    }
-  } catch(e) {
-    console.error("Fetch error:", e);
+/* ---------- live data: /api/operations?portal=police ---------- */
+function onData(d, {changed, fresh}){
+  D = d;
+  incidents = d.incidents;
+  setGreenWaveState(d.live.green_wave_active);
+  if(d.live.vms_text){
+    $('vmsPreview').textContent = d.live.vms_text;
+    if(document.activeElement !== $('vmsInput')) $('vmsInput').value = d.live.vms_text;
   }
+  updateKPIs();
+  if(changed){
+    renderPoliceIncidents();
+    renderPatrols();
+    renderBoards();
+    refreshPoliceMap(fresh[0]);
+  }
+  fresh.forEach(i => toast(`${i.type === 'severe_accident' ? '🚨 NEW ACCIDENT' : '⚠️ New hazard'} ${i.id} · ${LABEL[i.type] || i.type} · ${i.location_name}`));
+}
+const refresh = RNPortal.start('police', onData);
+
+function updateKPIs(){
+  const k = D.kpi;
+  $('kpiPolice').textContent = k.active;
+  $('kpiPoliceSub').textContent = `${k.accidents} accident${k.accidents === 1 ? '' : 's'} · ${k.active - k.accidents} infrastructure hazard${k.active - k.accidents === 1 ? '' : 's'}`;
+  $('kpiPcr').textContent = `${k.pcr_deployed} / ${k.pcr_fleet}`;
+  $('kpiPcrSub').textContent = `${k.pcr_fleet - k.pcr_deployed} vans still on patrol`;
+  $('kpiVms').textContent = `${k.vms_active} / ${k.vms_total}`;
+  $('kpiClear').textContent = k.avg_clearance_min == null ? '—' : `${k.avg_clearance_min} Mins`;
+  $('kpiClearSub').textContent = k.avg_clearance_min == null ? 'No hazard cleared yet' : 'Detection to lane cleared';
+  $('gwSaving').textContent = k.green_wave_saving == null ? '—' : `- ${k.green_wave_saving} Mins`;
+  $('gwSavingSub').textContent = k.green_wave_saving == null ? 'No accident detected yet' : 'Computed from detected accident locations';
+  $('vmsSub').textContent = `Over-the-air broadcast to ${k.vms_total} highway gantries · ${k.vms_active} currently within 5 km of an open hazard.`;
+  $('btnBroadcast').textContent = `📢 Push Broadcast to ${k.vms_active || k.vms_total} Gantr${(k.vms_active || k.vms_total) === 1 ? 'y' : 'ies'}`;
 }
 
 function renderPoliceIncidents(){
   const container = $('policeIncidentsContainer');
   if(!incidents.length){
-    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--mut)">No critical traffic obstructions reported. RoadNetra AI CCTV watching.</div>`;
+    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--mut)">No traffic obstructions reported. RoadNetra AI CCTV watching.</div>`;
     return;
   }
-
-  container.innerHTML = incidents.map(inc => {
-    const isAcc = String(inc.type || '').includes('accident');
-    const imgUrl = inc.image_url || (isAcc ? '/static/evidence/accident_1.jpg' : '/static/evidence/guardrail_1.jpg');
-
+  const list = [...incidents].sort((a, b) => (a.ops.step >= 3) - (b.ops.step >= 3) || (b.type === 'severe_accident') - (a.type === 'severe_accident') || (b.detected_at || '').localeCompare(a.detected_at || ''));
+  container.innerHTML = list.map(inc => {
+    const isAcc = inc.type === 'severe_accident', o = inc.ops, done = o.step >= 3;
+    const fallback = isAcc ? '/static/evidence/accident_1.jpg' : '/static/evidence/guardrail_1.jpg';
     return `
-    <div class="ic" style="border-left-color:${isAcc ? 'var(--red)' : 'var(--org)'}">
-      <img src="${imgUrl}" alt="Evidence" onerror="this.onerror=null;this.src='/static/evidence/guardrail_1.jpg';">
+    <div class="ic${done ? ' done' : ''}${RNPortal.isFresh(inc) ? ' fresh' : ''}" style="border-left:4px solid ${isAcc ? 'var(--red)' : 'var(--org)'}">
+      <img src="${esc(inc.image_url || fallback)}" alt="Evidence" loading="lazy" onerror="this.onerror=null;this.src='${fallback}';">
       <div class="ib">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
           <div>
-            <span class="pill orange" style="font-weight:700">POLICE ALERT · ${inc.id}</span>
-            <span class="bd ${inc.severity}">${inc.severity} Priority</span>
+            <span class="pill ${isAcc ? 'red' : 'orange'}" style="font-weight:700">${isAcc ? 'ACCIDENT' : 'POLICE ALERT'} · ${esc(inc.id)}</span>
+            <span class="bd ${esc(inc.severity)}">${esc(inc.severity)} Priority</span>
+            ${inc.source === 'seed' ? '<span class="pill" style="margin-left:6px">SAMPLE</span>' : ''}
           </div>
-          <small style="color:var(--mut)">${inc.timestamp || 'Real-time'}</small>
+          <small style="color:var(--mut)">Detected ${time(inc.detected_at)} · ${done ? `cleared in ${o.clearance_min} min` : `open ${ago(inc.detected_at).replace(' ago', '')}`}</small>
         </div>
-        <h4 style="margin:6px 0 2px;font-size:16px">${inc.title || 'Traffic Hazard'}</h4>
-        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${inc.location_name} · <strong>Conf:</strong> ${Math.round((inc.confidence||0.88)*100)}%</p>
-        
+        <h4 style="margin:6px 0 2px;font-size:16px">${esc((inc.title || 'Traffic Hazard').replace('[Sample] ', ''))}</h4>
+        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${esc(inc.location_name)} · <strong>Conf:</strong> ${Math.round((inc.confidence || 0) * 100)}% · ${esc(inc.assigned_agency)}</p>
         <div style="background:var(--soft);border-left:3px solid var(--org);padding:6px 10px;border-radius:6px;font-size:12px;margin:6px 0">
-          <strong>Enforcement Note:</strong> ${inc.judge_reason || 'Hazard threatens vehicle trajectory'}
+          <strong>Enforcement Note:</strong> ${esc(inc.judge_reason || 'Hazard threatens vehicle trajectory')}
         </div>
-
-        <div class="row" style="margin-top:10px">
-          <button class="b sm" onclick="deployPCR('${inc.id}', '${inc.location_name}')">🚔 Dispatch PCR Van</button>
-          <button class="b org sm" onclick="activateSignalDiversion('${inc.id}')">🚦 Set Signal Diversion</button>
-          <button class="b g sm" onclick="generateFIR('${inc.id}', '${inc.title}')">📄 Generate Digital Docket</button>
+        <div class="row"><span class="pill ${done ? 'green' : o.step >= 2 ? 'blue' : 'orange'}">Police: ${STEPS[o.step]}</span></div>
+        <div class="row" style="margin-top:6px">
+          ${done ? '' : o.step < 2 ? `<button class="b sm" onclick="deployPCR('${esc(inc.id)}')">🚔 Dispatch PCR Van</button>`
+                                   : `<button class="b grn sm" onclick="clearHazard('${esc(inc.id)}')">✔ Mark Lane Cleared</button>`}
+          ${done ? '' : `<button class="b org sm" onclick="activateSignalDiversion('${esc(inc.id)}')">🚦 Divert &amp; Warn on VMS</button>`}
+          <button class="b g sm" onclick="generateFIR('${esc(inc.id)}')">📄 Generate Digital Docket</button>
+          <button class="b g sm" onclick="showOnMap('${esc(inc.id)}')">Map ↗</button>
         </div>
       </div>
-    </div>
-    `;
+    </div>`;
   }).join('');
 }
 
-async function deployPCR(id, loc){
-  try {
-    await fetch(`/api/incidents/${id}/action`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({status: 'Crew En Route', authority: 'pol', note: 'PCR Patrol Van Dispatched'})
-    });
-    toast(`🚔 PCR Van dispatched to ${loc}!`);
-    fetchPoliceIncidents();
-  } catch(e) {
-    toast('PCR Van dispatched');
-  }
+async function policeAction(id, step, note){
+  const res = await fetch(`/api/incidents/${encodeURIComponent(id)}/action`, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({authority: 'pol', step, note})
+  });
+  const d = await res.json();
+  if(!d.success) throw new Error();
+  refresh();
+  return d.incident;
 }
 
-function activateSignalDiversion(id){
-  toast(`🚦 Traffic signals set to diversion cycle for incident ${id}`);
+async function deployPCR(id){
+  try { const inc = await policeAction(id, 2, 'PCR patrol van dispatched'); toast(`🚔 PCR van dispatched to ${inc.location_name}`); }
+  catch(e) { toast('Could not dispatch the PCR van'); }
 }
 
-function generateFIR(id, title){
-  toast(`📄 Digital Evidence Docket & FIR generated for #${id}`);
+async function clearHazard(id){
+  try { await policeAction(id, 3, 'Lane cleared and traffic restored'); toast(`✔ ${id}: lane cleared`); }
+  catch(e) { toast('Could not update the incident'); }
+}
+
+async function activateSignalDiversion(id){
+  const inc = incidents.find(i => i.id === id);
+  if(!inc) return;
+  const where = (inc.road ? `${inc.road} KM ${inc.km}` : inc.place || '').toUpperCase();
+  const text = `${inc.type === 'severe_accident' ? 'ACCIDENT' : (LABEL[inc.type] || 'HAZARD').toUpperCase()} AHEAD - ${where} - TAKE DIVERSION`;
+  $('vmsInput').value = text.slice(0, 120);
+  await broadcastVMS();
+  if(inc.ops.step < 1){ try { await policeAction(id, 1, 'Signal diversion and VMS warning activated'); } catch(e) {} }
+}
+
+function generateFIR(id){
+  const inc = incidents.find(i => i.id === id);
+  if(!inc) return;
   const w = window.open('', '_blank');
-  w.document.write(`
-    <html><head><title>Police Docket - ${id}</title><style>body{font-family:sans-serif;padding:30px;line-height:1.6}h1{color:#1d1d1f}</style></head>
-    <body>
-      <h2>DELHI TRAFFIC POLICE · DIGITAL INCIDENT EVIDENCE DOCKET</h2>
-      <hr>
-      <p><b>Incident ID:</b> ${id}</p>
-      <p><b>Classification:</b> ${title}</p>
-      <p><b>Timestamp:</b> ${new Date().toLocaleString()}</p>
-      <p><b>AI Detection Model:</b> ROADNETRA YOLOv8 Multi-Task Architecture</p>
-      <p><b>Verification:</b> Verified by Dual-Stage RoadNetra Judge Semantic Engine</p>
-      <p><b>Action Taken:</b> Patrol unit deployed, VMS sign updated, traffic diverted.</p>
-      <button onclick="window.print()">Print Docket</button>
-    </body></html>
-  `);
+  if(!w) return toast('Allow pop-ups to open the docket');
+  const o = inc.ops;
+  w.document.write(`<html><head><title>Incident docket - ${esc(inc.id)}</title><style>body{font-family:sans-serif;padding:30px;line-height:1.6}img{max-width:100%;border-radius:8px}</style></head><body>
+      <h2>TRAFFIC POLICE · DIGITAL INCIDENT EVIDENCE DOCKET</h2><hr>
+      <p><b>Incident ID:</b> ${esc(inc.id)}</p>
+      <p><b>Classification:</b> ${esc(LABEL[inc.type] || inc.type)} · ${esc(inc.priority)} ${esc(inc.severity)}</p>
+      <p><b>Location:</b> ${esc(inc.location_name)} (${inc.lat}, ${inc.lng}) · Camera ${esc(inc.camera_id)}</p>
+      <p><b>Detected:</b> ${new Date(inc.detected_at).toLocaleString('en-IN')} · <b>Docket generated:</b> ${new Date().toLocaleString('en-IN')}</p>
+      <p><b>AI detection:</b> ${esc(inc.model)} · ${Math.round(inc.confidence * 100)}% confidence · ${inc.frames_confirmed || 1} frame(s)</p>
+      <p><b>Verification:</b> ${esc(inc.judge_reason)}</p>
+      <p><b>Routed to:</b> ${esc(inc.assigned_agency)}</p>
+      <p><b>Police status:</b> ${STEPS[o.step]}${o.clearance_min != null ? ` · cleared ${o.clearance_min} min after detection` : ''}</p>
+      ${inc.image_url ? `<p><b>Evidence:</b><br><img src="${location.origin + esc(inc.image_url)}"></p>` : ''}
+      <button onclick="window.print()">Print Docket</button></body></html>`);
+  w.document.close();
+  toast(`📄 Digital evidence docket generated for #${id}`);
 }
 
 async function broadcastVMS(){
-  const txt = $('vmsInput').value;
+  const txt = $('vmsInput').value.trim();
+  if(!txt) return;
   try {
-    const res = await fetch('/api/action/vms', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({text: txt})
-    });
+    const res = await fetch('/api/action/vms', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({text: txt})});
     const d = await res.json();
     if(d.success){
-      toast(`📢 Broadcast pushed to all 8 Highway VMS Gantries!`);
+      $('vmsPreview').textContent = d.vms_text;
+      toast(`📢 Advisory pushed to ${D && D.kpi.vms_active ? D.kpi.vms_active + ' gantries near open hazards' : 'all gantries'}`);
+      refresh();
     }
   } catch(e) {
-    toast('Broadcast pushed');
+    toast('Could not reach the VMS controller');
   }
 }
 
-function setPresetVMS(text){
+function setPresetVMS(kind){
+  const presets = Object.assign({rain: 'HEAVY RAIN - ROAD SURFACE SLIPPERY - DRIVE SLOW'}, D ? D.vms_presets : {});
+  const text = presets[kind] || presets.clear || '';
   $('vmsInput').value = text;
   $('vmsPreview').textContent = text;
   broadcastVMS();
@@ -398,85 +394,78 @@ function setPresetVMS(text){
 
 async function toggleGreenWave(){
   try {
-    const res = await fetch('/api/action/green_wave', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({active: !greenWaveActive})
-    });
+    const res = await fetch('/api/action/green_wave', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({active: !greenWaveActive})});
     const d = await res.json();
     setGreenWaveState(d.green_wave_active);
-    toast(d.green_wave_active ? '🟢 Green Wave Active on NH-44 Corridor' : '⚪ Green wave returned to normal cycle');
+    toast(d.green_wave_active ? '🟢 Green Wave active on the ambulance corridor' : '⚪ Signals returned to normal cycle');
   } catch(e) {
-    setGreenWaveState(!greenWaveActive);
+    toast('Could not reach the signal controller');
   }
 }
 
 function setGreenWaveState(active){
-  greenWaveActive = active;
-  const txt = $('gwStatusText');
-  const btn = $('btnToggleGw');
-  if(txt){
-    txt.textContent = active ? 'ACTIVE (PRE-EMPTED)' : 'OFFLINE';
-    txt.style.color = active ? 'var(--grn)' : 'var(--mut)';
-  }
-  if(btn){
-    btn.textContent = active ? 'Deactivate Corridor Green Wave' : 'Activate Corridor Green Wave';
-  }
+  greenWaveActive = !!active;
+  const txt = $('gwStatusText'), btn = $('btnToggleGw');
+  if(txt){ txt.textContent = greenWaveActive ? 'ACTIVE (PRE-EMPTED)' : 'OFFLINE'; txt.style.color = greenWaveActive ? 'var(--grn)' : 'var(--mut)'; }
+  if(btn) btn.textContent = greenWaveActive ? 'Deactivate Corridor Green Wave' : 'Activate Corridor Green Wave';
 }
 
-function triggerManualSync(){
-  toast('Syncing with Traffic Police grid…');
-  fetchPoliceIncidents();
+function triggerManualSync(){ toast('Syncing with Traffic Police grid…'); refresh(); }
+
+/* ---------- patrols & gantries ---------- */
+function renderPatrols(){
+  const k = D.kpi, cards = D.patrols.map(p => `<div class="sc">
+      <span class="pill red">${esc(p.status)}</span>
+      <h3 style="margin:10px 0 4px">PCR Van #${esc(p.id)}</h3>
+      <p>Incident: <strong>${esc(p.incident_id)}</strong></p>
+      <p>${esc(p.location)}</p>
+      <div class="row" style="margin-top:10px"><button class="b grn sm" onclick="clearHazard('${esc(p.incident_id)}')">✔ Lane cleared</button><button class="b g sm" onclick="showOnMap('${esc(p.incident_id)}')">Map ↗</button></div>
+    </div>`);
+  cards.push(`<div class="sc"><span class="pill green">ON HIGHWAY PATROL</span><h3 style="margin:10px 0 4px">${k.pcr_fleet - k.pcr_deployed} PCR Vans</h3>
+    <p>Available for the next hazard</p><p>${incidents.filter(i => i.ops.step < 2).length} open hazard(s) still waiting for a van</p></div>`);
+  $('patrolContainer').innerHTML = cards.join('');
 }
 
+function renderBoards(){
+  $('vmsBoards').innerHTML = D.boards.map(b => `<div class="sc" style="padding:12px">
+    <span class="pill ${b.active ? 'orange' : ''}">${b.active ? 'BROADCASTING' : 'NORMAL'}</span>
+    <h4 style="margin:6px 0 2px;color:var(--ink)">${esc(b.id)} · ${esc(b.name)}</h4>
+    <p style="font-family:monospace;font-size:11px">${esc(b.text)}</p>
+    ${b.active ? `<p style="font-size:11px">Warning for: ${b.hazards.map(esc).join(', ')}</p>` : ''}</div>`).join('');
+}
+
+/* ---------- map ---------- */
 function initPoliceMap(){
-  if(mapInstance) return;
-  mapInstance = L.map('policeMap').setView(RNMap.center, 12);
-  RNMap.addTiles(mapInstance, 'streets');
+  if(!mapInstance){
+    mapInstance = L.map('policeMap').setView(RNMap.center, 12);
+    RNMap.addTiles(mapInstance, 'streets');
+    mapLayer = RNPortal.layer(mapInstance);
+  }
+  mapInstance.invalidateSize();
   refreshPoliceMap();
 }
 
-function refreshPoliceMap(){
-  if(!mapInstance) return;
-  markers.forEach(m => mapInstance.removeLayer(m));
-  markers = [];
-
-  // Add VMS signs
-  const vmsLocations = [
-    {pos: [RNMap.center[0] + 0.012, RNMap.center[1] + 0.010], name: "VMS Gantry 1: Corridor northbound"},
-    {pos: [RNMap.center[0] - 0.010, RNMap.center[1] + 0.016], name: "VMS Gantry 2: Corridor entry ramp"},
-    {pos: [RNMap.center[0] + 0.018, RNMap.center[1] - 0.012], name: "VMS Gantry 3: Overpass southbound"}
-  ];
-
-  vmsLocations.forEach(v => {
-    const marker = L.marker(v.pos).addTo(mapInstance);
-    marker.bindPopup(`<b>📢 ${v.name}</b><br>Status: Broadcasting advisory`);
-    markers.push(marker);
-  });
-
+function refreshPoliceMap(focus){
+  if(!mapLayer || !D) return;
+  const pts = D.boards.map(b => ({id: b.id, lat: b.lat, lng: b.lng, radius: 5, color: b.active ? '#0071e3' : '#8e8e93', stroke: '#0071e3',
+    tip: `📢 ${b.id} · ${b.active ? 'broadcasting' : 'normal'}`, popup: `<b>📢 ${esc(b.id)}</b><br>${esc(b.name)}<br><small>${esc(b.text)}</small>`}));
   incidents.forEach(inc => {
-    const lat = inc.gps ? inc.gps[0] : 28.6300;
-    const lng = inc.gps ? inc.gps[1] : 77.2050;
-    const isAcc = String(inc.type || '').includes('accident');
-
-    const circle = L.circleMarker([lat, lng], {
-      color: isAcc ? '#ff3b30' : '#ff9f0a',
-      fillColor: isAcc ? '#ff3b30' : '#ff9f0a',
-      fillOpacity: 0.85,
-      radius: 9
-    }).addTo(mapInstance);
-
-    circle.bindPopup(`
-      <b>🚨 Hazard: ${inc.id}</b><br>
-      ${inc.location_name}<br>
-      <button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#ff9f0a;color:#fff;border:0;cursor:pointer" onclick="deployPCR('${inc.id}', '${inc.location_name}')">Deploy PCR Van</button>
-    `);
-    markers.push(circle);
+    const isAcc = inc.type === 'severe_accident', done = inc.ops.step >= 3;
+    const color = done ? '#30a14e' : isAcc ? '#ff3b30' : '#ff9f0a';
+    pts.push({id: inc.id, lat: inc.lat, lng: inc.lng, color, radius: isAcc ? 10 : 8, opacity: done ? 0.45 : 0.9, pulse: !done && RNPortal.isFresh(inc),
+      tip: `${inc.id} · ${LABEL[inc.type] || inc.type} · ${STEPS[inc.ops.step]}`,
+      popup: `<b>🚨 ${esc(LABEL[inc.type] || inc.type)}: ${esc(inc.id)}</b><br>${esc(inc.location_name)}<br><small>Police: ${STEPS[inc.ops.step]}</small><br>` +
+        (done ? '' : inc.ops.step < 2 ? `<button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#ff9f0a;color:#fff;border:0;cursor:pointer" onclick="deployPCR('${esc(inc.id)}')">Deploy PCR Van</button>`
+          : `<button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#30a14e;color:#fff;border:0;cursor:pointer" onclick="clearHazard('${esc(inc.id)}')">Mark lane cleared</button>`)});
   });
-  if(!window._rnFit && markers.filter(m => m.getRadius).length){ try{ mapInstance.fitBounds(L.featureGroup(markers.filter(m => m.getRadius)).getBounds().pad(0.25), {maxZoom:13}); window._rnFit=1; }catch(e){} }
+  mapLayer.sync(pts, focus);
+  const k = D.kpi;
+  $('mapSub').textContent = `${k.active} open hazard${k.active === 1 ? '' : 's'} · ${k.vms_active} of ${k.vms_total} VMS gantries broadcasting · blue dots are gantries`;
 }
 
-fetchPoliceIncidents();
-setInterval(fetchPoliceIncidents, (window.RN_CONFIG && RN_CONFIG.stream && RN_CONFIG.stream.incidentPollMs) || 5000);
+function showOnMap(id){
+  switchNav('map');
+  setTimeout(() => mapLayer && mapLayer.focus(id, 15), 120);
+}
 </script>
 </body></html>

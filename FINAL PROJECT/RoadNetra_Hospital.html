@@ -61,7 +61,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
     <div class="stc">
       <span class="dot"></span><b>CCTV Telemetry: Live</b><br>
       Model B (Accident): Live<br>
-      Police Signal Link: Active
+      <span class="rn-live" id="rnLive"><i></i> Connecting…</span>
     </div>
   </aside>
 
@@ -88,10 +88,10 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
         </div>
 
         <div class="g4">
-          <div class="sc"><span class="pill red">COLLISIONS</span><b id="kpiAccidents">0</b><h4>Active Accident Alerts</h4><p>High kinetic impact</p></div>
-          <div class="sc"><span class="pill green">FLEET READY</span><b id="kpiAmb">4 / 6</b><h4>ALS Ambulances Available</h4><p>Oxygen &amp; Ventilator ready</p></div>
-          <div class="sc"><span class="pill blue">AVG ETA</span><b id="kpiEta">6.8 Mins</b><h4>Pre-Empted Arrival Time</h4><p>Using Green Wave corridors</p></div>
-          <div class="sc"><span class="pill orange">GOLDEN HOUR</span><b id="kpiCompliance">96.2%</b><h4>Golden Hour Success Rate</h4><p>&lt; 15 Min definitive care</p></div>
+          <div class="sc"><span class="pill red">COLLISIONS</span><b id="kpiAccidents">–</b><h4>Active Accident Alerts</h4><p id="kpiAccidentsSub">Awaiting patient handover</p></div>
+          <div class="sc"><span class="pill green">FLEET READY</span><b id="kpiAmb">–</b><h4>ALS Ambulances Available</h4><p id="kpiAmbSub">Oxygen &amp; ventilator ready</p></div>
+          <div class="sc"><span class="pill blue">AVG ETA</span><b id="kpiEta">–</b><h4>Ambulance ETA to Scene</h4><p id="kpiEtaSub">Road distance from trauma centre</p></div>
+          <div class="sc"><span class="pill orange">GOLDEN HOUR</span><b id="kpiCompliance">–</b><h4>Golden Hour Success Rate</h4><p id="kpiComplianceSub">Patient received &lt; 60 min after detection</p></div>
         </div>
 
         <div class="card">
@@ -108,44 +108,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
           <span class="pill red">ALS &amp; BLS Units</span>
           <h2 style="margin:10px 0 6px">108 Emergency Ambulance Fleet Telemetry</h2>
           <p>State-wide fleet monitored via AIS-140 GPS transponders and siren-pre-emption beacons.</p>
-          <div class="g3" style="margin-top:18px">
-            <div class="sc">
-              <span class="pill red">DISPATCHED · SIREN ON</span>
-              <h3 style="margin:10px 0 4px">ALS Unit #108-04</h3>
-              <p>Vehicle: Force Traveller Advanced Life Support</p>
-              <p>Crew: Dr. Arvind (Emergency Physician) + Paramedic Rohit</p>
-              <p>Equipment: Hamilton T1 Ventilator · ZOLL X-Series Defib</p>
-              <div class="bar"><i style="width:70%;background:var(--red)"></i></div>
-              <small style="color:var(--mut)">ETA to NH-44 Collision: <strong>4 Mins</strong></small>
-              <div class="row" style="margin-top:10px">
-                <button class="b sm" onclick="toast('Direct link to onboard physician active')">📞 Hospital Patch</button>
-                <button class="b grn sm" onclick="toggleGreenWave()">Pre-empt Signals</button>
-              </div>
-            </div>
-
-            <div class="sc">
-              <span class="pill green">STANDBY IN BAY 1</span>
-              <h3 style="margin:10px 0 4px">ALS Unit #108-02</h3>
-              <p>Location: AIIMS Trauma Hub Outer Ring Road</p>
-              <p>Crew: Paramedic Meera + Driver Suresh</p>
-              <p>Equipment: Automated CPR Lucas 3 · ECMO Transport</p>
-              <div class="bar"><i style="width:100%;background:var(--grn)"></i></div>
-              <small style="color:var(--mut)">Ready for immediate zero-delay rollout</small>
-              <div class="row" style="margin-top:10px">
-                <button class="b sm" onclick="toast('ALS Unit #108-02 rolled out on priority')">🚀 Roll Out Unit</button>
-              </div>
-            </div>
-
-            <div class="sc">
-              <span class="pill orange">RETURNING FROM CALL</span>
-              <h3 style="margin:10px 0 4px">BLS Unit #108-07</h3>
-              <p>En route back from Safdarjung ER</p>
-              <p>Crew: EMT Vikram + Driver Lalit</p>
-              <p>Status: Sanitization &amp; restocking sterile kits</p>
-              <div class="bar"><i style="width:35%;background:var(--org)"></i></div>
-              <small style="color:var(--mut)">Available in: ~18 mins</small>
-            </div>
-          </div>
+          <div class="g3" style="margin-top:18px" id="fleetContainer"><p>Loading fleet…</p></div>
         </div>
       </section>
 
@@ -155,32 +118,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
           <span class="pill red">Trauma Resuscitation</span>
           <h2 style="margin:10px 0 6px">Trauma Bay &amp; ICU Bed Allocation</h2>
           <p>Real-time bed availability for immediate polytrauma receiving and neuro-surgical intervention.</p>
-          <div class="g4" style="margin-top:16px">
-            <div class="sc">
-              <h4>Red Resus Bays</h4>
-              <b style="color:var(--red)">3 / 4</b>
-              <p>Bay 1, 2, 4 vacant for incoming</p>
-              <button class="b sm" style="margin-top:8px" onclick="toast('Red Bay 1 reserved for incoming collision')">Reserve Bay 1</button>
-            </div>
-            <div class="sc">
-              <h4>Neuro-Trauma ICU</h4>
-              <b style="color:var(--blue)">8 / 12</b>
-              <p>Dedicated intracranial pressure monitoring</p>
-              <button class="b g sm" style="margin-top:8px" onclick="toast('ICU alerted for incoming patient')">Pre-Alert Team</button>
-            </div>
-            <div class="sc">
-              <h4>Blood Bank O-Neg</h4>
-              <b style="color:var(--org)">14 Units</b>
-              <p>Universal donor PRBC on standby</p>
-              <button class="b g sm" style="margin-top:8px" onclick="toast('Cross-matching 4 units O-Negative')">Hold 4 Units</button>
-            </div>
-            <div class="sc">
-              <h4>Emergency OR 02</h4>
-              <b style="color:var(--grn)">CLEARED</b>
-              <p>Ortho &amp; Vascular surgery team on floor</p>
-              <button class="b grn sm" style="margin-top:8px" onclick="toast('OR 02 pre-warmed for laparotomy')">Pre-Warm OR</button>
-            </div>
-          </div>
+          <div class="g4" style="margin-top:16px" id="bedsContainer"></div>
         </div>
       </section>
 
@@ -191,15 +129,10 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
           <h2 style="margin:10px 0 6px">Golden Hour Countdown &amp; Protocol Compliance</h2>
           <p>Definitive surgical resuscitation achieved within the first 60 minutes saves 84% of polytrauma victims.</p>
           <div style="background:var(--soft);border-radius:18px;padding:26px;text-align:center;margin:18px 0">
-            <small style="color:var(--mut);letter-spacing:.1em">ACTIVE INCIDENT TRAUMA CLOCK</small>
-            <div id="ghTimer" style="font-size:64px;font-weight:800;color:var(--red);margin:10px 0">48:12</div>
-            <p style="margin:0;font-size:14px">Minutes remaining until Golden Hour critical care threshold</p>
-            <div class="row" style="justify-content:center;margin-top:16px">
-              <span class="pill green">✓ Detection: 00:32s</span>
-              <span class="pill green">✓ ALS Dispatch: 01:15s</span>
-              <span class="pill red">● En Route: 04:20s</span>
-              <span class="pill blue">Pending: Hospital Arrival</span>
-            </div>
+            <small style="color:var(--mut);letter-spacing:.1em" id="ghLabel">ACTIVE INCIDENT TRAUMA CLOCK</small>
+            <div id="ghTimer" style="font-size:64px;font-weight:800;color:var(--red);margin:10px 0">--:--</div>
+            <p style="margin:0;font-size:14px" id="ghSub">No active collision. The clock starts automatically when Model B confirms an accident.</p>
+            <div class="row" style="justify-content:center;margin-top:16px" id="ghSteps"></div>
           </div>
         </div>
       </section>
@@ -211,7 +144,7 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
             <div>
               <span class="pill red">Emergency Route Pre-Emption</span>
               <h2 style="margin:10px 0 4px">Ambulance Corridor &amp; Accident Map</h2>
-              <p>Green Wave pre-emption active along NH-44 corridor to AIIMS Apex Trauma Centre.</p>
+              <p id="mapSub">Detected collisions, ambulance corridors and the receiving trauma centre.</p>
             </div>
             <button class="b sm" onclick="refreshHospMap()">↻ Center Hospital</button>
           </div>
@@ -224,14 +157,11 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
 
 <div class="toast" id="toast"></div>
 
+<script src="/static/rn-portal.js"></script>
 <script>
-let incidents = [];
-let mapInstance = null;
-// Receiving trauma centre: set MAP_DEFAULT_LAT / MAP_DEFAULT_LNG in frontend/.env
-const HOSPITAL_POS = (window.RNMap && RNMap.center) || [28.6289, 77.2065];
-let markers = [];
-let greenWaveActive = false;
-let secondsRemaining = 48 * 60 + 12;
+const {esc, ago, clock, time} = RNPortal;
+let D = null, incidents = [], mapInstance = null, mapLayer = null, hospMarker = null, greenWaveActive = false;
+let golden = null, goldenAt = 0;  // most urgent active accident + when it was received (for the 1 s countdown)
 
 function $(id){ return document.getElementById(id); }
 
@@ -240,7 +170,7 @@ function toast(msg){
   t.textContent = msg;
   t.classList.add('on');
   clearTimeout(t.timer);
-  t.timer = setTimeout(() => t.classList.remove('on'), 3000);
+  t.timer = setTimeout(() => t.classList.remove('on'), 4000);
 }
 
 function toggleTheme(){
@@ -252,13 +182,10 @@ function toggleTheme(){
 function switchNav(pg){
   document.querySelectorAll('.side .lk').forEach(b => b.classList.remove('on'));
   document.querySelectorAll('.pgs section').forEach(s => s.hidden = true);
-  
   const btn = document.querySelector(`.side .lk[data-pg="${pg}"]`);
   if(btn) btn.classList.add('on');
-  
   const sec = $('sec-' + pg);
   if(sec) sec.hidden = false;
-
   const titles = {
     sos: "Emergency SOS & Collision Stream",
     fleet: "108 Ambulance Fleet Telemetry",
@@ -267,219 +194,236 @@ function switchNav(pg){
     map: "Corridor Green Wave & Traffic Map"
   };
   $('pgTitle').textContent = titles[pg] || "108 Trauma Command";
-
-  if(pg === 'map'){
-    setTimeout(initHospMap, 200);
-  }
+  if(pg === 'map') setTimeout(initHospMap, 50);
 }
 
-document.querySelectorAll('.side .lk[data-pg]').forEach(b => {
-  b.onclick = () => switchNav(b.dataset.pg);
-});
+document.querySelectorAll('.side .lk[data-pg]').forEach(b => { b.onclick = () => switchNav(b.dataset.pg); });
 
-async function fetchHospIncidents(){
-  try {
-    const res = await fetch('/api/incidents?agency=hospital');
-    if(!res.ok) throw new Error('API failed');
-    incidents = await res.json();
+/* ---------- live data: /api/operations?portal=hospital ---------- */
+function onData(d, {changed, fresh}){
+  D = d;
+  incidents = d.incidents;
+  setGreenWaveUI(d.live.green_wave_active);
+  updateKPIs();
+  golden = d.golden; goldenAt = Date.now(); tickGolden();
+  if(changed){
     renderHospIncidents();
-    $('kpiAccidents').textContent = incidents.length;
-
-    const sres = await fetch('/api/summary');
-    if(sres.ok){
-      const sum = await sres.json();
-      if(sum.green_wave_active !== undefined){
-        setGreenWaveUI(sum.green_wave_active);
-      }
-    }
-  } catch(e) {
-    console.error("Fetch error:", e);
+    renderFleet();
+    renderBeds();
+    renderGoldenSteps();
+    refreshHospMap(fresh[0]);
   }
+  fresh.forEach(i => toast(`🚨 NEW ACCIDENT ${i.id} · ${i.location_name} · ${Math.round(i.confidence * 100)}% · ETA ${i.ops.eta_left} min`));
+}
+const refresh = RNPortal.start('hospital', onData);
+
+function updateKPIs(){
+  const k = D.kpi;
+  $('kpiAccidents').textContent = k.active;
+  $('kpiAccidentsSub').textContent = `${k.received} patient${k.received === 1 ? '' : 's'} received so far`;
+  $('kpiAmb').textContent = `${k.ambulances_free} / ${k.fleet}`;
+  $('kpiAmbSub').textContent = k.ambulances_free < k.fleet ? `${k.fleet - k.ambulances_free} on active runs` : 'All units on standby';
+  $('kpiEta').textContent = k.avg_eta == null ? '—' : `${k.avg_eta} Mins`;
+  $('kpiEtaSub').textContent = k.avg_eta == null ? 'No active collision' : (greenWaveActive ? 'Green Wave corridor speed' : 'Normal traffic speed');
+  $('kpiCompliance').textContent = k.golden_rate == null ? '—' : `${k.golden_rate.toFixed(1)}%`;
+  $('kpiComplianceSub').textContent = k.received ? `${k.received} completed run${k.received === 1 ? '' : 's'} · received < 60 min` : 'No completed runs yet';
 }
 
 function renderHospIncidents(){
   const container = $('hospIncidentsContainer');
   if(!incidents.length){
-    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--mut)">No active highway collision alerts. Edge cameras in dual-stream monitoring.</div>`;
+    container.innerHTML = `<div style="text-align:center;padding:30px;color:var(--mut)">No highway collision alerts. Edge cameras in dual-stream monitoring.</div>`;
     return;
   }
-
-  container.innerHTML = incidents.map(inc => {
-    const imgUrl = inc.image_url || '/static/evidence/accident_1.jpg';
+  const list = [...incidents].sort((a, b) => (a.ops.step >= 3) - (b.ops.step >= 3) || (b.detected_at || '').localeCompare(a.detected_at || ''));
+  container.innerHTML = list.map(inc => {
+    const o = inc.ops, done = o.step >= 3, dispatched = o.step >= 2 && !done;
+    const status = done ? `<span class="pill green">✔ Patient received ${o.received_at ? time(o.received_at) : ''}${o.golden_met ? ' · within golden hour' : ''}</span>`
+      : dispatched ? `<span class="pill red">🚑 ${esc(o.unit || 'Ambulance')} en route · ETA ${o.eta_left} min</span>`
+      : `<span class="pill orange">Awaiting dispatch · ${o.distance_km} km · ETA ${greenWaveActive ? o.eta_green_wave : o.eta_normal} min</span>`;
     return `
-    <div class="ic">
-      <img src="${imgUrl}" alt="Accident Evidence" onerror="this.onerror=null;this.src='/static/evidence/accident_1.jpg';">
+    <div class="ic${done ? ' done' : ''}${RNPortal.isFresh(inc) ? ' fresh' : ''}">
+      <img src="${esc(inc.image_url || '/static/evidence/accident_1.jpg')}" alt="Accident evidence" loading="lazy" onerror="this.onerror=null;this.src='/static/evidence/accident_1.jpg';">
       <div class="ib">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
           <div>
-            <span class="pill red" style="font-weight:700">CRITICAL COLLISION · ${inc.id}</span>
-            <span class="bd ${inc.severity}">${inc.severity}</span>
+            <span class="pill red" style="font-weight:700">${done ? 'CLOSED' : 'CRITICAL COLLISION'} · ${esc(inc.id)}</span>
+            <span class="bd ${esc(inc.severity)}">${esc(inc.severity)}</span>
+            ${inc.source === 'seed' ? '<span class="pill" style="margin-left:6px">SAMPLE</span>' : ''}
           </div>
-          <small style="color:var(--mut)">${inc.timestamp || 'Real-time'}</small>
+          <small style="color:var(--mut)">Detected ${time(inc.detected_at)} · ${ago(inc.detected_at)}</small>
         </div>
-        <h4 style="margin:6px 0 2px;font-size:16px;color:var(--red)">${inc.title || 'Highway Vehicle Collision'}</h4>
-        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${inc.location_name} · <strong>Conf:</strong> ${Math.round((inc.confidence||0.9)*100)}%</p>
-        
+        <h4 style="margin:6px 0 2px;font-size:16px;color:var(--red)">${esc((inc.title || 'Highway Vehicle Collision').replace('[Sample] ', ''))}</h4>
+        <p style="font-size:13px;margin-bottom:4px"><strong>Location:</strong> ${esc(inc.location_name)} · <strong>Conf:</strong> ${Math.round((inc.confidence || 0) * 100)}% · ${inc.frames_confirmed || 1} frame(s)</p>
         <div style="background:#fee2e222;border-left:3px solid var(--red);padding:6px 10px;border-radius:6px;font-size:12px;margin:6px 0">
-          <strong>Kinetic Signature:</strong> ${inc.judge_reason || 'Severe impact deformation and rollover detected'}
+          <strong>Kinetic Signature:</strong> ${esc(inc.judge_reason || 'Severe impact detected')}
         </div>
-
-        <div class="row" style="margin-top:10px">
-          <button class="b sm" onclick="dispatchAmbulance('${inc.id}')">🚑 Dispatch ALS Unit</button>
-          <button class="b grn sm" onclick="toggleGreenWave()">🟢 Pre-empt Signal Corridor</button>
-          <button class="b g sm" onclick="markResolved('${inc.id}')">Mark Patient Received</button>
-        </div>
+        <div class="row">${status}${!done ? `<span class="pill">Golden hour left: ${clock(o.golden_left_s)}</span>` : ''}</div>
+        ${done ? '' : `<div class="row" style="margin-top:6px">
+          ${dispatched ? '' : `<button class="b sm" onclick="dispatchAmbulance('${esc(inc.id)}')">🚑 Dispatch ALS Unit</button>`}
+          <button class="b grn sm" onclick="toggleGreenWave()">${greenWaveActive ? '⚪ Release' : '🟢 Pre-empt'} Signal Corridor</button>
+          <button class="b g sm" onclick="markResolved('${esc(inc.id)}')">Mark Patient Received</button>
+          <button class="b g sm" onclick="showOnMap('${esc(inc.id)}')">Map ↗</button>
+        </div>`}
       </div>
-    </div>
-    `;
+    </div>`;
   }).join('');
 }
 
 async function dispatchAmbulance(id){
   try {
     const res = await fetch('/api/action/ambulance', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({incident_id: id})
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({incident_id: id})
     });
     const d = await res.json();
-    if(d.success){
-      toast(`🚑 Unit ${d.ambulance} dispatched with siren! ETA: ${d.eta_mins} mins`);
-      setGreenWaveUI(true);
-      fetchHospIncidents();
-    }
+    if(!d.success) return toast('⚠️ ' + (d.error || 'Dispatch failed'));
+    toast(d.already ? `🚑 ${d.ambulance} is already on this run` : `🚑 ${d.ambulance} dispatched with siren · ${d.distance_km} km · ETA ${d.eta_mins} min`);
+    refresh();
   } catch(e) {
-    toast('Ambulance dispatch command sent!');
+    toast('Could not reach the dispatch server');
   }
 }
 
 function triggerAmbulanceGlobal(){
-  dispatchAmbulance(incidents.length ? incidents[0].id : 'INC-2026-0815');
+  const next = incidents.filter(i => i.ops.step < 2).sort((a, b) => a.ops.golden_left_s - b.ops.golden_left_s)[0];
+  if(!next) return toast('No collision is waiting for an ambulance');
+  dispatchAmbulance(next.id);
 }
 
 async function toggleGreenWave(){
   try {
     const res = await fetch('/api/action/green_wave', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({active: !greenWaveActive})
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({active: !greenWaveActive})
     });
     const d = await res.json();
     setGreenWaveUI(d.green_wave_active);
-    toast(d.green_wave_active ? '🟢 Police Green Wave ACTIVE on NH-44 Corridor' : '⚪ Green wave returned to normal cycle');
+    toast(d.green_wave_active ? '🟢 Police Green Wave ACTIVE on the ambulance corridor' : '⚪ Signals returned to normal cycle');
+    refresh();
   } catch(e) {
-    setGreenWaveUI(!greenWaveActive);
+    toast('Could not reach the signal controller');
   }
 }
 
 function setGreenWaveUI(active){
-  greenWaveActive = active;
+  greenWaveActive = !!active;
   const ind = $('gwIndicator');
-  if(ind) ind.style.display = active ? 'inline-flex' : 'none';
+  if(ind) ind.style.display = greenWaveActive ? 'inline-flex' : 'none';
 }
 
 async function markResolved(id){
   try {
-    await fetch(`/api/incidents/${id}/action`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({status: 'Resolved', authority: 'hosp', note: 'Patient successfully admitted to Apex Trauma ICU'})
+    await fetch(`/api/incidents/${encodeURIComponent(id)}/action`, {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({authority: 'hosp', step: 3, note: 'Patient received at ' + (D ? D.hospital.name : 'trauma centre')})
     });
-    toast(`Patient admitted to Apex Trauma Centre.`);
-    fetchHospIncidents();
+    toast(`Patient from ${id} received at ${D ? D.hospital.name : 'trauma centre'}`);
+    refresh();
   } catch(e) {
-    toast('Marked admitted');
+    toast('Could not update the incident');
   }
 }
 
 async function simulateAccidentAlert(){
+  const cams = (window.RN_CONFIG && RN_CONFIG.cameras || []).filter(c => c.status === 'online');
+  const cam = cams[Math.floor(Math.random() * cams.length)] || {};
   try {
     const res = await fetch('/api/incidents/create', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        type: 'accident',
-        conf: 0.96,
-        location_name: 'NH-44 Highway, Km 16.8 (Expressway Flyover)',
-        judge_reason: 'Kinetic deformation detected: Lateral vehicle collision with crushed chassis'
-      })
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({type: 'accident', conf: 0.96, camera_id: cam.id, judge_reason: 'Test collision raised from the hospital desk'})
     });
     const d = await res.json();
-    if(d.success){
-      toast(`🚨 Critical Accident Alert Dispatched: ${d.incident.id}`);
-      fetchHospIncidents();
-    }
+    if(d.success){ toast(`🚨 Test accident alert: ${d.incident.id}`); refresh(); }
   } catch(e) {
-    toast('Accident alert dispatched');
+    toast('Could not create the test alert');
   }
 }
 
-function triggerManualSync(){
-  toast('Syncing with 108 emergency grid…');
-  fetchHospIncidents();
+function triggerManualSync(){ toast('Syncing with 108 emergency grid…'); refresh(); }
+
+/* ---------- fleet, beds, golden hour ---------- */
+function renderFleet(){
+  $('fleetContainer').innerHTML = D.units.map(u => {
+    const busy = !!u.incident_id;
+    return `<div class="sc">
+      <span class="pill ${busy ? 'red' : 'green'}">${esc(u.status)}</span>
+      <h3 style="margin:10px 0 4px">ALS Unit #${esc(u.id)}</h3>
+      <p>${busy ? 'Responding to' : 'Location'}: <strong>${esc(busy ? u.incident_id + ' · ' + u.location : u.location)}</strong></p>
+      <p>Equipment: ventilator · defibrillator · trauma kit</p>
+      <div class="bar"><i style="width:${busy ? 70 : 100}%;background:var(--${busy ? 'red' : 'grn'})"></i></div>
+      <small style="color:var(--mut)">${busy ? `ETA to scene: <strong>${u.eta_left} min</strong>` : 'Ready for immediate rollout'}</small>
+      ${busy ? `<div class="row" style="margin-top:10px"><button class="b g sm" onclick="showOnMap('${esc(u.incident_id)}')">Track on map</button></div>` : ''}
+    </div>`;
+  }).join('');
 }
 
+function renderBeds(){
+  const b = D.beds;
+  $('bedsContainer').innerHTML = [
+    ['Red Resus Bays', `${b.bays_free} / ${b.bays_total}`, b.incoming ? `${b.incoming} reserved for incoming collision patient${b.incoming === 1 ? '' : 's'}` : 'All bays free', 'var(--red)'],
+    ['Neuro-Trauma ICU Pre-Alerts', b.icu_prealerts, 'Critical incoming patients flagged to ICU', 'var(--blue)'],
+    ['Blood Bank O-Neg Held', `${b.blood_units_held} Units`, '4 units cross-matched per incoming patient', 'var(--org)'],
+    ['Emergency OR', b.incoming ? 'ON STANDBY' : 'CLEARED', b.incoming ? 'Trauma team called for incoming patients' : 'No incoming trauma', 'var(--grn)'],
+  ].map(t => `<div class="sc"><h4>${t[0]}</h4><b style="color:${t[3]}">${t[1]}</b><p>${t[2]}</p></div>`).join('');
+}
+
+function renderGoldenSteps(){
+  const g = D.golden;
+  if(!g){ $('ghSteps').innerHTML = ''; return; }
+  const dispatch = g.dispatched_at ? `<span class="pill green">✓ ALS dispatch: +${clock(g.dispatch_after_s)}</span>` : `<span class="pill red">● Awaiting ALS dispatch</span>`;
+  $('ghSteps').innerHTML = `<span class="pill green">✓ Detected: ${time(g.detected_at)}</span>${dispatch}
+    ${g.dispatched_at ? `<span class="pill red">● ${esc(g.unit || 'Ambulance')} en route · ETA ${g.eta_left} min</span>` : ''}
+    <span class="pill blue">Pending: Hospital arrival</span>`;
+}
+
+function tickGolden(){
+  if(!golden){
+    $('ghTimer').textContent = '--:--';
+    $('ghLabel').textContent = 'ACTIVE INCIDENT TRAUMA CLOCK';
+    $('ghSub').textContent = 'No active collision. The clock starts automatically when Model B confirms an accident.';
+    return;
+  }
+  const left = golden.seconds_left - (Date.now() - goldenAt) / 1000;
+  $('ghTimer').textContent = clock(left);
+  $('ghLabel').textContent = `MOST URGENT · ${golden.incident_id}`;
+  $('ghSub').textContent = left > 0 ? `Minutes remaining in the golden hour · ${golden.location}` : `Golden hour exceeded · ${golden.location}`;
+}
+setInterval(tickGolden, 1000);
+
+/* ---------- map ---------- */
 function initHospMap(){
-  if(mapInstance) return;
-  mapInstance = L.map('hospMap').setView(RNMap.center, 12);
-  RNMap.addTiles(mapInstance, 'streets');
-
-  // Hospital Icon
-  const hospMarker = L.marker(HOSPITAL_POS).addTo(mapInstance);
-  hospMarker.bindPopup("<b>🏥 Apex Trauma Hospital</b><br>Level 1 Trauma Facility<br>Resus Bays 1-4 Ready").openPopup();
-
+  if(!mapInstance){
+    mapInstance = L.map('hospMap').setView(RNMap.center, 12);
+    RNMap.addTiles(mapInstance, 'streets');
+    mapLayer = RNPortal.layer(mapInstance);
+  }
+  mapInstance.invalidateSize();
   refreshHospMap();
 }
 
-function refreshHospMap(){
-  if(!mapInstance) return;
-  markers.forEach(m => mapInstance.removeLayer(m));
-  markers = [];
-
+function refreshHospMap(focus){
+  if(!mapLayer || !D) return;
+  const H = D.hospital;
+  if(!hospMarker){
+    hospMarker = L.marker([H.lat, H.lng]).addTo(mapInstance).bindPopup(`<b>🏥 ${esc(H.name)}</b><br>Receiving trauma centre`);
+  }
+  const pts = [];
   incidents.forEach(inc => {
-    const lat = inc.gps ? inc.gps[0] : 28.6420;
-    const lng = inc.gps ? inc.gps[1] : 77.2280;
-
-    const circle = L.circleMarker([lat, lng], {
-      color: '#ff3b30',
-      fillColor: '#ff3b30',
-      fillOpacity: 0.85,
-      radius: 10
-    }).addTo(mapInstance);
-
-    circle.bindPopup(`
-      <b>🚨 Collision: ${inc.id}</b><br>
-      ${inc.location_name}<br>
-      <button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#ff3b30;color:#fff;border:0;cursor:pointer" onclick="dispatchAmbulance('${inc.id}')">Dispatch ALS Unit</button>
-    `);
-    markers.push(circle);
-
-    // Green corridor route line
-    const corridor = L.polyline([
-      HOSPITAL_POS,
-      [lat, lng]
-    ], {
-      color: '#16a34a',
-      weight: 4,
-      dashArray: '8, 8'
-    }).addTo(mapInstance);
-    markers.push(corridor);
+    const o = inc.ops, done = o.step >= 3;
+    pts.push({id: inc.id, lat: inc.lat, lng: inc.lng, color: done ? '#30a14e' : '#ff3b30', radius: done ? 7 : 10, opacity: done ? 0.45 : 0.9,
+      pulse: !done && RNPortal.isFresh(inc), tip: `${inc.id} · ${done ? 'received' : 'ETA ' + o.eta_left + ' min'}`,
+      popup: `<b>🚨 Collision: ${esc(inc.id)}</b><br>${esc(inc.location_name)}<br>${o.distance_km} km from ${esc(H.name)}<br>` +
+        (done ? 'Patient received' : o.step >= 2 ? `${esc(o.unit || 'Ambulance')} en route · ETA ${o.eta_left} min`
+          : `<button style="margin-top:6px;padding:3px 8px;border-radius:4px;background:#ff3b30;color:#fff;border:0;cursor:pointer" onclick="dispatchAmbulance('${esc(inc.id)}')">Dispatch ALS Unit</button>`)});
+    if(!done) pts.push({id: inc.id + ':route', lat: inc.lat, lng: inc.lng, line: [[H.lat, H.lng], [inc.lat, inc.lng]], color: greenWaveActive ? '#16a34a' : '#ff9f0a'});
   });
-  if(!window._rnFit && markers.length){ try{ mapInstance.fitBounds(L.featureGroup(markers).getBounds().pad(0.25), {maxZoom:13}); window._rnFit=1; }catch(e){} }
+  mapLayer.sync(pts, focus);
+  const active = incidents.filter(i => i.ops.step < 3).length;
+  $('mapSub').textContent = `${active} active collision${active === 1 ? '' : 's'} · ambulance corridors from ${H.name}` + (greenWaveActive ? ' · Green Wave pre-emption ON' : '');
 }
 
-// Timer countdown
-setInterval(() => {
-  if(secondsRemaining > 0){
-    secondsRemaining--;
-    const mins = Math.floor(secondsRemaining / 60);
-    const secs = secondsRemaining % 60;
-    const el = $('ghTimer');
-    if(el) el.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-  }
-}, 1000);
-
-fetchHospIncidents();
-setInterval(fetchHospIncidents, (window.RN_CONFIG && RN_CONFIG.stream && RN_CONFIG.stream.incidentPollMs) || 5000);
+function showOnMap(id){
+  switchNav('map');
+  setTimeout(() => mapLayer && mapLayer.focus(id, 15), 120);
+}
 </script>
 </body></html>

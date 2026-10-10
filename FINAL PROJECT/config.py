@@ -104,6 +104,17 @@ MERGE_WINDOW_ACCIDENT_MIN = settings.float("MERGE_WINDOW_ACCIDENT_MIN", 15)
 DEFAULT_CAMERA_ID = settings.str("DEFAULT_CAMERA_ID", "CAM-084")
 SEED_DEMO_INCIDENTS = settings.bool("SEED_DEMO_INCIDENTS", True)
 
+# ---------------- Authority resources (portal operations are computed from incidents + these) ----------------
+HOSPITAL_NAME = settings.str("HOSPITAL_NAME", "District Trauma Centre")
+HOSPITAL_LAT = settings.float("HOSPITAL_LAT", 28.4211)   # receiving trauma centre (ambulance ETAs start here)
+HOSPITAL_LNG = settings.float("HOSPITAL_LNG", 77.0130)
+AMBULANCE_FLEET = settings.int("AMBULANCE_FLEET", 6)
+TRAUMA_BAYS = settings.int("TRAUMA_BAYS", 4)
+PCR_FLEET = settings.int("PCR_FLEET", 14)
+VMS_BOARDS = settings.int("VMS_BOARDS", 8)
+ASPHALT_RATE_PER_TON = settings.float("ASPHALT_RATE_PER_TON", 4800)
+LABOUR_PER_POTHOLE = settings.float("LABOUR_PER_POTHOLE", 900)
+
 # ---------------- Frontend (frontend/.env) ----------------
 MAP_PROVIDER = settings.str("MAP_PROVIDER", "auto", frontend=True).lower()
 MAP_API_KEY = settings.str("MAP_API_KEY", "", frontend=True)

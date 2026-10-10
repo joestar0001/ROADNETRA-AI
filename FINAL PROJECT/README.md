@@ -115,7 +115,9 @@ Open `http://localhost:8080` → **Live Lab**:
 | GET | `/api/stream/<id>/summary` | Confirmed hazards and counts for a scan |
 | GET | `/api/incidents?agency=pwd\|hospital\|police&type=…` | Incident list (shared by every dashboard) |
 | GET | `/api/incidents/<id>` | One incident |
-| POST | `/api/incidents/<id>/action` | `{authority: pwd\|nhai\|hosp\|pol}` advances that authority, or `{status, authority?}` |
+| POST | `/api/incidents/<id>/action` | `{authority: pwd\|nhai\|hosp\|pol (comma list ok), step?}` advances those authorities, or `{status, authority?}` |
+| GET | `/api/operations?portal=pwd\|hospital\|police` | One poll per portal: its incidents plus figures computed from them (repair budget, SLA, ambulance ETAs, golden hour, patrols, VMS, clearance) |
+| POST | `/api/action/ambulance` | `{incident_id}` assigns a free ALS unit, ETA from road distance to the trauma centre |
 | GET | `/api/health` · `/api/summary` · `/api/cameras` · `/config.js` | Model status/latency, KPIs, camera registry, public frontend config |
 
 ---
