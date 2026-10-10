@@ -1,0 +1,4 @@
+# Vercel only proxies to the Cloud Run backend (see vercel.json); upload nothing else so it
+# never tries to bundle the PyTorch app as a serverless function.
+/*
+!vercel.json

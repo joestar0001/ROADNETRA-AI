@@ -1,5 +1,5 @@
-# RoadNetra AI · Hugging Face Docker Space (CPU)
-# Built from the folder staged by deploy/publish_space.py (app files + the 3 model weights).
+# RoadNetra AI · CPU container for Google Cloud Run or a Hugging Face Docker Space.
+# Built from the folder staged by deploy/stage_app.py (app files + the 3 model weights).
 FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1 \
@@ -26,10 +26,11 @@ RUN pip install torch torchvision --index-url https://download.pytorch.org/whl/c
  && pip install -r requirements.txt gunicorn
 
 COPY . .
-# Spaces run the container as uid 1000; the incident store, evidence and uploads must be writable
+# Run as uid 1000 (required by HF Spaces); the incident store, evidence and uploads must be writable
 RUN useradd -m -u 1000 user && mkdir -p data static/evidence static/uploads && chown -R user:user /app
 USER user
 
 EXPOSE 7860
-# One process keeps the incident store, stream sessions and portals consistent; threads serve concurrent requests
-CMD ["gunicorn", "server:app", "--workers", "1", "--threads", "8", "--timeout", "300", "--bind", "0.0.0.0:7860"]
+# One process keeps the incident store, stream sessions and portals consistent; threads serve concurrent requests.
+# $PORT is set by Cloud Run (8080); HF Spaces uses the 7860 default.
+CMD ["sh", "-c", "exec gunicorn server:app --workers 1 --threads 8 --timeout 300 --bind 0.0.0.0:${PORT:-7860}"]
