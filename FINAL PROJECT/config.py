@@ -102,7 +102,7 @@ MERGE_WINDOW_ACCIDENT_MIN = settings.float("MERGE_WINDOW_ACCIDENT_MIN", 15)
 
 # ---------------- Default camera / location ----------------
 DEFAULT_CAMERA_ID = settings.str("DEFAULT_CAMERA_ID", "CAM-084")
-SEED_DEMO_INCIDENTS = settings.bool("SEED_DEMO_INCIDENTS", True)
+SEED_DEMO_INCIDENTS = settings.bool("SEED_DEMO_INCIDENTS", False)  # portals show detected incidents only
 
 # ---------------- Authority resources (portal operations are computed from incidents + these) ----------------
 HOSPITAL_NAME = settings.str("HOSPITAL_NAME", "District Trauma Centre")

@@ -27,7 +27,7 @@ button,select,input{font:inherit;color:inherit}.b{border:0;background:var(--g);c
 .ban{background:#000;color:#f5f5f7;border-radius:20px;padding:22px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;cursor:pointer}.ban h2{font-size:24px}.ban p{color:#a1a1a6;margin:4px 0 0}.ban .b{margin-left:auto}.two{display:grid;gap:14px;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);margin-top:14px}@media(max-width:1000px){.two,.lab,.mapw{grid-template-columns:1fr!important}}
 .dz{border:1.5px dashed var(--line);border-radius:16px;padding:22px;text-align:center;cursor:pointer;margin:10px 0}.dz.hot{border-color:var(--g);background:var(--soft)}.chip{display:inline-block;margin:3px 3px 0 0;padding:4px 12px;border-radius:980px;background:var(--soft);cursor:pointer;font-size:12px}
 .stepper{display:flex;gap:6px;margin:0 0 12px}.stepper span{flex:1;text-align:center;padding:6px;border-radius:980px;background:var(--card);color:var(--mut);font-size:12px;transition:.3s}.stepper span.on{background:var(--g);color:#fff}
-.lab{display:grid;gap:14px;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr)}canvas{width:100%;border-radius:14px;background:#000;display:block}video{display:none}.drop{position:relative}.dh{position:absolute;inset:0;display:grid;place-items:center;color:#8e8e93;pointer-events:none;font-size:13px}.tel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.tel div{background:var(--soft);border-radius:12px;padding:8px;text-align:center}.tel b{display:block;font-size:18px;font-weight:600}.tel span{font-size:11px;color:var(--mut)}
+.lab{display:grid;gap:14px;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr)}canvas{width:100%;border-radius:14px;background:#000;display:block}video{position:absolute;width:2px;height:2px;opacity:0;pointer-events:none;left:0;top:0}.drop{position:relative}.dh{position:absolute;inset:0;display:grid;place-items:center;color:#8e8e93;pointer-events:none;font-size:13px}.tel{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.tel div{background:var(--soft);border-radius:12px;padding:8px;text-align:center}.tel b{display:block;font-size:18px;font-weight:600}.tel span{font-size:11px;color:var(--mut)}
 .feed{max-height:400px;overflow:auto;display:flex;flex-direction:column;gap:6px}.jc{display:flex;gap:10px;align-items:center;background:var(--soft);border-radius:12px;padding:6px 8px;border-left:3px solid var(--mut);cursor:pointer;font-size:13px}.jc.ok{border-color:var(--grn)}.jc.no{border-color:var(--red)}.jc img{width:56px;height:42px;border-radius:6px}.jc small{display:block;color:var(--mut);line-height:1.3}
 .bd{font-size:10px;padding:2px 8px;border-radius:980px;margin-left:8px;color:#fff;background:var(--mut);font-weight:500}.bd.HIGH,.bd.CRITICAL{background:var(--red)}.bd.MEDIUM{background:var(--org)}.bd.LOW{background:var(--grn)}
 .ic{display:flex;gap:12px;background:var(--card);border-radius:18px;padding:12px;margin-bottom:10px;font-size:14px}.ic img,.ph{width:130px;height:88px;border-radius:12px;object-fit:cover;flex:none;background:#2c2c2e;color:#8e8e93;display:grid;place-items:center;font-size:11px}.ib{flex:1;min-width:0}.stp{display:flex;gap:4px;margin:4px 0 6px;flex-wrap:wrap}.stp i{font-style:normal;font-size:10px;padding:2px 8px;border-radius:980px;background:var(--soft);color:var(--mut)}.stp i.on{background:var(--grn);color:#fff}@media(max-width:560px){.ic{flex-direction:column}.ic img,.ph{width:100%;height:140px}}
@@ -111,50 +111,39 @@ table.bm-tbl{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
 <div class="card"><h3>Latest incident</h3><div id="lastInc"><p>Confirmed detections appear here with confidence, location and routing.</p></div><h3 style="margin-top:14px">Judge Engine</h3><p>Tap a card to inspect or override.</p><div class="feed" id="judge"><p>Waiting for video…</p></div></div></div><div id="st2"></div></section>
 
 <section id="g-arch" hidden>
-<div class="g4" style="margin-bottom:16px">
-  <div class="sc"><b>5.9 ms</b><h4>Stage-1 Latency</h4><p>YOLOv8s on Apple Metal / CUDA</p></div>
-  <div class="sc"><b>82.3%</b><h4>Mean AP (mAP50)</h4><p>Trained on 7,639 Annotations</p></div>
-  <div class="sc"><b>99.4%</b><h4>False-Alarm Veto</h4><p>Stage-2 Semantic Judge</p></div>
-  <div class="sc"><b>86.3%</b><h4>Deduplication</h4><p>Spatial-Temporal IoU Tracker</p></div>
-</div>
+<div class="g4" style="margin-bottom:16px" id="bmKpi"></div>
 <div class="card"><div class="row" style="justify-content:space-between;align-items:center;margin-top:0"><h3>Two-stage verification pipeline</h3><span class="pill"><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAflBMVEUAAALy9foACl6syvgLJlEBHEkDIEs3gfQAASkACTlabo0zS28qePOgtdaSoLZzhaEAWFhZlvV7e3tEWnpqCyJ/fz//AAC0ah//fx////9uAG4AAP8ADTtVVap/f/+qqlUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmVc+MAAAAIHRSTlMA/Qr+16No/1eV//T//v7/Av8C/QYEAQMDAQIByQMCA7dJEAAAAANySURBVHja7ZfZmpswDEaNbbEZEwjZp+28/1tWkheWEHDma+/iiySjgR8t1rEQ4rM+618vSR9HOTcd70chf6CzbnpTSVTaaCjnJlha9v2pjM1wHXTwQN4r06KlNVW6T6hzyNxSWlzk3HRIVpKirLOwFNBt3mR78rMuE5WOF00KtOg2FxyZiqZpCvzWaVnH/5sghEq2Cg71TVEUTc/aKVLuLhWEMhCdECUmmnRQCRP+C2jlUvxAyGbKC6msrXJauBk2nXKhqWlozqPCLayb30wStHwv2U7bNrSwbkZ8o400ci3lbvmdjoIrXtqJCgVU3/fRR3clwHZwcfdllAfykuvv9yjI8crt4KYtAsAGqXXLOq2mgOKlkO9tS9DGcItqYJ1clNrURpMpBiRFDskYkaSk5w8OSvgE2NuWHWfGXQtPAQCIRKGpV+wT/wjFll4pxSP66KTLc+4y3nmTKxcEod8723v0Jx99wvXlv8lMu3uvewNqWYeVSpjQ1xVSlhptVco+KrleFIJ2tKtBjkqaN659hd8ZajkA8ThB602tPj1CdNxEL/EbuUqNpeDGGa9YR7GSu0veQGXKDLWpX+D3GLlKrV4L7NqzmAJB499CXgUKsE81/bgc13nEXCUceh4dJojyPEIgDJxJ+jLPpXOROYiRS5poSJFFIU9IdNL4tNXhjNgWwg5ZClHXzIXKFSExpIZm1EZoHrVjsm9SnscTKiPUnnEX3TDZinF3GFaTHcrf+/JfX5X/iuW3pn5d/jXUiou23mL16eSfR/7YdmMewNFjUFPUMkpCi0y62bfIsDVXrKAWZiMTU5ObFpKgFlG7eKY/AXYxElHLXHUImIDN6zDY/nQ7jIyH6Ig1ufTHe7Qlc2fW+mQsURtOtjT4v0AtOko6qccRnYYDQXQFtVFn94D8En7TWI9aDAlRyzysq1Fn78hG9gWuZqZ8Rq2chLk9RFCv+7EGcXjhsaaNY01buiKQ3OZYc59xtS5vHrVx0GLU7us4HkX4qMijonka/UC+MYwG1C6HUb/fN9tsIeRRO47HiFpUkvsz+2xgL0NocWAPoe3pdAJmXL0G1IZXCEatSJqLTHypsZUYUeteahC13duvR1YLPugfpyfUJirxDGvrSSc9oTbxlRZbFOaDzwK1770cv/smvFq85bv5DLWf9Vn/ef0FtnYkcFTD6QEAAAAASUVORK5CYII=" width="16" height="16"> live data flow · tap any block</span></div><svg class="flow" id="flow" viewBox="0 0 900 690" role="img" aria-label="Two-stage verification pipeline"><rect class="bx2" x="150" y="8" width="600" height="116" rx="16"/><text class="sm" x="168" y="30">STAGE 1 · PRIMARY DETECTORS (HIGH RECALL)</text><rect class="bx2" x="20" y="318" width="860" height="364" rx="16"/><text class="sm" x="38" y="668">STAGE 2 · SEMANTIC VERIFICATION (PRIORS + GEOMETRY)</text><path id="pA" class="ln" d="M310 106V180H400V220"/><path id="pB" class="ln" d="M590 106V180H500V220"/><path id="pL" class="ln" d="M400 272V300H215V372"/><path id="pR" class="ln" d="M500 272V300H685V372"/><path id="oL1" class="ln" d="M155 492V545H125V600"/><path id="oL2" class="ln" d="M275 492V545H345V600"/><path id="oR1" class="ln" d="M625 492V545H565V600"/><path id="oR2" class="ln" d="M745 492V545H785V600"/><g class="nd" data-i="a"><rect class="bx" x="180" y="46" width="260" height="60" rx="12"/><image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAflBMVEUAAALy9foACl6syvgLJlEBHEkDIEs3gfQAASkACTlabo0zS28qePOgtdaSoLZzhaEAWFhZlvV7e3tEWnpqCyJ/fz//AAC0ah//fx////9uAG4AAP8ADTtVVap/f/+qqlUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmVc+MAAAAIHRSTlMA/Qr+16No/1eV//T//v7/Av8C/QYEAQMDAQIByQMCA7dJEAAAAANySURBVHja7ZfZmpswDEaNbbEZEwjZp+28/1tWkheWEHDma+/iiySjgR8t1rEQ4rM+618vSR9HOTcd70chf6CzbnpTSVTaaCjnJlha9v2pjM1wHXTwQN4r06KlNVW6T6hzyNxSWlzk3HRIVpKirLOwFNBt3mR78rMuE5WOF00KtOg2FxyZiqZpCvzWaVnH/5sghEq2Cg71TVEUTc/aKVLuLhWEMhCdECUmmnRQCRP+C2jlUvxAyGbKC6msrXJauBk2nXKhqWlozqPCLayb30wStHwv2U7bNrSwbkZ8o400ci3lbvmdjoIrXtqJCgVU3/fRR3clwHZwcfdllAfykuvv9yjI8crt4KYtAsAGqXXLOq2mgOKlkO9tS9DGcItqYJ1clNrURpMpBiRFDskYkaSk5w8OSvgE2NuWHWfGXQtPAQCIRKGpV+wT/wjFll4pxSP66KTLc+4y3nmTKxcEod8723v0Jx99wvXlv8lMu3uvewNqWYeVSpjQ1xVSlhptVco+KrleFIJ2tKtBjkqaN659hd8ZajkA8ThB602tPj1CdNxEL/EbuUqNpeDGGa9YR7GSu0veQGXKDLWpX+D3GLlKrV4L7NqzmAJB499CXgUKsE81/bgc13nEXCUceh4dJojyPEIgDJxJ+jLPpXOROYiRS5poSJFFIU9IdNL4tNXhjNgWwg5ZClHXzIXKFSExpIZm1EZoHrVjsm9SnscTKiPUnnEX3TDZinF3GFaTHcrf+/JfX5X/iuW3pn5d/jXUiou23mL16eSfR/7YdmMewNFjUFPUMkpCi0y62bfIsDVXrKAWZiMTU5ObFpKgFlG7eKY/AXYxElHLXHUImIDN6zDY/nQ7jIyH6Ig1ufTHe7Qlc2fW+mQsURtOtjT4v0AtOko6qccRnYYDQXQFtVFn94D8En7TWI9aDAlRyzysq1Fn78hG9gWuZqZ8Rq2chLk9RFCv+7EGcXjhsaaNY01buiKQ3OZYc59xtS5vHrVx0GLU7us4HkX4qMijonka/UC+MYwG1C6HUb/fN9tsIeRRO47HiFpUkvsz+2xgL0NocWAPoe3pdAJmXL0G1IZXCEatSJqLTHypsZUYUeteahC13duvR1YLPugfpyfUJirxDGvrSSc9oTbxlRZbFOaDzwK1770cv/smvFq85bv5DLWf9Vn/ef0FtnYkcFTD6QEAAAAASUVORK5CYII=" x="190" y="56" width="40" height="40"/><text x="240" y="72">Model A</text><text class="sm" x="240" y="90">Infrastructure defects</text></g><g class="nd" data-i="b"><rect class="bx" x="460" y="46" width="260" height="60" rx="12"/><g transform="translate(478,56)"><rect width="40" height="40" rx="10" fill="#ff2d5522"/><path d="M8 27l4-10h16l4 10v5H8z" fill="none" stroke="#ff453a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="14" cy="32" r="3" fill="#ff453a"/><circle cx="26" cy="32" r="3" fill="#ff453a"/><path d="M20 4v6M12 7l3 4M28 7l-3 4" stroke="#ff9f0a" stroke-width="2.5" stroke-linecap="round"/></g><text x="528" y="72">Model B</text><text class="sm" x="528" y="90">Severe accidents · live</text></g><text class="sm lbl" x="310" y="150" text-anchor="middle">candidate box</text><text class="sm lbl" x="590" y="150" text-anchor="middle">candidate box</text><g class="nd" data-i="j" id="jd"><rect class="bx" x="330" y="220" width="240" height="52" rx="26"/><text x="450" y="251" text-anchor="middle">Unified Judge Engine</text></g><text class="sm lbl" x="300" y="294" text-anchor="middle">for infrastructure</text><text class="sm lbl" x="600" y="294" text-anchor="middle">for accidents</text><g class="nd" data-i="d1"><polygon class="bx" points="215,372 335,452 215,532 95,452"/><text x="215" y="448" text-anchor="middle">Vehicle, person</text><text x="215" y="466" text-anchor="middle">or normal road?</text></g><g class="nd" data-i="d2"><polygon class="bx" points="685,372 805,452 685,532 565,452"/><text x="685" y="448" text-anchor="middle">Vehicles intact</text><text x="685" y="466" text-anchor="middle">or crumpled?</text></g><text class="sm lbl" x="125" y="538" text-anchor="middle">yes (car = 90%)</text><text class="sm lbl" x="345" y="538" text-anchor="middle">no (asphalt / sign)</text><text class="sm lbl" x="565" y="538" text-anchor="middle">intact, in lane</text><text class="sm lbl" x="785" y="538" text-anchor="middle">deformed / rolled</text><g class="nd no" id="bx1" data-i="r1"><rect class="bx" x="30" y="600" width="190" height="46" rx="12"/><text x="125" y="628" text-anchor="middle" style="font-size:12px">✕ Reject · car is not a defect</text></g><g class="nd ok" id="bx2" data-i="r2"><rect class="bx" x="250" y="600" width="190" height="46" rx="12"/><text x="345" y="628" text-anchor="middle" style="font-size:12px">✓ Approve defect</text></g><g class="nd no" id="bx3" data-i="r3"><rect class="bx" x="470" y="600" width="190" height="46" rx="12"/><text x="565" y="628" text-anchor="middle" style="font-size:12px">✕ Reject · traffic jam</text></g><g class="nd ok" id="bx4" data-i="r4"><rect class="bx" x="690" y="600" width="190" height="46" rx="12"/><text x="785" y="628" text-anchor="middle" style="font-size:12px">✓ Approve emergency alert</text></g><g id="tk"></g></svg><p id="fcap" style="margin-top:8px">Packets are candidate boxes. Watch them split at the Judge and land on an approve or reject outcome.</p><p id="fcnt" style="font-size:12px;margin:0">Processed 0 · Approved 0 · Rejected 0</p></div><div class="card" style="margin-top:14px"><div class="row" style="justify-content:space-between;align-items:center;margin-top:0"><h3>Model X-ray</h3><div id="xb" class="tabs" style="margin:0"><button data-x="in" class="on">Input</button><button data-x="hm">Heatmap</button><button data-x="dt">Detect</button><button data-x="jd">Judge</button></div></div><svg class="flow xr" id="xr" data-ly="in" viewBox="0 0 520 250" role="img" aria-label="Model X-ray"><defs><radialGradient id="hg"><stop offset="0" stop-color="#ff3b30" stop-opacity=".9"/><stop offset=".5" stop-color="#ff9f0a" stop-opacity=".5"/><stop offset="1" stop-color="#ff9f0a" stop-opacity="0"/></radialGradient></defs><rect width="520" height="250" fill="#14172f"/><path d="M200 90H320L470 250H50Z" fill="#3a3a3f"/><path class="dsh" d="M260 90L262 250" stroke="#ffd60a" stroke-width="4" stroke-dasharray="14 12"/><ellipse cx="215" cy="190" rx="30" ry="9" fill="#050505"/><g transform="translate(335 175)"><rect x="-34" y="-22" width="68" height="22" rx="7" fill="#e5484d"/><rect x="-22" y="-36" width="44" height="17" rx="7" fill="#c2383d"/><circle cx="-20" cy="0" r="6" fill="#111"/><circle cx="20" cy="0" r="6" fill="#111"/></g><g class="hm"><circle class="pu" cx="215" cy="190" r="52" fill="url(#hg)"/><circle class="pu" cx="335" cy="160" r="40" fill="url(#hg)" opacity=".7"/></g>
 <g class="dt"><rect x="175" y="172" width="80" height="36" fill="none" stroke="#ff9f0a" stroke-width="2.5"/><text x="175" y="166" fill="#ff9f0a" class="lb">pothole 0.87</text><rect x="293" y="132" width="86" height="50" fill="none" stroke="#ff9f0a" stroke-width="2.5"/><text x="293" y="126" fill="#ff9f0a" class="lb">car 0.91</text></g><g class="jd"><rect x="175" y="172" width="80" height="36" fill="rgba(48,209,88,.2)" stroke="#30d158" stroke-width="2.5"/><text x="175" y="166" fill="#30d158" class="lb">approved ✓</text><rect x="293" y="132" width="86" height="50" fill="rgba(255,59,48,.18)" stroke="#ff453a" stroke-width="2.5"/><text x="293" y="126" fill="#ff453a" class="lb">rejected ✕ car</text></g><rect class="scn" x="0" y="0" width="520" height="3" fill="#2997ff" opacity=".7"/></svg><p id="xcap" style="margin-top:8px">Input: the raw CCTV frame the detector receives.</p></div>
 
 <div class="two" style="margin-top:18px">
   <div class="card">
-    <h4>Defect Detection Class Performance (Validation Set)</h4>
-    <p style="font-size:13px;color:var(--mut);margin-bottom:12px">Validated on Unified Infrastructure Evaluation Dataset (7,639 annotations across 4 hazard classes).</p>
+    <h4>Detection Performance · Model A + Model B</h4>
+    <p style="font-size:13px;color:var(--mut);margin-bottom:12px">Model A: Unified Infrastructure validation set (7,639 annotations, 4 classes). Model B: untouched held-out test split (273 images: 244 accident, 29 normal traffic).</p>
     <table class="bm-tbl">
       <thead>
         <tr><th>Class Name</th><th>Instances</th><th>Precision</th><th>Recall</th><th>mAP50</th></tr>
       </thead>
       <tbody>
+        <tr><td colspan="5" style="font-size:12px;color:var(--mut);padding-top:4px">MODEL A · ROAD INFRASTRUCTURE (YOLOv8s @ 960)</td></tr>
         <tr><td><strong>Damaged Traffic Signs</strong></td><td>1,240</td><td>93.4%</td><td>91.2%</td><td><span class="pill" style="background:#30d15822;color:#30d158">96.1%</span></td></tr>
         <tr><td><strong>Faded Zebra Crossings</strong></td><td>1,080</td><td>78.5%</td><td>74.0%</td><td><span class="pill" style="background:#30d15822;color:#30d158">76.1%</span></td></tr>
         <tr><td><strong>Potholes &amp; Road Cracks</strong></td><td>5,247</td><td>76.1%</td><td>72.8%</td><td><span class="pill" style="background:#30d15822;color:#30d158">74.7%</span></td></tr>
         <tr><td><strong>Damaged Dividers / Barriers</strong></td><td>72</td><td>88.2%</td><td>70.1%</td><td><span class="pill" style="background:#ff9f0a22;color:#ff9f0a">82.3%*</span></td></tr>
       </tbody>
+      <tbody id="bmModelB"></tbody>
     </table>
-    <p style="font-size:12px;color:var(--mut);margin-top:10px">*The Stage-2 Judge Model eliminates 100% of moving vehicle false alarms on dividers.</p>
+    <p style="font-size:12px;color:var(--mut);margin-top:10px">*The Stage-2 Judge Model eliminates 100% of moving vehicle false alarms on dividers. †Model B precision / recall are image-level on the test split at the pipeline threshold.</p>
   </div>
   <div class="card">
     <h4>Pipeline Latency Profile</h4>
-    <div style="margin-top:16px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Preprocessing &amp; Letterbox</span><strong>1.1 ms</strong></div>
-      <div class="bar"><i style="width:11%;background:#0071e3"></i></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Primary YOLOv8s Inference</span><strong>5.9 ms</strong></div>
-      <div class="bar"><i style="width:59%;background:#34c759"></i></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Stage-2 Judge Crop Vetting</span><strong>2.3 ms</strong></div>
-      <div class="bar"><i style="width:23%;background:#ff9500"></i></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>Deduplication &amp; Multi-Agency Dispatch</span><strong>0.8 ms</strong></div>
-      <div class="bar"><i style="width:8%;background:#af52de"></i></div>
-      <hr style="margin:12px 0;border:0;border-top:1px solid var(--line)">
-      <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700">
-        <span>Total Pipeline Latency</span>
-        <span style="color:var(--g)">10.1 ms (~99 FPS)</span>
-      </div>
-    </div>
+    <p style="font-size:13px;color:var(--mut);margin:4px 0 0">Live = measured on this server right now (refreshes every 3 s while a scan runs).</p>
+    <div style="margin-top:12px" id="bmLatency"></div>
   </div>
+</div>
+
+<div class="card" style="margin-top:18px">
+  <h4>Model B · Severe Accident · held-out test set</h4>
+  <div class="g4" style="margin-top:12px" id="bmModelBCard"></div>
 </div>
 
 <h3 style="margin:28px 0 12px">Operational Robustness ('Vision in the Wild')</h3>
@@ -267,7 +256,7 @@ return html`<div className="card"><h2>${{ops:'Main operations',pwd:'Municipal ·
 const SEVCOL={CRITICAL:'#e5484d',HIGH:'#ff6a3d',MEDIUM:'#f5a524',LOW:'#4ca154'};
 let LM=null,LMfit=false;
 function MapV(){useS();const[f,setF]=React.useState('all'),ref=React.useRef(null),layer=React.useRef(null),sel=S.inc.find(i=>i.id==S.sel),st=window.RNMap?RNMap.status():{label:'—',ready:true};
-  React.useEffect(()=>{if(LM||!window.L)return;LM=L.map(ref.current,{scrollWheelZoom:true}).setView(CFG.map.center,CFG.map.zoom);RNMap.addTiles(LM);
+  React.useEffect(()=>{if(LM||!window.L)return;LM=L.map(ref.current,{scrollWheelZoom:true}).setView(CFG.map.center,CFG.map.zoom);RNMap.addDetailed(LM,'streets');
     L.layerGroup((CFG.cameras||[]).map(c=>L.circleMarker([c.lat,c.lng],{radius:4,color:'#8e8e93',weight:1,fillColor:c.status==='online'?'#2997ff':'#8e8e93',fillOpacity:.8}).bindTooltip(`${c.id} · ${c.name} (${c.road} KM ${c.km})`))).addTo(LM);
     layer.current=L.layerGroup().addTo(LM)},[]);
   React.useEffect(()=>{if(!LM||!layer.current)return;const g=layer.current;g.clearLayers();const pts=[];
@@ -284,9 +273,9 @@ function MapV(){useS();const[f,setF]=React.useState('all'),ref=React.useRef(null
 mount('#st1',Stats);mount('#st2',AuditReport);mount('#incRoot',Inc);mount('#mapRoot',MapV);
 /* ---------- navigation & landing (vanilla) ---------- */
 const TT={ov:'Overview',lab:'Live Lab',arch:'Architecture & Benchmarks',city:'City Map',inc:'My Dashboard'};
-function go(p){$('#land').hidden=true;$('#app').hidden=false;$$('.pgs section').forEach(s=>s.hidden=s.id!='g-'+p);$$('.side .lk').forEach(b=>b.classList.toggle('on',b.dataset.pg==p));$('#ttl').textContent=TT[p];scrollTo(0,0);if(p==='city'&&LM)setTimeout(()=>{LM.invalidateSize();emit()},60)}
+function go(p){$('#land').hidden=true;$('#app').hidden=false;$$('.pgs section').forEach(s=>s.hidden=s.id!='g-'+p);$$('.side .lk').forEach(b=>b.classList.toggle('on',b.dataset.pg==p));$('#ttl').textContent=TT[p];scrollTo(0,0);if(p==='city'&&LM)setTimeout(()=>{LM.invalidateSize();emit()},60);if(p==='arch'&&window.benchmarks)benchmarks()}
 const SAMPLES={day:['/static/sample_road_day.mp4','Demo road (potholes)','video'],night:['/static/sample_highway_drive.mp4','Night glare highway','video'],rain:['/static/sample_highway_drive.mp4','Monsoon rain highway','video'],acc:['/static/samples/accident_1.jpg','Sample accident image','image']};
-document.addEventListener('click',e=>{const t=e.target.closest('[data-pg],[data-l],[data-s],[data-sm]');if(!t)return;const d=t.dataset;if(d.pg)go(d.pg);else if(d.l)go(d.l);else if(d.s)document.getElementById(d.s).scrollIntoView({behavior:'smooth'});else if(d.sm){go('lab');const s=SAMPLES[d.sm]||SAMPLES.day;s[2]==='image'?loadImageUrl(s[0],s[1]):loadStreamVideo(s[0],s[1],true)}});
+document.addEventListener('click',e=>{const t=e.target.closest('[data-pg],[data-l],[data-s],[data-sm]');if(!t)return;const d=t.dataset;if(d.pg)go(d.pg);else if(d.l)go(d.l);else if(d.s)document.getElementById(d.s).scrollIntoView({behavior:'smooth'});else if(d.sm){go('lab');const s=SAMPLES[d.sm]||SAMPLES.day;s[2]==='image'?loadImageUrl(s[0],s[1]):loadStreamVideo(s[0],s[1],false)}});
 $('#bk').onclick=()=>{$('#app').hidden=true;$('#land').hidden=false;scrollTo(0,0)};
 $('#role').onchange=e=>{S.role=e.target.value;emit();syncOps();go('inc')};$('#q').oninput=e=>{S.q=e.target.value.toLowerCase();emit()};
 $('#net').onclick=async()=>{const b=$('#net');try{const r=await fetch('/api/health');const h=await r.json();b.classList.add('up');b.textContent='● Online';toast(`Backend online · ${h.device.toUpperCase()} · ${h.incidents} incidents`)}catch(e){b.classList.remove('up');b.textContent='● Offline';toast('Backend unreachable')}};
@@ -376,8 +365,8 @@ function loadFile(f){
     try{const r=await fetch('/api/upload_video',{method:'POST',body:fd});const d=await r.json();if(d.video_url){loadStreamVideo(d.video_url,f.name,false);return}}catch(e){}toast('⚠️ Unsupported video. Try MP4 (H.264).')};
   toast('Loaded: '+f.name);
 }
-vid.addEventListener('ended',()=>{if(media===vid&&!vid.loop){toast('Scan complete · '+S.allUnique.length+' confirmed hazard(s)');refreshSummary()}});
-$('#bDemo').onclick=()=>loadStreamVideo('/static/sample_road_day.mp4','Demo road (potholes)',true);
+vid.addEventListener('ended',()=>{if(media===vid&&!vid.loop){refreshSummary().then(()=>toast('✅ Scan complete · '+S.allUnique.length+' confirmed hazard(s) · press Run demo road to scan again'));setStep(3)}});
+$('#bDemo').onclick=()=>loadStreamVideo('/static/sample_road_day.mp4','Demo road (potholes)',false);
 $('#bStop').onclick=()=>{stopAll();toast('Processing stopped')};
 function resetScan(){
   stopAll();SID=null;V={};S.cand=0;S.ok=0;S.rej=0;S.allUnique=[];S.uniqueCounts={};accTs=[];
@@ -394,7 +383,7 @@ fileInput.onchange=e=>{if(e.target.files&&e.target.files[0]){loadFile(e.target.f
 window.addEventListener('dragenter',e=>e.preventDefault());window.addEventListener('dragover',e=>{e.preventDefault();if(e.dataTransfer)e.dataTransfer.dropEffect='copy'});window.addEventListener('dragleave',e=>e.preventDefault());
 window.addEventListener('drop',e=>{e.preventDefault();if(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files.length)loadFile(e.dataTransfer.files[0])});
 [$('#drop'),$('#dz'),$('#cv')].forEach(z=>{if(!z)return;z.addEventListener('dragenter',e=>{e.preventDefault();z.classList.add('hot')});z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('hot')});z.addEventListener('dragleave',()=>z.classList.remove('hot'));z.addEventListener('drop',()=>z.classList.remove('hot'))});
-$('#bCam').onclick=async()=>{try{const stream=await navigator.mediaDevices.getUserMedia({video:true});go('lab');stopAll();media=vid;vid.srcObject=stream;vid.play().catch(()=>{});newStream('live','Laptop camera');toast('Live camera stream active')}catch(e){toast('Camera unavailable, using demo road video');loadStreamVideo('/static/sample_road_day.mp4','Demo road',true)}};
+$('#bCam').onclick=async()=>{try{const stream=await navigator.mediaDevices.getUserMedia({video:true});go('lab');stopAll();media=vid;vid.srcObject=stream;vid.play().catch(()=>{});newStream('live','Laptop camera');toast('Live camera stream active')}catch(e){toast('Camera unavailable, using demo road video');loadStreamVideo('/static/sample_road_day.mp4','Demo road',false)}};
 /* ---------- camera / location picker ---------- */
 const camSel=$('#camSel');
 camSel.innerHTML=(CFG.cameras||[]).map(c=>`<option value="${c.id}">${c.id} · ${esc(c.name)} (${esc(c.road)} KM ${esc(c.km)})${c.status!=='online'?' · offline':''}</option>`).join('')+'<option value="__gps">📍 My current location (GPS)</option><option value="__custom">✏️ Custom coordinates…</option>';
@@ -453,7 +442,32 @@ md.onclick=async e=>{
 /* model status line */
 async function health(){try{const h=await (await fetch('/api/health')).json(),a=h.models.accident,b=h.models.infra;
   $('#mStat').innerHTML=`<b>Model B</b> · accident · every frame · ${a.fps?a.fps.toFixed(1)+' FPS · ':''}${a.avg_ms?Math.round(a.avg_ms)+' ms':'ready'} &nbsp;|&nbsp; <b>Model A</b> · road damage · ${(CFG.stream.infraIntervalMs||1000)/1000}s sampling · ${b.avg_ms?Math.round(b.avg_ms)+' ms':'ready'} &nbsp;|&nbsp; <b>Judge</b> · YOLOv8n &nbsp;|&nbsp; ${h.device.toUpperCase()}`}catch(e){$('#mStat').textContent='Backend offline: run python server.py'}}
-health();setInterval(()=>{if(!$('#g-lab').hidden)health()},3000);
+health();setInterval(()=>{if(!$('#g-lab').hidden)health();if(!$('#g-arch').hidden)benchmarks()},3000);
+/* ---------- Architecture & Benchmarks: Model B card from the server + live latency from /api/health ---------- */
+const MB=CFG.modelB||null,pc=v=>(v*100).toFixed(1)+'%';
+function benchStatic(){
+  if(!MB)return;const T=MB.test;
+  $('#bmModelB').innerHTML=`<tr><td colspan="5" style="font-size:12px;color:var(--mut);padding-top:14px">MODEL B · SEVERE ACCIDENT (${esc(MB.arch)} @ ${MB.imgsz})</td></tr>
+    <tr><td><strong>Severe Accident</strong></td><td>${MB.dataset.test} test images</td><td>${pc(T.precision)}†</td><td>${pc(T.recall)}†</td><td><span class="pill" style="background:#30d15822;color:#30d158">${pc(T.mAP50)}</span></td></tr>`;
+  $('#bmModelBCard').innerHTML=[[pc(T.mAP50),'mAP@50',`mAP@50-95 ${pc(T.mAP5095)}`],[pc(T.f1),'F1 score',`accuracy ${pc(T.accuracy)}`],[pc(T.specificity),'Specificity',`false-alarm rate ${pc(T.falseAlarm)}`],
+    [`${T.TP} / ${T.FP} / ${T.FN} / ${T.TN}`,'TP / FP / FN / TN',`threshold ${MB.pipelineConf} · ${MB.temporalFrames}-frame confirmation`]].map(t=>`<div class="sc"><b style="font-size:24px">${t[0]}</b><h4>${t[1]}</h4><p>${t[2]}</p></div>`).join('');
+}
+async function benchmarks(){
+  let h=null;try{h=await (await fetch('/api/health')).json()}catch(e){}
+  const a=h&&h.models.infra,b=h&&h.models.accident,ms=v=>v?Math.round(v)+' ms':'idle',live=v=>v?v:0;
+  const T=MB?MB.test:null;
+  $('#bmKpi').innerHTML=[['82.3%','Model A mAP50','Road infrastructure · 4 classes'],[T?pc(T.mAP50):'—','Model B mAP50','Severe accident · held-out test'],[T?pc(T.precision):'—','Model B precision',T?`false-alarm rate ${pc(T.falseAlarm)}`:''],
+    [b&&b.avg_ms?Math.round(b.avg_ms)+' ms':(MB?MB.latency.t4GpuMs+' ms':'—'),'Model B latency',b&&b.avg_ms?`live on ${h.device.toUpperCase()} · ${b.fps.toFixed(1)} FPS`:'T4 GPU reference']].map(t=>`<div class="sc"><b>${t[0]}</b><h4>${t[1]}</h4><p>${t[2]}</p></div>`).join('');
+  const rows=[['Model B · accident YOLOv8s @ '+(MB?MB.imgsz:640),MB?MB.latency.t4GpuMs+' ms T4 · '+MB.latency.laptopCpuMs+' ms laptop CPU':'',b&&b.avg_ms,'#ff2d55'],
+    ['Model A · infrastructure YOLOv8s @ '+((a&&a.imgsz)||960),'5.9 ms GPU · sampled every '+((CFG.stream.infraIntervalMs||1000)/1000)+' s',a&&a.avg_ms,'#34c759'],
+    ['Stage-2 Judge · COCO YOLOv8n crop vetting','2.3 ms GPU',null,'#ff9500'],['Deduplication & multi-agency dispatch','0.8 ms',null,'#af52de']];
+  const mx=Math.max(1,...rows.map(r=>r[2]||0));
+  $('#bmLatency').innerHTML=rows.map(r=>`<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:2px;gap:8px"><span>${r[0]}</span><strong>${r[2]?'live '+ms(r[2]):'—'}</strong></div>
+    <div style="font-size:11px;color:var(--mut);margin-bottom:4px">Reference: ${r[1]}</div><div class="bar"><i style="width:${r[2]?Math.max(4,r[2]/mx*100):4}%;background:${r[3]}"></i></div>`).join('')+
+    `<hr style="margin:12px 0;border:0;border-top:1px solid var(--line)"><div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700"><span>Model B per-frame (live)</span><span style="color:var(--g)">${b&&b.avg_ms?Math.round(b.avg_ms)+' ms (~'+(1000/b.avg_ms).toFixed(1)+' FPS)':'run a scan to measure'}</span></div>
+    <p style="font-size:12px;color:var(--mut);margin-top:6px">Model A runs in parallel on a 1 s sample, so it never slows the accident stream. Device: ${h?h.device.toUpperCase():'offline'}.</p>`;
+}
+benchStatic();benchmarks();
 /* reveal, spotlight */
 const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
 if(io)$$('#land .g3:not(#tc) .fc,#land .sec h2,#land .scene,#land .cta,#land .strip').forEach(e=>{e.classList.add('rv');io.observe(e)});

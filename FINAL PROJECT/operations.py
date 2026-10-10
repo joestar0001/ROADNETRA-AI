@@ -304,6 +304,10 @@ def police_view(incidents, now, cameras, vms_text):
                 "green_wave_saving": _green_wave_saving([r for r in rows if r["type"] == "severe_accident"])},
         "patrols": patrols,
         "boards": boards,
+        "corridors": [{"incident_id": r["id"], "location": r["location_name"], "distance_km": ambulance_eta(r, False)[0],
+                       "eta_normal": ambulance_eta(r, False)[1], "eta_green_wave": ambulance_eta(r, True)[1]}
+                      for r in active if r["type"] == "severe_accident"],
+        "hospital": config.HOSPITAL_NAME,
         "vms_presets": presets,
     }
 

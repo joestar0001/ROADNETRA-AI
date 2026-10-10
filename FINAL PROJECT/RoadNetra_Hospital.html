@@ -83,7 +83,6 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
           <div class="row" style="margin-top:12px">
             <button class="b sm" onclick="triggerAmbulanceGlobal()">🚑 Dispatch Immediate ALS Ambulance</button>
             <button class="b grn sm" onclick="toggleGreenWave()">🟢 Toggle Traffic Signal Green Wave</button>
-            <button class="b g sm" onclick="simulateAccidentAlert()">+ Simulate Test Collision</button>
           </div>
         </div>
 
@@ -323,21 +322,6 @@ async function markResolved(id){
   }
 }
 
-async function simulateAccidentAlert(){
-  const cams = (window.RN_CONFIG && RN_CONFIG.cameras || []).filter(c => c.status === 'online');
-  const cam = cams[Math.floor(Math.random() * cams.length)] || {};
-  try {
-    const res = await fetch('/api/incidents/create', {
-      method: 'POST', headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({type: 'accident', conf: 0.96, camera_id: cam.id, judge_reason: 'Test collision raised from the hospital desk'})
-    });
-    const d = await res.json();
-    if(d.success){ toast(`🚨 Test accident alert: ${d.incident.id}`); refresh(); }
-  } catch(e) {
-    toast('Could not create the test alert');
-  }
-}
-
 function triggerManualSync(){ toast('Syncing with 108 emergency grid…'); refresh(); }
 
 /* ---------- fleet, beds, golden hour ---------- */
@@ -393,7 +377,7 @@ setInterval(tickGolden, 1000);
 function initHospMap(){
   if(!mapInstance){
     mapInstance = L.map('hospMap').setView(RNMap.center, 12);
-    RNMap.addTiles(mapInstance, 'streets');
+    RNMap.addDetailed(mapInstance, 'streets');
     mapLayer = RNPortal.layer(mapInstance);
   }
   mapInstance.invalidateSize();

@@ -85,7 +85,6 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
             <button class="b sm" onclick="filterBySeverity('all')">All Work Orders</button>
             <button class="b g sm" onclick="filterBySeverity('High')">High / Critical Only</button>
             <button class="b g sm" onclick="filterBySeverity('Medium')">Medium Priority</button>
-            <button class="b g sm" onclick="simulateNewDefect()">+ Log Emergency Road Patch</button>
           </div>
         </div>
 
@@ -347,21 +346,6 @@ async function advanceStatus(id, step){
 function filterBySeverity(sev){ activeSeverity = sev; renderIncidents(); }
 function applyFilter(){ if(D) renderIncidents(); }
 
-async function simulateNewDefect(){
-  const cams = (window.RN_CONFIG && RN_CONFIG.cameras || []).filter(c => c.status === 'online');
-  const cam = cams[Math.floor(Math.random() * cams.length)] || {};
-  try {
-    const res = await fetch('/api/incidents/create', {
-      method: 'POST', headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({type: 'pothole', conf: 0.92, camera_id: cam.id, judge_reason: 'Manually logged by PWD engineer: deep cavity with exposed sub-base'})
-    });
-    const d = await res.json();
-    if(d.success){ toast(`Emergency work order created: ${d.incident.id}`); refresh(); }
-  } catch(e) {
-    toast('Error creating work order');
-  }
-}
-
 function triggerManualSync(){ toast('Syncing with RoadNetra AI edge server…'); refresh(); }
 
 /* ---------- estimator: same formula and rates as the backend cost model ---------- */
@@ -454,7 +438,7 @@ function renderSla(){
 function initMap(){
   if(!mapInstance){
     mapInstance = L.map('map').setView(RNMap.center, 12);
-    RNMap.addTiles(mapInstance, 'streets');
+    RNMap.addDetailed(mapInstance, 'streets');
     mapLayer = RNPortal.layer(mapInstance);
   }
   mapInstance.invalidateSize();

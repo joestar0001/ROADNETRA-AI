@@ -149,11 +149,8 @@ button,select,input,textarea{font:inherit;color:inherit}.b{border:0;background:v
             </div>
 
             <div class="sc">
-              <h4>Synchronized Signals</h4>
-              <p>Junction 1: MG Road Flyover — <span class="pill green">Linked</span></p>
-              <p>Junction 2: Outer Ring Rd Slip — <span class="pill green">Linked</span></p>
-              <p>Junction 3: AIIMS Trauma Gate — <span class="pill green">Linked</span></p>
-              <p>Junction 4: Ashta Bypass — <span class="pill green">Linked</span></p>
+              <h4>Ambulance Corridors to Pre-empt</h4>
+              <div id="gwCorridors"><p>No open accident: no corridor needed.</p></div>
             </div>
 
             <div class="sc">
@@ -254,6 +251,7 @@ function onData(d, {changed, fresh}){
     renderPoliceIncidents();
     renderPatrols();
     renderBoards();
+    renderCorridors();
     refreshPoliceMap(fresh[0]);
   }
   fresh.forEach(i => toast(`${i.type === 'severe_accident' ? '🚨 NEW ACCIDENT' : '⚠️ New hazard'} ${i.id} · ${LABEL[i.type] || i.type} · ${i.location_name}`));
@@ -426,6 +424,13 @@ function renderPatrols(){
   $('patrolContainer').innerHTML = cards.join('');
 }
 
+function renderCorridors(){
+  $('gwCorridors').innerHTML = D.corridors.length ? D.corridors.map(c => `<p>${esc(D.hospital)} → <strong>${esc(c.location)}</strong> (${esc(c.incident_id)})<br>
+    <small>${c.distance_km} km · ${c.eta_normal} min normal · ${c.eta_green_wave} min with Green Wave</small>
+    <span class="pill ${greenWaveActive ? 'green' : ''}">${greenWaveActive ? 'Pre-empted' : 'Normal cycle'}</span></p>`).join('')
+    : '<p>No open accident: no corridor needed.</p>';
+}
+
 function renderBoards(){
   $('vmsBoards').innerHTML = D.boards.map(b => `<div class="sc" style="padding:12px">
     <span class="pill ${b.active ? 'orange' : ''}">${b.active ? 'BROADCASTING' : 'NORMAL'}</span>
@@ -438,7 +443,7 @@ function renderBoards(){
 function initPoliceMap(){
   if(!mapInstance){
     mapInstance = L.map('policeMap').setView(RNMap.center, 12);
-    RNMap.addTiles(mapInstance, 'streets');
+    RNMap.addDetailed(mapInstance, 'streets');
     mapLayer = RNPortal.layer(mapInstance);
   }
   mapInstance.invalidateSize();

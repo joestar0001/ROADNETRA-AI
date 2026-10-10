@@ -20,10 +20,12 @@
     { featureType: "poi", stylers: [{ visibility: "off" }] },
   ];
 
-  function esri(map, style) {
+  function esriLayer(style) {
     const layers = [];
     if (style === "satellite") {
       layers.push(L.tileLayer(ESRI + "World_Imagery/MapServer/tile/{z}/{y}/{x}", { maxZoom: 19, attribution: ESRI_ATTR }));
+      layers.push(L.tileLayer(ESRI + "Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}", { maxZoom: 19 }));
+      layers.push(L.tileLayer(ESRI + "Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}", { maxZoom: 19 }));
     } else if (style === "streets") {
       layers.push(L.tileLayer(ESRI + "World_Street_Map/MapServer/tile/{z}/{y}/{x}", { maxZoom: 19, attribution: ESRI_ATTR }));
     } else {
@@ -31,8 +33,10 @@
       layers.push(L.tileLayer(ESRI + base + "Base/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, attribution: ESRI_ATTR }));
       layers.push(L.tileLayer(ESRI + base + "Reference/MapServer/tile/{z}/{y}/{x}", { maxZoom: 16, opacity: 0.85 }));
     }
-    layers.forEach(l => l.addTo(map));
     return L.layerGroup(layers);
+  }
+  function esri(map, style) {
+    return esriLayer(style).addTo(map);
   }
 
   let googleReady = null;
@@ -97,5 +101,18 @@
     return { provider: p, label: PROVIDER_LABEL[p] || p, keyLoaded: !!CFG.apiKey, ready: !needsKey || !!CFG.apiKey };
   }
 
-  window.RNMap = { addTiles, status, center: CFG.center, zoom: CFG.zoom, config: CFG };
+  /* Detailed map: streets by default, with a Streets / Satellite / Dark switcher and a scale bar.
+     The provider from frontend/.env draws the starting style; the other styles use free Esri tiles. */
+  const STYLES = { Streets: "streets", Satellite: "satellite", Dark: "dark" };
+  function addDetailed(map, start) {
+    start = start || "streets";
+    const current = addTiles(map, start);
+    const bases = {};
+    Object.entries(STYLES).forEach(([name, style]) => { bases[name] = style === start ? current : esriLayer(style); });
+    L.control.layers(bases, null, { position: "topright", collapsed: true }).addTo(map);
+    L.control.scale({ imperial: false }).addTo(map);
+    return current;
+  }
+
+  window.RNMap = { addTiles, addDetailed, status, center: CFG.center, zoom: CFG.zoom, config: CFG };
 })();

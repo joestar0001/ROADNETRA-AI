@@ -86,6 +86,7 @@ def _public_config():
     cfg["cameras"] = dispatcher.cameras
     cfg["authorities"] = AUTHORITY_NAMES
     cfg["authoritySteps"] = AUTHORITY_STEPS
+    cfg["modelB"] = MODEL_B_CARD
     return cfg
 
 

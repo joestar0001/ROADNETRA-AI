@@ -104,6 +104,8 @@ class MultiAgencyDispatcher:
                 shutil.copyfile(self.data_file, legacy)
                 print(f"[DISPATCHER] Legacy incident store backed up to {legacy}")
             data = []
+        if not seed_demo:  # dashboards must reflect real detections only: drop sample / hand-made incidents
+            data = [i for i in data if i.get("source") not in ("seed", "manual")]
         self.incidents = data
         for inc in self.incidents:  # keep stored costs on the current repair model
             self._apply_repair_estimate(inc)
